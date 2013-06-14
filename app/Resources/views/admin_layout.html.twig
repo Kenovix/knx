@@ -1,0 +1,56 @@
+{% extends '::base.html.twig' %}
+
+{% block head %}
+
+	<header>
+		<div class="navbar navbar-inverse navbar-fixed-top">
+      		<div class="navbar-inner">
+        		<div class="container">		
+					<nav>{% block menu %}{% endblock %}</nav>
+				</div>
+				
+				<div class="container">{% block rastro %}{% endblock %}</div>
+			</div>
+		</div>		
+	</header>
+	
+{% endblock %}
+
+{% block body %}
+	<section id="main">
+		<div class="container">
+	    	<div class="row-fluid">
+	    		<div class="span12">
+	    			
+					{% block msg %}{% endblock %}
+	    			
+	    			<h1 id="titulo">{% block titulo %}{% endblock %}</h1>
+	    			
+					{% block cuerpo %}{% endblock %}
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock %}
+
+{% block footer %}
+	<footer>
+		<hr />
+		<div class="container">&copy; 2013 - Con la tecnologia kenovix</div>
+	</footer>
+{% endblock %}
+
+{% block javascripts %}
+	<script type="text/javascript">
+		$(function() {
+	    	if ($.browser.msie && $.browser.version.substr(0,1)<7)
+	        {
+				$('li').has('ul').mouseover(function(){
+					$(this).children('ul').show();
+					}).mouseout(function(){
+					$(this).children('ul').hide();
+					})
+	       	}
+	  	});
+    </script>
+{% endblock %}

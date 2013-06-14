@@ -1,0 +1,205 @@
+parametrizar_index:
+    pattern:  /hello
+    defaults: { _controller: ParametrizarBundle:Default:index }
+
+#************** Empresa ***************#
+
+empresa_list:
+    pattern:  /empresa/list
+    defaults: { _controller: ParametrizarBundle:Empresa:list }
+    
+empresa_new:
+    pattern:  /empresa/new
+    defaults: { _controller: ParametrizarBundle:Empresa:new }
+    
+empresa_save:
+    pattern:  /empresa/save
+    defaults: { _controller: ParametrizarBundle:Empresa:save }
+
+empresa_show:
+    pattern:  /empresa/{empresa}/show
+    defaults: { _controller: ParametrizarBundle:Empresa:show }
+
+empresa_edit:
+    pattern:  /empresa/{empresa}/edit
+    defaults: { _controller: ParametrizarBundle:Empresa:edit }
+    
+empresa_update:
+    pattern:  /empresa/{empresa}/update
+    defaults: { _controller: ParametrizarBundle:Empresa:update }
+    
+#************** Almacen ***************#
+
+almacen_new:
+    pattern:  /almacen/{empresa}/new
+    defaults: { _controller: ParametrizarBundle:Almacen:new }
+
+almacen_save:
+    pattern:  /almacen/{empresa}/save
+    defaults: { _controller: ParametrizarBundle:Almacen:save }
+
+almacen_show:
+    pattern:  /almacen/{almacen}/show
+    defaults: { _controller: ParametrizarBundle:Almacen:show }
+
+almacen_edit:
+    pattern:  /almacen/{almacen}/edit
+    defaults: { _controller: ParametrizarBundle:Almacen:edit }
+
+almacen_update:
+    pattern:  /almacen/{almacen}/update
+    defaults: { _controller: ParametrizarBundle:Almacen:update }
+    
+#************** Cliente ***************#
+
+cliente_list:
+    pattern:  /cliente/list
+    defaults: { _controller: ParametrizarBundle:Cliente:list }
+
+cliente_new:
+    pattern:  /cliente/new
+    defaults: { _controller: ParametrizarBundle:Cliente:new }
+
+cliente_save:
+    pattern:  /cliente/save
+    defaults: { _controller: ParametrizarBundle:Cliente:save }
+
+cliente_show:
+    pattern:  /cliente/{cliente}/show
+    defaults: { _controller: ParametrizarBundle:Cliente:show }
+
+cliente_edit:
+    pattern:  /cliente/{cliente}/edit
+    defaults: { _controller: ParametrizarBundle:Cliente:edit }
+
+cliente_update:
+    pattern:  /cliente/{cliente}/update
+    defaults: { _controller: ParametrizarBundle:Cliente:update }
+    
+#************** Cargo ***************#
+
+cargo_list:
+    pattern:  /cargo/list
+    defaults: { _controller: ParametrizarBundle:Cargo:list }
+
+cargo_new:
+    pattern:  /cargo/new
+    defaults: { _controller: ParametrizarBundle:Cargo:new }
+
+cargo_save:
+    pattern:  /cargo/save
+    defaults: { _controller: ParametrizarBundle:Cargo:save }
+
+cargo_show:
+    pattern:  /cargo/{cargo}/show
+    defaults: { _controller: ParametrizarBundle:Cargo:show }
+
+cargo_edit:
+    pattern:  /cargo/{cargo}/edit
+    defaults: { _controller: ParametrizarBundle:Cargo:edit }
+
+cargo_update:
+    pattern:  /cargo/{cargo}/update
+    defaults: { _controller: ParametrizarBundle:Cargo:update }
+    
+#************** Contrato ***************#
+
+contrato_new:
+    pattern:  /contrato/new/{cliente}
+    defaults: { _controller: ParametrizarBundle:Contrato:new }
+
+contrato_save:
+    pattern:  /contrato/save/{cliente}
+    defaults: { _controller: ParametrizarBundle:Contrato:save }
+
+contrato_show:
+    pattern:  /contrato/{contrato}/show
+    defaults: { _controller: ParametrizarBundle:Contrato:show }
+
+contrato_edit:
+    pattern:  /contrato/{contrato}/edit
+    defaults: { _controller: ParametrizarBundle:Contrato:edit }
+
+contrato_update:
+    pattern:  /contrato/{contrato}/update
+    defaults: { _controller: ParametrizarBundle:Contrato:update }
+    
+#************** Proveedor ***************#
+
+proveedor_list:
+    pattern:  /proveedor/list
+    defaults: { _controller: ParametrizarBundle:Proveedor:list }
+
+proveedor_new:
+    pattern:  /proveedor/new
+    defaults: { _controller: ParametrizarBundle:Proveedor:new }
+
+proveedor_save:
+    pattern:  /proveedor/save
+    defaults: { _controller: ParametrizarBundle:Proveedor:save }
+
+proveedor_show:
+    pattern:  /proveedor/{proveedor}/show
+    defaults: { _controller: ParametrizarBundle:Proveedor:show }
+
+proveedor_edit:
+    pattern:  /proveedor/{proveedor}/edit
+    defaults: { _controller: ParametrizarBundle:Proveedor:edit }
+
+proveedor_update:
+    pattern:  /proveedor/{proveedor}/update
+    defaults: { _controller: ParametrizarBundle:Proveedor:update }
+    
+
+#************** Almacen ***************#
+
+almacen_list:
+    pattern:  /almacen/list
+    defaults: { _controller: ParametrizarBundle:Almacen:list }
+
+almacen_new:
+    pattern:  /almacen/new
+    defaults: { _controller: ParametrizarBundle:Almacen:new }
+
+almacen_save:
+    pattern:  /almacen/save
+    defaults: { _controller: ParametrizarBundle:Almacen:save }
+
+almacen_show:
+    pattern:  /almacen/{almacen}/show
+    defaults: { _controller: ParametrizarBundle:Almacen:show }
+
+almacen_edit:
+    pattern:  /almacen/{almacen}/edit
+    defaults: { _controller: ParametrizarBundle:Almacen:edit }
+
+almacen_update:
+    pattern:  /almacen/{almacen}/update
+    defaults: { _controller: ParametrizarBundle:Almacen:update }
+    
+#************** Paciente ***************#
+
+paciente_list:
+    pattern:  /paciente/list
+    defaults: { _controller: ParametrizarBundle:Cargo:list }
+
+paciente_new:
+    pattern:  /paciente/new
+    defaults: { _controller: ParametrizarBundle:Cargo:new }
+
+paciente_save:
+    pattern:  /paciente/save
+    defaults: { _controller: ParametrizarBundle:Cargo:save }
+
+paciente_show:
+    pattern:  /paciente/{paciente}/show
+    defaults: { _controller: ParametrizarBundle:Cargo:show }
+
+paciente_edit:
+    pattern:  /paciente/{paciente}/edit
+    defaults: { _controller: ParametrizarBundle:Cargo:edit }
+
+paciente_update:
+    pattern:  /paciente/{paciente}/update
+    defaults: { _controller: ParametrizarBundle:Cargo:update }
+

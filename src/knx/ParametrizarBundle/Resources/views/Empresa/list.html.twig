@@ -1,0 +1,59 @@
+{% extends "::admin_layout.html.twig" %}
+
+{% block menu %}
+	{{ knp_menu_render('ParametrizarBundle:Builder:superAdminMenu') }}
+{% endblock %}
+
+{% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
+
+{% block titulo %}Listado de empresas{% endblock %}
+
+{% block msg %}
+	{% if app.session.flash('ok') %}
+	    <div class="alert alert-success">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('ok') }}</span>
+	    </div>
+	{% elseif app.session.flash('info') %}
+		<div class="alert alert-info">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('info') }}</span>
+	    </div>
+	{% elseif app.session.flash('error') %}
+		<div class="alert alert-error">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('error') }}</span>
+	    </div>
+	{% endif %}
+{% endblock %}
+
+{% block cuerpo %}
+	{% if empresas %}
+	    <table class="table">
+	        <thead>
+	            <tr>
+	                <th>No.</th>
+	                <th>Nit</th>
+	                <th>Nombre</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	        {% for empresa in empresas %}
+	            <tr>
+	                <td>{{ loop.index }}</td>
+	                <td><a href="{{ path('empresa_show', {'empresa':empresa.id}) }}">{{ empresa.nit }}</a></td>
+	                <td>{{ empresa.nombre }}</td>
+	            </tr>
+	        {% endfor %}
+	        </tbody>
+	    </table>
+	{% else %}
+		<div class="alert alert-success">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>No existen empresas creadas</span>
+	    </div>
+	{% endif %}
+		
+    
+    <a href="{{ path('empresa_new') }}" class="btn btn-primary">Nueva empresa</a>
+{% endblock %}

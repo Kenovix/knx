@@ -1,0 +1,7 @@
+parameters:
+#    facturacion.example.class: knx\FacturacionBundle\Example
+
+services:
+#    facturacion.example:
+#        class: %facturacion.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

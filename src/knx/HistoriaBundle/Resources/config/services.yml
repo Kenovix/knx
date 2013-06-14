@@ -1,0 +1,7 @@
+parameters:
+#    historia.example.class: knx\HistoriaBundle\Example
+
+services:
+#    historia.example:
+#        class: %historia.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]
