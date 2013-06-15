@@ -1,0 +1,65 @@
+{% extends "::admin_layout.html.twig" %}
+
+{% block menu %}
+	{{ knp_menu_render('FarmaciaBundle:Builder:farmaciaMenu') }}
+{% endblock %}
+
+{% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
+
+{% block titulo %}Listado de Traspasos{% endblock %}
+
+{% block msg %}
+	{% if app.session.flash('ok') %}
+	    <div class="alert alert-success">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('ok') }}</span>
+	    </div>
+	{% elseif app.session.flash('info') %}
+		<div class="alert alert-info">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('info') }}</span>
+	    </div>
+	{% elseif app.session.flash('error') %}
+		<div class="alert alert-error">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('error') }}</span>
+	    </div>
+	{% endif %}
+{% endblock %}
+
+{% block cuerpo %}
+	{% if traslado %}
+	
+	    <table class="table">
+	        <thead>
+	            <tr>
+	                <th>No.</th>
+                	<th>Fecha.</th>
+                	<th>Farmacia</th>
+                	<th>Inventario</th>
+               	 	<th>Cantidad</th>
+	               
+	            </tr>
+	        </thead>
+	        <tbody>
+	        {% for traslado in traslado %}
+	            <tr>
+	                <td>{{ loop.index }}</td>
+	                <td><a href="{{ path('traslado_show', {'traslado':traslado.id}) }}">{{ traslado.fecha | date('d-m-Y')}}</a></td>
+	             	<td>{{ traslado.farmacia}}</td>
+            		<td>{{ traslado.inventario}}</td>            	
+            		<td>{{ traslado.cant}}</td>
+	            </tr>
+	        {% endfor %}
+	        </tbody>
+	    </table>
+	{% else %}
+		<div class="alert alert-success">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>No existen traslados creadas</span>
+	    </div>
+	{% endif %}
+		
+    
+    <a href="{{ path('traslado_new') }}" class="btn btn-primary">Nuevo Traspaso</a>
+{% endblock %}

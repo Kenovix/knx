@@ -26,7 +26,7 @@ class Ingreso
     /**
      * @var string $fecha
      * 
-     * @ORM\Column(name="fecha", type="datetime",  nullable=false)
+     * @ORM\Column(name="fecha", type="date",  nullable=false)
      */
     private $fecha;
 
@@ -34,6 +34,8 @@ class Ingreso
      * @var string $numFact
      * 
      * @ORM\Column(name="num_fact", type="string", length=11, nullable=false)
+     * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
+     * @Assert\MinLength(limit=1, message="El valor ingresado debe tener al menos {{ limit }} caracteres.")
      */
     private $numFact;
     
@@ -41,6 +43,7 @@ class Ingreso
      * @var string $valorT
      * 
      * @ORM\Column(name="valor_t", type="integer",  nullable=false)
+     * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
      */
     private $valorT;
     
@@ -48,6 +51,7 @@ class Ingreso
      * @var string $valorTN
      * 
      * @ORM\Column(name="valor_n", type="integer",  nullable=false)
+     *  @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
      */
     private $valorN;
     
@@ -55,6 +59,7 @@ class Ingreso
      * @var string $valorIva
      * 
      * @ORM\Column(name="valor_iva", type="integer",  nullable=false)
+     * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
      */
     private $valorIva;
 
@@ -71,7 +76,7 @@ class Ingreso
 
 
      /**
-     * @var date $created
+     * 
      *
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="created", type="date")
@@ -79,7 +84,7 @@ class Ingreso
     private $created;
 
     /**
-     * @var datetime $updated
+     * 
      *
      * @Gedmo\Timestampable(on="update")
      * @ORM\Column(name="updated", type="datetime")

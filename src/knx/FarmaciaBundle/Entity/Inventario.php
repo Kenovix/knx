@@ -34,8 +34,6 @@ class Inventario
         private $ingreso;
 
      /**
-     * @var Proveedor
-     *
      * @ORM\ManyToOne(targetEntity="knx\ParametrizarBundle\Entity\Proveedor")
      * @ORM\JoinColumns({
      * @ORM\JoinColumn(name="proveedor_id", referencedColumnName="id")
@@ -103,6 +101,14 @@ class Inventario
      */
         private $precioTotal;
 
+        /*
+         * Get toString
+        */
+        public function __toString()
+        {
+        	return $this->getPrecioCompra();
+        }
+        
     /**
      * Get id
      *
@@ -114,83 +120,83 @@ class Inventario
     }
 
     /**
-     * Set Cant
+     * Set cant
      *
      * @param integer $cant
      * @return Inventario
      */
     public function setCant($cant)
     {
-        $this->Cant = $cant;
+        $this->cant = $cant;
     
         return $this;
     }
 
     /**
-     * Get Cant
+     * Get cant
      *
      * @return integer 
      */
     public function getCant()
     {
-        return $this->Cant;
+        return $this->cant;
     }
 
     /**
-     * Set CantE
+     * Set cantE
      *
      * @param integer $cantE
      * @return Inventario
      */
     public function setCantE($cantE)
     {
-        $this->CantE = $cantE;
+        $this->cantE = $cantE;
     
         return $this;
     }
 
     /**
-     * Get CantE
+     * Get cantE
      *
      * @return integer 
      */
     public function getCantE()
     {
-        return $this->CantE;
+        return $this->cantE;
     }
 
     /**
-     * Set CantT
+     * Set cantT
      *
      * @param integer $cantT
      * @return Inventario
      */
     public function setCantT($cantT)
     {
-        $this->CantT = $cantT;
+        $this->cantT = $cantT;
     
         return $this;
     }
 
     /**
-     * Get CantT
+     * Get cantT
      *
      * @return integer 
      */
     public function getCantT()
     {
-        return $this->CantT;
+        return $this->cantT;
     }
 
     /**
-     * Set PrecioCompra
+     * Set precioCompra
      *
      * @param string $precioCompra
      * @return Inventario
      */
     public function setPrecioCompra($precioCompra)
     {
-        $this->PrecioCompra = $precioCompra;
+        $this->precioCompra = $precioCompra;
     
         return $this;
     }
@@ -202,53 +208,53 @@ class Inventario
      */
     public function getPrecioCompra()
     {
-        return $this->PrecioCompra;
+        return $this->precioCompra;
     }
 
     /**
-     * Set PrecioVenta
+     * Set precioVenta
      *
      * @param string $precioVenta
      * @return Inventario
      */
     public function setPrecioVenta($precioVenta)
     {
-        $this->PrecioVenta = $precioVenta;
+        $this->precioVenta = $precioVenta;
     
         return $this;
     }
 
     /**
-     * Get PrecioVenta
+     * Get precioVenta
      *
      * @return string 
      */
     public function getPrecioVenta()
     {
-        return $this->PrecioVenta;
+        return $this->precioVenta;
     }
 
     /**
-     * Set PrecioTotal
+     * Set precioTotal
      *
      * @param string $precioTotal
      * @return Inventario
      */
     public function setPrecioTotal($precioTotal)
     {
-        $this->PrecioTotal = $precioTotal;
+        $this->precioTotal = $precioTotal;
     
         return $this;
     }
 
     /**
-     * Get PrecioTotal
+     * Get precioTotal
      *
      * @return string 
      */
     public function getPrecioTotal()
     {
-        return $this->PrecioTotal;
+        return $this->precioTotal;
     }
 
     /**
@@ -298,25 +304,25 @@ class Inventario
     }
 
     /**
-     * Set medicamento
+     * Set imv
      *
-     * @param \knx\FarmaciaBundle\Entity\Medicamento $medicamento
+     * @param \knx\FarmaciaBundle\Entity\Imv $imv
      * @return Inventario
      */
-    public function setMedicamento(\knx\FarmaciaBundle\Entity\Medicamento $medicamento = null)
+    public function setImv(\knx\FarmaciaBundle\Entity\Imv $imv = null)
     {
-        $this->medicamento = $medicamento;
+        $this->imv = $imv;
     
         return $this;
     }
 
     /**
-     * Get medicamento
+     * Get imv
      *
-     * @return \knx\FarmaciaBundle\Entity\Medicamento 
+     * @return \knx\FarmaciaBundle\Entity\Imv 
      */
-    public function getMedicamento()
+    public function getImv()
     {
-        return $this->medicamento;
+        return $this->imv;
     }
 }

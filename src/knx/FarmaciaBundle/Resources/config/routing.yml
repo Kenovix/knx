@@ -1,3 +1,190 @@
-farmacia_homepage:
-    pattern:  /hello/{name}
-    defaults: { _controller: FarmaciaBundle:Default:index }
+farmacia_index:
+    pattern:  /categoria/new
+    defaults: { _controller: FarmaciaBundle:Catfarma:catNew }
+
+ #************** Categoria Imv ***************#
+
+categoria_list:
+    pattern:  /categoria/list
+    defaults: { _controller: FarmaciaBundle:Catfarma:catList }
+    
+categoria_new:
+    pattern:  /categoria/new
+    defaults: { _controller: FarmaciaBundle:Catfarma:catNew }
+    
+categoria_save:
+    pattern:  /categoria/save
+    defaults: { _controller: FarmaciaBundle:Catfarma:catSave }
+
+categoria_show:
+    pattern:  /categoria/{catImv}/show
+    defaults: { _controller: FarmaciaBundle:Catfarma:catShow }
+
+categoria_edit:
+    pattern:  /categoria/{catImv}/edit
+    defaults: { _controller: FarmaciaBundle:Catfarma:catEdit }
+    
+categoria_update:
+    pattern:  /categoria/{catImv}/update
+    defaults: { _controller: FarmaciaBundle:Catfarma:catUpdate }
+    
+#************** Farmacia ***************#
+
+farmacia_list:
+    pattern:  /list
+    defaults: { _controller: FarmaciaBundle:Catfarma:farmaciaList }
+    
+farmacia_new:
+    pattern:  /new
+    defaults: { _controller: FarmaciaBundle:Catfarma:farmaciaNew }
+    
+farmacia_save:
+    pattern:  /save
+    defaults: { _controller: FarmaciaBundle:Catfarma:farmaciaSave }
+
+farmacia_show:
+    pattern:  /{farmacia}/show
+    defaults: { _controller: FarmaciaBundle:Catfarma:farmaciaShow }
+
+farmacia_edit:
+    pattern:  /{farmacia}/edit
+    defaults: { _controller: FarmaciaBundle:Catfarma:farmaciaEdit }
+    
+farmacia_update:
+    pattern:  /{farmacia}/update
+    defaults: { _controller: FarmaciaBundle:Catfarma:farmaciaUpdate }
+    
+    
+#************** Ingreso ***************#
+
+ingreso_list:
+    pattern:  /ingreso/list
+    defaults: { _controller: FarmaciaBundle:Ingreso:List }
+    
+ingreso_new:
+    pattern:  /ingreso/new
+    defaults: { _controller: FarmaciaBundle:Ingreso:New }
+    
+ingreso_save:
+    pattern:  /ingreso/save
+    defaults: { _controller: FarmaciaBundle:Ingreso:Save }
+
+ingreso_show:
+    pattern:  /ingreso/{ingreso}/show
+    defaults: { _controller: FarmaciaBundle:Ingreso:Show }
+
+ingreso_edit:
+    pattern:  /ingreso/{ingreso}/edit
+    defaults: { _controller: FarmaciaBundle:Ingreso:Edit }
+    
+ingreso_update:
+    pattern:  /ingreso/{ingreso}/update
+    defaults: { _controller: FarmaciaBundle:Ingreso:Update }    
+    
+#************** IMV ***************#    
+
+imv_list:
+    pattern:  /imv/list
+    defaults: { _controller: FarmaciaBundle:Imv:List }
+    
+imv_new:
+    pattern:  /imv/new
+    defaults: { _controller: FarmaciaBundle:Imv:New }
+    
+imv_save:
+    pattern:  /imv/save
+    defaults: { _controller: FarmaciaBundle:Imv:Save }
+
+imv_show:
+    pattern:  /imv/{imv}/show
+    defaults: { _controller: FarmaciaBundle:Imv:Show }
+
+imv_edit:
+    pattern:  /imv/{imv}/edit
+    defaults: { _controller: FarmaciaBundle:Imv:Edit }
+    
+imv_update:
+    pattern:  /imv/{imv}/update
+    defaults: { _controller: FarmaciaBundle:Imv:Update }
+    
+
+#************** Inventario ***************#
+
+inventario_list:
+    pattern:  /inventario/list
+    defaults: { _controller: FarmaciaBundle:Inventario:List }
+
+inventario_new:
+    pattern:  /inventario/new/{ingreso}
+    defaults: { _controller: FarmaciaBundle:Inventario:new }
+    
+inventario_save:
+    pattern:  /inventario/save/{ingreso}
+    defaults: { _controller: FarmaciaBundle:Inventario:save }
+
+  
+inventario_show:
+    pattern:  /inventario/{inventario}/show
+    defaults: { _controller: FarmaciaBundle:Inventario:show }
+    
+inventario_edit:
+    pattern:  /inventario/{inventario}/edit
+    defaults: { _controller: FarmaciaBundle:Inventario:edit }
+
+inventario_update:
+    pattern:  /inventario/{inventario}/update
+    defaults: { _controller: FarmaciaBundle:Inventario:update }    
+
+#************** Traslado ***************#    
+
+traslado_list:
+    pattern:  /traslado/list
+    defaults: { _controller: FarmaciaBundle:Traslado:List }
+    
+traslado_new:
+    pattern:  /traslado/new
+    defaults: { _controller: FarmaciaBundle:Traslado:New }
+    
+traslado_save:
+    pattern:  /traslado/save
+    defaults: { _controller: FarmaciaBundle:Traslado:Save }
+
+traslado_show:
+    pattern:  /traslado/{traslado}/show
+    defaults: { _controller: FarmaciaBundle:Traslado:Show }
+
+traslado_edit:
+    pattern:  /traslado/{traslado}/edit
+    defaults: { _controller: FarmaciaBundle:Traslado:Edit }
+    
+traslado_update:
+    pattern:  /traslado/{traslado}/update
+    defaults: { _controller: FarmaciaBundle:Traslado:Update }
+    
+    
+#************** Devoluion ***************#    
+
+devolucion_list:
+    pattern:  /devolucion/list
+    defaults: { _controller: FarmaciaBundle:Devoluion:List }
+    
+devolucion_new:
+    pattern:  /devolucion/new
+    defaults: { _controller: FarmaciaBundle:Devoluion:New }
+    
+devolucion_save:
+    pattern:  /devolucion/save
+    defaults: { _controller: FarmaciaBundle:Devoluion:Save }
+
+devolucion_show:
+    pattern:  /devolucion/{devolucion}/show
+    defaults: { _controller: FarmaciaBundle:Devoluion:Show }
+
+devolucion_edit:
+    pattern:  /devolucion/{devolucion}/edit
+    defaults: { _controller: FarmaciaBundle:Devoluion:Edit }
+    
+devolucion_update:
+    pattern:  /devolucion/{devolucion}/update
+    defaults: { _controller: FarmaciaBundle:Devoluion:Update }    
+    

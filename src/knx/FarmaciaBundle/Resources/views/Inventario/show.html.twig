@@ -1,0 +1,75 @@
+{% extends "::admin_layout.html.twig" %}
+
+{% block menu %}
+	{{ knp_menu_render('FarmaciaBundle:Builder:farmaciaMenu') }}
+{% endblock %}
+
+{% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
+
+{% block titulo %}Información del Imv{% endblock %}
+
+{% block msg %}
+	{% if app.session.flash('ok') %}
+	    <div class="alert alert-success">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('ok') }}</span>
+	    </div>
+	{% elseif app.session.flash('info') %}
+		<div class="alert alert-info">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('info') }}</span>
+	    </div>
+	{% elseif app.session.flash('error') %}
+		<div class="alert alert-error">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('error') }}</span>
+	    </div>
+	{% endif %}
+{% endblock %}
+
+{% block cuerpo %}
+
+
+
+
+    <hr>
+    <table class="table">
+        <tbody>
+        	<tr>
+                <td><strong>No.</strong></td>
+                <td>{{ inventario.id }}</td>
+            </tr>
+            
+            <tr>
+                <td><strong>Imv</strong></td>
+                <td>{{ inventario.imv }}</td>
+            </tr>         
+            
+            <tr>
+                <td><strong>Proveedor</strong></td>
+                <td>{{ inventario.proveedor }}</td>
+            </tr>
+            
+            <tr>
+                <td><strong>Cantidad</strong></td>
+                <td>{{ inventario.cant }}</td>
+            </tr>
+            
+            <tr>
+                <td><strong>Precio Compra</strong></td>
+                <td>{{ inventario.precioCompra  }}</td>
+            </tr>
+            
+            <tr>
+                <td><strong>Precio Venta</strong></td>
+                <td>{{ inventario.precioVenta  }}</td>
+            </tr>
+            
+        </tbody>
+    </table>
+
+	<div class="btn-group">
+	    <a href="{{ path('inventario_edit', {'inventario':inventario.id}) }}" class="btn btn-primary">Modificar</a>
+	    <a href="{{ path('ingreso_list') }}" class="btn">Volver</a>
+    </div>
+{% endblock %}

@@ -8,7 +8,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
- * knx\FarmaciaBundle\Entity\Inventario
+ * knx\FarmaciaBundle\Entity\Traslado
  * 
  * @ORM\Table(name="traslado")
  * @ORM\Entity
@@ -68,6 +68,8 @@ class Traslado
      * @ORM\Column(name="traspaso_a", type="text", nullable=false)
      */
      private $traspadoA;
+     
+    
 
     /**
      * Get id
@@ -102,51 +104,7 @@ class Traslado
         return $this->fecha;
     }
 
-    /**
-     * Set codproducto
-     *
-     * @param integer $codproducto
-     * @return Traslado
-     */
-    public function setCodproducto($codproducto)
-    {
-        $this->codproducto = $codproducto;
     
-        return $this;
-    }
-
-    /**
-     * Get codproducto
-     *
-     * @return integer 
-     */
-    public function getCodproducto()
-    {
-        return $this->codproducto;
-    }
-
-    /**
-     * Set nombreproducto
-     *
-     * @param string $nombreproducto
-     * @return Traslado
-     */
-    public function setNombreproducto($nombreproducto)
-    {
-        $this->nombreproducto = $nombreproducto;
-    
-        return $this;
-    }
-
-    /**
-     * Get nombreproducto
-     *
-     * @return string 
-     */
-    public function getNombreproducto()
-    {
-        return $this->nombreproducto;
-    }
 
     /**
      * Set cant
@@ -194,13 +152,13 @@ class Traslado
         return $this->traspadoA;
     }
 
-    /**
+  /**
      * Set inventario
      *
-     * @param \knx\ParametrizarBundle\Entity\Inventario $inventario
+     * @param \knx\FarmaciaBundle\Entity\Inventario $inventario
      * @return Traslado
      */
-    public function setInventario(\knx\ParametrizarBundle\Entity\Inventario $inventario = null)
+    public function setInventario(\knx\FarmaciaBundle\Entity\Inventario $inventario = null)
     {
         $this->inventario = $inventario;
     
@@ -210,20 +168,19 @@ class Traslado
     /**
      * Get inventario
      *
-     * @return \knx\ParametrizarBundle\Entity\Inventario 
+     * @return \knx\FarmaciaBundle\Entity\Inventario 
      */
     public function getInventario()
     {
         return $this->inventario;
     }
-
-    /**
+     /**
      * Set farmacia
      *
-     * @param \knx\ParametrizarBundle\Entity\Farmacia $farmacia
+     * @param \knx\FarmaciaBundle\Entity\Farmacia $farmacia
      * @return Traslado
      */
-    public function setFarmacia(\knx\ParametrizarBundle\Entity\Farmacia $farmacia = null)
+    public function setFarmacia(\knx\FarmaciaBundle\Entity\Farmacia $farmacia = null)
     {
         $this->farmacia = $farmacia;
     
@@ -233,10 +190,10 @@ class Traslado
     /**
      * Get farmacia
      *
-     * @return \knx\ParametrizarBundle\Entity\Farmacia 
+     * @return \knx\FarmaciaBundle\Entity\Farmacia 
      */
     public function getFarmacia()
     {
         return $this->farmacia;
     }
-}
+}   
