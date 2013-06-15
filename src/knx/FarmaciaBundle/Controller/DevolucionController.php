@@ -9,7 +9,7 @@ use knx\FarmaciaBundle\Entity\Farmacia;
 use knx\FarmaciaBundle\Form\TrasladoType;
 
 
-class TrasladoController extends Controller
+class DevolucionController extends Controller
 {
 	public function ListAction()
     {   
