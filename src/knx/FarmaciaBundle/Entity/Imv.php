@@ -4,11 +4,15 @@ namespace knx\FarmaciaBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
 
 /**
  * knx\FarmaciaBundle\Entity\Imv
  *
  * @ORM\Table(name="imv")
+ * @DoctrineAssert\UniqueEntity("codFact")
+ * @DoctrineAssert\UniqueEntity("codAdmin")
+ * @DoctrineAssert\UniqueEntity("nombre")
  * @ORM\Entity
  * 
  */
@@ -26,14 +30,15 @@ class Imv
     /**
      * @var string $codFact
      * 
-     * @ORM\Column(name="cod_fact", type="string", length=100, nullable=false)     
+     * @ORM\Column(name="cod_fact", type="string", length=100, nullable=false,unique=true)
+     * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")     
      */
     private $codFact;
     
     /**
      * @var string $codAdmin
      * 
-     * @ORM\Column(name="cod_admin", type="string", length=100, nullable=false)
+     * @ORM\Column(name="cod_admin", type="string", length=100, nullable=false,unique=true)
      */
     private $codAdmin;
     
@@ -41,15 +46,16 @@ class Imv
      * @var string $cums
      * 
      * @ORM\Column(name="cums", type="string", length=100, nullable=false)
+     * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
      */
     private $cums;
 
     /**
      * @var string $nombre
      * 
-     * @ORM\Column(name="nombre", type="string", length=150, nullable=false)     
+     * @ORM\Column(name="nombre", type="string", length=150, nullable=false,unique=true)     
      * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
-     * @Assert\MaxLength(limit=150, message="El valor ingresado debe tener máximo {{ limit }} caracteres.")
+     * @Assert\MaxLength(limit=150, message="El valor ingresado debe tener mï¿½ximo {{ limit }} caracteres.")
      */
     private $nombre;
 
@@ -58,7 +64,7 @@ class Imv
      * 
      * @ORM\Column(name="tipo_imv", type="string", length=100, nullable=false)     
      * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
-     * @Assert\MaxLength(limit=100, message="El valor ingresado debe tener máximo {{ limit }} caracteres.")
+     * @Assert\MaxLength(limit=100, message="El valor ingresado debe tener mï¿½ximo {{ limit }} caracteres.")
      */
     private $tipoImv;
     
@@ -67,7 +73,7 @@ class Imv
      * 
      * @ORM\Column(name="forma_farmaceutica", type="string",  length=40, nullable=false)     
      * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
-     * @Assert\MaxLength(limit=40, message="El valor ingresado debe tener máximo {{ limit }} caracteres.")
+     * @Assert\MaxLength(limit=40, message="El valor ingresado debe tener mï¿½ximo {{ limit }} caracteres.")
      */
     private $formaFarmaceutica;
 
@@ -76,7 +82,7 @@ class Imv
      * 
      * @ORM\Column(name="concentracion", type="string", length=30, nullable=false)     
      * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
-     * @Assert\MaxLength(limit=30, message="El valor ingresado debe tener máximo {{ limit }} caracteres.")
+     * @Assert\MaxLength(limit=30, message="El valor ingresado debe tener mï¿½ximo {{ limit }} caracteres.")
      */
     private $concentracion;
 
@@ -85,7 +91,7 @@ class Imv
      * 
      * @ORM\Column(name="uni_medida", type="string", length=100, nullable=true)     
      * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
-     * @Assert\MaxLength(limit=100, message="El valor ingresado debe tener máximo {{ limit }} caracteres.")
+     * @Assert\MaxLength(limit=100, message="El valor ingresado debe tener mï¿½ximo {{ limit }} caracteres.")
      * 
      */
     private $uniMedida;
@@ -93,21 +99,279 @@ class Imv
     /**
      * @var string $jeringa
      *
-     * @ORM\Column(name="jeringa", type="string", length=10, nullable=true)     
-     * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
-     * @Assert\MaxLength(limit=10, message="El valor ingresado debe tener máximo {{ limit }} caracteres.")
-     *
+     * @ORM\Column(name="jeringa", type="string", length=10)      
+     * @Assert\MaxLength(limit=10, message="El valor ingresado debe tener mï¿½ximo {{ limit }} caracteres.")
      */
     private $jeringa;
 
     /**
      * @var string $dosis
      *
-     * @ORM\Column(name="dosis", type="string", length=10, nullable=true)     
-     * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
-     * @Assert\MaxLength(limit=10, message="El valor ingresado debe tener máximo {{ limit }} caracteres.")
+     * @ORM\Column(name="dosis", type="string", length=10)       
+     * @Assert\MaxLength(limit=10, message="El valor ingresado debe tener mï¿½ximo {{ limit }} caracteres.")
      *
      */
     private $dosis;
+    
+    /*
+     * Get toString
+    */
+    public function __toString()
+    {
+    	return $this->getNombre();
+    }
+    
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+    	return $this->id;
+    }
+    
+    /**
+     * Set codFact
+     *
+     * @param string $codFact
+     * @return Imv
+     */
+    public function setCodFact($codFact)
+    {
+    	$this->codFact = $codFact;
+    
+    	return $this;
+    }
+    
+    /**
+     * Get codFact
+     *
+     * @return string
+     */
+    public function getCodFact()
+    {
+    	return $this->codFact;
+    }
+    
+    
+    
+    /**
+     * Set codAdmin
+     *
+     * @param string $codAdmin
+     * @return Imv
+     */
+    public function setCodAdmin($codAdmin)
+    {
+    	$this->codAdmin = $codAdmin;
+    
+    	return $this;
+    }
+    
+    /**
+     * Get codAdmin
+     *
+     * @return string
+     */
+    public function getCodAdmin()
+    {
+    	return $this->codAdmin;
+    }
+    
+    
+    /**
+     * Set cums
+     *
+     * @param string $cums
+     * @return Imv
+     */
+    public function setCums($cums)
+    {
+    	$this->cums = $cums;
+    
+    	return $this;
+    }
+    
+    /**
+     * Get cums
+     *
+     * @return string
+     */
+    public function getCums()
+    {
+    	return $this->cums;
+    }
+    
+        
+    /**
+     * Set nombre
+     *
+     * @param string $nombre
+     * @return Imv
+     */
+    public function setNombre($nombre)
+    {
+    	$this->nombre = $nombre;
+    
+    	return $this;
+    }
+    
+    /**
+     * Get nombre
+     *
+     * @return string
+     */
+    public function getNombre()
+    {
+    	return $this->nombre;
+    }
+    
+    
+    /**
+     * Set tipoImv
+     *
+     * @param string $tipoImv
+     * @return Imv
+     */
+    public function setTipoImv($tipoImv)
+    {
+    	$this->tipoImv = $tipoImv;
+    
+    	return $this;
+    }
+    
+    /**
+     * Get tipoImv
+     *
+     * @return string
+     */
+    public function getTipoImv()
+    {
+    	return $this->tipoImv;
+    }
+    
+        
+    /**
+     * Set formaFarmaceutica
+     *
+     * @param string $formaFarmaceutica
+     * @return Imv
+     */
+    public function setFormaFarmaceutica($formaFarmaceutica)
+    {
+    	$this->formaFarmaceutica = $formaFarmaceutica;
+    
+    	return $this;
+    }
+    
+    /**
+     * Get formaFarmaceutica
+     *
+     * @return string
+     */
+    public function getFormaFarmaceutica()
+    {
+    	return $this->formaFarmaceutica;
+    }
+    
+    
+    
+    /**
+     * Set concentracion
+     *
+     * @param string $concentracion
+     * @return Imv
+     */
+    public function setConcentracion($concentracion)
+    {
+    	$this->concentracion = $concentracion;
+    
+    	return $this;
+    }
+    
+    /**
+     * Get concentracion
+     *
+     * @return string
+     */
+    public function getConcentracion()
+    {
+    	return $this->concentracion;
+    }
+    
+    
+    /**
+     * Set uniMedida
+     *
+     * @param string $uniMedida
+     * @return Imv
+     */
+    public function setUniMedida($uniMedida)
+    {
+    	$this->uniMedida = $uniMedida;
+    
+    	return $this;
+    }
+    
+    /**
+     * Get uniMedida
+     *
+     * @return string
+     */
+    public function getUniMedida()
+    {
+    	return $this->uniMedida;
+    }
+    
+    
+    /**
+     * Set jeringa
+     *
+     * @param string $jeringa
+     * @return Imv
+     */
+    public function setJeringa($jeringa)
+    {
+    	$this->jeringa = $jeringa;
+    
+    	return $this;
+    }
+    
+    /**
+     * Get jeringa
+     *
+     * @return string
+     */
+    public function getJeringa()
+    {
+    	return $this->jeringa;
+    }
+    
+    
+    /**
+     * Set dosis
+     *
+     * @param string $dosis
+     * @return Imv
+     */
+    public function setDosis($dosis)
+    {
+    	$this->dosis = $dosis;
+    
+    	return $this;
+    }
+    
+    /**
+     * Get dosis
+     *
+     * @return string
+     */
+    public function getDosis()
+    {
+    	return $this->dosis;
+    }
+   
+
       
 }
