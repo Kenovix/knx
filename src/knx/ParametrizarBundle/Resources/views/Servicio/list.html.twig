@@ -1,0 +1,59 @@
+{% extends "::admin_layout.html.twig" %}
+
+{% block menu %}
+	{{ knp_menu_render('ParametrizarBundle:Builder:superAdminMenu') }}
+{% endblock %}
+
+{% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
+
+{% block titulo %}Listado de servicios{% endblock %}
+
+{% block msg %}
+	{% if app.session.flash('ok') %}
+	    <div class="alert alert-success">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('ok') }}</span>
+	    </div>
+	{% elseif app.session.flash('info') %}
+		<div class="alert alert-info">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('info') }}</span>
+	    </div>
+	{% elseif app.session.flash('error') %}
+		<div class="alert alert-error">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('error') }}</span>
+	    </div>
+	{% endif %}
+{% endblock %}
+
+{% block cuerpo %}
+	{% if servicios %}
+	    <table class="table">
+	        <thead>
+	            <tr>
+	                <th>No.</th>
+	                <th>Nombre</th>
+	                <th>Estado</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	        {% for servicio in servicios %}
+	            <tr>
+	                <td>{{ loop.index }}</td>
+	                <td><a href="{{ path('servicio_show', {'servicio':servicio.id}) }}">{{ servicio.nombre }}</a></td>
+	                <td>{{ servicio.estado }}</td>
+	            </tr>
+	        {% endfor %}
+	        </tbody>
+	    </table>
+	{% else %}
+		<div class="alert alert-success">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>No existen servicios creados</span>
+	    </div>
+	{% endif %}
+		
+    
+    <a href="{{ path('servicio_new') }}" class="btn btn-primary">Nuevo servicio</a>
+{% endblock %}

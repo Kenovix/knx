@@ -1,0 +1,52 @@
+{% extends "::admin_layout.html.twig" %}
+
+{% block menu %}
+	{{ knp_menu_render('ParametrizarBundle:Builder:superAdminMenu') }}
+{% endblock %}
+
+{% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
+
+{% block titulo %}Información del servicio{% endblock %}
+
+{% block msg %}
+	{% if app.session.flash('ok') %}
+	    <div class="alert alert-success">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('ok') }}</span>
+	    </div>
+	{% elseif app.session.flash('info') %}
+		<div class="alert alert-info">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('info') }}</span>
+	    </div>
+	{% elseif app.session.flash('error') %}
+		<div class="alert alert-error">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('error') }}</span>
+	    </div>
+	{% endif %}
+{% endblock %}
+
+{% block cuerpo %}
+	
+	{% set label_estado = {'A': 'Activo', 'I': 'Inactivo'} %}
+
+	<table class="table">
+        <tbody>
+        	<tr>
+                <td><strong>Nombre</strong></td>
+                <td>{{ servicio.nombre }}</td>
+            </tr>
+            <tr>
+                <td><strong>Estado</strong></td>
+                <td>{{ label_estado[servicio.estado] }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+	<div class="btn-group">
+	    <a href="{{ path('servicio_edit', {'servicio':servicio.id}) }}" class="btn btn-primary">Modificar</a>
+	    <a href="{{ path('servicio_list') }}" class="btn">Volver</a>
+    </div>
+
+{% endblock %}

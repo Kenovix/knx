@@ -30,6 +30,15 @@ class Servicio
      * @Assert\MaxLength(limit=75, message="El valor ingresado debe tener máximo {{ limit }} caracteres.")
      */
     private $nombre;
+    
+    /**
+     * @var string $estado
+     *
+     * @ORM\Column(name="estado", type="string", length=2, nullable=false)
+     * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
+     * @Assert\MaxLength(limit=2, message="El valor ingresado debe tener máximo {{ limit }} caracteres.")
+     */
+    private $estado;
 
     /**
      * @var Empresa
@@ -72,6 +81,29 @@ class Servicio
     public function getNombre()
     {
         return $this->nombre;
+    }
+    
+    /**
+     * Set estado
+     *
+     * @param string $estado
+     * @return Servicio
+     */
+    public function setEstado($estado)
+    {
+    	$this->estado = $estado;
+    
+    	return $this;
+    }
+    
+    /**
+     * Get estado
+     *
+     * @return string
+     */
+    public function getEstado()
+    {
+    	return $this->estado;
     }
 
     /**

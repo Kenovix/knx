@@ -76,6 +76,32 @@ cliente_update:
     pattern:  /cliente/{cliente}/update
     defaults: { _controller: ParametrizarBundle:Cliente:update }
     
+#************** Servicio ***************#
+
+servicio_list:
+    pattern:  /servicio/list
+    defaults: { _controller: ParametrizarBundle:Servicio:list }
+
+servicio_new:
+    pattern:  /servicio/new
+    defaults: { _controller: ParametrizarBundle:Servicio:new }
+
+servicio_save:
+    pattern:  /servicio/save
+    defaults: { _controller: ParametrizarBundle:Servicio:save }
+
+servicio_show:
+    pattern:  /servicio/{servicio}/show
+    defaults: { _controller: ParametrizarBundle:Servicio:show }
+
+servicio_edit:
+    pattern:  /servicio/{servicio}/edit
+    defaults: { _controller: ParametrizarBundle:Servicio:edit }
+
+servicio_update:
+    pattern:  /servicio/{servicio}/update
+    defaults: { _controller: ParametrizarBundle:Servicio:update }
+    
 #************** Cargo ***************#
 
 cargo_list:
