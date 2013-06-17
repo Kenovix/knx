@@ -10,7 +10,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
  * knx\FarmaciaBundle\Entity\Imv
  *
  * @ORM\Table(name="imv")
- * @DoctrineAssert\UniqueEntity("codFact")
+ * @DoctrineAssert\UniqueEntity("codCups")
  * @DoctrineAssert\UniqueEntity("codAdmin")
  * @DoctrineAssert\UniqueEntity("nombre")
  * @ORM\Entity
@@ -28,12 +28,12 @@ class Imv
     private $id;
     
     /**
-     * @var string $codFact
+     * @var string $codCups
      * 
-     * @ORM\Column(name="cod_fact", type="string", length=100, nullable=false,unique=true)
+     * @ORM\Column(name="cod_cups", type="string", length=100, nullable=false,unique=true)
      * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")     
      */
-    private $codFact;
+    private $codCups;
     
     /**
      * @var string $codAdmin
@@ -113,6 +113,13 @@ class Imv
      */
     private $dosis;
     
+    /**
+     * @var CantT
+     *
+     * @ORM\Column(name="cant_total", type="integer", nullable=false)
+     */
+    private $cantT;
+    
     /*
      * Get toString
     */
@@ -132,26 +139,26 @@ class Imv
     }
     
     /**
-     * Set codFact
+     * Set codCups
      *
-     * @param string $codFact
+     * @param string $codCups
      * @return Imv
      */
-    public function setCodFact($codFact)
+    public function setCodCups($codCups)
     {
-    	$this->codFact = $codFact;
+    	$this->codCups = $codCups;
     
     	return $this;
     }
     
     /**
-     * Get codFact
+     * Get codCups
      *
      * @return string
      */
-    public function getCodFact()
+    public function getCodCups()
     {
-    	return $this->codFact;
+    	return $this->codCups;
     }
     
     
@@ -371,6 +378,30 @@ class Imv
     {
     	return $this->dosis;
     }
+    
+    /**
+    * Set cantT
+    *
+    * @param integer $cantT
+    * @return Inventario
+    */
+    public function setCantT($cantT)
+    {
+    	$this->cantT = $cantT;
+    
+    	return $this;
+    }
+    
+    /**
+     * Get cantT
+     *
+     * @return integer
+     */
+    public function getCantT()
+    {
+    	return $this->cantT;
+    }
+    
    
 
       

@@ -71,13 +71,7 @@ class Inventario
         private $cantE;
 
 
-     /**
-     * @var CantT
-     *
-     * @ORM\Column(name="cant_total", type="integer", nullable=false)
-     */
-        private $cantT;
-        
+           
         
      /**
      * @var PrecioCompra
@@ -165,29 +159,7 @@ class Inventario
         return $this->cantE;
     }
 
-    /**
-     * Set cantT
-     *
-     * @param integer $cantT
-     * @return Inventario
-     */
-    public function setCantT($cantT)
-    {
-        $this->cantT = $cantT;
-    
-        return $this;
-    }
-
-    /**
-     * Get cantT
-     *
-     * @return integer 
-     */
-    public function getCantT()
-    {
-        return $this->cantT;
-    }
-
+   
     /**
      * Set precioCompra
      *

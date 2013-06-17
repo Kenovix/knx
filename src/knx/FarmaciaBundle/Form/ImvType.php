@@ -12,7 +12,7 @@ class ImvType extends AbstractType
     {
         $builder
             ->add('tipoImv', 		  'choice', array('label' => 'Tipo Insumo: *',			'choices'   => array('M' => 'Medicamento', 'I' => 'Insumo','V' => 'Vacuna', 'MP' => 'Medicamento_PYP'),'required'  => true))
-            ->add('codFact',		  'text', 	array('label' => 'Codigo Facturacion: *',	'required' => true, 'attr' => array('placeholder' => 'Ingrese Codigo')))
+            ->add('codCups',		  'text', 	array('label' => 'Codigo Cups: *',	'required' => true, 'attr' => array('placeholder' => 'Ingrese Codigo')))
             ->add('codAdmin',		  'text', 	array('label' => 'Codigo Administrativo: *','required' => true, 'attr' => array('placeholder' => 'CodigoAdministracion')))
             ->add('cums',			  'text', 	array('label' => 'Cums: *',					'required' => true, 'attr' => array('placeholder' => 'Cums')))
             ->add('nombre',			  'text', 	array('label' => 'Nombre: *',				'required' => true, 'attr' => array('placeholder' => 'Nombre')))

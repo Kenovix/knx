@@ -33,7 +33,8 @@
 	        <thead>
 	            <tr>
 	                <th>No.</th>	                
-	                <th>Cod.Facturacion</th>
+	                <th>Cod.Admin</th>
+	                <th>Cups</th>
 	                <th>Tipo</th>
 	                <th>Nombre</th>
 	                <th>Cums</th>
@@ -43,7 +44,8 @@
 	        {% for imv in imv %}
 	            <tr>
 	                <td>{{ loop.index }}</td>
-	                <td><a href="{{ path('imv_show', {'imv':imv.id}) }}">{{ imv.codFact }}</a></td>
+	                <td><a href="{{ path('imv_show', {'imv':imv.id}) }}">{{ imv.codAdmin }}</a></td>
+	                <td><a href="{{ path('imv_show', {'imv':imv.id}) }}">{{ imv.codCups}}</a></td>	                
 	             	 <td>{{ imv.tipoImv }}</td>
 	             	 <td>{{ imv.nombre }}</td>
 	             	 <td>{{ imv.cums}}</td>

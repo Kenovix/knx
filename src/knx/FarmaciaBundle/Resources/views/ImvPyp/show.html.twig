@@ -6,7 +6,7 @@
 
 {% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
 
-{% block titulo %}Información de la Imv{% endblock %}
+{% block titulo %}Información de la Imv_Pyp{% endblock %}
 
 {% block msg %}
 	{% if app.session.flash('ok') %}
@@ -33,30 +33,35 @@
         <tbody>
         	<tr>
                 <td><strong>No.</strong></td>
-                <td>{{ imv.id }}</td>
+                <td>{{ imvpyp.id }}</td>
             </tr>
             <tr>
-                <td><strong>Tipo</strong></td>
-                <td>{{ imv.tipoImv }}</td>
+                <td><strong>Imv</strong></td>
+                <td>{{ imvpyp.imv }}</td>
             </tr>
             <tr>
-                <td><strong>Cod_Facturacion</strong></td>
-                <td>{{ imv.codCups }}</td>
+                <td><strong>Categoria_Pyp</strong></td>
+                <td>{{ imvpyp.pyp }}</td>
             </tr>
             <tr>
-                <td><strong>Nombre</strong></td>
-                <td>{{ imv.nombre }}</td>
+                <td><strong>Edad_Inicial</strong></td>
+                <td>{{ imvpyp.edadIni }}</td>
             </tr>
             <tr>
-                <td><strong>Cums</strong></td>
-                <td>{{ imv.cums }}</td>
+                <td><strong>Edad_Final</strong></td>
+                <td>{{ imvpyp.edadFin }}</td>
+            </tr>
+            
+            <tr>
+                <td><strong>Sexo</strong></td>
+                <td>{{ imvpyp.sexo }}</td>
             </tr>
             
         </tbody>
     </table>
 
 	<div class="btn-group">
-	    <a href="{{ path('imv_edit', {'imv':imv.id}) }}" class="btn btn-primary">Modificar</a>
-	    <a href="{{ path('imv_list') }}" class="btn">Volver</a>
+	    <a href="{{ path('imvpyp_edit', {'imvpyp':imvpyp.id}) }}" class="btn btn-primary">Modificar</a>
+	    <a href="{{ path('imvpyp_list') }}" class="btn">Volver</a>
     </div>
 {% endblock %}

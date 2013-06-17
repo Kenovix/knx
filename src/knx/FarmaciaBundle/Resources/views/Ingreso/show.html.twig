@@ -70,6 +70,7 @@
                 <th>Cantidad</th>
                 <th>Precio Compra</th>
                 <th>Precio de Venta</th>
+                <th>Eliminar</th>
                 
                
             </tr>
@@ -82,7 +83,8 @@
                 <td>{{ inventario.proveedor }} </td>
                 <td>{{ inventario.cant }} </td>
                 <td>{{ inventario.precioCompra }} </td> 
-                <td>{{ inventario.precioVenta }} </td>      
+                <td>{{ inventario.precioVenta }} </td>
+                <td><a href = "{{ path('inventario_delete', {'inventario': inventario.id}) }}"  class="button  red left" onClick="return confirm('Seguro que quieres eliminar el inventario')"><span class="label">Eliminar</span> </a></td>      
             </tr>
          {% else %}
          	<tr>

@@ -98,7 +98,7 @@ public function ListAction()
     	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
     	$breadcrumbs->addItem("Farmacia");
     	$breadcrumbs->addItem("Imvs", $this->get("router")->generate("imv_list"));
-    	$breadcrumbs->addItem($imv->getcodFact());
+    	$breadcrumbs->addItem($imv->getcodAdmin());
     	 
     	return $this->render('FarmaciaBundle:Imv:show.html.twig', array(
     			'imv'  => $imv
@@ -119,8 +119,8 @@ public function ListAction()
     	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
     	$breadcrumbs->addItem("Farmacia");
     	$breadcrumbs->addItem("Imvs", $this->get("router")->generate("imv_list"));
-    	$breadcrumbs->addItem($imv->getcodFact(), $this->get("router")->generate("imv_show", array("imv" => $imv->getId())));
-    	$breadcrumbs->addItem("Modificar".$imv->getcodFact());
+    	$breadcrumbs->addItem($imv->getcodAdmin(), $this->get("router")->generate("imv_show", array("imv" => $imv->getId())));
+    	$breadcrumbs->addItem("Modificar".$imv->getcodAdmin());
     
     	$form   = $this->createForm(new ImvType(), $imv);
     
@@ -163,8 +163,8 @@ public function ListAction()
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
     	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
     	$breadcrumbs->addItem("Farmacia", $this->get("router")->generate("imv_list"));
-    	$breadcrumbs->addItem($imv->getcodFact(), $this->get("router")->generate("imv_show", array("imv" => $imv->getId())));
-    	$breadcrumbs->addItem("Modificar".$imv->getcodFact());
+    	$breadcrumbs->addItem($imv->getgetcodAdmin(), $this->get("router")->generate("imv_show", array("imv" => $imv->getId())));
+    	$breadcrumbs->addItem("Modificar".$imv->getcodAdmin());
     
     	return $this->render('FarmaciaBundle:Imv:new.html.twig', array(
        			'imv' => $imv,

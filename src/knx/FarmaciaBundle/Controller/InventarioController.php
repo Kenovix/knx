@@ -173,5 +173,27 @@ class InventarioController extends Controller
     }
     
     
+public function deleteAction($inventario)
+    {
+    	
+    	$em = $this->getDoctrine()->getEntityManager();
+    	 
+    	$inventario = $em->getRepository('FarmaciaBundle:Inventario')->find( $inventario);
+    	//die(var_dump($inventario));
+    	if (!$inventario) {
+    		throw $this->createNotFoundException('El Inventario solicitado no existe.');
+    	}
+    	 
+    	    	 
+    	$em->remove($inventario);
+    	$em->flush();
+    	 
+    	$this->get('session')->setFlash('info', 'El inventario ha sido eliminado.');
+    	 
+    	return $this->redirect($this->generateUrl('ingreso_list'));
+    	 
+    	    	
+    }
+    
    
 } 

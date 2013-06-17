@@ -6,7 +6,7 @@
 
 {% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
 
-{% block titulo %}Listado de Traslado{% endblock %}
+{% block titulo %}Listado de Devolucion{% endblock %}
 
 {% block msg %}
 	{% if app.session.flash('ok') %}
@@ -28,27 +28,25 @@
 {% endblock %}
 
 {% block cuerpo %}
-	{% if traslado %}
+	{% if devolucion %}
 	
 	    <table class="table">
 	        <thead>
 	            <tr>
 	                <th>No.</th>
-                	<th>Fecha.</th>
-                	<th>Farmacia</th>
+                	<th>Fecha.</th>                	
                 	<th>Inventario</th>
                	 	<th>Cantidad</th>
 	               
 	            </tr>
 	        </thead>
 	        <tbody>
-	        {% for traslado in traslado %}
+	        {% for devolucion in devolucion %}
 	            <tr>
 	                <td>{{ loop.index }}</td>
-	                <td><a href="{{ path('traslado_show', {'traslado':traslado.id}) }}">{{ traslado.fecha | date('d-m-Y')}}</a></td>
-	             	<td>{{ traslado.farmacia}}</td>
-            		<td>{{ traslado.inventario}}</td>            	
-            		<td>{{ traslado.cant}}</td>
+	                <td><a href="{{ path('devolucion_show', {'devolucion':devolucion.id}) }}">{{ devolucion.fecha | date('d-m-Y')}}</a></td>	             	
+            		<td>{{ devolucion.inventario}}</td>            	
+            		<td>{{ devolucion.cant}}</td>
 	            </tr>
 	        {% endfor %}
 	        </tbody>
@@ -56,10 +54,10 @@
 	{% else %}
 		<div class="alert alert-success">
 	    	<button data-dismiss="alert" class="close" type="button">×</button>
-	        <span>No existen traslados creadas</span>
+	        <span>No existen devolucion creadas</span>
 	    </div>
 	{% endif %}
 		
     
-    <a href="{{ path('traslado_new') }}" class="btn btn-primary">Nuevo Traslado</a>
+    <a href="{{ path('devolucion_new') }}" class="btn btn-primary">Nuevo Devolucion</a>
 {% endblock %}

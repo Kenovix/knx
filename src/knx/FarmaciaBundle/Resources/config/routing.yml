@@ -133,7 +133,11 @@ inventario_edit:
 
 inventario_update:
     pattern:  /inventario/{inventario}/update
-    defaults: { _controller: FarmaciaBundle:Inventario:update }    
+    defaults: { _controller: FarmaciaBundle:Inventario:update }  
+    
+inventario_delete:
+    pattern:  /inventario/{inventario}/delete
+    defaults: { _controller: FarmaciaBundle:Inventario:delete }      
 
 #************** Traslado ***************#    
 
@@ -166,25 +170,52 @@ traslado_update:
 
 devolucion_list:
     pattern:  /devolucion/list
-    defaults: { _controller: FarmaciaBundle:Devoluion:List }
+    defaults: { _controller: FarmaciaBundle:Devolucion:List }
     
 devolucion_new:
     pattern:  /devolucion/new
-    defaults: { _controller: FarmaciaBundle:Devoluion:New }
+    defaults: { _controller: FarmaciaBundle:Devolucion:New }
     
 devolucion_save:
     pattern:  /devolucion/save
-    defaults: { _controller: FarmaciaBundle:Devoluion:Save }
+    defaults: { _controller: FarmaciaBundle:Devolucion:Save }
 
 devolucion_show:
     pattern:  /devolucion/{devolucion}/show
-    defaults: { _controller: FarmaciaBundle:Devoluion:Show }
+    defaults: { _controller: FarmaciaBundle:Devolucion:Show }
 
 devolucion_edit:
     pattern:  /devolucion/{devolucion}/edit
-    defaults: { _controller: FarmaciaBundle:Devoluion:Edit }
+    defaults: { _controller: FarmaciaBundle:Devolucion:Edit }
     
 devolucion_update:
     pattern:  /devolucion/{devolucion}/update
-    defaults: { _controller: FarmaciaBundle:Devoluion:Update }    
+    defaults: { _controller: FarmaciaBundle:Devolucion:Update }    
     
+ #************** ImvPyp ***************#    
+
+imvpyp_list:
+    pattern:  /imvpyp/list
+    defaults: { _controller: FarmaciaBundle:ImvPyp:List }
+    
+imvpyp_new:
+    pattern:  /imvpyp/new
+    defaults: { _controller: FarmaciaBundle:ImvPyp:New }
+    
+imvpyp_save:
+    pattern:  /imvpyp/save
+    defaults: { _controller: FarmaciaBundle:ImvPyp:Save }
+
+imvpyp_show:
+    pattern:  /imvpyp/{imvpyp}/show
+    defaults: { _controller: FarmaciaBundle:ImvPyp:Show }
+
+imvpyp_edit:
+    pattern:  /imvpyp/{imvpyp}/edit
+    defaults: { _controller: FarmaciaBundle:ImvPyp:Edit }
+    
+imvpyp_update:
+    pattern:  /imvpyp/{imvpyp}/update
+    defaults: { _controller: FarmaciaBundle:ImvPyp:Update }
+    
+

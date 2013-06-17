@@ -3,10 +3,9 @@
 namespace knx\FarmaciaBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use knx\FarmaciaBundle\Entity\Traslado;
+use knx\FarmaciaBundle\Entity\Devolucion;
 use knx\FarmaciaBundle\Entity\Inventario;
-use knx\FarmaciaBundle\Entity\Farmacia;
-use knx\FarmaciaBundle\Form\TrasladoType;
+use knx\FarmaciaBundle\Form\DevolucionType;
 
 
 class DevolucionController extends Controller
@@ -16,14 +15,14 @@ class DevolucionController extends Controller
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
     	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("farmacia_index"));
     	$breadcrumbs->addItem("Farmacia");
-    	$breadcrumbs->addItem("Traslados", $this->get("router")->generate("traslado_list"));
+    	$breadcrumbs->addItem("Devolucions", $this->get("router")->generate("devolucion_list"));
     	$breadcrumbs->addItem("Listado");
     	
     	$em = $this->getDoctrine()->getEntityManager();    
-        $traslado = $em->getRepository('FarmaciaBundle:Traslado')->findAll();
+        $devolucion = $em->getRepository('FarmaciaBundle:Devolucion')->findAll();
         
-        return $this->render('FarmaciaBundle:Traslado:list.html.twig', array(
-                'traslado'  => $traslado
+        return $this->render('FarmaciaBundle:Devolucion:list.html.twig', array(
+                'devolucion'  => $devolucion
         ));
     }
     
@@ -32,15 +31,15 @@ class DevolucionController extends Controller
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
     	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("farmacia_index"));
     	$breadcrumbs->addItem("Farmacia");
-    	$breadcrumbs->addItem("Traslados", $this->get("router")->generate("traslado_list"));
-    	$breadcrumbs->addItem("Nueva Traslado");
-    	
-    	$traslado = new Traslado();
-    	$traslado->setFecha(new \datetime('now'));
-    	$form   = $this->createForm(new TrasladoType(), $traslado);
+    	$breadcrumbs->addItem("Devolucions", $this->get("router")->generate("devolucion_list"));
+    	$breadcrumbs->addItem("Nueva Devolucion");
+    	$em = $this->getDoctrine()->getEntityManager();
+    	$devolucion = new Devolucion();
+    	$devolucion->setFecha(new \datetime('now'));
+    	$form   = $this->createForm(new DevolucionType(), $devolucion);
 
-    	return $this->render('FarmaciaBundle:Traslado:new.html.twig', array(
-    			'traslado'=>$traslado,
+    	return $this->render('FarmaciaBundle:Devolucion:new.html.twig', array(
+    			'devolucion'=>$devolucion,
     			'form'   => $form->createView()
     	));
     }
@@ -52,13 +51,13 @@ class DevolucionController extends Controller
     
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
     	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("farmacia_index"));
-    	$breadcrumbs->addItem("Farmacia", $this->get("router")->generate("traslado_list"));
-    	$breadcrumbs->addItem("Nueva Traslado");
+    	$breadcrumbs->addItem("Farmacia", $this->get("router")->generate("devolucion_list"));
+    	$breadcrumbs->addItem("Nueva Devolucion");
     	 
-    	$traslado = new Traslado();
+    	$devolucion = new Devolucion();
     	 
     	$request = $this->getRequest();
-    	$form   = $this->createForm(new TrasladoType(), $traslado);
+    	$form   = $this->createForm(new DevolucionType(), $devolucion);
     	if ($request->getMethod() == 'POST') {
     		 
     		$form->bind($request);
@@ -67,82 +66,82 @@ class DevolucionController extends Controller
     	
     			$em = $this->getDoctrine()->getEntityManager();
     	
-    			$em->persist($traslado);
+    			$em->persist($devolucion);
     			$em->flush();
     
-    			$this->get('session')->setFlash('ok', 'El traslado ha sido creada éxitosamente.');
+    			$this->get('session')->setFlash('ok', 'El devolucion ha sido creada éxitosamente.');
     
-    			return $this->redirect($this->generateUrl('traslado_show', array("traslado" => $traslado->getId())));	
+    			return $this->redirect($this->generateUrl('devolucion_show', array("devolucion" => $devolucion->getId())));	
     		}
     	}
     	 
-    	return $this->render('FarmaciaBundle:Traslado:new.html.twig', array(
+    	return $this->render('FarmaciaBundle:Devolucion:new.html.twig', array(
        			'form'   => $form->createView()
     	));
     }
     
-    public function ShowAction($traslado)
+    public function ShowAction($devolucion)
     {
     	$em = $this->getDoctrine()->getEntityManager();
     
-    	$traslado = $em->getRepository('FarmaciaBundle:Traslado')->find($traslado);
+    	$devolucion = $em->getRepository('FarmaciaBundle:Devolucion')->find($devolucion);
     	
     	
     	 
-    	if (!$traslado) {
-    		throw $this->createNotFoundException('El traslado solicitado no esta disponible.');
+    	if (!$devolucion) {
+    		throw $this->createNotFoundException('El devolucion solicitado no esta disponible.');
     	}
     		   	
     	    	 
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
     	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
     	$breadcrumbs->addItem("Farmacia");
-    	$breadcrumbs->addItem("Traslados", $this->get("router")->generate("traslado_list"));
-    	$breadcrumbs->addItem($traslado->getId());
+    	$breadcrumbs->addItem("Devolucions", $this->get("router")->generate("devolucion_list"));
+    	$breadcrumbs->addItem($devolucion->getId());
     	 
-    	return $this->render('FarmaciaBundle:Traslado:show.html.twig', array(
-    			'traslado'  => $traslado,
+    	return $this->render('FarmaciaBundle:Devolucion:show.html.twig', array(
+    			'devolucion'  => $devolucion,
     			
     			
     	));
     }
     
-    public function EditAction($traslado)
+    public function EditAction($devolucion)
     {
     	$em = $this->getDoctrine()->getEntityManager();    
-    	$traslado = $em->getRepository('FarmaciaBundle:Traslado')->find($traslado);
+    	$devolucion = $em->getRepository('FarmaciaBundle:Devolucion')->find($devolucion);
     
-   	   if (!$traslado) {
-    		throw $this->createNotFoundException('El traslado solicitado no esta disponible.');
+   	   if (!$devolucion) {
+    		throw $this->createNotFoundException('El devolucion solicitado no esta disponible.');
     	}
     	 
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
     	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
     	$breadcrumbs->addItem("Farmacia");
-    	$breadcrumbs->addItem("Traslados", $this->get("router")->generate("traslado_list"));
-    	$breadcrumbs->addItem($traslado->getId(), $this->get("router")->generate("traslado_show", array("traslado" => $traslado->getId())));
-    	$breadcrumbs->addItem("Modificar".$traslado->getId());
+    	$breadcrumbs->addItem("Devolucions", $this->get("router")->generate("devolucion_list"));
+    	$breadcrumbs->addItem($devolucion->getId(), $this->get("router")->generate("devolucion_show", array("devolucion" => $devolucion->getId())));
+    	$breadcrumbs->addItem("Modificar".$devolucion->getId());
     
-    	$form   = $this->createForm(new TrasladoType(), $traslado);
+    	$form   = $this->createForm(new DevolucionType(), $devolucion);
     
-    	return $this->render('FarmaciaBundle:Traslado:edit.html.twig', array(
-    			'traslado' => $traslado,
+    	return $this->render('FarmaciaBundle:Devolucion:edit.html.twig', array(
+    			'devolucion' => $devolucion,
     			'form' => $form->createView(),
     	));
     }
     
     
-    public function UpdateAction($traslado)
+    public function UpdateAction($devolucion)
     {
     	$em = $this->getDoctrine()->getEntityManager();
     
-    	$traslado = $em->getRepository('FarmaciaBundle:Traslado')->find($traslado);
+    	$devolucion = $em->getRepository('FarmaciaBundle:Devolucion')->find($devolucion);
     
-        if (!$traslado) {
-    		throw $this->createNotFoundException('El traslado solicitado no esta disponible.');
+        if (!$devolucion) {
+    		throw $this->createNotFoundException('El devolucion solicitado no esta disponible.');
     	}
     
-    	$form = $this->createForm(new TrasladoType(), $traslado);
+    	$form = $this->createForm(new DevolucionType(), $devolucion);
     	$request = $this->getRequest();
     	if ($request->getMethod() == 'POST') {
     		 
@@ -152,23 +151,23 @@ class DevolucionController extends Controller
     	
     			$em = $this->getDoctrine()->getEntityManager();
     	
-    			$em->persist($traslado);
+    			$em->persist($devolucion);
     			$em->flush();
     
-    			$this->get('session')->setFlash('ok', 'El traslado ha sido modificado éxitosamente.');
+    			$this->get('session')->setFlash('ok', 'El devolucion ha sido modificado éxitosamente.');
     
-    			return $this->redirect($this->generateUrl('traslado_show', array("traslado" => $traslado->getId())));	
+    			return $this->redirect($this->generateUrl('devolucion_show', array("devolucion" => $devolucion->getId())));	
     		}
     	}
     
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
     	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
-    	$breadcrumbs->addItem("Farmacia", $this->get("router")->generate("traslado_list"));
-    	$breadcrumbs->addItem($traslado->getId(), $this->get("router")->generate("traslado_show", array("traslado" => $traslado->getId())));
-    	$breadcrumbs->addItem("Modificar".$traslado->getId());
+    	$breadcrumbs->addItem("Farmacia", $this->get("router")->generate("devolucion_list"));
+    	$breadcrumbs->addItem($devolucion->getId(), $this->get("router")->generate("devolucion_show", array("devolucion" => $devolucion->getId())));
+    	$breadcrumbs->addItem("Modificar".$devolucion->getId());
     
-    	return $this->render('FarmaciaBundle:Traslado:new.html.twig', array(
-       			'traslado' => $traslado,
+    	return $this->render('FarmaciaBundle:Devolucion:new.html.twig', array(
+       			'devolucion' => $devolucion,
     			'form' => $form->createView(),
     	));
     }

@@ -22,20 +22,8 @@ class Devolucion
      */
         private $id;
 
-
-    /**
-     * @var Proveedor
-     *
-     * @ORM\ManyToOne(targetEntity="knx\ParametrizarBundle\Entity\Proveedor")
-     * @ORM\JoinColumns({
-     * 	@ORM\JoinColumn(name="proveedor_id", referencedColumnName="id")
-     * })
-     */
-
-        private $proveedor;
-
-
-      /**
+        
+     /**
      * @var Inventario
      *
      * @ORM\ManyToOne(targetEntity="knx\FarmaciaBundle\Entity\Inventario")
@@ -53,19 +41,7 @@ class Devolucion
      */
         private $fecha;
 
-     /**
-     * @var codproducto
-     *
-     * @ORM\Column(name="cod_producto", type="integer", nullable=false)
-     */
-        private $codproducto;
-
-     /**
-     * @var nombreproducto
-     *
-     * @ORM\Column(name="nombre_producto", type="text", nullable=false)
-     */
-        private $nombreproducto;
+    
         
      /**
      * @var cant
@@ -74,14 +50,7 @@ class Devolucion
      */
         private $cant;
         
-        
-     /**
-     * @var  string dev
-     *
-     * @ORM\Column(name="devolucion_de", type="text", nullable=false)
-     */
-        private $dev;
-        
+         
         
      /**
      * @var motivo
@@ -89,8 +58,9 @@ class Devolucion
      * @ORM\Column(name="motivo", type="string", nullable=false)
      */
         private $motivo;
+        
 
-         /**
+     /**
      * @var date $created
      *
      * @Gedmo\Timestampable(on="create")
@@ -140,51 +110,7 @@ class Devolucion
         return $this->fecha;
     }
 
-    /**
-     * Set codproducto
-     *
-     * @param integer $codproducto
-     * @return Devolucion
-     */
-    public function setCodproducto($codproducto)
-    {
-        $this->codproducto = $codproducto;
-    
-        return $this;
-    }
-
-    /**
-     * Get codproducto
-     *
-     * @return integer 
-     */
-    public function getCodproducto()
-    {
-        return $this->codproducto;
-    }
-
-    /**
-     * Set nombreproducto
-     *
-     * @param string $nombreproducto
-     * @return Devolucion
-     */
-    public function setNombreproducto($nombreproducto)
-    {
-        $this->nombreproducto = $nombreproducto;
-    
-        return $this;
-    }
-
-    /**
-     * Get nombreproducto
-     *
-     * @return string 
-     */
-    public function getNombreproducto()
-    {
-        return $this->nombreproducto;
-    }
+   
 
     /**
      * Set cant
@@ -209,29 +135,7 @@ class Devolucion
         return $this->cant;
     }
 
-    /**
-     * Set dev
-     *
-     * @param string $dev
-     * @return Devolucion
-     */
-    public function setDev($dev)
-    {
-        $this->dev = $dev;
     
-        return $this;
-    }
-
-    /**
-     * Get dev
-     *
-     * @return string 
-     */
-    public function getDev()
-    {
-        return $this->dev;
-    }
-
     /**
      * Set motivo
      *
@@ -301,29 +205,7 @@ class Devolucion
         return $this->updated;
     }
 
-    /**
-     * Set proveedor
-     *
-     * @param \knx\ParametrizarBundle\Entity\Proveedor $proveedor
-     * @return Devolucion
-     */
-    public function setProveedor(\knx\ParametrizarBundle\Entity\Proveedor $proveedor = null)
-    {
-        $this->proveedor = $proveedor;
-    
-        return $this;
-    }
-
-    /**
-     * Get proveedor
-     *
-     * @return \knx\ParametrizarBundle\Entity\Proveedor 
-     */
-    public function getProveedor()
-    {
-        return $this->proveedor;
-    }
-
+   
     /**
      * Set inventario
      *

@@ -5,13 +5,22 @@ namespace knx\FarmaciaBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Doctrine\ORM\EntityRepository;
 
 class DevolucionType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('fecha',	'datetime', array('label' => 'Fecha Realizacion:', 'read_only' => true, 'label' => 'Fecha Devolucion:'))            
+            ->add('fecha',	'datetime', array('label' => 'Fecha Realizacion:', 'read_only' => true, 'label' => 'Fecha Devolucion:'))    
+            ->add('inventario', 		'entity', array(
+            		'class' => 'knx\\FarmaciaBundle\\Entity\\Inventario',
+            		'required' => true,
+            		'empty_value' => 'Selecciona un Imv',
+            		'query_builder' => function(EntityRepository $repositorio) {
+            			return $repositorio->createQueryBuilder('s')
+            			->orderBy('s.precioCompra', 'ASC');}
+            ))
             ->add('cant',	'integer', 	array('label' => 'Cantidad: *', 'attr' => array('placeholder' => 'Cantidad', 'autofocus'=>'autofocus')))            
             ->add('motivo',	'text', 	array('label' => 'Motivo: *',   'attr' => array('placeholder' => 'Ingrese un motivo')))           
         ;

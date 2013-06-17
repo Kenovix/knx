@@ -6,7 +6,7 @@
 
 {% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
 
-{% block titulo %}Nuevo Traspaso{% endblock %}
+{% block titulo %}Nuevo Traslado{% endblock %}
 
 {% block msg %}
 	{% if app.session.flash('ok') %}
@@ -34,7 +34,7 @@
 
 	<form action="{{ path('traslado_save') }}" class="form-horizontal" method="post" {{ form_enctype(form) }}>
 	    <fieldset>
-	    	<legend>Datos del Traspaso</legend>
+	    	<legend>Datos del Traslado</legend>
 	    	    
 		   {{ form_widget(form) }}
 		   

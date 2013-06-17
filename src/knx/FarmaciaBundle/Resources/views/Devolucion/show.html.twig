@@ -6,7 +6,7 @@
 
 {% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
 
-{% block titulo %}Información de la Imv{% endblock %}
+{% block titulo %}Información del Devolucion{% endblock %}
 
 {% block msg %}
 	{% if app.session.flash('ok') %}
@@ -30,33 +30,28 @@
 {% block cuerpo %}	    
 
 	<table class="table">
-        <tbody>
-        	<tr>
-                <td><strong>No.</strong></td>
-                <td>{{ imv.id }}</td>
+        <thead>
+	        <tr>
+                <th>No.</th>
+                <th>Fecha.</th>   
+                <td>Inventario</th>
+                <th>Cantidad</th>
+                
             </tr>
-            <tr>
-                <td><strong>Tipo</strong></td>
-                <td>{{ imv.tipoImv }}</td>
-            </tr>
-            <tr>
-                <td><strong>Cod_Facturacion</strong></td>
-                <td>{{ imv.codCups }}</td>
-            </tr>
-            <tr>
-                <td><strong>Nombre</strong></td>
-                <td>{{ imv.nombre }}</td>
-            </tr>
-            <tr>
-                <td><strong>Cums</strong></td>
-                <td>{{ imv.cums }}</td>
-            </tr>
+        </thead>    
             
-        </tbody>
+        <tbody>
+            <tr>
+            	<td>{{ devolucion.id }}</td>
+            	<td>{{ devolucion.fecha | date('d-m-Y')}}</td>            
+            	<td>{{ devolucion.inventario}}</td>            	
+            	<td>{{ devolucion.cant}}</td>
+        	</tr>
+        </tbody>    
     </table>
 
 	<div class="btn-group">
-	    <a href="{{ path('imv_edit', {'imv':imv.id}) }}" class="btn btn-primary">Modificar</a>
-	    <a href="{{ path('imv_list') }}" class="btn">Volver</a>
+	    <a href="{{ path('devolucion_edit', {'devolucion':devolucion.id}) }}" class="btn btn-primary">Modificar</a>
+	    <a href="{{ path('devolucion_list') }}" class="btn">Volver</a>
     </div>
 {% endblock %}
