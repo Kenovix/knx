@@ -15,7 +15,7 @@ class DevolucionController extends Controller
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
     	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("farmacia_index"));
     	$breadcrumbs->addItem("Farmacia");
-    	$breadcrumbs->addItem("Devolucions", $this->get("router")->generate("devolucion_list"));
+    	$breadcrumbs->addItem("Devoluciones", $this->get("router")->generate("devolucion_list"));
     	$breadcrumbs->addItem("Listado");
     	
     	$em = $this->getDoctrine()->getEntityManager();    
