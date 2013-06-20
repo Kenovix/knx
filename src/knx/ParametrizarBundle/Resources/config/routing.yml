@@ -1,6 +1,6 @@
 parametrizar_index:
-    pattern:  /hello
-    defaults: { _controller: ParametrizarBundle:Default:index }
+    pattern:  /inicio
+    defaults: { _controller: ParametrizarBundle:Default:inicio }
 
 #************** Empresa ***************#
 

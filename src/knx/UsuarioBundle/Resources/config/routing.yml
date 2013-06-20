@@ -1,3 +1,7 @@
 usuario_homepage:
     pattern:  /hello/{name}
     defaults: { _controller: UsuarioBundle:Default:index }
+    
+usuario_new:
+    pattern: /new
+    defaults: { _controller: UsuarioBundle:Usuario:new }

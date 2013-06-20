@@ -1,0 +1,75 @@
+{% extends "::admin_layout.html.twig" %}
+
+{% block menu %}
+	{{ knp_menu_render('ParametrizarBundle:Builder:superAdminMenu') }}
+{% endblock %}
+
+{% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
+
+{% block titulo %}Menu Principal{% endblock %}
+
+{% block msg %}
+	{% if app.session.flash('ok') %}
+	    <div class="alert alert-success">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('ok') }}</span>
+	    </div>
+	{% elseif app.session.flash('info') %}
+		<div class="alert alert-info">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('info') }}</span>
+	    </div>
+	{% elseif app.session.flash('error') %}
+		<div class="alert alert-error">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('error') }}</span>
+	    </div>
+	{% endif %}
+{% endblock %}
+
+{% block cuerpo %}
+	<div class="row-fluid">
+		<ul class="thumbnails">
+    		<li class="span2">
+    			<a href="{{ path('cliente_list') }}" class="thumbnail">
+    				<img src="{{ asset('bundles/knx/img/user.png') }}" alt="">    					
+    			</a>
+    				
+    			<p>Gestionar clientes.</p>
+    				
+    		</li>
+    		<li class="span2">
+    			<a href="{{ path('ingreso_list') }}" class="thumbnail">
+    				<img src="{{ asset('bundles/knx/img/user.png') }}" alt="">    					
+    			</a>
+    				
+    			<p>Gestió de ingresos a farmacia.</p>
+    				
+    		</li>
+    		<li class="span2">
+    			<a href="#" class="thumbnail">
+    				<img src="{{ asset('bundles/knx/img/user.png') }}" alt="">    					
+    			</a>
+    				
+    			<p>Thumbnail caption...</p>
+    				
+    		</li>
+    		<li class="span2">
+    			<a href="#" class="thumbnail">
+    				<img src="{{ asset('bundles/knx/img/user.png') }}" alt="">    					
+    			</a>
+    				
+    			<p>Thumbnail caption...</p>
+    				
+    		</li>
+    		<li class="span2">
+    			<a href="#" class="thumbnail">
+    				<img src="{{ asset('bundles/knx/img/user.png') }}" alt="">    					
+    			</a>
+    				
+    			<p>Thumbnail caption...</p>
+    				
+    		</li>
+    	</ul>
+	</div>
+{% endblock %}
