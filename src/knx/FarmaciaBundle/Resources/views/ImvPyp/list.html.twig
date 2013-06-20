@@ -6,7 +6,7 @@
 
 {% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
 
-{% block titulo %}Listado de Traslado{% endblock %}
+{% block titulo %}Listado de Imv_Pyp{% endblock %}
 
 {% block msg %}
 	{% if app.session.flash('ok') %}
@@ -28,27 +28,27 @@
 {% endblock %}
 
 {% block cuerpo %}
-	{% if traslado %}
-	
+	{% if imvpyp %}
 	    <table class="table">
 	        <thead>
 	            <tr>
-	                <th>No.</th>
-                	<th>Fecha.</th>
-                	<th>Farmacia</th>
-                	<th>Inventario</th>
-               	 	<th>Cantidad</th>
-	               
+	                <th>No.</th>	                
+	                <th>Imv_pyp</th>
+	                <th>Categoria</th>
+	                <th>Edad_Inicial</th>
+	                <th>Edad_Final</th>
+	                <th>Sexo</th>
 	            </tr>
 	        </thead>
 	        <tbody>
-	        {% for traslado in traslado %}
+	        {% for imvpyp in imvpyp %}
 	            <tr>
 	                <td>{{ loop.index }}</td>
-	                <td><a href="{{ path('traslado_show', {'traslado':traslado.id}) }}">{{ traslado.fecha | date('d-m-Y')}}</a></td>
-	             	<td>{{ traslado.farmacia}}</td>
-            		<td>{{ traslado.inventario}}</td>            	
-            		<td>{{ traslado.cant}}</td>
+	                <td><a href="{{ path('imvpyp_show', {'imvpyp':imvpyp.id}) }}">{{ imvpyp.imv }}</a></td>
+	             	 <td>{{ imvpyp.pyp }}</td>
+	             	 <td>{{ imvpyp.edadini }}</td>
+	             	 <td>{{ imvpyp.edadfin}}</td>
+	             	 <td>{{ imvpyp.sexo}}</td>
 	            </tr>
 	        {% endfor %}
 	        </tbody>
@@ -56,10 +56,10 @@
 	{% else %}
 		<div class="alert alert-success">
 	    	<button data-dismiss="alert" class="close" type="button">×</button>
-	        <span>No existen traslados creadas</span>
+	        <span>No existen ImvPyp creadas</span>
 	    </div>
 	{% endif %}
 		
     
-    <a href="{{ path('traslado_new') }}" class="btn btn-primary">Nuevo Traslado</a>
+    <a href="{{ path('imvpyp_new') }}" class="btn btn-primary">Nueva Imv_Pyp</a>
 {% endblock %}

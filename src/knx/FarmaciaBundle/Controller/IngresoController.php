@@ -94,6 +94,7 @@ class IngresoController extends Controller
     	}
     	
     	$inventarios = $em->getRepository('FarmaciaBundle:Inventario')->findByIngreso($ingreso);
+    	//$inventario = new Inventario();
     	
     	
     	//$inventario = $em->getRepository('FarmaciaBundle:Inventario')->findByIngreso($ingreso);
