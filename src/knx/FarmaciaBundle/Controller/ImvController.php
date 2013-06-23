@@ -15,7 +15,7 @@ class ImvController extends Controller
 public function ListAction()
     {   
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
-    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("farmacia_index"));
+    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
     	$breadcrumbs->addItem("Farmacia");
     	$breadcrumbs->addItem("Imvs", $this->get("router")->generate("imv_list"));
     	$breadcrumbs->addItem("Listado");
@@ -31,7 +31,7 @@ public function ListAction()
     public function NewAction()
     {
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
-    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("farmacia_index"));
+    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
     	$breadcrumbs->addItem("Farmacia");
     	$breadcrumbs->addItem("Imvs", $this->get("router")->generate("imv_list"));
     	$breadcrumbs->addItem("Nueva Imv");
@@ -50,7 +50,7 @@ public function ListAction()
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
     
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
-    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("farmacia_index"));
+    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
     	$breadcrumbs->addItem("Farmacia", $this->get("router")->generate("imv_list"));
     	$breadcrumbs->addItem("Nueva Imv");
     	 
@@ -65,7 +65,7 @@ public function ListAction()
     		if ($form->isValid()) {
     	
     			$em = $this->getDoctrine()->getEntityManager();
-    	
+    			$imv->setcantT('0');
     			$em->persist($imv);
     			$em->flush();
     

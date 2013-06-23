@@ -14,7 +14,7 @@ class IngresoController extends Controller
 	public function ListAction()
     {   
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
-    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("farmacia_index"));
+    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
     	$breadcrumbs->addItem("Farmacia");
     	$breadcrumbs->addItem("Ingresos", $this->get("router")->generate("ingreso_list"));
     	$breadcrumbs->addItem("Listado");
@@ -30,7 +30,7 @@ class IngresoController extends Controller
     public function NewAction()
     {
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
-    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("farmacia_index"));
+    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
     	$breadcrumbs->addItem("Farmacia");
     	$breadcrumbs->addItem("Ingresos", $this->get("router")->generate("ingreso_list"));
     	$breadcrumbs->addItem("Nueva Ingreso");
@@ -51,7 +51,7 @@ class IngresoController extends Controller
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
     
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
-    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("farmacia_index"));
+    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
     	$breadcrumbs->addItem("Farmacia", $this->get("router")->generate("ingreso_list"));
     	$breadcrumbs->addItem("Nueva Ingreso");
     	 

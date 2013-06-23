@@ -15,7 +15,7 @@ class ImvPypController extends Controller
 public function ListAction()
     {   
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
-    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("farmacia_index"));
+    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
     	$breadcrumbs->addItem("Farmacia");
     	$breadcrumbs->addItem("ImvPyps", $this->get("router")->generate("imvpyp_list"));
     	$breadcrumbs->addItem("Listado");
@@ -31,7 +31,7 @@ public function ListAction()
     public function NewAction()
     {
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
-    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("farmacia_index"));
+    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
     	$breadcrumbs->addItem("Farmacia");
     	$breadcrumbs->addItem("ImvPyps", $this->get("router")->generate("imvpyp_list"));
     	$breadcrumbs->addItem("Nueva ImvPyp");
@@ -50,7 +50,7 @@ public function ListAction()
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
     
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
-    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("farmacia_index"));
+    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
     	$breadcrumbs->addItem("Farmacia", $this->get("router")->generate("imvpyp_list"));
     	$breadcrumbs->addItem("Nueva ImvPyp");
     	 

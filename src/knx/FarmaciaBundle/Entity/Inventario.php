@@ -59,19 +59,16 @@ class Inventario
      * @var Cant
      *
      * @ORM\Column(name="cantidad", type="integer", nullable=false)
+     * @Assert\Range(
+     *      min = "1",
+     *      max = "10000",
+     *      minMessage = "El menor número a ingresar es 1",
+     *      maxMessage = "El mayor número a ingresar es 10000"
+     * )
      */
         private $cant;
         
-        
-    /**
-     * @var CantE
-     *
-     * @ORM\Column(name="cant_entregada", type="integer", nullable=false)
-     */
-        private $cantE;
-
-
-           
+            
         
      /**
      * @var PrecioCompra
@@ -91,7 +88,7 @@ class Inventario
      /**
      * @var PrecioTotal
      *
-     * @ORM\Column(name="precio_total", type="string", nullable=false)
+     * @ORM\Column(name="precio_total", type="string", nullable=true)
      */
         private $precioTotal;
 
@@ -136,30 +133,7 @@ class Inventario
         return $this->cant;
     }
 
-    /**
-     * Set cantE
-     *
-     * @param integer $cantE
-     * @return Inventario
-     */
-    public function setCantE($cantE)
-    {
-        $this->cantE = $cantE;
-    
-        return $this;
-    }
-
-    /**
-     * Get cantE
-     *
-     * @return integer 
-     */
-    public function getCantE()
-    {
-        return $this->cantE;
-    }
-
-   
+     
     /**
      * Set precioCompra
      *

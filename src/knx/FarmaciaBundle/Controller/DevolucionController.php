@@ -13,7 +13,7 @@ class DevolucionController extends Controller
 	public function ListAction()
     {   
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
-    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("farmacia_index"));
+    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
     	$breadcrumbs->addItem("Farmacia");
     	$breadcrumbs->addItem("Devoluciones", $this->get("router")->generate("devolucion_list"));
     	$breadcrumbs->addItem("Listado");
@@ -29,7 +29,7 @@ class DevolucionController extends Controller
     public function NewAction()
     {
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
-    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("farmacia_index"));
+    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
     	$breadcrumbs->addItem("Farmacia");
     	$breadcrumbs->addItem("Devolucions", $this->get("router")->generate("devolucion_list"));
     	$breadcrumbs->addItem("Nueva Devolucion");
@@ -50,7 +50,7 @@ class DevolucionController extends Controller
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
     
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
-    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("farmacia_index"));
+    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
     	$breadcrumbs->addItem("Farmacia", $this->get("router")->generate("devolucion_list"));
     	$breadcrumbs->addItem("Nueva Devolucion");
     	 

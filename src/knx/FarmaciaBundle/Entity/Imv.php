@@ -38,22 +38,22 @@ class Imv
     /**
      * @var string $codAdmin
      * 
-     * @ORM\Column(name="cod_admin", type="string", length=100, nullable=false,unique=true)
+     * @ORM\Column(name="cod_admin", type="string", length=100, nullable=true,unique=true)
      */
     private $codAdmin;
     
     /**
      * @var string $cums
      * 
-     * @ORM\Column(name="cums", type="string", length=100, nullable=false)
-     * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
+     * @ORM\Column(name="cums", type="string", length=100, nullable=true)
+     * 
      */
     private $cums;
 
     /**
      * @var string $nombre
      * 
-     * @ORM\Column(name="nombre", type="string", length=150, nullable=false,unique=true)     
+     * @ORM\Column(name="nombre", type="string", length=150, nullable=true,unique=true)     
      * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
      * @Assert\MaxLength(limit=150, message="El valor ingresado debe tener m�ximo {{ limit }} caracteres.")
      */
@@ -62,8 +62,8 @@ class Imv
     /**
      * @var string $tipoImv
      * 
-     * @ORM\Column(name="tipo_imv", type="string", length=100, nullable=false)     
-     * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
+     * @ORM\Column(name="tipo_imv", type="string", length=100, nullable=true)     
+     *
      * @Assert\MaxLength(limit=100, message="El valor ingresado debe tener m�ximo {{ limit }} caracteres.")
      */
     private $tipoImv;
@@ -71,8 +71,8 @@ class Imv
     /**
      * @var string $formaFarmaceutica
      * 
-     * @ORM\Column(name="forma_farmaceutica", type="string",  length=40, nullable=false)     
-     * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
+     * @ORM\Column(name="forma_farmaceutica", type="string",  length=40, nullable=true)     
+     * 
      * @Assert\MaxLength(limit=40, message="El valor ingresado debe tener m�ximo {{ limit }} caracteres.")
      */
     private $formaFarmaceutica;
@@ -80,8 +80,8 @@ class Imv
     /**
      * @var string $concentracion
      * 
-     * @ORM\Column(name="concentracion", type="string", length=30, nullable=false)     
-     * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
+     * @ORM\Column(name="concentracion", type="string", length=30, nullable=true)     
+     * 
      * @Assert\MaxLength(limit=30, message="El valor ingresado debe tener m�ximo {{ limit }} caracteres.")
      */
     private $concentracion;
@@ -90,7 +90,7 @@ class Imv
      * @var integer $uniMedida
      * 
      * @ORM\Column(name="uni_medida", type="string", length=100, nullable=true)     
-     * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
+     * 
      * @Assert\MaxLength(limit=100, message="El valor ingresado debe tener m�ximo {{ limit }} caracteres.")
      * 
      */
@@ -99,7 +99,7 @@ class Imv
     /**
      * @var string $jeringa
      *
-     * @ORM\Column(name="jeringa", type="string", length=10)      
+     * @ORM\Column(name="jeringa", type="string", length=10,nullable=true)      
      * @Assert\MaxLength(limit=10, message="El valor ingresado debe tener m�ximo {{ limit }} caracteres.")
      */
     private $jeringa;
@@ -107,7 +107,7 @@ class Imv
     /**
      * @var string $dosis
      *
-     * @ORM\Column(name="dosis", type="string", length=10)       
+     * @ORM\Column(name="dosis", type="string", length=10,nullable=true)       
      * @Assert\MaxLength(limit=10, message="El valor ingresado debe tener m�ximo {{ limit }} caracteres.")
      *
      */
@@ -116,7 +116,7 @@ class Imv
     /**
      * @var CantT
      *
-     * @ORM\Column(name="cant_total", type="integer", nullable=false)
+     * @ORM\Column(name="cant_total", type="integer", nullable=true)
      */
     private $cantT;
     

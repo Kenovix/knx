@@ -9,17 +9,17 @@
 {% block titulo %}Listado de Imv{% endblock %}
 
 {% block msg %}
-	{% if app.session.flash('ok') %}
+	{% if app.session.hasFlash('ok') %}
 	    <div class="alert alert-success">
 	    	<button data-dismiss="alert" class="close" type="button">×</button>
 	        <span>{{ app.session.flash('ok') }}</span>
 	    </div>
-	{% elseif app.session.flash('info') %}
+	{% elseif app.session.hasFlash('info') %}
 		<div class="alert alert-info">
 	    	<button data-dismiss="alert" class="close" type="button">×</button>
 	        <span>{{ app.session.flash('info') }}</span>
 	    </div>
-	{% elseif app.session.flash('error') %}
+	{% elseif app.session.hasFlash('error') %}
 		<div class="alert alert-error">
 	    	<button data-dismiss="alert" class="close" type="button">×</button>
 	        <span>{{ app.session.flash('error') }}</span>
@@ -32,23 +32,21 @@
 	    <table class="table">
 	        <thead>
 	            <tr>
-	                <th>No.</th>	                
-	                <th>Cod.Admin</th>
-	                <th>Cups</th>
+	                <th>No.</th>
+	              	<th>Codigo</th>
 	                <th>Tipo</th>
 	                <th>Nombre</th>
-	                <th>Cums</th>
+	                
+	                
 	            </tr>
 	        </thead>
 	        <tbody>
 	        {% for imv in imv %}
 	            <tr>
-	                <td>{{ loop.index }}</td>
-	                <td><a href="{{ path('imv_show', {'imv':imv.id}) }}">{{ imv.codAdmin }}</a></td>
+	                <td>{{ loop.index }}</td>	               
 	                <td><a href="{{ path('imv_show', {'imv':imv.id}) }}">{{ imv.codCups}}</a></td>	                
 	             	 <td>{{ imv.tipoImv }}</td>
-	             	 <td>{{ imv.nombre }}</td>
-	             	 <td>{{ imv.cums}}</td>
+	             	 <td>{{ imv.nombre }}</td>	             	
 	            </tr>
 	        {% endfor %}
 	        </tbody>

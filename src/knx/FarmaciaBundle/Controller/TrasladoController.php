@@ -14,7 +14,7 @@ class TrasladoController extends Controller
 	public function ListAction()
     {   
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
-    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("farmacia_index"));
+    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
     	$breadcrumbs->addItem("Farmacia");
     	$breadcrumbs->addItem("Traslados", $this->get("router")->generate("traslado_list"));
     	$breadcrumbs->addItem("Listado");
@@ -30,12 +30,13 @@ class TrasladoController extends Controller
     public function NewAction()
     {
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
-    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("farmacia_index"));
+    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
     	$breadcrumbs->addItem("Farmacia");
     	$breadcrumbs->addItem("Traslados", $this->get("router")->generate("traslado_list"));
     	$breadcrumbs->addItem("Nueva Traslado");
-    	
+    	 
     	$traslado = new Traslado();
+    	
     	$traslado->setFecha(new \datetime('now'));
     	$form   = $this->createForm(new TrasladoType(), $traslado);
 
@@ -51,28 +52,73 @@ class TrasladoController extends Controller
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
     
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
-    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("farmacia_index"));
+    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
     	$breadcrumbs->addItem("Farmacia", $this->get("router")->generate("traslado_list"));
     	$breadcrumbs->addItem("Nueva Traslado");
+    	$em = $this->getDoctrine()->getEntityManager();
+    	 
+    	$traslado = $em->getRepository('FarmaciaBundle:Traslado')->findAll();
     	 
     	$traslado = new Traslado();
     	 
     	$request = $this->getRequest();
     	$form   = $this->createForm(new TrasladoType(), $traslado);
+    	
+    	
+    	   
     	if ($request->getMethod() == 'POST') {
     		 
     		$form->bind($request);
     		 
     		if ($form->isValid()) {
+    			$tipo_traslado = $traslado->getTipo();/*tipo de traslado*/
+    			$cant_traslado = $traslado->getCant();/*cantidad de traslado*/
+    			//die(var_dump($cant_traslado));
+    			$inventario = $traslado->getInventario();/*Entidad inventario*/
+    			$imv = $inventario->getImv();/*Entidad imv para llegar a la cantidad total*/
+    			$cant_imv = $imv->getCantT();/*traigo cantidad total del imv*/
+    			//die(var_dump($cant_imv));
+    			    
+    			 
     	
     			$em = $this->getDoctrine()->getEntityManager();
-    	
-    			$em->persist($traslado);
-    			$em->flush();
+    			if ($tipo_traslado=='T'){
+    				if ($cant_imv < $cant_traslado){
+    					
+    				$this->get('session')->setFlash('error','La cantidad ingresada es mayor que cantidad en existencia,cantidad en existencia-'.$cant_imv = $imv->getCantT().'');
+    		        return $this->redirect($this->generateUrl('traslado_new'));
+    					
+    					
+    					
+    				}else {
+    				$em->persist($traslado);
+    				$em->flush();
     
-    			$this->get('session')->setFlash('ok', 'El traslado ha sido creada éxitosamente.');
+    				$this->get('session')->setFlash('ok', 'El traslado ha sido creada éxitosamente.');
     
-    			return $this->redirect($this->generateUrl('traslado_show', array("traslado" => $traslado->getId())));	
+    				return $this->redirect($this->generateUrl('traslado_show', array("traslado" => $traslado->getId())));
+    				}
+    			}	
+    			elseif (($tipo_traslado=='D')){
+    				
+    				if ($cant_imv < $cant_traslado){
+    						
+    					$this->get('session')->setFlash('error','La cantidad ingresada es mayor que cantidad en existencia,cantidad en existencia-'.$cant_imv = $imv->getCantT().'');
+    					return $this->redirect($this->generateUrl('traslado_new'));
+    						
+    						
+    						
+    				}else {
+    				$em->persist($traslado);
+    				$em->flush();
+    
+    				$this->get('session')->setFlash('ok', 'El traslado ha sido creada éxitosamente.');
+    
+    				return $this->redirect($this->generateUrl('traslado_show', array("traslado" => $traslado->getId())));
+    				}
+    				
+    			}		
+    		
     		}
     	}
     	 
@@ -149,15 +195,54 @@ class TrasladoController extends Controller
     		$form->bind($request);
     		 
     		if ($form->isValid()) {
+    			$tipo_traslado = $traslado->getTipo();/*tipo de traslado*/
+    			$cant_traslado = $traslado->getCant();/*cantidad de traslado*/
+    			//die(var_dump($cant_traslado));
+    			$inventario = $traslado->getInventario();/*Entidad inventario*/
+    			$imv = $inventario->getImv();/*Entidad imv para llegar a la cantidad total*/
+    			$cant_imv = $imv->getCantT();/*traigo cantidad total del imv*/
     	
     			$em = $this->getDoctrine()->getEntityManager();
-    	
-    			$em->persist($traslado);
-    			$em->flush();
+    			
+    			
+    		if ($tipo_traslado=='T'){
+    				if ($cant_imv < $cant_traslado){
+    					
+    				$this->get('session')->setFlash('error','La cantidad ingresada es mayor que cantidad en existencia,cantidad en existencia-'.$cant_imv = $imv->getCantT().'');
+    		        return $this->redirect($this->generateUrl('traslado_edit', array("traslado" => $traslado->getId())));
+    					
+    					
+    					
+    				}else {
+    				$em->persist($traslado);
+    				$em->flush();
     
-    			$this->get('session')->setFlash('ok', 'El traslado ha sido modificado éxitosamente.');
+    				$this->get('session')->setFlash('ok', 'El traslado ha sido creada éxitosamente.');
     
-    			return $this->redirect($this->generateUrl('traslado_show', array("traslado" => $traslado->getId())));	
+    				return $this->redirect($this->generateUrl('traslado_show', array("traslado" => $traslado->getId())));
+    				}
+    			}	
+    			elseif (($tipo_traslado=='D')){
+    				
+    				if ($cant_imv < $cant_traslado){
+    						
+    					$this->get('session')->setFlash('error','La cantidad ingresada es mayor que cantidad en existencia,cantidad en existencia-'.$cant_imv = $imv->getCantT().'');
+    					return $this->redirect($this->generateUrl('traslado_edit', array("traslado" => $traslado->getId())));
+    						
+    						
+    						
+    				}else {
+    				$em->persist($traslado);
+    				$em->flush();
+    
+    				$this->get('session')->setFlash('ok', 'El traslado ha sido creada éxitosamente.');
+    
+    				return $this->redirect($this->generateUrl('traslado_show', array("traslado" => $traslado->getId())));
+    				}
+    				
+    			}	
+       	
+    			
     		}
     	}
     

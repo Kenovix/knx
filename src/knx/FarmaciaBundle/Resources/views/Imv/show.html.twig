@@ -9,17 +9,17 @@
 {% block titulo %}Información de la Imv{% endblock %}
 
 {% block msg %}
-	{% if app.session.flash('ok') %}
+	{% if app.session.hasFlash('ok') %}
 	    <div class="alert alert-success">
 	    	<button data-dismiss="alert" class="close" type="button">×</button>
 	        <span>{{ app.session.flash('ok') }}</span>
 	    </div>
-	{% elseif app.session.flash('info') %}
+	{% elseif app.session.hasFlash('info') %}
 		<div class="alert alert-info">
 	    	<button data-dismiss="alert" class="close" type="button">×</button>
 	        <span>{{ app.session.flash('info') }}</span>
 	    </div>
-	{% elseif app.session.flash('error') %}
+	{% elseif app.session.hasFlash('error') %}
 		<div class="alert alert-error">
 	    	<button data-dismiss="alert" class="close" type="button">×</button>
 	        <span>{{ app.session.flash('error') }}</span>
@@ -40,17 +40,14 @@
                 <td>{{ imv.tipoImv }}</td>
             </tr>
             <tr>
-                <td><strong>Cod_Facturacion</strong></td>
+                <td><strong>Codigo</strong></td>
                 <td>{{ imv.codCups }}</td>
             </tr>
             <tr>
                 <td><strong>Nombre</strong></td>
                 <td>{{ imv.nombre }}</td>
             </tr>
-            <tr>
-                <td><strong>Cums</strong></td>
-                <td>{{ imv.cums }}</td>
-            </tr>
+            
             
         </tbody>
     </table>

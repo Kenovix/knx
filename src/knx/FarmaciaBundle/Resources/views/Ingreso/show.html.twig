@@ -9,17 +9,17 @@
 {% block titulo %}Información del ingreso {% endblock %}
 
 {% block msg %}
-	{% if app.session.flash('ok') %}
+	{% if app.session.hasFlash('ok') %}
 	    <div class="alert alert-success">
 	    	<button data-dismiss="alert" class="close" type="button">×</button>
 	        <span>{{ app.session.flash('ok') }}</span>
 	    </div>
-	{% elseif app.session.flash('info') %}
+	{% elseif app.session.hasFlash('info') %}
 		<div class="alert alert-info">
 	    	<button data-dismiss="alert" class="close" type="button">×</button>
 	        <span>{{ app.session.flash('info') }}</span>
 	    </div>
-	{% elseif app.session.flash('error') %}
+	{% elseif app.session.hasFlash('error') %}
 		<div class="alert alert-error">
 	    	<button data-dismiss="alert" class="close" type="button">×</button>
 	        <span>{{ app.session.flash('error') }}</span>
@@ -37,7 +37,8 @@
                 <th>Factura</th>
                 <td>Fecha</th>
                 <th>Valor Total</th>
-                
+                <th>Valor Neto</th>
+                <th>Valor Iva</th>                
             </tr>
         </thead>    
             
@@ -48,6 +49,8 @@
             	<td>{{ ingreso.numFact }}</td>
             	<td>{{ ingreso.fecha | date('d-m-Y')}}</td>
             	<td>{{ ingreso.valorT}}</td>
+            	<td>{{ ingreso.valorN}}</td>
+            	<td>{{ ingreso.valorIva}} %</td>         	
         	</tr>
         </tbody>    
     </table>
@@ -70,7 +73,8 @@
                 <th>Cantidad</th>
                 <th>Precio Compra</th>
                 <th>Precio de Venta</th>
-                <th>Eliminar</th>
+                <th>Precio Total</th>
+                
                 
                
             </tr>
@@ -79,12 +83,13 @@
         {% for inventario in inventarios %}
             <tr>
                 <td>{{ loop.index }}</td>
-                <td><a href="{{ path('inventario_show', { 'inventario': inventario.id }) }}">{{ inventario.imv}}</a></td>
+                <td><a href="{{ path('inventario_edit', { 'inventario': inventario.id }) }}">{{ inventario.imv}}</a></td>
                 <td>{{ inventario.proveedor }} </td>
                 <td>{{ inventario.cant }} </td>
                 <td>{{ inventario.precioCompra }} </td> 
                 <td>{{ inventario.precioVenta }} </td>
-                <td><a href = "{{ path('inventario_delete', {'inventario': inventario.id}) }}"  class="button  red left" onClick="return confirm('Seguro que quieres eliminar el inventario')"><span class="label">Eliminar</span> </a></td>      
+                <td>{{ inventario.precioTotal }} </td>     
+                
             </tr>
          {% else %}
          	<tr>
