@@ -57,62 +57,74 @@ farmacia_update:
     
 #************** Ingreso ***************#
 
+ingreso_search:
+    pattern:  /ingreso/search
+    defaults: { _controller: FarmaciaBundle:Ingreso:search }
+
 ingreso_list:
     pattern:  /ingreso/list
-    defaults: { _controller: FarmaciaBundle:Ingreso:List }
+    defaults: { _controller: FarmaciaBundle:Ingreso:list }
+    
+ingreso_result:
+    pattern:  /ingreso/result
+    defaults: { _controller: FarmaciaBundle:Ingreso:result }    
     
 ingreso_new:
     pattern:  /ingreso/new
-    defaults: { _controller: FarmaciaBundle:Ingreso:New }
+    defaults: { _controller: FarmaciaBundle:Ingreso:new }
     
 ingreso_save:
     pattern:  /ingreso/save
-    defaults: { _controller: FarmaciaBundle:Ingreso:Save }
+    defaults: { _controller: FarmaciaBundle:Ingreso:save }
 
 ingreso_show:
     pattern:  /ingreso/{ingreso}/show
-    defaults: { _controller: FarmaciaBundle:Ingreso:Show }
+    defaults: { _controller: FarmaciaBundle:Ingreso:show }
 
 ingreso_edit:
     pattern:  /ingreso/{ingreso}/edit
-    defaults: { _controller: FarmaciaBundle:Ingreso:Edit }
+    defaults: { _controller: FarmaciaBundle:Ingreso:edit }
     
 ingreso_update:
     pattern:  /ingreso/{ingreso}/update
-    defaults: { _controller: FarmaciaBundle:Ingreso:Update }    
+    defaults: { _controller: FarmaciaBundle:Ingreso:update }    
     
 #************** IMV ***************#    
 
 imv_list:
     pattern:  /imv/list
-    defaults: { _controller: FarmaciaBundle:Imv:List }
+    defaults: { _controller: FarmaciaBundle:Imv:list }
+
+imv_search:
+    pattern:  /imv/search
+    defaults: { _controller: FarmaciaBundle:Imv:search }
     
 imv_new:
     pattern:  /imv/new
-    defaults: { _controller: FarmaciaBundle:Imv:New }
+    defaults: { _controller: FarmaciaBundle:Imv:new }
     
 imv_save:
     pattern:  /imv/save
-    defaults: { _controller: FarmaciaBundle:Imv:Save }
+    defaults: { _controller: FarmaciaBundle:Imv:save }
 
 imv_show:
     pattern:  /imv/{imv}/show
-    defaults: { _controller: FarmaciaBundle:Imv:Show }
+    defaults: { _controller: FarmaciaBundle:Imv:show }
 
 imv_edit:
     pattern:  /imv/{imv}/edit
-    defaults: { _controller: FarmaciaBundle:Imv:Edit }
+    defaults: { _controller: FarmaciaBundle:Imv:edit }
     
 imv_update:
     pattern:  /imv/{imv}/update
-    defaults: { _controller: FarmaciaBundle:Imv:Update }
+    defaults: { _controller: FarmaciaBundle:Imv:update }
     
 
 #************** Inventario ***************#
 
 inventario_list:
     pattern:  /inventario/list
-    defaults: { _controller: FarmaciaBundle:Inventario:List }
+    defaults: { _controller: FarmaciaBundle:Inventario:list }
 
 inventario_new:
     pattern:  /inventario/new/{ingreso}
@@ -141,81 +153,107 @@ inventario_delete:
 
 #************** Traslado ***************#    
 
+traslado_search:
+    pattern:  /traslado/search
+    defaults: { _controller: FarmaciaBundle:Traslado:search } 
+
+traslado_result:
+    pattern:  /traslado/result
+    defaults: { _controller: FarmaciaBundle:Traslado:result }
+    
 traslado_list:
     pattern:  /traslado/list
-    defaults: { _controller: FarmaciaBundle:Traslado:List }
+    defaults: { _controller: FarmaciaBundle:Traslado:list }
     
 traslado_new:
     pattern:  /traslado/new
-    defaults: { _controller: FarmaciaBundle:Traslado:New }
+    defaults: { _controller: FarmaciaBundle:Traslado:new }
     
 traslado_save:
     pattern:  /traslado/save
-    defaults: { _controller: FarmaciaBundle:Traslado:Save }
+    defaults: { _controller: FarmaciaBundle:Traslado:save }
 
 traslado_show:
     pattern:  /traslado/{traslado}/show
-    defaults: { _controller: FarmaciaBundle:Traslado:Show }
+    defaults: { _controller: FarmaciaBundle:Traslado:show }
 
 traslado_edit:
     pattern:  /traslado/{traslado}/edit
-    defaults: { _controller: FarmaciaBundle:Traslado:Edit }
+    defaults: { _controller: FarmaciaBundle:Traslado:edit }
     
 traslado_update:
     pattern:  /traslado/{traslado}/update
-    defaults: { _controller: FarmaciaBundle:Traslado:Update }
+    defaults: { _controller: FarmaciaBundle:Traslado:update }
     
     
-#************** Devoluion ***************#    
+#************** Devoluion ***************#   
+
+devolucion_search:
+    pattern:  /devolucion/search
+    defaults: { _controller: FarmaciaBundle:Devolucion:search } 
+
+devolucion_result:
+    pattern:  /devolucion/result
+    defaults: { _controller: FarmaciaBundle:Devolucion:result }    
+
+
 
 devolucion_list:
     pattern:  /devolucion/list
-    defaults: { _controller: FarmaciaBundle:Devolucion:List }
+    defaults: { _controller: FarmaciaBundle:Devolucion:list }
     
 devolucion_new:
     pattern:  /devolucion/new
-    defaults: { _controller: FarmaciaBundle:Devolucion:New }
+    defaults: { _controller: FarmaciaBundle:Devolucion:new }
     
 devolucion_save:
     pattern:  /devolucion/save
-    defaults: { _controller: FarmaciaBundle:Devolucion:Save }
+    defaults: { _controller: FarmaciaBundle:Devolucion:save }
 
 devolucion_show:
     pattern:  /devolucion/{devolucion}/show
-    defaults: { _controller: FarmaciaBundle:Devolucion:Show }
+    defaults: { _controller: FarmaciaBundle:Devolucion:show }
 
 devolucion_edit:
     pattern:  /devolucion/{devolucion}/edit
-    defaults: { _controller: FarmaciaBundle:Devolucion:Edit }
+    defaults: { _controller: FarmaciaBundle:Devolucion:edit }
     
 devolucion_update:
     pattern:  /devolucion/{devolucion}/update
-    defaults: { _controller: FarmaciaBundle:Devolucion:Update }    
+    defaults: { _controller: FarmaciaBundle:Devolucion:update }    
     
  #************** ImvPyp ***************#    
 
 imvpyp_list:
     pattern:  /imvpyp/list
-    defaults: { _controller: FarmaciaBundle:ImvPyp:List }
+    defaults: { _controller: FarmaciaBundle:ImvPyp:list }
+    
+imvpyp_search:
+    pattern:  /imvpyp/search
+    defaults: { _controller: FarmaciaBundle:ImvPyp:search }    
     
 imvpyp_new:
     pattern:  /imvpyp/new
-    defaults: { _controller: FarmaciaBundle:ImvPyp:New }
+    defaults: { _controller: FarmaciaBundle:ImvPyp:new }
     
 imvpyp_save:
     pattern:  /imvpyp/save
-    defaults: { _controller: FarmaciaBundle:ImvPyp:Save }
+    defaults: { _controller: FarmaciaBundle:ImvPyp:save }
 
 imvpyp_show:
     pattern:  /imvpyp/{imvpyp}/show
-    defaults: { _controller: FarmaciaBundle:ImvPyp:Show }
+    defaults: { _controller: FarmaciaBundle:ImvPyp:show }
 
 imvpyp_edit:
     pattern:  /imvpyp/{imvpyp}/edit
-    defaults: { _controller: FarmaciaBundle:ImvPyp:Edit }
+    defaults: { _controller: FarmaciaBundle:ImvPyp:edit }
     
 imvpyp_update:
     pattern:  /imvpyp/{imvpyp}/update
-    defaults: { _controller: FarmaciaBundle:ImvPyp:Update }
+    defaults: { _controller: FarmaciaBundle:ImvPyp:update }
+    
+imvpyp_delete:
+    pattern:  /imvpyp/{imvpyp}/delete
+    defaults: { _controller: FarmaciaBundle:ImvPyp:delete }    
     
 

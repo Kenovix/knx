@@ -28,6 +28,22 @@
 {% endblock %}
 
 {% block cuerpo %}
+
+<form name="consultaImv" id="consultaImv" class="form-horizontal" method="post" action="{{ path('imvpyp_list') }}" {{ form_enctype(form) }}>
+		    <fieldset>
+		    	<legend>Busqueda</legend>
+					{{ form_widget(form) }}
+		    </fieldset>
+
+		   <div class="form-actions">
+				<input class="btn btn-primary" name="Buscar"  type="submit" value="Buscar" />
+				<a href="{{ path('imvpyp_new') }}" class="btn btn-primary">Nueva Imv_Pyp</a>				
+			    <a href="{{ path('imvpyp_search') }}" class="btn">Volver</a>
+				
+			</div>
+
+		</form>
+
 	{% if imvpyp %}
 	    <table class="table">
 	        <thead>
@@ -61,5 +77,4 @@
 	{% endif %}
 		
     
-    <a href="{{ path('imvpyp_new') }}" class="btn btn-primary">Nueva Imv_Pyp</a>
 {% endblock %}

@@ -6,7 +6,7 @@
 
 {% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
 
-{% block titulo %}Modificar Imv{% endblock %}
+{% block titulo %}Modificar Item{% endblock %}
 
 {% block msg %}
 	{% if app.session.hasFlash('ok') %}
@@ -31,7 +31,7 @@
 
 	<form action="{{ path('imv_update', {'imv': imv.id}) }}" class="form-horizontal" method="post" {{ form_enctype(form) }}>
 	    <fieldset>
-	    	<legend>Datos de los Imv</legend>
+	    	<legend>Datos de los Items</legend>
 	    	    
 		   {{ form_widget(form) }}
 		   

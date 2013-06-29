@@ -14,7 +14,7 @@ use knx\FarmaciaBundle\Form\InventarioType;
 
 class InventarioController extends Controller
 {
-	public function ListAction()
+	public function listAction()
     {   
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
     	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
@@ -29,7 +29,7 @@ class InventarioController extends Controller
         ));
     }
     
-    public function NewAction($ingreso)
+    public function newAction($ingreso)
     {
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
     	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
@@ -54,7 +54,7 @@ class InventarioController extends Controller
     }
     
     
-    public function SaveAction($ingreso)
+    public function saveAction($ingreso)
     {
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
     
@@ -103,7 +103,7 @@ class InventarioController extends Controller
     	));    
     }
     
-    public function ShowAction($ingreso)
+    public function showAction($ingreso)
     {
     	$em = $this->getDoctrine()->getEntityManager();
     
@@ -127,7 +127,7 @@ class InventarioController extends Controller
     	));
     }
     
-    public function EditAction($inventario)
+    public function editAction($inventario)
     {
     	$em = $this->getDoctrine()->getEntityManager();    
     	$inventario = $em->getRepository('FarmaciaBundle:Inventario')->find($inventario);
@@ -167,7 +167,7 @@ class InventarioController extends Controller
     }
     
     
-    public function UpdateAction($inventario)
+    public function updateAction($inventario)
     {
     	$em = $this->getDoctrine()->getEntityManager();
     

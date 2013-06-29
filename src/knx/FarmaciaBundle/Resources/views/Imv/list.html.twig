@@ -6,7 +6,7 @@
 
 {% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
 
-{% block titulo %}Listado de Imv{% endblock %}
+{% block titulo %}Resultado Item{% endblock %}
 
 {% block msg %}
 	{% if app.session.hasFlash('ok') %}
@@ -28,6 +28,22 @@
 {% endblock %}
 
 {% block cuerpo %}
+
+<form name="consultaImv" id="consultaImv" class="form-horizontal" method="post" action="{{ path('imv_list') }}" {{ form_enctype(form) }}>
+		    <fieldset>
+		    	<legend>Busqueda</legend>
+					{{ form_widget(form) }}
+		    </fieldset>
+
+		   <div class="form-actions">
+				<input class="btn btn-primary" name="Buscar"  type="submit" value="Buscar" />
+				<a href="{{ path('imv_new') }}" class="btn btn-primary">Nuevo Item</a>				
+			    <a href="{{ path('imv_search') }}" class="btn">Volver</a>
+				
+			</div>
+
+		</form>
+
 	{% if imv %}
 	    <table class="table">
 	        <thead>
@@ -36,6 +52,7 @@
 	              	<th>Codigo</th>
 	                <th>Tipo</th>
 	                <th>Nombre</th>
+	                <th>Cant_Existencia</th>
 	                
 	                
 	            </tr>
@@ -46,7 +63,9 @@
 	                <td>{{ loop.index }}</td>	               
 	                <td><a href="{{ path('imv_show', {'imv':imv.id}) }}">{{ imv.codCups}}</a></td>	                
 	             	 <td>{{ imv.tipoImv }}</td>
-	             	 <td>{{ imv.nombre }}</td>	             	
+	             	 <td>{{ imv.nombre }}</td>	
+	             	 <td>{{ imv.cantT }}</td>		
+	             	              	
 	            </tr>
 	        {% endfor %}
 	        </tbody>
@@ -54,10 +73,9 @@
 	{% else %}
 		<div class="alert alert-success">
 	    	<button data-dismiss="alert" class="close" type="button">×</button>
-	        <span>No existen Imv creadas</span>
+	        <span>No existen Items creadas</span>
 	    </div>
 	{% endif %}
 		
     
-    <a href="{{ path('imv_new') }}" class="btn btn-primary">Nueva Imv</a>
 {% endblock %}

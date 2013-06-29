@@ -17,12 +17,12 @@ class Builder extends ContainerAware
 			$menu['farmacia']->addChild('Nueva', array('route' => 'farmacia_list'));
 			$menu['farmacia']->addChild('Ingresos', array('route' => 'ingreso_list'));
 			$menu['farmacia']->addChild('Movimientos', array('route' => 'farmacia_list'));
-			$menu['farmacia']->addChild('Pyp', array('route' => 'imvpyp_list'));
+			$menu['farmacia']->addChild('Pyp', array('route' => 'imvpyp_search'));
 				$menu['farmacia']['Movimientos']->addChild('Traspasos', array('route' => 'traslado_list', 'routeParameters' => array('char' => 'A')));
-				$menu['farmacia']['Movimientos']->addChild('Devoluciones', array('route' => 'devolucion_list', 'routeParameters' => array('char' => 'A')));
+				$menu['farmacia']['Movimientos']->addChild('Devoluciones Proveedor', array('route' => 'devolucion_list', 'routeParameters' => array('char' => 'A')));
 				$menu['farmacia']['Nueva']->addChild('Farmacia', array('route' => 'farmacia_list', 'routeParameters' => array('char' => 'A')));
 				$menu['farmacia']['Nueva']->addChild('Categoria', array('route' => 'categoria_list', 'routeParameters' => array('char' => 'A')));
-				$menu['farmacia']['Nueva']->addChild('IMV', array('route' => 'imv_list', 'routeParameters' => array('char' => 'A')));
+				$menu['farmacia']['Nueva']->addChild('IMV', array('route' => 'imv_search'));
 			//$menu['Parametrizar']->addChild('Usuarios', array('route' => 'usuario_list'));
 				
 		

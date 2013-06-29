@@ -6,7 +6,7 @@
 
 {% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
 
-{% block titulo %}Información de la Imv{% endblock %}
+{% block titulo %}Información del Item{% endblock %}
 
 {% block msg %}
 	{% if app.session.hasFlash('ok') %}
@@ -46,6 +46,11 @@
             <tr>
                 <td><strong>Nombre</strong></td>
                 <td>{{ imv.nombre }}</td>
+            </tr>
+            
+             <tr>
+                <td><strong>Cant_Existencia</strong></td>
+                <td>{{ imv.cantT}}</td>
             </tr>
             
             

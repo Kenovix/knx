@@ -7,11 +7,108 @@ use knx\FarmaciaBundle\Entity\Traslado;
 use knx\FarmaciaBundle\Entity\Inventario;
 use knx\FarmaciaBundle\Entity\Farmacia;
 use knx\FarmaciaBundle\Form\TrasladoType;
+use knx\FarmaciaBundle\Form\TrasladoSearchType;
 
 
 class TrasladoController extends Controller
 {
-	public function ListAction()
+	
+	public function searchAction(){
+	
+		$breadcrumbs = $this->get("white_october_breadcrumbs");
+		$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
+		$breadcrumbs->addItem("Traslados");
+		$breadcrumbs->addItem("Busqueda");
+			
+		$form   = $this->createForm(new TrasladoSearchType());
+	
+		return $this->render('FarmaciaBundle:Traslado:search.html.twig', array(
+				'form'   => $form->createView()
+	
+		));
+	
+	}
+	
+	
+	public function resultAction()
+	{
+		$em = $this->getDoctrine()->getEntityManager();
+		$traslado = $em->getRepository('FarmaciaBundle:Traslado')->findAll();
+		$request = $this->get('request');
+		$fecha_inicio = $request->request->get('fecha_inicio');
+		$fecha_fin = $request->request->get('fecha_fin');
+	
+	
+		if(trim($fecha_inicio)){
+			$desde = explode('-',$fecha_inicio);
+	
+			//die(print_r($desde));
+	
+			if(!checkdate($desde[1],$desde[2],$desde[0])){
+				$this->get('session')->setFlash('info', 'La fecha de inicio ingresada es incorrecta.');
+				return $this->render('FarmaciaBundle:Traslado:list.html.twig', array(
+						'traslado'  => $traslado
+				));
+	
+			}
+		}else{
+			$this->get('session')->setFlash('info', 'La fecha de inicio no puede estar en blanco.');
+			return $this->render('FarmaciaBundle:Traslado:list.html.twig', array(
+					'traslado'  => $traslado
+			));
+			 
+			$this->get('session')->setFlash('info',$this->get('sessio', 'La fecha de finalización ingresada es incorrecta.'));
+		}
+	
+		if(trim($fecha_fin)){
+			$hasta = explode('-',$fecha_fin);
+	
+			if(!checkdate($hasta[1],$hasta[2],$hasta[0])){
+				return $this->render('FarmaciaBundle:Traslado:list.html.twig', array(
+						'traslado'  => $traslado
+				));
+			}
+		}else{
+			$this->get('session')->setFlash('info', 'La fecha de finalización no puede estar en blanco.');
+			return $this->render('FarmaciaBundle:Traslado:list.html.twig', array(
+					'traslado'  => $traslado
+			));
+		}
+	
+		$query = "SELECT f FROM FarmaciaBundle:Traslado f WHERE
+    				f.fecha >= :inicio AND
+			    	f.fecha <= :fin
+    				ORDER BY
+    				f.fecha ASC";
+	
+		$dql = $em->createQuery($query);
+	
+	
+	
+		//die(print_r($dql));
+	
+		$dql->setParameter('inicio', $desde[0]."-".$desde[1]."-".$desde[2].' 00:00:00');
+		$dql->setParameter('fin', $hasta[0]."-".$hasta[1]."-".$hasta[2].' 23:59:00');
+	
+		$traslado = $dql->getResult();
+		//die(var_dump($ingreso));
+		//die("paso");
+	
+		if(!$traslado)
+		{
+			$this->get('session')->setFlash('info', 'La consulta no ha arrojado ningún resultado para los parametros de busqueda ingresados.');
+	
+			return $this->redirect($this->generateUrl('traslado_search'));
+		}
+	
+		return $this->render('FarmaciaBundle:Traslado:list.html.twig', array(
+				'traslado'  => $traslado
+		));
+	}
+	
+	
+	
+	public function listAction()
     {   
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
     	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
@@ -27,7 +124,7 @@ class TrasladoController extends Controller
         ));
     }
     
-    public function NewAction()
+    public function newAction()
     {
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
     	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
@@ -47,7 +144,7 @@ class TrasladoController extends Controller
     }
     
     
-    public function SaveAction()
+    public function saveAction()
     {
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
     
@@ -71,7 +168,7 @@ class TrasladoController extends Controller
     		$form->bind($request);
     		 
     		if ($form->isValid()) {
-    			$tipo_traslado = $traslado->getTipo();/*tipo de traslado*/
+    			$tipo_traslado = $traslado->getTipo();/*tipo de movimiento*/
     			$cant_traslado = $traslado->getCant();/*cantidad de traslado*/
     			//die(var_dump($cant_traslado));
     			$inventario = $traslado->getInventario();/*Entidad inventario*/
@@ -127,7 +224,7 @@ class TrasladoController extends Controller
     	));
     }
     
-    public function ShowAction($traslado)
+    public function showAction($traslado)
     {
     	$em = $this->getDoctrine()->getEntityManager();
     
@@ -153,7 +250,7 @@ class TrasladoController extends Controller
     	));
     }
     
-    public function EditAction($traslado)
+    public function editAction($traslado)
     {
     	$em = $this->getDoctrine()->getEntityManager();    
     	$traslado = $em->getRepository('FarmaciaBundle:Traslado')->find($traslado);
@@ -178,7 +275,7 @@ class TrasladoController extends Controller
     }
     
     
-    public function UpdateAction($traslado)
+    public function updateAction($traslado)
     {
     	$em = $this->getDoctrine()->getEntityManager();
     

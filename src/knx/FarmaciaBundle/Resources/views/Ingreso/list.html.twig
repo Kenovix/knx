@@ -43,20 +43,44 @@
 	            <tr>
 	                <td>{{ loop.index }}</td>
 	                <td><a href="{{ path('ingreso_show', {'ingreso':ingreso.id}) }}">{{ ingreso.numFact }}</a></td>
-	                <td>{{ ingreso.fecha | date('d-m-Y')}}</td>	                         	
-	              	<td>{{ ingreso.valorT }}</td>
+	                <td>{{ ingreso.fecha | date('d-m-Y')}}</td>	 
+	                <td>{{ ingreso.valorT }}</td>
 	              	
-	            </tr>
+	            </tr>                 	
+	             
 	        {% endfor %}
 	        </tbody>
 	    </table>
+	    
+	    
+	  <div class="form-actions">
+				<a href="{{ path('ingreso_new') }}" class="btn btn-primary">Nuevo Ingreso</a>				
+			    <a href="{{ path('ingreso_search') }}" class="btn btn-primary">Buscar Ingresos</a>
+				
+			</div>   
+	    
+	    
 	{% else %}
 		<div class="alert alert-success">
 	    	<button data-dismiss="alert" class="close" type="button">×</button>
 	        <span>No existen ingresos creados</span>
 	    </div>
 	{% endif %}
+	
+	
+	
+	
+	
+{% endblock %}	
+	
+	
 		
     
-    <a href="{{ path('ingreso_new') }}" class="btn btn-primary">Nueva Ingreso</a>
-{% endblock %}
+        
+    
+   
+			   
+			    
+			    
+			
+

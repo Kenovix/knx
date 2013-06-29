@@ -7,28 +7,85 @@ namespace knx\FarmaciaBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use knx\FarmaciaBundle\Entity\Imv;
 use knx\FarmaciaBundle\Form\ImvType;
+use knx\FarmaciaBundle\Form\SearchType;
+use knx\FarmaciaBundle\Form\VacunaType;
+
 
 
 class ImvController extends Controller
 {
 	
-public function ListAction()
-    {   
-    	$breadcrumbs = $this->get("white_october_breadcrumbs");
-    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
-    	$breadcrumbs->addItem("Farmacia");
-    	$breadcrumbs->addItem("Imvs", $this->get("router")->generate("imv_list"));
-    	$breadcrumbs->addItem("Listado");
-    	
-    	$em = $this->getDoctrine()->getEntityManager();    
-        $imv = $em->getRepository('FarmaciaBundle:Imv')->findAll();
-        
-        return $this->render('FarmaciaBundle:Imv:list.html.twig', array(
-                'imv'  => $imv
-        ));
+       
+   public function searchAction()
+    {
+    	$form   = $this->createForm(new SearchType());
+    
+    	return $this->render('FarmaciaBundle:Imv:search.html.twig', array(
+    			'form'   => $form->createView()
+    	));
     }
     
-    public function NewAction()
+    
+    public function listAction()
+    {
+    	$form   = $this->createForm(new SearchType());
+    	$request = $this->getRequest();
+    	$form->bindRequest($request);
+    
+    	$nombre = $form->get('nombre')->getData();
+    	//die(var_dump($nombre));
+    	   
+    	$tipo = $form->get('tipo')->getData();
+    	if(((trim($nombre) or trim($tipo)))){
+    
+    		$em = $this->getDoctrine()->getEntityManager();
+    		$imv = $em->getRepository('FarmaciaBundle:Imv')->findOneBy(array('tipoImv' => $tipo));
+    		//die(var_dump($imv));
+    		
+    		
+    		$query = "SELECT i FROM FarmaciaBundle:Imv i WHERE ";
+    		$parametros = array();
+    		
+    		if($tipo){
+    			$query .= "i.tipoImv = :tipo AND ";
+    			$parametros["tipo"] = $tipo;
+    		}
+    		    		
+    		 
+    		if($nombre){
+    			$query .= "i.nombre LIKE :nombre AND ";
+    			$parametros["nombre"] = $nombre.'%';
+    		}
+    		 
+    		
+    		$query = substr($query, 0, strlen($query)-4);
+    		 
+    		$query .= " ORDER BY i.nombre ASC";
+    		 
+    		$dql = $em->createQuery($query);
+    		$dql->setParameters($parametros);
+    		
+    		$imv = $dql->getResult();
+    
+    		if(!$imv)
+    		{
+    			$this->get('session')->setFlash('info', 'La consulta no ha arrojado ningún resultado para los parametros de busqueda ingresados.');
+    			 
+    			return $this->redirect($this->generateUrl('imv_search'));
+    		}
+    	 	
+    		return $this->render('FarmaciaBundle:Imv:list.html.twig', array(
+    				'imv' => $imv,    				
+    				'form'   => $form->createView()
+    		));
+    	}else{
+    		$this->get('session')->setFlash('error', 'Los parametros de busqueda ingresados son incorrectos.');
+    			
+    		return $this->redirect($this->generateUrl('imv_search'));
+    	}
+    }
+    
+    public function newAction()
     {
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
     	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
@@ -36,16 +93,18 @@ public function ListAction()
     	$breadcrumbs->addItem("Imvs", $this->get("router")->generate("imv_list"));
     	$breadcrumbs->addItem("Nueva Imv");
     	
+    	//$tipo = $form->get('tipo')->getData();
+    	 
     	$imv = new Imv();    	
     	$form   = $this->createForm(new ImvType(), $imv);
-
+    	 
     	return $this->render('FarmaciaBundle:Imv:new.html.twig', array(
     			'form'   => $form->createView()
     	));
     }
     
     
-    public function SaveAction()
+    public function saveAction()
     {
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
     
@@ -80,7 +139,7 @@ public function ListAction()
     	));
     }
     
-    public function ShowAction($imv)
+    public function showAction($imv)
     {
     	$em = $this->getDoctrine()->getEntityManager();
     
@@ -106,7 +165,7 @@ public function ListAction()
     	));
     }
     
-    public function EditAction($imv)
+    public function editAction($imv)
     {
     	$em = $this->getDoctrine()->getEntityManager();    
     	$imv = $em->getRepository('FarmaciaBundle:Imv')->find($imv);
@@ -131,7 +190,7 @@ public function ListAction()
     }
     
     
-    public function UpdateAction($imv)
+    public function updateAction($imv)
     {
     	$em = $this->getDoctrine()->getEntityManager();
     

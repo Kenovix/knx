@@ -55,6 +55,12 @@
 	        {% endfor %}
 	        </tbody>
 	    </table>
+	    
+	    <div class="form-actions">
+				<a href="{{ path('traslado_new') }}" class="btn btn-primary">Nuevo Traslado</a>				
+			    <a href="{{ path('traslado_search') }}" class="btn btn-primary">Buscar Traslados</a>				
+		</div>
+		
 	{% else %}
 		<div class="alert alert-success">
 	    	<button data-dismiss="alert" class="close" type="button">×</button>
@@ -63,5 +69,4 @@
 	{% endif %}
 		
     
-    <a href="{{ path('traslado_new') }}" class="btn btn-primary">Nuevo Traslado</a>
 {% endblock %}

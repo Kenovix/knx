@@ -19,7 +19,7 @@ class ImvPypType extends AbstractType
         			->orderBy('s.nombre', 'ASC');}
         ))
         
-        ->add('pyp', 			'entity', array('class' => 'knx\\ParametrizarBundle\\Entity\\Pyp','required' => true,'label' => 'Imv:',
+        ->add('pyp', 			'entity', array('class' => 'knx\\ParametrizarBundle\\Entity\\Pyp','required' => true,'label' => 'Categoria:',
         		'empty_value' => 'Selecciona una categoria',
         		'query_builder' => function(EntityRepository $repositorio) {
         			return $repositorio->createQueryBuilder('s')
@@ -27,7 +27,7 @@ class ImvPypType extends AbstractType
         ))
             ->add('edadini',	'integer', array('required' => true, 'label' => 'Edad Inicio', 'attr' => array('placeholder' => 'Inicio')))
             ->add('edadfin',	'integer', array('required' => true, 'label' => 'Edad Final', 'attr' => array('placeholder' => 'Fin')))
-            ->add('rango',		'integer', array('required' => true, 'label' => 'Rango', 'attr' => array('placeholder' => 'Numero telefonico')))
+            ->add('rango',		'integer', array('required' => true, 'label' => 'Rango', 'attr' => array('placeholder' => 'Numero')))
             ->add('sexo',		'choice',  array('choices'  => array('M' => 'Masculino', 'F' => 'Femenino','A' => 'Ambos'),'required'  => true, 'label'=>'Sexo'))
             
             
