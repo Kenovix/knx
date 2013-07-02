@@ -60,16 +60,17 @@ class Traslado
      * @ORM\Column(name="cantidad", type="integer", nullable=false)
      */
      private $cant;
-
-
-     /**
-     * @var  string traspadoA
-     *
-     * @ORM\Column(name="traspaso_a", type="text", nullable=false)
-     */
-     private $traspadoA;
      
-    
+     /**
+      * @var string $tipo
+      *
+      * @ORM\Column(name="tipo_movi", type="string", nullable=false)
+      * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
+      * @Assert\Choice(choices = {"D", "T"}, message = "Selecciona una opci�n valida.")
+      */
+     private $tipo;
+
+      
 
     /**
      * Get id
@@ -130,26 +131,26 @@ class Traslado
     }
 
     /**
-     * Set traspadoA
+     * Set tipo
      *
-     * @param string $traspadoA
+     * @param integer $tipo
      * @return Traslado
      */
-    public function setTraspadoA($traspadoA)
+    public function setTipo($tipo)
     {
-        $this->traspadoA = $traspadoA;
+    	$this->tipo = $tipo;
     
-        return $this;
+    	return $this;
     }
-
+    
     /**
-     * Get traspadoA
+     * Get tipo
      *
-     * @return string 
+     * @return integer
      */
-    public function getTraspadoA()
+    public function getTipo()
     {
-        return $this->traspadoA;
+    	return $this->tipo;
     }
 
   /**

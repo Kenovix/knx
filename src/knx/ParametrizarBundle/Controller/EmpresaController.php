@@ -66,7 +66,7 @@ class EmpresaController extends Controller
 	    
 	    		$this->get('session')->setFlash('ok', 'La empresa ha sido creada éxitosamente.');
 	    
-	    		return $this->redirect($this->generateUrl('empresa_show', array("id" => $empresa->getId())));
+	    		return $this->redirect($this->generateUrl('empresa_show', array("empresa" => $empresa->getId())));
 	    	}
     	}
 	        	

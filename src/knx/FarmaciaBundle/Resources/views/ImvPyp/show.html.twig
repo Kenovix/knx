@@ -9,17 +9,17 @@
 {% block titulo %}Información de la Imv_Pyp{% endblock %}
 
 {% block msg %}
-	{% if app.session.flash('ok') %}
+	{% if app.session.hasFlash('ok') %}
 	    <div class="alert alert-success">
 	    	<button data-dismiss="alert" class="close" type="button">×</button>
 	        <span>{{ app.session.flash('ok') }}</span>
 	    </div>
-	{% elseif app.session.flash('info') %}
+	{% elseif app.session.hasFlash('info') %}
 		<div class="alert alert-info">
 	    	<button data-dismiss="alert" class="close" type="button">×</button>
 	        <span>{{ app.session.flash('info') }}</span>
 	    </div>
-	{% elseif app.session.flash('error') %}
+	{% elseif app.session.hasFlash('error') %}
 		<div class="alert alert-error">
 	    	<button data-dismiss="alert" class="close" type="button">×</button>
 	        <span>{{ app.session.flash('error') }}</span>
@@ -60,8 +60,9 @@
         </tbody>
     </table>
 
-	<div class="btn-group">
-	    <a href="{{ path('imvpyp_edit', {'imvpyp':imvpyp.id}) }}" class="btn btn-primary">Modificar</a>
+			<div class="form-actions">
+    	    <a href="{{ path('imvpyp_edit', {'imvpyp':imvpyp.id}) }}" class="btn btn-primary">Modificar</a>
+	    <a href="{{ path('imvpyp_delete', {'imvpyp':imvpyp.id}) }}" onClick="return confirm('Seguro que quieres eliminar el Item de Pyp')" class="btn btn-danger">Eliminar</a>	    
 	    <a href="{{ path('imvpyp_list') }}" class="btn">Volver</a>
     </div>
 {% endblock %}

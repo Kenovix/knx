@@ -21,16 +21,16 @@ class TrasladoType extends AbstractType
                 return $repositorio->createQueryBuilder('s')
                 ->orderBy('s.precioCompra', 'ASC');}
         ))
-        
+        ->add('tipo', 		  'choice', array('empty_value' => 'Selecione tipo','label' => 'Tipo: *',			'choices'   => array('D' => 'Devolucion', 'T' => 'Traslado'),'required'  => true))
         ->add('farmacia', 		'entity', array(
         		'class' => 'knx\\FarmaciaBundle\\Entity\\Farmacia',
-        		'required' => true,'label' => 'Traspaso A:',
+        		'required' => true,'label' => 'Origen:',
         		'empty_value' => 'Selecciona una Farmacia',
         		'query_builder' => function(EntityRepository $repositorio) {
         			return $repositorio->createQueryBuilder('s')
         			->orderBy('s.nombre', 'ASC');}
         ))
-           	 ->add('cant',	'integer',  array('required' => true, 'label' => 'Cantidad', 'attr' => array('placeholder' => 'cantidad')))                        
+           	 ->add('cant',	'integer',  array('required' => true, 'label' => 'Cantidad: *', 'attr' => array('placeholder' => 'cantidad')))                        
         ;
     }
 

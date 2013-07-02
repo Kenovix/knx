@@ -4,15 +4,20 @@ namespace knx\FarmaciaBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use knx\FarmaciaBundle\Entity\Inventario;
+use knx\FarmaciaBundle\Entity\Imv;
 use knx\FarmaciaBundle\Entity\Ingreso;
+use knx\FarmaciaBundle\Entity\Traslado;
+use knx\FarmaciaBundle\Form\UpdateInventarioType;
 use knx\FarmaciaBundle\Form\InventarioType;
+
+
 
 class InventarioController extends Controller
 {
-	public function ListAction()
+	public function listAction()
     {   
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
-    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("farmacia_index"));
+    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
     	$breadcrumbs->addItem("Farmacia", $this->get("router")->generate("inventario_list"));
     	$breadcrumbs->addItem("Listado");
     	
@@ -24,28 +29,32 @@ class InventarioController extends Controller
         ));
     }
     
-    public function NewAction($ingreso)
+    public function newAction($ingreso)
     {
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
-    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("farmacia_index"));
+    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
     	$breadcrumbs->addItem("Farmacia", $this->get("router")->generate("inventario_list"));
     	$breadcrumbs->addItem("Nueva Inventario");
+    	
+    	$em = $this->getDoctrine()->getEntityManager();
+    	
+    	$ingreso = $em->getRepository('FarmaciaBundle:Ingreso')->find($ingreso);
+    	
+    	if (!$ingreso) {
+    		throw $this->createNotFoundException('El ingreso solicitado no esta disponible.');
+    	}
     	
     	$inventario = new Inventario();
     	$form   = $this->createForm(new InventarioType(), $inventario);
     	
-    	$em = $this->getDoctrine()->getEntityManager();
-    	$ingreso = $em->getRepository('FarmaciaBundle:Ingreso')->find($ingreso);
-    	
-		
     	return $this->render('FarmaciaBundle:Inventario:new.html.twig', array(
-    			'ingreso' => $ingreso,    			
+    			'ingreso' => $ingreso,
     			'form'   => $form->createView()
     	));
     }
     
     
-    public function SaveAction($ingreso)
+    public function saveAction($ingreso)
     {
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
     
@@ -65,10 +74,21 @@ class InventarioController extends Controller
     		$form->bind($request);
     
 	    	if ($form->isValid()) {
-
+	    		
+	    		$imv = $inventario->getImv();
+	    		
+	    		$cantidad_actual = $imv->getCantT();
+	    		$cantidad_ingresada = $inventario->getCant();
+	    		
+	    		$precio_compra = $inventario->getPrecioCompra();
+	    		
+	    		$imv->setCantT($cantidad_actual+$cantidad_ingresada);
+	    		$inventario->setPrecioTotal($cantidad_ingresada * $precio_compra);
 	    		$inventario->setIngreso($ingreso);
 
 	    		$em->persist($inventario);
+	    		$em->persist($imv);
+	    		
 	    		$em->flush();
 
 	    		$this->get('session')->setFlash('ok', 'El Invenatrio ha sido creado éxitosamente.');
@@ -83,18 +103,18 @@ class InventarioController extends Controller
     	));    
     }
     
-    public function ShowAction($inventario)
+    public function showAction($ingreso)
     {
     	$em = $this->getDoctrine()->getEntityManager();
     
-    	//$ingreso = $em->getRepository('FarmaciaBundle:Ingreso')->find($ingreso);
+    	$ingreso = $em->getRepository('FarmaciaBundle:Ingreso')->find($ingreso);
     	 
     	 
     	if (!$inventario) {
     		throw $this->createNotFoundException('La inventario solicitada no esta disponible.');
     	}
     	
-    	$inventario = $em->getRepository('FarmaciaBundle:Inventario')->find($inventario);
+    	$inventario = $em->getRepository('FarmaciaBundle:Inventario')->findBy(array('ingreso' => $ingreso));
     	 
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
     	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
@@ -102,28 +122,44 @@ class InventarioController extends Controller
     	$breadcrumbs->addItem($inventario->getId());
     	 
     	return $this->render('FarmaciaBundle:Inventario:show.html.twig', array(
-    		//	'ingreso'=> $ingreso,
+    			'ingreso'=> $ingreso,
     			'inventario'  => $inventario
     	));
     }
     
-    public function EditAction($inventario)
+    public function editAction($inventario)
     {
     	$em = $this->getDoctrine()->getEntityManager();    
     	$inventario = $em->getRepository('FarmaciaBundle:Inventario')->find($inventario);
+    	$traslado = $em->getRepository('FarmaciaBundle:Traslado')->findBy(array("inventario"=>$inventario->getId()));
+    	 
+    	//die(var_dump($inventario));
+    	
     
    	   if (!$inventario) {
-    		throw $this->createNotFoundException('La inventario solicitada no esta disponible.');
+    		throw $this->createNotFoundException('El inventario solicitada no esta disponible.');
     	}
     	 
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
     	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
     	$breadcrumbs->addItem("Farmacia", $this->get("router")->generate("ingreso_list"));
-    	$breadcrumbs->addItem($inventario->getId(), $this->get("router")->generate("inventario_show", array("inventario" => $inventario->getId())));
+    	$breadcrumbs->addItem($inventario->getId(), $this->get("router")->generate("inventario_edit", array("inventario" => $inventario->getId())));
     	$breadcrumbs->addItem("Modificar".$inventario->getId());
     
-    	$form   = $this->createForm(new InventarioType(), $inventario);
+       if ($traslado == null){
+    				 
+    				$form   = $this->createForm(new UpdateInventarioType(), $inventario);
+    				 
+    				 
+    			}else {
+
+						$this->get('session')->setFlash('error','El Item no se puede modificar ya que ha sido trasladado');    			
+						return $this->redirect($this->generateUrl('ingreso_list'));
+						
+    			}
+    			
     
+       
     	return $this->render('FarmaciaBundle:Inventario:edit.html.twig', array(
     			'inventario' => $inventario,
     			'form' => $form->createView(),
@@ -131,39 +167,84 @@ class InventarioController extends Controller
     }
     
     
-    public function UpdateAction($inventario)
+    public function updateAction($inventario)
     {
     	$em = $this->getDoctrine()->getEntityManager();
     
     	$inventario = $em->getRepository('FarmaciaBundle:Inventario')->find($inventario);
-    
+    	    
         if (!$inventario) {
     		throw $this->createNotFoundException('La inventario solicitada no esta disponible.');
     	}
     
-    	$form = $this->createForm(new InventarioType(), $inventario);
+    	$form = $this->createForm(new UpdateInventarioType(), $inventario);
     	$request = $this->getRequest();
     	if ($request->getMethod() == 'POST') {
     		 
+    	$cantidad_inventario = $inventario->getcant();
+    		//die(var_dump($imv));
+    	$precio_compra = $inventario->getPrecioCompra();
+    	$imv = $inventario->getImv();
+    	
+    	   
     		$form->bind($request);
-    		 
+    		
+    		
     		if ($form->isValid()) {
     	
     			$em = $this->getDoctrine()->getEntityManager();
-    	
-    			$em->persist($inventario);
-    			$em->flush();
+    			$imv = $inventario->getImv();
+    			$cantidad_actual = $imv->getCantT();
+    			$cantidad_ingresada = $inventario->getCant();
+    			
+    			//die(var_dump($medicamento_ingresado));
+    			     			
+    			$inventario->setPrecioTotal($cantidad_ingresada * $precio_compra);
+
+    			
+    			if ($cantidad_ingresada < $cantidad_inventario){
+    				 
+    				$cantidad_diferencia =  $cantidad_inventario - $cantidad_ingresada;
+    				 
+    				 
+    				 
+    			}else {
+    				$cantidad_diferencia =  $cantidad_ingresada - $cantidad_inventario;
+    			}
+    			
+    					
+    			if ($cantidad_ingresada < $cantidad_inventario){
+    					
+    				$imv->setCantT($cantidad_actual-$cantidad_diferencia);
+    					
+    					
+    					
+    			}else {
+    				$imv->setCantT($cantidad_actual+$cantidad_diferencia);
+    			}
+		
+ 		  		
+	    		$em->persist($inventario);
+	    		$em->persist($imv);
+	    		
+	    		$em->flush();
     
     			$this->get('session')->setFlash('ok', 'La inventario ha sido creada éxitosamente.');
     
-    			return $this->redirect($this->generateUrl('inventario_show', array("inventario" => $inventario->getId())));	
+    			return $this->redirect($this->generateUrl('inventario_edit', array("inventario" => $inventario->getId())));	
     		}
+    		
+
+    		return $this->render('FarmaciaBundle:Inventario:edit.html.twig', array(
+    				'inventario' => $inventario,
+    				'form'   => $form->createView()
+    		));
     	}
     
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
     	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
     	$breadcrumbs->addItem("Farmacia", $this->get("router")->generate("ingreso_list"));
-    	$breadcrumbs->addItem($inventario->getId(), $this->get("router")->generate("inventario_show", array("Inventario" => $inventario->getId())));
+    	$breadcrumbs->addItem($inventario->getId(), $this->get("router")->generate("inventario_edit", array("Inventario" => $inventario->getId())));
     	$breadcrumbs->addItem("Modificar".$inventario->getId());
     
     	return $this->render('FarmaciaBundle:Inventario:new.html.twig', array(
@@ -179,18 +260,43 @@ public function deleteAction($inventario)
     	$em = $this->getDoctrine()->getEntityManager();
     	 
     	$inventario = $em->getRepository('FarmaciaBundle:Inventario')->find( $inventario);
-    	//die(var_dump($inventario));
+    	$traslado = $em->getRepository('FarmaciaBundle:Traslado')->findBy(array("inventario"=>$inventario->getId()));
+    	 
+    	
+    	$imv = $inventario->getImv();
+    	$cantidad_inventario = $inventario->getcant();
+    	$cantidad_actual = $imv->getCantT();
+    	$precio_compra = $inventario->getPrecioCompra();
+    	 
+    	
+    	//die(var_dump($cantidad_actual));
     	if (!$inventario) {
     		throw $this->createNotFoundException('El Inventario solicitado no existe.');
     	}
-    	 
-    	    	 
+    	if ($traslado == null){    	  		
+    	
+    	if ($cantidad_inventario < $cantidad_actual or $cantidad_inventario == $cantidad_actual){
+    			
+    		$imv->setCantT($cantidad_actual-$cantidad_inventario);    		    			
+    		
+    			
+    	}
     	$em->remove($inventario);
     	$em->flush();
     	 
     	$this->get('session')->setFlash('info', 'El inventario ha sido eliminado.');
     	 
     	return $this->redirect($this->generateUrl('ingreso_list'));
+    			
+    			
+    	}else {
+    	
+    		$this->get('session')->setFlash('error','El Item no se puede eliminar ya que ha sido trasladado');
+    		return $this->redirect($this->generateUrl('ingreso_list'));
+    	
+    	} 
+    	    	 
+    	
     	 
     	    	
     }

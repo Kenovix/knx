@@ -13,7 +13,7 @@ class CatfarmaController extends Controller
 	public function catListAction()
     {   
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
-    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("farmacia_index"));
+    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
     	$breadcrumbs->addItem("Farmacia", $this->get("router")->generate("categoria_list"));
     	$breadcrumbs->addItem("Listado");
     	
@@ -28,7 +28,7 @@ class CatfarmaController extends Controller
     public function catNewAction()
     {
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
-    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("farmacia_index"));
+    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
     	$breadcrumbs->addItem("Farmacia", $this->get("router")->generate("categoria_list"));
     	$breadcrumbs->addItem("Nueva CategoriaImv");
     	
@@ -164,7 +164,7 @@ class CatfarmaController extends Controller
     public function farmaciaListAction()
     {
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
-    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("farmacia_index"));
+    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
     	$breadcrumbs->addItem("Farmacia", $this->get("router")->generate("farmacia_list"));
     	$breadcrumbs->addItem("Listado");
     	 
@@ -179,7 +179,7 @@ class CatfarmaController extends Controller
     public function farmaciaNewAction()
     {
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
-    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("farmacia_index"));
+    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
     	$breadcrumbs->addItem("Farmacia", $this->get("router")->generate("farmacia_list"));
     	$breadcrumbs->addItem("Nueva Farmacia");
     	 

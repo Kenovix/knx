@@ -7,30 +7,129 @@ use knx\FarmaciaBundle\Entity\Ingreso;
 use knx\FarmaciaBundle\Entity\Inventario;
 use knx\FarmaciaBundle\Entity\Imv;
 use knx\FarmaciaBundle\Form\IngresoType;
+use knx\FarmaciaBundle\Form\IngresoSearchType;
 
 
 class IngresoController extends Controller
 {
-	public function ListAction()
+	
+	public function searchAction(){
+		
+		$breadcrumbs = $this->get("white_october_breadcrumbs");
+		$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
+		$breadcrumbs->addItem("Farmacia");
+		$breadcrumbs->addItem("Busqueda");
+		 
+		$form   = $this->createForm(new IngresoSearchType());
+		
+		return $this->render('FarmaciaBundle:Ingreso:search.html.twig', array(
+				'form'   => $form->createView()
+		
+		));
+		
+	}	
+	
+	public function listAction()
     {   
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
-    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("farmacia_index"));
+    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
     	$breadcrumbs->addItem("Farmacia");
     	$breadcrumbs->addItem("Ingresos", $this->get("router")->generate("ingreso_list"));
     	$breadcrumbs->addItem("Listado");
     	
     	$em = $this->getDoctrine()->getEntityManager();    
-        $ingreso = $em->getRepository('FarmaciaBundle:Ingreso')->findAll();
+        $ingreso = $em->getRepository('FarmaciaBundle:Ingreso')->findAll(); 
         
         return $this->render('FarmaciaBundle:Ingreso:list.html.twig', array(
-                'ingreso'  => $ingreso
+        		'ingreso'  => $ingreso,
+        
         ));
-    }
+        }
+          
     
-    public function NewAction()
+    public function resultAction()
+    {
+    	$em = $this->getDoctrine()->getEntityManager();
+    	$ingreso = $em->getRepository('FarmaciaBundle:Ingreso')->findAll();
+        $request = $this->get('request');    	
+    	$fecha_inicio = $request->request->get('fecha_inicio');
+    	$fecha_fin = $request->request->get('fecha_fin');
+    	   
+    	
+    	if(trim($fecha_inicio)){
+    		$desde = explode('-',$fecha_inicio);
+    		
+    		//die(print_r($desde));
+    		
+    		if(!checkdate($desde[1],$desde[2],$desde[0])){
+    			$this->get('session')->setFlash('info', 'La fecha de inicio ingresada es incorrecta.');
+    			 return $this->render('FarmaciaBundle:Ingreso:list.html.twig', array(
+                'ingreso'  => $ingreso       		
+        			));
+    			 
+    		}
+    	}else{
+    		$this->get('session')->setFlash('info', 'La fecha de inicio no puede estar en blanco.');
+    		 return $this->render('FarmaciaBundle:Ingreso:list.html.twig', array(
+                'ingreso'  => $ingreso        		
+        		));
+    		 
+    		 $this->get('session')->setFlash('info',$this->get('sessio', 'La fecha de finalización ingresada es incorrecta.'));
+    	}
+    	 
+    	if(trim($fecha_fin)){
+    		$hasta = explode('-',$fecha_fin);
+    		
+    		if(!checkdate($hasta[1],$hasta[2],$hasta[0])){
+    			 return $this->render('FarmaciaBundle:Ingreso:list.html.twig', array(
+                'ingreso'  => $ingreso       		
+        ));
+    		}
+    	}else{
+    		$this->get('session')->setFlash('info', 'La fecha de finalización no puede estar en blanco.');
+    		 return $this->render('FarmaciaBundle:Ingreso:list.html.twig', array(
+                'ingreso'  => $ingreso        		
+        ));
+    	}
+    	
+        		$query = "SELECT f FROM FarmaciaBundle:Ingreso f WHERE 
+    				f.fecha >= :inicio AND
+			    	f.fecha <= :fin
+    				ORDER BY
+    				f.fecha ASC";
+    		
+    		$dql = $em->createQuery($query);    		 
+    		
+    	
+
+    		//die(print_r($dql));
+    		
+    		$dql->setParameter('inicio', $desde[0]."-".$desde[1]."-".$desde[2].' 00:00:00');
+    		$dql->setParameter('fin', $hasta[0]."-".$hasta[1]."-".$hasta[2].' 23:59:00');
+    		
+    		$ingreso = $dql->getResult();
+    		//die(var_dump($ingreso));
+    		//die("paso");
+    		
+    		if(!$ingreso)
+    		{
+    			$this->get('session')->setFlash('info', 'La consulta no ha arrojado ningún resultado para los parametros de busqueda ingresados.');
+    
+    			return $this->redirect($this->generateUrl('ingreso_search'));
+    		}
+    		 
+    		return $this->render('FarmaciaBundle:Ingreso:list.html.twig', array(
+    				'ingreso' => $ingreso,
+    		));
+    	}
+    
+    
+    
+    
+    public function newAction()
     {
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
-    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("farmacia_index"));
+    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
     	$breadcrumbs->addItem("Farmacia");
     	$breadcrumbs->addItem("Ingresos", $this->get("router")->generate("ingreso_list"));
     	$breadcrumbs->addItem("Nueva Ingreso");
@@ -46,12 +145,12 @@ class IngresoController extends Controller
     }
     
     
-    public function SaveAction()
+    public function saveAction()
     {
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
     
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
-    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("farmacia_index"));
+    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
     	$breadcrumbs->addItem("Farmacia", $this->get("router")->generate("ingreso_list"));
     	$breadcrumbs->addItem("Nueva Ingreso");
     	 
@@ -81,7 +180,7 @@ class IngresoController extends Controller
     	));
     }
     
-    public function ShowAction($ingreso)
+    public function showAction($ingreso)
     {
     	$em = $this->getDoctrine()->getEntityManager();
     
@@ -112,7 +211,7 @@ class IngresoController extends Controller
     	));
     }
     
-    public function EditAction($ingreso)
+    public function editAction($ingreso)
     {
     	$em = $this->getDoctrine()->getEntityManager();    
     	$ingreso = $em->getRepository('FarmaciaBundle:Ingreso')->find($ingreso);
@@ -137,7 +236,7 @@ class IngresoController extends Controller
     }
     
     
-    public function UpdateAction($ingreso)
+    public function updateAction($ingreso)
     {
     	$em = $this->getDoctrine()->getEntityManager();
     

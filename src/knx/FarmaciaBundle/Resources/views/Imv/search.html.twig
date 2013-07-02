@@ -6,7 +6,7 @@
 
 {% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
 
-{% block titulo %}Modificar Inventario{% endblock %}
+{% block titulo %}Farmacia Item{% endblock %}
 
 {% block msg %}
 	{% if app.session.hasFlash('ok') %}
@@ -27,19 +27,26 @@
 	{% endif %}
 {% endblock %}
 
+
+
+	
 {% block cuerpo %}
 
-	<form action="{{ path('inventario_update', {'inventario': inventario.id}) }}" class="form-horizontal" method="post" {{ form_enctype(form) }}>
-	    <fieldset>
-	    	<legend>Datos del Inventario</legend>
-	    	    
-		   {{ form_widget(form) }}
-		   
-			<div class="form-actions">
-			   <input class="btn btn-primary" name="guardar" type="submit" value="Modificar" />
-	 		   <a href="{{ path('inventario_delete', {'inventario': inventario.id}) }}" onClick="return confirm('Seguro que quieres eliminar el inventario')" class="btn btn-danger">Eliminar</a>				
-			   <a href="{{ path('ingreso_show', {'ingreso': inventario.ingreso.id}) }}" class="btn btn-danger">Cancelar</a>
+		<form name="consultaImv" id="consultaImv" class="form-horizontal" method="post" action="{{ path('imv_list') }}" {{ form_enctype(form) }}>
+		    <fieldset>
+		    	<legend>Busqueda</legend>
+					{{ form_widget(form) }}
+		    </fieldset>
+
+		   <div class="form-actions">
+				<input class="btn btn-primary" name="Buscar" type="submit" value="Buscar" />
+			    <a href="{{ path('imv_new') }}" class="btn btn-primary">Nuevo Item</a>
 			   
+			    
+			    
 			</div>
-	</form>
+
+		</form>
+
 {% endblock %}
+	

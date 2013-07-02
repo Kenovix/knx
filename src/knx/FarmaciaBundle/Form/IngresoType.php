@@ -13,10 +13,10 @@ class IngresoType extends AbstractType
         $builder
             ->add('fecha',	'date', array('required' => true, 'label' => 'Fecha Ingreso*','read_only' => true))
             ->add('almacen','entity', array('class' => 'knx\ParametrizarBundle\Entity\Almacen', 'empty_value' => 'Elige Almacen', 'required' => true))
-            ->add('numFact','text', array('required' => true, 'label' => 'No Factura *'))
-            ->add('valorT',	'integer', array('required' => true, 'label' => 'Valor Total'))
-            ->add('valorN',	'integer', array('required' => true, 'label' => 'Valor Neto'))
-            ->add('valorIva','integer', array('required' => true, 'label' => 'Valor Iva %'))           
+            ->add('numFact','text', array('required' => true, 'label' => 'No Factura: *'))
+            ->add('valorT',	'integer', array('required' => true, 'label' => 'Valor Total: *'))
+            ->add('valorN',	'integer', array('required' => true, 'label' => 'Valor Neto: *'))
+            ->add('valorIva','integer', array('required' => true, 'label' => 'Valor Iva %: *'))           
         ;
     }
 

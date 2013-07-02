@@ -6,20 +6,20 @@
 
 {% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
 
-{% block titulo %}Nuevo Imv{% endblock %}
+{% block titulo %}Nuevo Item{% endblock %}
 
 {% block msg %}
-	{% if app.session.flash('ok') %}
+	{% if app.session.hasFlash('ok') %}
 	    <div class="alert alert-success">
 	    	<button data-dismiss="alert" class="close" type="button">×</button>
 	        <span>{{ app.session.flash('ok') }}</span>
 	    </div>
-	{% elseif app.session.flash('info') %}
+	{% elseif app.session.hasFlash('info') %}
 		<div class="alert alert-info">
 	    	<button data-dismiss="alert" class="close" type="button">×</button>
 	        <span>{{ app.session.flash('info') }}</span>
 	    </div>
-	{% elseif app.session.flash('error') %}
+	{% elseif app.session.hasFlash('error') %}
 		<div class="alert alert-error">
 	    	<button data-dismiss="alert" class="close" type="button">×</button>
 	        <span>{{ app.session.flash('error') }}</span>
@@ -34,13 +34,13 @@
 
 	<form action="{{ path('imv_save') }}" class="form-horizontal" method="post" {{ form_enctype(form) }}>
 	    <fieldset>
-	    	<legend>Datos del Imv</legend>
+	    	<legend>Datos del Item</legend>
 	    	    
 		   {{ form_widget(form) }}
 		   
 			<div class="form-actions">
 				<input class="btn btn-primary" name="guardar" type="submit" value="Guardar" />
-			    <a href="{{ path('imv_list') }}" class="btn btn-danger">Cancelar</a>
+			    <a href="{{ path('imv_search') }}" class="btn btn-danger">Cancelar</a>
 			</div>
 	</form>
 {% endblock %}
