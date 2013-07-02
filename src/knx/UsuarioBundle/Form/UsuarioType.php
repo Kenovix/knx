@@ -11,13 +11,18 @@ class UsuarioType extends BaseType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)     {
         
+    	$builder
+    		->add('cc', 		'integer',array('label'=>'CC*','attr' => array('placeholder' => 'Numero de cedula')))
+    		->add('nombre', 	'text', array('label'=>'Nombre*','attr' => array('placeholder' => 'Primer nombre...','autofocus'=>'autofocus')))
+    		->add('apellido', 	'text', array('label'=>'Apellido*'))
+    		->add('roles', 'choice', array('label' => 'Rol', 'required' => true, 'choices' => array( 1 => 'ROLE_SUPER_ADMIN', 2 => 'ROLE_ADMIN', 3 => 'ROLE_USER'), 'multiple' => true))
+    		->add('enabled', 'checkbox', array('label' => 'Estado', 'required' => true))
+    		->add('especialidad', 'text', array('label'=>'Especialidad'))
+    		->add('rm', 'text', array('label'=>'Registro médico'))
+    	;
+    	
     	parent::buildForm($builder, $options);
 
-        $builder
-        	->add('roles', 'choice', array('label' => 'Rol', 'required' => true, 'choices' => array( 1 => 'ROLE_ADMIN', 2 => 'ROLE_USER'), 'multiple' => true))
-	        ->add('nombre', 	'text', array('label'=>'Nombre*','attr' => array('placeholder' => 'Primer nombre...','autofocus'=>'autofocus')))
-	        ->add('apellido', 	'text', array('label'=>'Apellido*'))
-	        ->add('cc', 		'integer',array('label'=>'CC*','attr' => array('placeholder' => 'Numero de cedula')));
     }
     
     public function setDefaultOptions(OptionsResolverInterface $resolver)

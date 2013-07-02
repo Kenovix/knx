@@ -9,9 +9,22 @@ class Builder extends ContainerAware
 {
 	public function farmaciaMenu(FactoryInterface $factory, array $options)
 	{
+		$security =  $this->container->get('security.context');
+		
+		$usuario = $security->getToken()->getUser();
 		
 		$menu = $factory->createItem('root');
 		$menu->setChildrenAttributes(array('id' => 'menu'));
+		
+		if($security->isGranted('ROLE_ADMIN')){
+			$menu->addChild('Parametrizar', array('uri' => '#'));
+				$menu['Parametrizar']->addChild('Empresa', array('route' => 'empresa_list'));
+				$menu['Parametrizar']->addChild('Servicio', array('route' => 'servicio_list'));
+				$menu['Parametrizar']->addChild('Almacen', array('route' => 'almacen_list'));
+				$menu['Parametrizar']->addChild('Cliente', array('route' => 'cliente_list'));
+				$menu['Parametrizar']->addChild('Cargo', array('route' => 'cargo_list'));
+				$menu['Parametrizar']->addChild('Proveedor', array('route' => 'proveedor_list'));
+		}
 
 		$menu->addChild('farmacia', array('uri' => '#'));	
 			$menu['farmacia']->addChild('Nueva', array('route' => 'farmacia_list'));
@@ -23,11 +36,11 @@ class Builder extends ContainerAware
 				$menu['farmacia']['Nueva']->addChild('Farmacia', array('route' => 'farmacia_list', 'routeParameters' => array('char' => 'A')));
 				$menu['farmacia']['Nueva']->addChild('Categoria', array('route' => 'categoria_list', 'routeParameters' => array('char' => 'A')));
 				$menu['farmacia']['Nueva']->addChild('IMV', array('route' => 'imv_list', 'routeParameters' => array('char' => 'A')));
-			//$menu['Parametrizar']->addChild('Usuarios', array('route' => 'usuario_list'));
+			
 				
 		
 		
-		//$actualUser = $securityContext->getToken()->getUser();
+				
 		
 		$menu->addChild('Hernando', array('uri' => '#'));
 		//$menu[$actualUser->getUsername()]->addChild('Perfil', array('route' => 'usuario_show', 'routeParameters' => array('id' => $actualUser->getId())));

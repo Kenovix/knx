@@ -27,7 +27,7 @@ class ContratoController extends Controller
     {
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
     	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
-    	$breadcrumbs->addItem("Cliente", $this->get("router")->generate("cliente_list"));
+    	$breadcrumbs->addItem("Clientes", $this->get("router")->generate("cliente_list"));
     	$breadcrumbs->addItem("Contrato");
     	$breadcrumbs->addItem("Nuevo");
     	
@@ -53,7 +53,7 @@ class ContratoController extends Controller
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
     	 
     	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
-    	$breadcrumbs->addItem("Cliente", $this->get("router")->generate("cliente_list"));
+    	$breadcrumbs->addItem("Clientes", $this->get("router")->generate("cliente_list"));
     	$breadcrumbs->addItem("Nuevo");
     	
     	$request = $this->getRequest();
@@ -88,26 +88,33 @@ class ContratoController extends Controller
     	));    
     }
     
-    public function showAction($cliente)
+    public function showAction($contrato)
     {
     	$em = $this->getDoctrine()->getEntityManager();
     
-    	$cliente = $em->getRepository('ParametrizarBundle:Cliente')->find($cliente);
+    	$contrato = $em->getRepository('ParametrizarBundle:Contrato')->find($contrato);
     	
-    	if (!$cliente) {
-    		throw $this->createNotFoundException('El cliente solicitado no esta disponible.');
+    	if (!$contrato) {
+    		throw $this->createNotFoundException('El contrato solicitado no esta disponible.');
     	}
     	
-    	$contrato = $em->getRepository('ParametrizarBundle:Contrato')->findBy(array('cliente' => $cliente));
+    	$cliente = $contrato->getCliente();
+    	
+    	if($contrato->getTipo() == 'P')    	
+    		$contratado = $em->getRepository('ParametrizarBundle:ContratoCargo')->findBy(array('contrato' => $contrato->getId()));
+    	else
+    		$contratado = $em->getRepository('ParametrizarBundle:imvContrato')->findBy(array('contrato' => $contrato->getId()));
     	
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
     	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
-    	$breadcrumbs->addItem("Cliente", $this->get("router")->generate("cliente_list"));
-    	$breadcrumbs->addItem($cliente->getNombre());
-    	
-    	return $this->render('ParametrizarBundle:Cliente:show.html.twig', array(
-    			'cliente'  => $cliente,
-    			'contratos' => $contrato
+    	$breadcrumbs->addItem("Clientes", $this->get("router")->generate("cliente_list"));
+    	$breadcrumbs->addItem($cliente->getNombre(), $this->get("router")->generate("cliente_show", array('cliente' => $cliente->getId())));
+    	$breadcrumbs->addItem('Contrato '.$contrato->getNumero());
+
+    	return $this->render('ParametrizarBundle:Contrato:show.html.twig', array(
+    			'cliente' => $cliente,
+    			'contrato' => $contrato,
+    			'contratado' => $contratado
     	));
     }
     
@@ -121,10 +128,13 @@ class ContratoController extends Controller
     		throw $this->createNotFoundException('El contrato solicitado no existe');
     	}
     	
+    	$cliente = $contrato->getCliente();
+    	
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
     	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
-    	$breadcrumbs->addItem("Cliente", $this->get("router")->generate("cliente_list"));
-    	$breadcrumbs->addItem("Contrato");
+    	$breadcrumbs->addItem("Clientes", $this->get("router")->generate("cliente_list"));
+    	$breadcrumbs->addItem($cliente->getNombre(), $this->get("router")->generate("cliente_show", array('cliente' => $cliente->getId())));
+    	$breadcrumbs->addItem('Contrato '.$contrato->getNumero(), $this->get("router")->generate("contrato_show", array('contrato' => $contrato->getId())));
     	$breadcrumbs->addItem("Modificar ");
     
     	$form = $this->createForm(new ContratoType(), $contrato);

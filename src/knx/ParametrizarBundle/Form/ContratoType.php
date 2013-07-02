@@ -22,6 +22,7 @@ class ContratoType extends AbstractType
         ->add('email', 'text', array('attr' => array('placeholder' => 'Correo electrónico')))
         ->add('estado', 'choice', array('required' => true, 'choices' => array('A' => 'Activo', 'I' => 'Inactivo')))
         ->add('porcentaje', 'percent', array('required' => true, 'precision' => 0, 'attr' => array('placeholder' => 'Porcentaje pactado')))
+        ->add('tipo', 'choice', array('required' => true, 'choices' => array('P' => 'Procedimientos', 'M' => 'Medicamentos')))
         ->add('observacion', 'text', array('required' => false, 'attr' => array('placeholder' => 'Ingrese observación del contacto')))                
         ;
     }

@@ -31,11 +31,9 @@ class Usuario extends BaseUser
      * @ORM\Column(name="cc", type="integer", nullable=false, unique=true)
      * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
      * @Assert\Max(limit = "9999999999999", message = "El valor cc no puede ser mayor de {{ limit }}",invalidMessage = "El valor ingresado debe ser un n�mero v�lido")
-     *
+     * @Assert\Min(limit = "0", message = "La cedula no puede ser menor de {{ limit }}",invalidMessage = "El valor ingresado debe ser un número válido")
      */
       private $cc;
-
-
 
      /**
      * @var string $nombre
@@ -43,10 +41,8 @@ class Usuario extends BaseUser
      * @ORM\Column(name="nombre", type="string", length=30, nullable=false)
      * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
      * @Assert\MaxLength(limit=60, message="El valor nombre debe tener como maximo {{ limit }} caracteres.")
-     *
      */
       protected $nombre;
-
 
     /**
      * @var string $apellido
@@ -54,13 +50,26 @@ class Usuario extends BaseUser
      * @ORM\Column(name="apellido", type="string", length=30, nullable=false)
      * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
      * @Assert\MaxLength(limit=60, message="El valor apellido debe tener como maximo {{ limit }} caracteres.")
-     *
      */
       private $apellido;
       
-	/**
-	 * 
-	 */
+      /**
+       * @var string $especialidad
+       *
+       * @ORM\Column(name="especialidad", type="string", length=60, nullable=true)
+       * @Assert\MaxLength(limit=60, message="El valor especialidad debe tener como maximo {{ limit }} caracteres.")
+       */
+      private $especialidad;
+      
+      /**
+       * @var string $rm
+       *
+       * @ORM\Column(name="rm", type="string", length=10, nullable=true)
+       * @Assert\MaxLength(limit=10, message="El valor registro medico debe tener como maximo {{ limit }} caracteres.")
+       */
+      private $rm;
+      
+	
 	public function __construct() {
 		parent::__construct();
 
@@ -74,10 +83,19 @@ class Usuario extends BaseUser
 	public function addRole( $rol )
 	{
 		if($rol == 1) {
-			array_push($this->roles, 'ROLE_ADMIN');
+			array_push($this->roles, 'ROLE_SUPER_ADMIN');
 		}
 		else if($rol == 2) {
-			array_push($this->roles, 'ROLE_USER');
+			array_push($this->roles, 'ROLE_ADMIN');
+		}
+		else if($rol == 3) {
+			array_push($this->roles, 'ROLE_FARMACIA');
+		}
+		else if($rol == 4) {
+			array_push($this->roles, 'ROLE_MEDICO');
+		}
+		else if($rol == 5) {
+			array_push($this->roles, 'ROLE_AUXILIAR');
 		}
 	}
 
@@ -159,5 +177,51 @@ class Usuario extends BaseUser
     public function getApellido()
     {
         return $this->apellido;
+    }
+
+    /**
+     * Set especialidad
+     *
+     * @param string $especialidad
+     * @return Usuario
+     */
+    public function setEspecialidad($especialidad)
+    {
+        $this->especialidad = $especialidad;
+    
+        return $this;
+    }
+
+    /**
+     * Get especialidad
+     *
+     * @return string 
+     */
+    public function getEspecialidad()
+    {
+        return $this->especialidad;
+    }
+
+    /**
+     * Set rm
+     *
+     * @param string $rm
+     * @return Usuario
+     */
+    public function setRm($rm)
+    {
+        $this->rm = $rm;
+    
+        return $this;
+    }
+
+    /**
+     * Get rm
+     *
+     * @return string 
+     */
+    public function getRm()
+    {
+        return $this->rm;
     }
 }

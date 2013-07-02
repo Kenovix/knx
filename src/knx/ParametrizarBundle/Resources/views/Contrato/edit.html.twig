@@ -37,7 +37,7 @@
 		   
 			<div class="form-actions">
 				<input class="btn btn-primary" name="guardar" type="submit" value="Modificar" />
-			    <a href="{{ path('cliente_show', {'cliente': contrato.cliente.id}) }}" class="btn btn-danger">Cancelar</a>
+			    <a href="{{ path('contrato_show', {'contrato': contrato.id}) }}" class="btn btn-danger">Cancelar</a>
 			</div>
 	</form>
 {% endblock %}

@@ -113,6 +113,15 @@ class Contrato
     private $porcentaje;
     
     /**
+     * @var string $tipo
+     *
+     * @ORM\Column(name="tipo", type="string", length=20, nullable=false)
+     * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
+     * @Assert\MaxLength(limit=20, message="El valor ingresado debe tener máximo {{ limit }} caracteres.")
+     */
+    private $tipo;
+    
+    /**
      * @var string $observacion
      *
      * @ORM\Column(name="observacion", type="string", length=200, nullable=true)
@@ -477,5 +486,28 @@ class Contrato
     public function getCliente()
     {
         return $this->cliente;
+    }
+
+    /**
+     * Set tipo
+     *
+     * @param string $tipo
+     * @return Contrato
+     */
+    public function setTipo($tipo)
+    {
+        $this->tipo = $tipo;
+    
+        return $this;
+    }
+
+    /**
+     * Get tipo
+     *
+     * @return string 
+     */
+    public function getTipo()
+    {
+        return $this->tipo;
     }
 }

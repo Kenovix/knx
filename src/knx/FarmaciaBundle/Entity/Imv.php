@@ -30,7 +30,7 @@ class Imv
     /**
      * @var string $codCups
      * 
-     * @ORM\Column(name="cod_cups", type="string", length=100, nullable=false,unique=true)
+     * @ORM\Column(name="cod_cups", type="string", length=100, nullable=false, unique=true)
      * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")     
      */
     private $codCups;
@@ -38,7 +38,7 @@ class Imv
     /**
      * @var string $codAdmin
      * 
-     * @ORM\Column(name="cod_admin", type="string", length=100, nullable=false,unique=true)
+     * @ORM\Column(name="cod_admin", type="string", length=100, nullable=false, unique=true)
      */
     private $codAdmin;
     
@@ -53,9 +53,9 @@ class Imv
     /**
      * @var string $nombre
      * 
-     * @ORM\Column(name="nombre", type="string", length=150, nullable=false,unique=true)     
+     * @ORM\Column(name="nombre", type="string", length=150, nullable=false, unique=true)     
      * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
-     * @Assert\MaxLength(limit=150, message="El valor ingresado debe tener m�ximo {{ limit }} caracteres.")
+     * @Assert\MaxLength(limit=150, message="El valor ingresado debe tener máximo {{ limit }} caracteres.")
      */
     private $nombre;
 
@@ -401,8 +401,4 @@ class Imv
     {
     	return $this->cantT;
     }
-    
-   
-
-      
 }

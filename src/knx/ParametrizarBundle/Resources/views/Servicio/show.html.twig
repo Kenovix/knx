@@ -9,17 +9,17 @@
 {% block titulo %}Información del servicio{% endblock %}
 
 {% block msg %}
-	{% if app.session.flash('ok') %}
+	{% if app.session.hasFlash('ok') %}
 	    <div class="alert alert-success">
 	    	<button data-dismiss="alert" class="close" type="button">×</button>
 	        <span>{{ app.session.flash('ok') }}</span>
 	    </div>
-	{% elseif app.session.flash('info') %}
+	{% elseif app.session.hasFlash('info') %}
 		<div class="alert alert-info">
 	    	<button data-dismiss="alert" class="close" type="button">×</button>
 	        <span>{{ app.session.flash('info') }}</span>
 	    </div>
-	{% elseif app.session.flash('error') %}
+	{% elseif app.session.hasFlash('error') %}
 		<div class="alert alert-error">
 	    	<button data-dismiss="alert" class="close" type="button">×</button>
 	        <span>{{ app.session.flash('error') }}</span>
@@ -47,6 +47,22 @@
 	<div class="btn-group">
 	    <a href="{{ path('servicio_edit', {'servicio':servicio.id}) }}" class="btn btn-primary">Modificar</a>
 	    <a href="{{ path('servicio_list') }}" class="btn">Volver</a>
+    </div>
+    
+    <hr />
+    
+    <h2>Actividades</h2>
+    
+    <ul>
+    {% for cs in cargo_servicio %}
+		<li>{{ cs.cargo.nombre }}</li>
+	{% else %}
+		<li>No hay cargos asignados</li>
+	{% endfor %}
+	</ul>
+	
+	<div class="btn-group">
+	    <a href="{{ path('cargo_servicio_new', {'servicio':servicio.id}) }}" class="btn btn-primary">Asociar cargo</a>
     </div>
 
 {% endblock %}

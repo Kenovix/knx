@@ -65,6 +65,8 @@ public function ListAction()
     		if ($form->isValid()) {
     	
     			$em = $this->getDoctrine()->getEntityManager();
+    			
+    			$imv->setCantT(0);
     	
     			$em->persist($imv);
     			$em->flush();

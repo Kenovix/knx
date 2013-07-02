@@ -127,7 +127,19 @@ cargo_edit:
 cargo_update:
     pattern:  /cargo/{cargo}/update
     defaults: { _controller: ParametrizarBundle:Cargo:update }
+
+#************** Cargo Servicio ***************#
+
+cargo_servicio_new:
+    pattern:  /cargo/servicio/{servicio}/new
+    defaults: { _controller: ParametrizarBundle:Servicio:newCargoServicio }
     
+cargo_servicio_save:
+    pattern:  /cargo/servicio/{servicio}/save
+    defaults: { _controller: ParametrizarBundle:Servicio:saveCargoServicio }
+
+
+
 #************** Contrato ***************#
 
 contrato_new:
@@ -149,6 +161,28 @@ contrato_edit:
 contrato_update:
     pattern:  /contrato/{contrato}/update
     defaults: { _controller: ParametrizarBundle:Contrato:update }
+    
+#************** Contrato Cargo ***************#
+
+contrato_cargo_new:
+    pattern:  /contrato/cargo/new/{contrato}
+    defaults: { _controller: ParametrizarBundle:ContratoCargo:new }
+    
+contrato_cargo_save:
+    pattern:  /contrato/cargo/save/{contrato}
+    defaults: { _controller: ParametrizarBundle:ContratoCargo:save }
+    
+contrato_cargo_show:
+    pattern:  /contrato/cargo/{contrato}/{cargo}/show
+    defaults: { _controller: ParametrizarBundle:ContratoCargo:show }
+    
+contrato_cargo_edit:
+    pattern:  /contrato/cargo/{contrato}/{cargo}/edit
+    defaults: { _controller: ParametrizarBundle:ContratoCargo:edit }
+
+contrato_cargo_update:
+    pattern:  /contrato/cargo/{contrato}/{cargo}/update
+    defaults: { _controller: ParametrizarBundle:ContratoCargo:update }
     
 #************** Proveedor ***************#
 
@@ -228,4 +262,51 @@ paciente_edit:
 paciente_update:
     pattern:  /paciente/{paciente}/update
     defaults: { _controller: ParametrizarBundle:Cargo:update }
+    
+#************** Pyp ***************#
 
+pyp_list:
+    pattern:  /pyp/list
+    defaults: { _controller: ParametrizarBundle:Pyp:list }
+
+pyp_new:
+    pattern:  /pyp/new
+    defaults: { _controller: ParametrizarBundle:Pyp:new }
+
+pyp_save:
+    pattern:  /pyp/save
+    defaults: { _controller: ParametrizarBundle:Pyp:save }
+
+pyp_show:
+    pattern:  /pyp/{pyp}/show
+    defaults: { _controller: ParametrizarBundle:Pyp:show }
+
+pyp_edit:
+    pattern:  /pyp/{pyp}/edit
+    defaults: { _controller: ParametrizarBundle:Pyp:edit }
+
+pyp_update:
+    pattern:  /pyp/{pyp}/update
+    defaults: { _controller: ParametrizarBundle:Pyp:update }
+
+#************** Cargo pyp ***************#
+
+cargo_pyp_new:
+    pattern:  /cargo/pyp/{pyp}/new
+    defaults: { _controller: ParametrizarBundle:CargoPyp:new }
+    
+cargo_pyp_save:
+    pattern:  /cargo/pyp/{pyp}/save
+    defaults: { _controller: ParametrizarBundle:CargoPyp:save }
+    
+cargo_pyp_show:
+    pattern:  /cargo/pyp/{pyp}/{cargo}/show
+    defaults: { _controller: ParametrizarBundle:CargoPyp:show }
+    
+cargo_pyp_edit:
+    pattern:  /cargo/pyp/{pyp}/{cargo}/edit
+    defaults: { _controller: ParametrizarBundle:CargoPyp:edit }
+
+cargo_pyp_update:
+    pattern:  /cargo/pyp/{pyp}/{cargo}/update
+    defaults: { _controller: ParametrizarBundle:CargoPyp:update }

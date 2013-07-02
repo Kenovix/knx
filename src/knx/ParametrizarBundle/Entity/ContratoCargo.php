@@ -27,6 +27,20 @@ class ContratoCargo
     private $contrato;    
           
     /**
+     * @var integer $precio
+     *
+     * @ORM\Column(name="precio", type="integer", nullable=true)
+     */
+    private $precio;
+    
+    /**
+     * @var string $estado
+     *
+     * @ORM\Column(name="estado", type="string", length=1, nullable=false)
+     */
+    private $estado;
+    
+    /**
      * @var string $observacion
      * 
      * @ORM\Column(name="observacion", type="string", length=255, nullable=true)
@@ -156,5 +170,51 @@ class ContratoCargo
     public function getUpdated()
     {
         return $this->updated;
+    }
+
+    /**
+     * Set precio
+     *
+     * @param integer $precio
+     * @return ContratoCargo
+     */
+    public function setPrecio($precio)
+    {
+        $this->precio = $precio;
+    
+        return $this;
+    }
+
+    /**
+     * Get precio
+     *
+     * @return integer 
+     */
+    public function getPrecio()
+    {
+        return $this->precio;
+    }
+
+    /**
+     * Set estado
+     *
+     * @param string $estado
+     * @return ContratoCargo
+     */
+    public function setEstado($estado)
+    {
+        $this->estado = $estado;
+    
+        return $this;
+    }
+
+    /**
+     * Get estado
+     *
+     * @return string 
+     */
+    public function getEstado()
+    {
+        return $this->estado;
     }
 }

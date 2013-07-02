@@ -30,21 +30,21 @@ class CargoPyp
      /**
      * @var edadIni
      *
-     * @ORM\Column(name="edad_ini", type="integer", nullable=false)
+     * @ORM\Column(name="edad_ini", type="integer", nullable=true)
      */
         private $edadIni;
 
      /**
      * @var edadFin
      *
-     * @ORM\Column(name="edad_fin", type="integer", nullable=false)
+     * @ORM\Column(name="edad_fin", type="integer", nullable=true)
      */
         private $edadFin;
 
      /**
      * @var rango
      *
-     * @ORM\Column(name="rango", type="integer", nullable=true)
+     * @ORM\Column(name="rango", type="string", length=200, nullable=true)
      */
         private $rango;
 
@@ -104,7 +104,7 @@ class CargoPyp
     /**
      * Set rango
      *
-     * @param integer $rango
+     * @param string $rango
      * @return CargoPyp
      */
     public function setRango($rango)
@@ -117,7 +117,7 @@ class CargoPyp
     /**
      * Get rango
      *
-     * @return integer 
+     * @return string 
      */
     public function getRango()
     {

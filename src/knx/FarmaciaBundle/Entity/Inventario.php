@@ -66,7 +66,7 @@ class Inventario
     /**
      * @var CantE
      *
-     * @ORM\Column(name="cant_entregada", type="integer", nullable=false)
+     * @ORM\Column(name="cant_entregada", type="integer", nullable=true)
      */
         private $cantE;
 

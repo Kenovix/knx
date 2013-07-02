@@ -1,0 +1,44 @@
+{% extends "::admin_layout.html.twig" %}
+
+{% block menu %}
+	{{ knp_menu_render('ParametrizarBundle:Builder:superAdminMenu') }}
+{% endblock %}
+
+{% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
+
+{% block titulo %}Modificar actividad{% endblock %}
+
+{% block msg %}
+	{% if app.session.flash('ok') %}
+	    <div class="alert alert-success">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('ok') }}</span>
+	    </div>
+	{% elseif app.session.flash('info') %}
+		<div class="alert alert-info">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('info') }}</span>
+	    </div>
+	{% elseif app.session.flash('error') %}
+		<div class="alert alert-error">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('error') }}</span>
+	    </div>
+	{% endif %}
+{% endblock %}
+
+{% block cuerpo %}
+
+	<form action="{{ path('cargo_pyp_update', {'pyp': cp.pyp.id, 'cargo': cp.cargo.id }) }}" class="form-horizontal" method="post" {{ form_enctype(form) }}>
+	    <fieldset>
+	    	<legend>Datos de la actividad</legend>
+	    	    
+		   {{ form_widget(form) }}
+		
+			<div class="form-actions">
+				<input class="btn btn-primary" name="guardar" type="submit" value="Modificar" />
+			    <a href="{{ path('cargo_pyp_show', {'pyp': cp.pyp.id, 'cargo': cp.cargo.id }) }}" class="btn btn-danger">Cancelar</a>
+			</div>
+		</fieldset>
+	</form>
+{% endblock %}
