@@ -24,29 +24,29 @@ class Pyp
 
 
     /**
-     * @var codcategoria
+     * @var codigo
      *
-     * @ORM\Column(name="cod_categoria", type="integer", nullable=false)
+     * @ORM\Column(name="codigo", type="integer", nullable=false)
      *
      */
-        private $codcategoria;
+        private $codigo;
 
 
-     /**
+    /**
      * @var string nombre
      *
      * @ORM\Column(name="nombre", type="text", nullable=false)
      */
         private $nombre;
 
-        /*
-         * Get toString
-        */
-        public function __toString()
-        {
-        	return $this->getNombre();
-        }
-        
+	/**
+     * Get toString
+     */
+	public function __toString()
+    {
+    	return $this->getNombre();
+  	}
+
     /**
      * Get id
      *
@@ -58,26 +58,26 @@ class Pyp
     }
 
     /**
-     * Set codcategoria
+     * Set codigo
      *
-     * @param integer $codcategoria
+     * @param integer $codigo
      * @return Pyp
      */
-    public function setCodcategoria($codcategoria)
+    public function setCodigo($codigo)
     {
-        $this->codcategoria = $codcategoria;
+        $this->codigo = $codigo;
     
         return $this;
     }
 
     /**
-     * Get codcategoria
+     * Get codigo
      *
      * @return integer 
      */
-    public function getCodcategoria()
+    public function getCodigo()
     {
-        return $this->codcategoria;
+        return $this->codigo;
     }
 
     /**

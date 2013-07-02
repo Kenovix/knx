@@ -66,7 +66,7 @@ class CargoController extends Controller
 	    
 	    		$this->get('session')->setFlash('ok', 'La cargo ha sido creada éxitosamente.');
 	    
-	    		return $this->redirect($this->generateUrl('cargo_show', array("id" => $cargo->getId())));
+	    		return $this->redirect($this->generateUrl('cargo_show', array("cargo" => $cargo->getId())));
 	    	}
     	}
 	        	

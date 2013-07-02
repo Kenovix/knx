@@ -1,0 +1,66 @@
+{% extends "::admin_layout.html.twig" %}
+
+{% block menu %}
+	{{ knp_menu_render('ParametrizarBundle:Builder:superAdminMenu') }}
+{% endblock %}
+
+{% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
+
+{% block titulo %}Información de la contratación{% endblock %}
+
+{% block msg %}
+	{% if app.session.flash('ok') %}
+	    <div class="alert alert-success">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('ok') }}</span>
+	    </div>
+	{% elseif app.session.flash('info') %}
+		<div class="alert alert-info">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('info') }}</span>
+	    </div>
+	{% elseif app.session.flash('error') %}
+		<div class="alert alert-error">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('error') }}</span>
+	    </div>
+	{% endif %}
+{% endblock %}
+
+{% block cuerpo %}
+
+	<table class="table">
+        <tbody>
+        	<tr>
+                <td><strong>Número de contrato</strong></td>
+                <td>{{ contratado.contrato.numero }}</td>
+                <td><strong>Actividad</strong></td>
+                <td>{{ contratado.cargo.nombre }}</td>
+            </tr>
+            <tr>
+                <td><strong>Precio</strong></td>
+                <td>
+                	{% if contratado.precio %}
+                		<strong>${{ contratado.precio | number_format(0,',','.') }}</strong>
+                	{% else %}
+                		${{ ((contratado.cargo.valor * contratado.contrato.porcentaje) + contratado.cargo.valor) | number_format(0,',','.') }}
+                	{% endif %}
+                </td>
+                <td><strong>Estado</strong></td>
+                <td>{{ contratado.estado }}</td>
+            </tr>
+            
+            <tr>
+                <td><strong>Observación</strong></td>
+                <td>{{ contratado.observacion }}</td>
+                <td><strong>Creado</strong></td>
+                <td>{{ contratado.created | date('d-m-Y') }}</td>
+            </tr>    
+        </tbody>
+    </table>
+
+	<div class="btn-group">
+	    <a href="{{ path('contrato_cargo_edit', {'contrato': contratado.contrato.id, 'cargo': contratado.cargo.id}) }}" class="btn btn-primary">Modificar</a>
+	    <a href="{{ path('contrato_show', {'contrato': contratado.contrato.id }) }}" class="btn">Volver</a>
+    </div>
+{% endblock %}

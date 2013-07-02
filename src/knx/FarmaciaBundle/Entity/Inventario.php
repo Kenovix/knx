@@ -68,7 +68,7 @@ class Inventario
      */
         private $cant;
         
-            
+
         
      /**
      * @var PrecioCompra

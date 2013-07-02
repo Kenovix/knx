@@ -68,7 +68,7 @@
     
     <hr />
     
-    <h3>Contratos</h3>
+    <h3>Contratos procedimientos</h3>
     
     {% if contratos %}
     
@@ -80,15 +80,19 @@
 	    		<th>Contacto</th>
 	    		<th>Procentaje</th>
 	    		<th>Estado</th>
+	    		<th>Tipo</th>
+	    		<th>Opciones</th>
 	  		</tr>
     
     	{% for contrato in contratos %}    
     		<tr>
-	    		<td><a href="{{ path('contrato_edit', {'contrato': contrato.id}) }}">{{ contrato.numero }}</a></td>
+	    		<td><a href="{{ path('contrato_show', {'contrato': contrato.id}) }}">{{ contrato.numero }}</a></td>
 	    		<td>{{ contrato.fechaInicio | date('d-m-Y')}}</td>
 	    		<td>{{ contrato.fechaFin | date('d-m-Y') }}</td>
 	    		<td>{{ contrato.contacto }}</td>
-	    		<td>{{ contrato.porcentaje }}</td>
+	    		<td>{{ contrato.porcentaje * 100 }}%</td>
+	    		<td>{{ contrato.estado }}</td>
+	    		<td>{{ contrato.tipo }}</td>
 	    		<td>{{ contrato.estado }}</td>
 	  		</tr>
 		{% endfor %}

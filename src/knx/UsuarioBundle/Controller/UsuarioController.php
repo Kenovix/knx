@@ -4,7 +4,8 @@ namespace knx\UsuarioBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use knx\UsuarioBundle\Entity\Usuario;
-use knx\UsuarioBundle\Form\UsuarioType;
+use knx\UsuarioBundle\Form\UsuarioBasicType;
+
 
 class UsuarioController extends Controller
 {
@@ -12,150 +13,50 @@ class UsuarioController extends Controller
     {   
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
     	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
-    	$breadcrumbs->addItem("Almacen", $this->get("router")->generate("almacen_list"));
+    	$breadcrumbs->addItem("Usuario", $this->get("router")->generate("usuario_list"));
     	$breadcrumbs->addItem("Listado");
     	
     	$em = $this->getDoctrine()->getEntityManager();    
-        $almacen = $em->getRepository('ParametrizarBundle:Almacen')->findAll();
+        $usuario = $em->getRepository('UsuarioBundle:Usuario')->findAll();
         
-        return $this->render('ParametrizarBundle:Almacen:list.html.twig', array(
-                'almacenes'  => $almacen
+        return $this->render('UsuarioBundle:Usuario:list.html.twig', array(
+                'usuarios'  => $usuario
         ));
     }
     
-    public function newAction()
+	public function editAction($usuario)
     {
-    	$breadcrumbs = $this->get("white_october_breadcrumbs");
-    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
-    	$breadcrumbs->addItem("Almacen", $this->get("router")->generate("almacen_list"));
-    	$breadcrumbs->addItem("Nuevo");
-    	
-    	$usuario = new Usuario();
-    	
-    	$form = $this->createForm(new UsuarioType('mi_user_registration'), $usuario);
-
-    	return $this->render('UsuarioBundle:Usuario:new.html.twig', array(
-    			'form'   => $form->createView()
-    	));
+		$userManager = $this->container->get('fos_user.user_manager');
+		$usuario = $userManager->findUserBy(array('id' => $usuario));
+		
+		$form = $this->createForm(new UsuarioBasicType(), $usuario);
+		
+		//$form = $this->container->get('fos_user.registration.form');
+		
+		return $this->render('UsuarioBundle:Usuario:edit.html.twig', array(
+				'usuario'  => $usuario,
+				'form' => $form->createView()
+		));
+		
     }
     
-    public function saveAction()
+    public function updateAction($usuario)
     {
-    	$breadcrumbs = $this->get("white_october_breadcrumbs");
-    	 
-    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
-    	$breadcrumbs->addItem("Almacen", $this->get("router")->generate("almacen_list"));
-    	$breadcrumbs->addItem("Nuevo");
-    	
-    	$request = $this->getRequest();
-    	
-    	$almacen = new Almacen();    	
-    	$form = $this->createForm(new AlmacenType(), $almacen);
-    	
-    	if ($request->getMethod() == 'POST') {
-    		
-    		$form->bind($request);
+    	$userManager = $this->container->get('fos_user.user_manager');
+    	$usuario = $userManager->findUserBy(array('id' => $usuario));
     
-	    	if ($form->isValid()) {	    		
-	    		 
-	    		$em = $this->getDoctrine()->getEntityManager();
-	    		
-	    		$em->persist($almacen);
-	    		$em->flush();
-	    
-	    		$this->get('session')->setFlash('ok', 'El almacen ha sido creada éxitosamente.');
-	    
-	    		return $this->redirect($this->generateUrl('almacen_show', array("almacen" => $almacen->getId())));
-	    	}
-    	}
-	        	
-    	return $this->render('ParametrizarBundle:Almacen:new.html.twig', array(
-    			'form'   => $form->createView()
-    	));    
-    }
+    	$editForm = $this->createForm(new UsuarioType(), $usuario);
     
-    public function showAction($almacen)
-    {
-    	$em = $this->getDoctrine()->getEntityManager();
+    	if ($editForm->isValid()) {
+    		$userManager->updateUser($usuario);
     
-    	$almacen = $em->getRepository('ParametrizarBundle:Almacen')->find($almacen);
-    	
-    	if (!$almacen) {
-    		throw $this->createNotFoundException('El almacen solicitada no esta disponible.');
+    		return $this->redirect($this->generateUrl('usuario_edit',
+    				array('usuario' => $usuario->getId())));
     	}
     	
-    	$breadcrumbs = $this->get("white_october_breadcrumbs");
-    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
-    	$breadcrumbs->addItem("Almacen", $this->get("router")->generate("almacen_list"));
-    	$breadcrumbs->addItem($almacen->getNombre());
-    	
-    	return $this->render('ParametrizarBundle:Almacen:show.html.twig', array(
-    			'almacen'  => $almacen
-    	));
-    }
-    
-    public function editAction($almacen)
-    {
-    	$em = $this->getDoctrine()->getEntityManager();
-    
-    	$almacen = $em->getRepository('ParametrizarBundle:Almacen')->find($almacen);
-    
-    	if (!$almacen) {
-    		throw $this->createNotFoundException('El almacen solicitado no existe');
-    	}
-    	
-    	$breadcrumbs = $this->get("white_october_breadcrumbs");
-    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
-    	$breadcrumbs->addItem("Almacen", $this->get("router")->generate("almacen_list"));
-    	$breadcrumbs->addItem($almacen->getNombre(), $this->get("router")->generate("almacen_show", array("almacen" => $almacen->getId())));
-    	$breadcrumbs->addItem("Modificar ".$almacen->getNombre());
-    
-    	$form = $this->createForm(new AlmacenType(), $almacen);
-    
-    	return $this->render('ParametrizarBundle:Almacen:edit.html.twig', array(
-    			'almacen' => $almacen,
-    			'form' => $form->createView()
-    	));
-    }
-    
-    
-    public function updateAction($almacen)
-    {    	    	
-    	$em = $this->getDoctrine()->getEntityManager();
-    
-    	$almacen = $em->getRepository('ParametrizarBundle:Almacen')->find($almacen);
-    
-    	if (!$almacen) {
-    		throw $this->createNotFoundException('La almacen solicitada no existe.');
-    	}
-    	
-    	$breadcrumbs = $this->get("white_october_breadcrumbs");
-    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
-    	$breadcrumbs->addItem("Almacen", $this->get("router")->generate("almacen_list"));
-    	$breadcrumbs->addItem($almacen->getNombre(), $this->get("router")->generate("almacen_show", array("almacen" => $almacen->getId())));
-    	$breadcrumbs->addItem("Modificar ".$almacen->getNombre());
-    
-    	$form = $this->createForm(new AlmacenType(), $almacen);
-    	$request = $this->getRequest();
-    	
-    	if ($request->getMethod() == 'POST') {
-    		
-    		$form->bind($request);
-    
-	    	if ($form->isValid()) {
-	    		 
-	    		$em->persist($almacen);
-	    		$em->flush();
-	    		
-	    		$this->get('session')->setFlash('ok', 'El almacen ha sido modificado éxitosamente.');
-	    		
-	    		return $this->redirect($this->generateUrl('almacen_edit', array('almacen' => $almacen->getId())));
-	    	}
-    	}
-    
-    	return $this->render('ParametrizarBundle:Almacen:edit.html.twig', array(
-    			'almacen' => $almacen,
-    			'form' => $form->createView()
+    	return $this->render('UsuarioBundle:Usuario:list.html.twig', array(
+    			'usuario'  => $usuario,
+				'form' => $editForm->createView()
     	));
     }
 }

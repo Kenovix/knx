@@ -13,36 +13,16 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class ImvPyp
 {
-	
 	/**
-	 * @var integer $id
-	 *
-	 * @ORM\Column(name="id", type="integer", nullable=false)
 	 * @ORM\Id
-	 * @ORM\GeneratedValue(strategy="IDENTITY")
+	 * @ORM\ManyToOne(targetEntity="knx\FarmaciaBundle\Entity\Imv")
 	 */
-	private $id;
-	
+    private $imv;
 
     /**
-     * @var imv
-     *
-     * @ORM\ManyToOne(targetEntity="knx\FarmaciaBundle\Entity\Imv")
-     * @ORM\JoinColumns({
-     * @ORM\JoinColumn(name="imv_id", referencedColumnName="id")
-     * })
-     */   
-    private $imv;
-        
-
-      /**
-     * @var pyp
-     *
+     * @ORM\Id
      * @ORM\ManyToOne(targetEntity="knx\ParametrizarBundle\Entity\Pyp")
-     * @ORM\JoinColumns({
-     * @ORM\JoinColumn(name="pyp_id", referencedColumnName="id")
-     * })
-     */  
+     */
     private $pyp;
 
      /**

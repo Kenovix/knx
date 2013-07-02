@@ -6,7 +6,7 @@
 
 {% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
 
-{% block titulo %}Nuevo usuario{% endblock %}
+{% block titulo %}Listado de cargos{% endblock %}
 
 {% block msg %}
 	{% if app.session.flash('ok') %}
@@ -28,16 +28,30 @@
 {% endblock %}
 
 {% block cuerpo %}
-
-	<form action="{{ path('fos_user_registration_register') }}" class="form-horizontal" method="post" {{ form_enctype(form) }}>
-	    <fieldset>
-	    	<legend>Datos del almacen</legend>
-	    	    
-			{{ form_widget(form) }}
-		   
-			<div class="form-actions">
-				<input class="btn btn-primary" name="guardar" type="submit" value="Guardar" />
-			    <a href="{{ path('almacen_list') }}" class="btn btn-danger">Cancelar</a>
-			</div>
-	</form>
+	{% if cargos %}
+	    <table class="table">
+	        <thead>
+	            <tr>
+	                <th>No.</th>
+	                <th>Nombre</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	        {% for cargo in cargos %}
+	            <tr>
+	                <td>{{ loop.index }}</td>
+	                <td><a href="{{ path('cargo_show', {'cargo':cargo.id}) }}">{{ cargo.nombre }}</a></td>
+	            </tr>
+	        {% endfor %}
+	        </tbody>
+	    </table>
+	{% else %}
+		<div class="alert alert-success">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>No existen cargos creados</span>
+	    </div>
+	{% endif %}
+		
+    
+    <a href="{{ path('cargo_new') }}" class="btn btn-primary">Nuevo cargo</a>
 {% endblock %}

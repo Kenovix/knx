@@ -6,7 +6,7 @@
 
 {% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
 
-{% block titulo %}Información del cliente{% endblock %}
+{% block titulo %}Información del contrato{% endblock %}
 
 {% block msg %}
 	{% if app.session.flash('ok') %}
@@ -28,33 +28,31 @@
 {% endblock %}
 
 {% block cuerpo %}
-	
-	{% set label_tipo = {'1': 'Contributivo', '2': 'Subsidiado', '3': 'Vinculado', '4': 'Particular', '5': 'Otro'} %}
 
 	<table class="table">
         <tbody>
         	<tr>
-                <td><strong>Nit.</strong></td>
-                <td>{{ cliente.nit }}</td>
-                <td><strong>Nombre</strong></td>
-                <td>{{ cliente.nombre }}</td>
+                <td><strong>Número</strong></td>
+                <td>{{ contrato.numero }}</td>
+                <td><strong>Contacto</strong></td>
+                <td>{{ contrato.contacto }}</td>
             </tr>
             <tr>
-                <td><strong>Código</strong></td>
-                <td>{{ cliente.codigo }}</td>
-                <td><strong>Tipo</strong></td>
-                <td>{{ label_tipo[cliente.tipo] }}</td>
+                <td><strong>Inicia</strong></td>
+                <td>{{ contrato.fechaInicio | date('d-m-Y') }}</td>
+                <td><strong>Termina</strong></td>
+                <td>{{ contrato.fechaFin | date('d-m-Y') }}</td>
             </tr>
             
             <tr>
-                <td><strong>Dirección</strong></td>
-                <td>{{ cliente.direccion }}</td>
-                <td><strong>Teléfono</strong></td>
-                <td>{{ cliente.telefono }}</td>
+                <td><strong>Procentaje</strong></td>
+                <td>{{ contrato.porcentaje * 100 }}%</td>
+                <td><strong>Estado</strong></td>
+                <td>{{ contrato.estado }}</td>
             </tr>
             <tr>
-                <td><strong>Estado</strong></td>
-                <td>{{ cliente.estado }}</td>
+                <td><strong>Tipo</strong></td>
+                <td>{{ contrato.tipo }}</td>
                 <td></td>
                 <td></td>
             </tr>    
@@ -62,42 +60,50 @@
     </table>
 
 	<div class="btn-group">
-	    <a href="{{ path('cliente_edit', {'cliente':cliente.id}) }}" class="btn btn-primary">Modificar</a>
-	    <a href="{{ path('cliente_list') }}" class="btn">Volver</a>
+	    <a href="{{ path('contrato_edit', {'contrato':contrato.id}) }}" class="btn btn-primary">Modificar</a>
+	    <a href="{{ path('cliente_show', {'cliente': contrato.cliente.id	}) }}" class="btn">Volver</a>
     </div>
     
     <hr />
     
     <h2>Contratos</h2>
     
-    {% if contratos %}
+    {% if contratado %}
     
-		<table>
+		<table class="table">
 			<tr>
-	    		<th>Número</th>
-	    		<th>Inicia</th>
-	    		<th>Finaliza</th>
-	    		<th>Contacto</th>
-	    		<th>Procentaje</th>
-	    		<th>Estado</th>
+	    		<th>Código</th>
+	    		<th>Nombre</th>
+	    		<th>Valor</th>
+	    		<th>Observación</th>
+	    		<th>Creado</th>
+	    		<th>Ultima modificación</th>
 	  		</tr>
     
-    	{% for contrato in contratos %}    
+    	{% for pactado in contratado %}    
     		<tr>
-	    		<td>{{ contrato.numero }}</td>
-	    		<td>{{ contrato.fechaInicio }}</td>
-	    		<td>{{ contrato.fechaFin }}</td>
-	    		<td>{{ contrato.contacto }}</td>
-	    		<td>{{ contrato.porcentaje }}</td>
-	    		<td>{{ contrato.estado }}</td>
+	    		<td>{{ pactado.cargo.cups }}</td>
+	    		<td><a href="{{ path('contrato_cargo_show', {'contrato': contrato.id, 'cargo': pactado.cargo.id }) }}" title="Modificar actividad">{{ pactado.cargo.nombre }}</a></td>
+	    		<td>
+	    			{% if pactado.precio %}
+	    				<strong>${{ pactado.precio | number_format(0,',','.') }}</strong>
+	    			{% else %}
+	    				${{ ((pactado.cargo.valor * pactado.contrato.porcentaje) + pactado.cargo.valor) | number_format(0,',','.') }}
+	    			{% endif %}
+	    		</td>
+	    		<td>{{ pactado.observacion }}</td>
+	    		<td>{{ pactado.created | date('d-m-Y') }}</td>
+	    		<td>{{ pactado.updated | date('d-m-Y') }}</td>
 	  		</tr>
 		{% endfor %}
 		
 		</table>
 	{% else %}
-		<span>No hay contratos</span>
+		<div class="alert alert-info">
+	        <span>No hay actividades contratadas</span>
+	    </div>
 	{% endif %}
 	
-	<a href="{{ path('contrato_new') }}" class="btn btn-primary">Crear contrato</a>
+	<a href="{{ path('contrato_cargo_new', {'contrato': contrato.id}) }}" class="btn btn-primary">Nueva actividad</a>
 
 {% endblock %}

@@ -65,9 +65,9 @@ class Cargo
     
     
      /**
-     * @var integer $tipoCons
+     * @var string $tipoCons
      *
-     * @ORM\Column(name="tipo_cons", type="integer", length=2, nullable=false)
+     * @ORM\Column(name="tipo_cons", type="string", length=2, nullable=true)
      */
 
     private $tipoCons;
@@ -75,7 +75,7 @@ class Cargo
      /**
      * @var integer $tipoProc
      *
-     * @ORM\Column(name="tipoProc", type="integer", length=1, nullable=false)
+     * @ORM\Column(name="tipoProc", type="integer", length=1, nullable=true)
      */
 
     private $tipoProc;
@@ -83,7 +83,7 @@ class Cargo
     /**
      * @var integer $tipoSer
      *
-     * @ORM\Column(name="tipoSer", type="integer", length=1, nullable=false)
+     * @ORM\Column(name="tipoSer", type="integer", length=1, nullable=true)
      */
 
     private $tipoSer;
@@ -104,6 +104,10 @@ class Cargo
    private $updated;
     
 
+    public function __toString(){
+    	return $this->getNombre();
+    }
+    
     /**
      * Get id
      *
@@ -232,7 +236,7 @@ class Cargo
     /**
      * Set tipoCons
      *
-     * @param integer $tipoCons
+     * @param string $tipoCons
      * @return Cargo
      */
     public function setTipoCons($tipoCons)
@@ -245,7 +249,7 @@ class Cargo
     /**
      * Get tipoCons
      *
-     * @return integer 
+     * @return string 
      */
     public function getTipoCons()
     {

@@ -9,17 +9,17 @@
 {% block titulo %}Nuevo almacen{% endblock %}
 
 {% block msg %}
-	{% if app.session.flash('ok') %}
+	{% if app.session.hasFlash('ok') %}
 	    <div class="alert alert-success">
 	    	<button data-dismiss="alert" class="close" type="button">×</button>
 	        <span>{{ app.session.flash('ok') }}</span>
 	    </div>
-	{% elseif app.session.flash('info') %}
+	{% elseif app.session.hasFlash('info') %}
 		<div class="alert alert-info">
 	    	<button data-dismiss="alert" class="close" type="button">×</button>
 	        <span>{{ app.session.flash('info') }}</span>
 	    </div>
-	{% elseif app.session.flash('error') %}
+	{% elseif app.session.hasFlash('error') %}
 		<div class="alert alert-error">
 	    	<button data-dismiss="alert" class="close" type="button">×</button>
 	        <span>{{ app.session.flash('error') }}</span>
@@ -34,10 +34,12 @@
 	    	<legend>Datos del almacen</legend>
 	    	    
 			{{ form_widget(form) }}
-		   
-			<div class="form-actions">
-				<input class="btn btn-primary" name="guardar" type="submit" value="Guardar" />
-			    <a href="{{ path('almacen_list') }}" class="btn btn-danger">Cancelar</a>
-			</div>
+		</fieldset>
+		
+		<div class="form-actions">
+			<input class="btn btn-primary" name="guardar" type="submit" value="Guardar" />
+		    <a href="{{ path('almacen_list') }}" class="btn btn-danger">Cancelar</a>
+		</div>
+		
 	</form>
 {% endblock %}

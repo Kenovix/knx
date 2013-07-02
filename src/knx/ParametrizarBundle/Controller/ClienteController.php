@@ -5,6 +5,7 @@ namespace knx\ParametrizarBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use knx\ParametrizarBundle\Entity\Cliente;
 use knx\ParametrizarBundle\Form\ClienteType;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class ClienteController extends Controller
 {
@@ -12,7 +13,7 @@ class ClienteController extends Controller
     {   
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
     	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
-    	$breadcrumbs->addItem("Cliente", $this->get("router")->generate("cliente_list"));
+    	$breadcrumbs->addItem("Clientes", $this->get("router")->generate("cliente_list"));
     	$breadcrumbs->addItem("Listado");
     	
     	$em = $this->getDoctrine()->getEntityManager();    
@@ -27,7 +28,7 @@ class ClienteController extends Controller
     {
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
     	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
-    	$breadcrumbs->addItem("Cliente", $this->get("router")->generate("cliente_list"));
+    	$breadcrumbs->addItem("Clientes", $this->get("router")->generate("cliente_list"));
     	$breadcrumbs->addItem("Nuevo");
     	
     	$cliente = new Cliente();
@@ -45,7 +46,7 @@ class ClienteController extends Controller
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
     	 
     	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
-    	$breadcrumbs->addItem("Cliente", $this->get("router")->generate("cliente_list"));
+    	$breadcrumbs->addItem("Clientes", $this->get("router")->generate("cliente_list"));
     	$breadcrumbs->addItem("Nuevo");
     	
     	$request = $this->getRequest();
@@ -89,7 +90,7 @@ class ClienteController extends Controller
     	
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
     	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
-    	$breadcrumbs->addItem("Cliente", $this->get("router")->generate("cliente_list"));
+    	$breadcrumbs->addItem("Clientes", $this->get("router")->generate("cliente_list"));
     	$breadcrumbs->addItem($cliente->getNombre());
     	
     	return $this->render('ParametrizarBundle:Cliente:show.html.twig', array(
@@ -110,9 +111,9 @@ class ClienteController extends Controller
     	
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
     	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
-    	$breadcrumbs->addItem("Cliente", $this->get("router")->generate("cliente_list"));
+    	$breadcrumbs->addItem("Clientes", $this->get("router")->generate("cliente_list"));
     	$breadcrumbs->addItem($cliente->getNombre(), $this->get("router")->generate("cliente_show", array("cliente" => $cliente->getId())));
-    	$breadcrumbs->addItem("Modificar ".$cliente->getNombre());
+    	$breadcrumbs->addItem("Modificar");
     
     	$form = $this->createForm(new ClienteType(), $cliente);
     

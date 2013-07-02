@@ -123,7 +123,9 @@ class ImvController extends Controller
     		if ($form->isValid()) {
     	
     			$em = $this->getDoctrine()->getEntityManager();
+
     			$imv->setcantT('0');
+
     			$em->persist($imv);
     			$em->flush();
     
