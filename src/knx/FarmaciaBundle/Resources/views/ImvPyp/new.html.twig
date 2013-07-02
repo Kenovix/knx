@@ -6,7 +6,7 @@
 
 {% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
 
-{% block titulo %}Nuevo Imv_Pyp{% endblock %}
+{% block titulo %}Nuevo Stock_Pyp{% endblock %}
 
 {% block msg %}
 	{% if app.session.hasFlash('ok') %}
@@ -34,7 +34,7 @@
 
 	<form action="{{ path('imvpyp_save') }}" class="form-horizontal" method="post" {{ form_enctype(form) }}>
 	    <fieldset>
-	    	<legend>Datos del Imv_Pyp</legend>
+	    	<legend>Datos del Stock_Pyp</legend>
 	    	    
 		   {{ form_widget(form) }}
 		   
@@ -42,5 +42,6 @@
 				<input class="btn btn-primary" name="guardar" type="submit" value="Guardar" />
 			    <a href="{{ path('imvpyp_list') }}" class="btn btn-danger">Cancelar</a>
 			</div>
+		</fieldset>	
 	</form>
 {% endblock %}

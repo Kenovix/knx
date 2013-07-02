@@ -37,15 +37,15 @@
     	<legend>Busqueda Devoluciones</legend>
 
         
-    <div>
+   <div>
     	<label for="fecha_inicio">Desde:</label>
-    	    <input type="date" name="fecha_inicio" id="fecha_inicio" />
+    	    <p><input type="text" name="fecha_inicio" id="fecha_inicio" /></p>
     	    <span>(DD/MM/AAAA)</span>
     </div>
     
     <div>
     	<label for="fecha_fin">Hasta:</label>
-    	    <input type="date" name="fecha_fin" id="fecha_fin" />
+    	    <p><input type="text" name="fecha_fin" id="fecha_fin" /></p>
     	    <span>(DD/MM/AAAA)</span>
     </div>
     
@@ -53,12 +53,22 @@
     
    <div class="form-actions">
 		<input class="btn btn-primary" name="Buscar" type="submit" value="Buscar" />
-			   <a href="{{ path('devolucion_new') }}" class="btn btn-primary">Nueva Devolucion</a>
-		
+				<a href="{{ path('devolucion_list') }}" class="btn">Volver</a>				
+				
 	</div>		    
 			    
+	
 			
 </form>
 
 {% endblock %}
-	
+
+{% block javascripts %}
+		    <script language="javascript" type="text/javascript">
+   $(function() {
+       $( "#fecha_inicio" ).datepicker({ dateFormat: 'dd/mm/yy' })
+       ;
+       $( "#fecha_fin" ).datepicker({ dateFormat: 'dd/mm/yy' });
+     });
+   </script>
+{% endblock %}

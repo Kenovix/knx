@@ -98,6 +98,9 @@
         {% endfor %}
         </tbody>
     </table>
+    <div class="navigation">
+    		{{ knp_pagination_render(inventarios) }}
+		</div>
     
     <div class="btn-group">
 	    <a href="{{ path('inventario_new', {'ingreso':ingreso.id}) }}" class="btn btn-primary">Nuev IMV</a>

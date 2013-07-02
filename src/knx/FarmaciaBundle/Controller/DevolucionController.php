@@ -36,9 +36,12 @@ class DevolucionController extends Controller
     	$breadcrumbs->addItem("Farmacia");
     	$breadcrumbs->addItem("Devoluciones", $this->get("router")->generate("devolucion_list"));
     	$breadcrumbs->addItem("Listado");
-    	
+    	$paginator  = $this->get('knp_paginator');
+    	 
     	$em = $this->getDoctrine()->getEntityManager();    
         $devolucion = $em->getRepository('FarmaciaBundle:Devolucion')->findAll();
+        $devolucion = $paginator->paginate($devolucion,$this->getRequest()->query->get('page', 1), 10);
+        
         
         return $this->render('FarmaciaBundle:Devolucion:list.html.twig', array(
                 'devolucion'  => $devolucion
@@ -56,11 +59,11 @@ class DevolucionController extends Controller
     
     	 
     	if(trim($fecha_inicio)){
-    		$desde = explode('-',$fecha_inicio);
+    		$desde = explode('/',$fecha_inicio);
     
     		//die(print_r($desde));
     
-    		if(!checkdate($desde[1],$desde[2],$desde[0])){
+    		if(!checkdate($desde[1],$desde[0],$desde[2])){
     			$this->get('session')->setFlash('info', 'La fecha de inicio ingresada es incorrecta.');
     			return $this->render('FarmaciaBundle:Devolucion:list.html.twig', array(
     					'devolucion'  => $devolucion
@@ -77,9 +80,9 @@ class DevolucionController extends Controller
     	}
     
     	if(trim($fecha_fin)){
-    		$hasta = explode('-',$fecha_fin);
+    		$hasta = explode('/',$fecha_fin);
     
-    		if(!checkdate($hasta[1],$hasta[2],$hasta[0])){
+    		if(!checkdate($hasta[1],$hasta[0],$hasta[2])){
     			return $this->render('FarmaciaBundle:Devolucion:list.html.twig', array(
     					'devolucion'  => $devolucion
     			));
@@ -103,8 +106,8 @@ class DevolucionController extends Controller
     
     	//die(print_r($dql));
     
-    	$dql->setParameter('inicio', $desde[0]."-".$desde[1]."-".$desde[2].' 00:00:00');
-    	$dql->setParameter('fin', $hasta[0]."-".$hasta[1]."-".$hasta[2].' 23:59:00');
+    	$dql->setParameter('inicio', $desde[2]."/".$desde[1]."/".$desde[0].' 00:00:00');
+    	$dql->setParameter('fin', $hasta[2]."/".$hasta[1]."/".$hasta[0].' 23:59:00');
     
     	$devolucion = $dql->getResult();
     	//die(var_dump($ingreso));
@@ -226,83 +229,6 @@ class DevolucionController extends Controller
     			
     			
     	));
-    }
-    
-    public function editAction($devolucion)
-    {
-    	$em = $this->getDoctrine()->getEntityManager();    
-    	$devolucion = $em->getRepository('FarmaciaBundle:Devolucion')->find($devolucion);
-    
-   	   if (!$devolucion) {
-    		throw $this->createNotFoundException('El devolucion solicitado no esta disponible.');
-    	}
-    	 
-    	$breadcrumbs = $this->get("white_october_breadcrumbs");
-    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
-    	$breadcrumbs->addItem("Farmacia");
-    	$breadcrumbs->addItem("Devolucions", $this->get("router")->generate("devolucion_list"));
-    	$breadcrumbs->addItem($devolucion->getId(), $this->get("router")->generate("devolucion_show", array("devolucion" => $devolucion->getId())));
-    	$breadcrumbs->addItem("Modificar".$devolucion->getId());
-    
-    	$form   = $this->createForm(new DevolucionType(), $devolucion);
-    
-    	return $this->render('FarmaciaBundle:Devolucion:edit.html.twig', array(
-    			'devolucion' => $devolucion,
-    			'form' => $form->createView(),
-    	));
-    }
-    
-    
-    public function updateAction($devolucion)
-    {
-    	$em = $this->getDoctrine()->getEntityManager();
-    
-    	$devolucion = $em->getRepository('FarmaciaBundle:Devolucion')->find($devolucion);
-    
-        if (!$devolucion) {
-    		throw $this->createNotFoundException('El devolucion solicitado no esta disponible.');
-    	}
-    
-    	$form = $this->createForm(new DevolucionType(), $devolucion);
-    	$request = $this->getRequest();
-    	if ($request->getMethod() == 'POST') {
-    		 
-    		$form->bind($request);
-    		 
-    		if ($form->isValid()) {
-    			$cant_devolucion = $devolucion->getCant();/*cantidad de traslado*/
-    			$inventario = $devolucion->getInventario();/*Entidad inventario*/
-    			$imv = $inventario->getImv();/*Entidad imv para llegar a la cantidad total*/
-    			$cant_imv = $imv->getCantT();/*traigo cantidad total del imv*/
-    	
-    			$em = $this->getDoctrine()->getEntityManager();
-    			if ($cant_imv < $cant_devolucion){
-    					
-    				$this->get('session')->setFlash('error','La cantidad ingresada es mayor que cantidad en existencia,cantidad en existencia-'.$cant_imv = $imv->getCantT().'');
-    		        return $this->redirect($this->generateUrl('devolucion_edit', array("devolucion" => $devolucion->getId())));
-       			}else{
-    			$em->persist($devolucion);
-    			$em->flush();
-    
-    			$this->get('session')->setFlash('ok', 'El devolucion ha sido modificado éxitosamente.');
-    
-    			return $this->redirect($this->generateUrl('devolucion_show', array("devolucion" => $devolucion->getId())));	
-    			}
-    		}
-    	}
-    
-    	$breadcrumbs = $this->get("white_october_breadcrumbs");
-    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
-    	$breadcrumbs->addItem("Farmacia", $this->get("router")->generate("devolucion_list"));
-    	$breadcrumbs->addItem($devolucion->getId(), $this->get("router")->generate("devolucion_show", array("devolucion" => $devolucion->getId())));
-    	$breadcrumbs->addItem("Modificar".$devolucion->getId());
-    
-    	return $this->render('FarmaciaBundle:Devolucion:new.html.twig', array(
-       			'devolucion' => $devolucion,
-    			'form' => $form->createView(),
-    	));
-    }
-    
-    
+    }   
     
 } 

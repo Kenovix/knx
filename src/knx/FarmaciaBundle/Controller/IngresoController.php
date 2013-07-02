@@ -17,7 +17,7 @@ class IngresoController extends Controller
 		
 		$breadcrumbs = $this->get("white_october_breadcrumbs");
 		$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
-		$breadcrumbs->addItem("Farmacia");
+		$breadcrumbs->addItem("Ingresos");
 		$breadcrumbs->addItem("Busqueda");
 		 
 		$form   = $this->createForm(new IngresoSearchType());
@@ -37,12 +37,20 @@ class IngresoController extends Controller
     	$breadcrumbs->addItem("Ingresos", $this->get("router")->generate("ingreso_list"));
     	$breadcrumbs->addItem("Listado");
     	
+    	$paginator  = $this->get('knp_paginator');
+    	 
+    	
     	$em = $this->getDoctrine()->getEntityManager();    
         $ingreso = $em->getRepository('FarmaciaBundle:Ingreso')->findAll(); 
+       // $inventarios = $em->getRepository('FarmaciaBundle:Inventario')->findOneBy(array('ingreso' => $ingreso->getId()));
+        
+        //die(var_dump($inventarios));
+       // $proveedor = $inventarios->get
+        $ingreso = $paginator->paginate($ingreso,$this->getRequest()->query->get('page', 1), 10);
         
         return $this->render('FarmaciaBundle:Ingreso:list.html.twig', array(
+        		
         		'ingreso'  => $ingreso,
-        
         ));
         }
           
@@ -54,14 +62,16 @@ class IngresoController extends Controller
         $request = $this->get('request');    	
     	$fecha_inicio = $request->request->get('fecha_inicio');
     	$fecha_fin = $request->request->get('fecha_fin');
+    	$num_fact = $request->request->get('num_fact');
     	   
-    	
+    	//die(var_dump($num_fact));
+    	 
     	if(trim($fecha_inicio)){
-    		$desde = explode('-',$fecha_inicio);
-    		
+    		$desde = explode('/',$fecha_inicio);
     		//die(print_r($desde));
     		
-    		if(!checkdate($desde[1],$desde[2],$desde[0])){
+    		
+    		if(!checkdate($desde[1],$desde[0],$desde[2])){
     			$this->get('session')->setFlash('info', 'La fecha de inicio ingresada es incorrecta.');
     			 return $this->render('FarmaciaBundle:Ingreso:list.html.twig', array(
                 'ingreso'  => $ingreso       		
@@ -78,9 +88,9 @@ class IngresoController extends Controller
     	}
     	 
     	if(trim($fecha_fin)){
-    		$hasta = explode('-',$fecha_fin);
+    		$hasta = explode('/',$fecha_fin);
     		
-    		if(!checkdate($hasta[1],$hasta[2],$hasta[0])){
+    		if(!checkdate($hasta[1],$hasta[0],$hasta[2])){
     			 return $this->render('FarmaciaBundle:Ingreso:list.html.twig', array(
                 'ingreso'  => $ingreso       		
         ));
@@ -91,10 +101,19 @@ class IngresoController extends Controller
                 'ingreso'  => $ingreso        		
         ));
     	}
+
+    	$paginator  = $this->get('knp_paginator');
+    	$where = ""; 
+    	if(trim($num_fact)){
+    		
+    		$where = "AND f.numFact = :num_fact ";
+    		
+    	}
+    	 
     	
         		$query = "SELECT f FROM FarmaciaBundle:Ingreso f WHERE 
     				f.fecha >= :inicio AND
-			    	f.fecha <= :fin
+			    	f.fecha <= :fin ".$where."        		       				
     				ORDER BY
     				f.fecha ASC";
     		
@@ -104,12 +123,19 @@ class IngresoController extends Controller
 
     		//die(print_r($dql));
     		
-    		$dql->setParameter('inicio', $desde[0]."-".$desde[1]."-".$desde[2].' 00:00:00');
-    		$dql->setParameter('fin', $hasta[0]."-".$hasta[1]."-".$hasta[2].' 23:59:00');
+    		$dql->setParameter('inicio', $desde[2]."/".$desde[1]."/".$desde[0].' 00:00:00');
+    		$dql->setParameter('fin', $hasta[2]."/".$hasta[1]."/".$hasta[0].' 23:59:00');
+    		
+    		if(trim($num_fact)){
+    		
+    		$dql->setParameter('num_fact',$num_fact);
+    			    		
+    		}
     		
     		$ingreso = $dql->getResult();
     		//die(var_dump($ingreso));
     		//die("paso");
+    		//$ingreso = $paginator->paginate($ingreso,$this->getRequest()->query->get('page', 1), 3);
     		
     		if(!$ingreso)
     		{
@@ -185,7 +211,8 @@ class IngresoController extends Controller
     	$em = $this->getDoctrine()->getEntityManager();
     
     	$ingreso = $em->getRepository('FarmaciaBundle:Ingreso')->find($ingreso);
-    	
+    	$paginator  = $this->get('knp_paginator');
+    	 
     	
     	 
     	if (!$ingreso) {
@@ -194,7 +221,8 @@ class IngresoController extends Controller
     	
     	$inventarios = $em->getRepository('FarmaciaBundle:Inventario')->findByIngreso($ingreso);
     	//$inventario = new Inventario();
-    	
+    	$inventarios = $paginator->paginate($inventarios,$this->getRequest()->query->get('page', 1), 10);
+    	 
     	
     	//$inventario = $em->getRepository('FarmaciaBundle:Inventario')->findByIngreso($ingreso);
     	 

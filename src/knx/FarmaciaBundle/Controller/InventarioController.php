@@ -69,6 +69,7 @@ class InventarioController extends Controller
     	$em = $this->getDoctrine()->getEntityManager();        
         $ingreso = $em->getRepository('FarmaciaBundle:Ingreso')->find($ingreso);
         
+        
     if ($request->getMethod() == 'POST') {
     		
     		$form->bind($request);
@@ -81,10 +82,23 @@ class InventarioController extends Controller
 	    		$cantidad_ingresada = $inventario->getCant();
 	    		
 	    		$precio_compra = $inventario->getPrecioCompra();
+	    		$precio_venta = $inventario->getPrecioVenta();
+	    		
+	    		
+	    		if($precio_venta<$precio_compra){
+	    			
+	    			$this->get('session')->setFlash('error', 'El precio de venta no puede ser menor a precio de compra.');
+	    			
+	    			return $this->redirect($this->generateUrl('inventario_new', array("ingreso" => $ingreso->getId())));
+	    			
+	    		}else{
+	    		
 	    		
 	    		$imv->setCantT($cantidad_actual+$cantidad_ingresada);
 	    		$inventario->setPrecioTotal($cantidad_ingresada * $precio_compra);
 	    		$inventario->setIngreso($ingreso);
+	    		
+	    		
 
 	    		$em->persist($inventario);
 	    		$em->persist($imv);
@@ -93,7 +107,7 @@ class InventarioController extends Controller
 
 	    		$this->get('session')->setFlash('ok', 'El Invenatrio ha sido creado éxitosamente.');
 
-	    		return $this->redirect($this->generateUrl('ingreso_show', array("ingreso" => $ingreso->getId())));
+	    		}return $this->redirect($this->generateUrl('ingreso_show', array("ingreso" => $ingreso->getId())));
 	    	}
     	}
 
@@ -198,6 +212,19 @@ class InventarioController extends Controller
     			$cantidad_ingresada = $inventario->getCant();
     			
     			//die(var_dump($medicamento_ingresado));
+    			$precio_compra = $inventario->getPrecioCompra();
+    			$precio_venta = $inventario->getPrecioVenta();
+    			 
+    			 
+    			if($precio_venta<$precio_compra){
+    			
+    				$this->get('session')->setFlash('error', 'El precio de venta no puede ser menor a precio de compra.');
+    			
+    				return $this->redirect($this->generateUrl('inventario_edit', array("inventario" => $inventario->getId())));
+    			
+    			}else{
+    			
+    			
     			     			
     			$inventario->setPrecioTotal($cantidad_ingresada * $precio_compra);
 
@@ -252,7 +279,7 @@ class InventarioController extends Controller
     			'form' => $form->createView(),
     	));
     }
-    
+    }    
     
 public function deleteAction($inventario)
     {
@@ -284,7 +311,7 @@ public function deleteAction($inventario)
     	$em->remove($inventario);
     	$em->flush();
     	 
-    	$this->get('session')->setFlash('info', 'El inventario ha sido eliminado.');
+    	$this->get('session')->setFlash('ok', 'El inventario ha sido eliminado.');
     	 
     	return $this->redirect($this->generateUrl('ingreso_list'));
     			

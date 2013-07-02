@@ -6,7 +6,7 @@
 
 {% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
 
-{% block titulo %}Nuevo Item{% endblock %}
+{% block titulo %}Nuevo Stock{% endblock %}
 
 {% block msg %}
 	{% if app.session.hasFlash('ok') %}
@@ -42,5 +42,6 @@
 				<input class="btn btn-primary" name="guardar" type="submit" value="Guardar" />
 			    <a href="{{ path('imv_search') }}" class="btn btn-danger">Cancelar</a>
 			</div>
+		</fieldset>			
 	</form>
 {% endblock %}

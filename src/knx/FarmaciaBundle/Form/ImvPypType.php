@@ -25,9 +25,9 @@ class ImvPypType extends AbstractType
         			return $repositorio->createQueryBuilder('s')
         			->orderBy('s.nombre', 'ASC');}
         ))
-            ->add('edadini',	'integer', array('required' => true, 'label' => 'Edad Inicio', 'attr' => array('placeholder' => 'Inicio')))
-            ->add('edadfin',	'integer', array('required' => true, 'label' => 'Edad Final', 'attr' => array('placeholder' => 'Fin')))
-            ->add('rango',		'integer', array('required' => true, 'label' => 'Rango', 'attr' => array('placeholder' => 'Numero')))
+            ->add('edadini',	'integer', array('required' => false, 'label' => 'Edad Inicio', 'attr' => array('placeholder' => 'Inicio')))
+            ->add('edadfin',	'integer', array('required' => false, 'label' => 'Edad Final', 'attr' => array('placeholder' => 'Fin')))
+            ->add('rango',		'text', array('required' => false, 'label' => 'Rango', 'attr' => array('placeholder' => 'Numero')))
             ->add('sexo',		'choice',  array('choices'  => array('M' => 'Masculino', 'F' => 'Femenino','A' => 'Ambos'),'required'  => true, 'label'=>'Sexo'))
             
             

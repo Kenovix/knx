@@ -48,8 +48,7 @@ class ImvPyp
      /**
      * @var integer $edadIni
      *
-     * @ORM\Column(name="edad_ini", type="integer", nullable=false)
-     * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
+     * @ORM\Column(name="edad_ini", type="integer", nullable=true)     * 
      * @Assert\Min(limit = "1", message = "El valor ingresado no puede ser menor de {{ limit }}", invalidMessage = "El valor ingresado debe ser un numero valido")
      * @Assert\Max(limit = "99", message = "El valor ingresado no puede ser mayor de {{ limit }}", invalidMessage = "El valor ingresado debe ser un numero valido")
      */
@@ -58,20 +57,17 @@ class ImvPyp
      /**
      * @var integer $edadFin
      *
-     * @ORM\Column(name="edad_fin", type="integer", nullable=false)
-     * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
+     * @ORM\Column(name="edad_fin", type="integer", nullable=true)     * 
      * @Assert\Min(limit = "1", message = "El valor ingresado no puede ser menor de {{ limit }}", invalidMessage = "El valor ingresado debe ser un n�mero v�lido")
      * @Assert\Max(limit = "99", message = "El valor ingresado no puede ser mayor de {{ limit }}", invalidMessage = "El valor ingresado debe ser un n�mero v�lido")
      */
         private $edadFin;
 
      /**
-     * @var integer $rango
+     * @var string $rango
      *
-     * @ORM\Column(name="rango", type="integer", nullable=true)
-     * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
-     * @Assert\Min(limit = "1", message = "El valor ingresado no puede ser menor de {{ limit }}", invalidMessage = "El valor ingresado debe ser un n�mero v�lido")
-     * @Assert\Max(limit = "99", message = "El valor ingresado no puede ser mayor de {{ limit }}", invalidMessage = "El valor ingresado debe ser un n�mero v�lido")
+     * @ORM\Column(name="rango", type="string", nullable=true)     * 
+     * 
      */
         private $rango;
 

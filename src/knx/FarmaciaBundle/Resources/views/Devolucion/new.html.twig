@@ -32,15 +32,17 @@
 	
 {% block cuerpo %}
 
-	<form action="{{ path('devolucion_save') }}" class="form-horizontal" method="post" {{ form_enctype(form) }}>
+	<form action="{{ path('devolucion_save') }}" class="form-horizontal"  onSubmit="return confirm('Verificar datos antes de realizar devolucion')" method="post" {{ form_enctype(form) }}>
 	    <fieldset>
 	    	<legend>Datos del Devolucion</legend>
+	    	
 	    	    
 		   {{ form_widget(form) }}
 		   
 			<div class="form-actions">
-				<input class="btn btn-primary" name="guardar" type="submit" value="Guardar" />
+				<input class="btn btn-primary" name="guardar" type="submit"  value="Guardar" />
 			    <a href="{{ path('devolucion_list') }}" class="btn btn-danger">Cancelar</a>
 			</div>
+		</fieldset>	
 	</form>
 {% endblock %}

@@ -6,7 +6,7 @@
 
 {% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
 
-{% block titulo %}Información de la Imv_Pyp{% endblock %}
+{% block titulo %}Información del Stock_Pyp{% endblock %}
 
 {% block msg %}
 	{% if app.session.hasFlash('ok') %}
@@ -50,6 +50,11 @@
             <tr>
                 <td><strong>Edad_Final</strong></td>
                 <td>{{ imvpyp.edadFin }}</td>
+            </tr>
+            
+            <tr>
+                <td><strong>Rango</strong></td>
+                <td>{{ imvpyp.rango }}</td>
             </tr>
             
             <tr>

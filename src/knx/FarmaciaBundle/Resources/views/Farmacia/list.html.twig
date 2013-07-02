@@ -48,6 +48,10 @@
 	        {% endfor %}
 	        </tbody>
 	    </table>
+	    
+	      <div class="navigation">
+    		{{ knp_pagination_render(farmacia) }}
+		</div>
 	{% else %}
 		<div class="alert alert-success">
 	    	<button data-dismiss="alert" class="close" type="button">×</button>

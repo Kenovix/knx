@@ -8,7 +8,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use knx\FarmaciaBundle\Entity\Imv;
 use knx\FarmaciaBundle\Form\ImvType;
 use knx\FarmaciaBundle\Form\SearchType;
-use knx\FarmaciaBundle\Form\VacunaType;
 
 
 

@@ -6,7 +6,7 @@
 
 {% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
 
-{% block titulo %}Farmacia Item{% endblock %}
+{% block titulo %}Ingresos{% endblock %}
 
 {% block msg %}
 	{% if app.session.hasFlash('ok') %}
@@ -35,30 +35,45 @@
 		<form action="{{ path('ingreso_result') }}" onSubmit="return confirm('Seguro de querer generarla busqueda?');" method="post" class="form-horizontal">
     <fieldset>
     	<legend>Busqueda Ingresos</legend>
-
-        
+       
     <div>
     	<label for="fecha_inicio">Desde:</label>
-    	    <input type="date" name="fecha_inicio" id="fecha_inicio" />
-    	    <span>(DD/MM/AAAA)</span>
+    	    <p><input type="text" name="fecha_inicio" id="fecha_inicio" /> <span>(DD/MM/AAAA)</span></p>
+    	    
     </div>
     
     <div>
     	<label for="fecha_fin">Hasta:</label>
-    	    <input type="date" name="fecha_fin" id="fecha_fin" />
-    	    <span>(DD/MM/AAAA)</span>
+    	    <p><input type="text" name="fecha_fin" id="fecha_fin" /> <span>(DD/MM/AAAA)</span>
+    	    </p>
+    </div>
+    
+    <div>
+    	<label for="num_fact">Factura No:</label>
+    	    <p><input type="text" name="num_fact" id="num_fact" /></p>
     </div>
     
     </fieldset>
     
    <div class="form-actions">
 		<input class="btn btn-primary" name="Buscar" type="submit" value="Buscar" />
-			   <a href="{{ path('ingreso_new') }}" class="btn btn-primary">Nueva Ingreso</a>
-		
+				<a href="{{ path('ingreso_list') }}" class="btn">Volver</a>				
+				
 	</div>		    
 			    
+	
 			
 </form>
 
+{% endblock %}
+
+{% block javascripts %}
+		    <script language="javascript" type="text/javascript">
+   $(function() {
+       $( "#fecha_inicio" ).datepicker({ dateFormat: 'dd/mm/yy' })
+       ;
+       $( "#fecha_fin" ).datepicker({ dateFormat: 'dd/mm/yy' });
+     });
+   </script>
 {% endblock %}
 	

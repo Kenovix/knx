@@ -214,13 +214,6 @@ devolucion_show:
     pattern:  /devolucion/{devolucion}/show
     defaults: { _controller: FarmaciaBundle:Devolucion:show }
 
-devolucion_edit:
-    pattern:  /devolucion/{devolucion}/edit
-    defaults: { _controller: FarmaciaBundle:Devolucion:edit }
-    
-devolucion_update:
-    pattern:  /devolucion/{devolucion}/update
-    defaults: { _controller: FarmaciaBundle:Devolucion:update }    
     
  #************** ImvPyp ***************#    
 

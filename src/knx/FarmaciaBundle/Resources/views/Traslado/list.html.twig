@@ -56,6 +56,10 @@
 	        </tbody>
 	    </table>
 	    
+	    <div class="navigation">
+    		{{ knp_pagination_render(traslado) }}
+		</div>
+	    
 	    <div class="form-actions">
 				<a href="{{ path('traslado_new') }}" class="btn btn-primary">Nuevo Traslado</a>				
 			    <a href="{{ path('traslado_search') }}" class="btn btn-primary">Buscar Traslados</a>				

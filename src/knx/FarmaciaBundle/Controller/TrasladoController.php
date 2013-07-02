@@ -37,14 +37,15 @@ class TrasladoController extends Controller
 		$request = $this->get('request');
 		$fecha_inicio = $request->request->get('fecha_inicio');
 		$fecha_fin = $request->request->get('fecha_fin');
-	
+		//die(print_r($fecha_inicio));
+		
 	
 		if(trim($fecha_inicio)){
-			$desde = explode('-',$fecha_inicio);
+			$desde = explode('/',$fecha_inicio);
 	
 			//die(print_r($desde));
 	
-			if(!checkdate($desde[1],$desde[2],$desde[0])){
+			if(!checkdate($desde[1],$desde[0],$desde[2])){
 				$this->get('session')->setFlash('info', 'La fecha de inicio ingresada es incorrecta.');
 				return $this->render('FarmaciaBundle:Traslado:list.html.twig', array(
 						'traslado'  => $traslado
@@ -61,9 +62,9 @@ class TrasladoController extends Controller
 		}
 	
 		if(trim($fecha_fin)){
-			$hasta = explode('-',$fecha_fin);
+			$hasta = explode('/',$fecha_fin);
 	
-			if(!checkdate($hasta[1],$hasta[2],$hasta[0])){
+			if(!checkdate($hasta[1],$hasta[0],$hasta[2])){
 				return $this->render('FarmaciaBundle:Traslado:list.html.twig', array(
 						'traslado'  => $traslado
 				));
@@ -87,8 +88,8 @@ class TrasladoController extends Controller
 	
 		//die(print_r($dql));
 	
-		$dql->setParameter('inicio', $desde[0]."-".$desde[1]."-".$desde[2].' 00:00:00');
-		$dql->setParameter('fin', $hasta[0]."-".$hasta[1]."-".$hasta[2].' 23:59:00');
+		$dql->setParameter('inicio', $desde[2]."/".$desde[1]."/".$desde[0].' 00:00:00');
+		$dql->setParameter('fin', $hasta[2]."/".$hasta[1]."/".$hasta[0].' 23:59:00');
 	
 		$traslado = $dql->getResult();
 		//die(var_dump($ingreso));
@@ -116,8 +117,14 @@ class TrasladoController extends Controller
     	$breadcrumbs->addItem("Traslados", $this->get("router")->generate("traslado_list"));
     	$breadcrumbs->addItem("Listado");
     	
+    	$paginator  = $this->get('knp_paginator');
+    	 
+    	
     	$em = $this->getDoctrine()->getEntityManager();    
         $traslado = $em->getRepository('FarmaciaBundle:Traslado')->findAll();
+        
+        $traslado = $paginator->paginate($traslado,$this->getRequest()->query->get('page', 1), 10);
+        
         
         return $this->render('FarmaciaBundle:Traslado:list.html.twig', array(
                 'traslado'  => $traslado

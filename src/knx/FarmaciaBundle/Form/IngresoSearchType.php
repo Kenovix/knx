@@ -12,8 +12,9 @@ class IngresoSearchType extends AbstractType
     {
         $builder
             ->add('fecha_inicio',	'date', array('required' => true, 'label' => 'Fecha Inicio*'))        		
-			->add('fecha_fin',	'date', array('required' => true, 'label' => 'Fecha Fin*'));
-            
+			->add('fecha_fin',	'date', array('required' => true, 'label' => 'Fecha Fin*'))
+            ->add('num_fact','text', array('required' => false, 'label' => 'No Factura:'));
+        
     }
 
     public function getName()
