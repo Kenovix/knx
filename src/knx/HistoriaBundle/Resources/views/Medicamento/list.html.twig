@@ -1,0 +1,91 @@
+{% extends "::admin_layout.html.twig" %}
+
+{% block menu %}
+	{{ knp_menu_render('HistoriaBundle:Builder:HistoriaMenu') }}
+{% endblock %}
+
+{% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
+
+{% block titulo %}Listado de los medicamentos{% endblock %}
+
+{% block msg %}
+	{% if app.session.hasFlash('ok') %}
+	    <div class="alert alert-success">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('ok') }}</span>
+	    </div>
+	{% elseif app.session.hasFlash('info') %}
+		<div class="alert alert-info">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('info') }}</span>
+	    </div>
+	{% elseif app.session.hasFlash('error') %}
+		<div class="alert alert-error">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('error') }}</span>
+	    </div>
+	{% endif %}
+{% endblock %}
+
+{% block cuerpo %}
+
+<form action="{{ path('medicamento_search') }}" class="form-horizontal" method="post" {{ form_enctype(search_form) }}>
+    <fieldset>
+    	<legend>Busqueda rapida</legend>
+    		<div>
+    			{{ form_label(search_form.nombre) }}
+				{{ form_errors(search_form.nombre) }}
+				{{ form_widget(search_form.nombre,{ 'attr': {'class': 'input-xxlarge'} }) }}	
+    		</div>
+    	
+    	{{ form_rest(search_form) }}
+    </fieldset>
+    
+    <div class="form-actions">
+		<input class="btn btn-primary" name="guardar" type="submit" value="Buscar" />
+	    <a href="{{ path('medicamento_list') }}" class="btn">Listar todo</a>
+	</div>
+
+</form><br/><br/><br/>
+
+	{% if medicamentos %}
+	    <table class="table table-hover">
+	        <thead>
+	            <tr>
+	                <th>No.</th>
+	                <th>Principio activo</th>
+	                <th>Presentacion</th>
+	                <th>Consentracion</th>
+	                <th>Posologia</th>
+	                <th>Estado</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	        {% for medicamento in medicamentos%}
+	            <tr>
+	                <td>{{ loop.index }}</td>
+	                <td>{{ medicamento.principioActivo }}</td>
+	                <td><a href="{{ path('medicamento_show', {'medicamento':medicamento.id}) }}">{{ medicamento.presentacion}}</a></td>
+	                <td>{{ medicamento.concentracion }}</td>
+	                <td>{{ medicamento.posologia }}</td>
+	                <td>{{ medicamento.estado }}</td>	                
+	            </tr>
+	        {% endfor %}
+	        </tbody>
+	    </table>
+	    
+	    <div class="navigation">
+	    {% if filtro == 1 %}
+    		{{ knp_pagination_render(medicamentos) }}
+    	{% endif %}
+		</div>
+	{% else %}
+		<div class="alert alert-success">
+	    	<button data-dismiss="alert" class="close" type="button">x</button>
+	        <span>No existen medicamentos creados</span>
+	    </div>
+	{% endif %}
+		
+    
+    <a href="{{ path('medicamento_new') }}" class="btn">Nuevo medicamento</a>
+{% endblock %}

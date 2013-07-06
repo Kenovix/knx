@@ -1,0 +1,68 @@
+{% extends "::admin_layout.html.twig" %}
+
+{% block menu %}
+	{{ knp_menu_render('HistoriaBundle:Builder:HistoriaMenu') }}
+{% endblock %}
+
+{% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
+
+{% block titulo %}Urgencias listado de las Historias{% endblock %}
+
+{% block msg %}
+	{% if app.session.hasFlash('ok') %}
+	    <div class="alert alert-success">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('ok') }}</span>
+	    </div>
+	{% elseif app.session.hasFlash('info') %}
+		<div class="alert alert-info">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('info') }}</span>
+	    </div>
+	{% elseif app.session.hasFlash('error') %}
+		<div class="alert alert-error">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('error') }}</span>
+	    </div>
+	{% endif %}
+{% endblock %}
+
+{% block cuerpo %}
+
+{% if urgencias_hc %}
+	    <table class="table table-hover">
+	        <thead>
+	            <tr>
+	                <th>Ultima Actulaización</th>
+	                <th>Paciente</th>
+	                <th>Cedula</th>
+	                <th>Entidad</th>
+	                <th>Servicio ingre</th>
+	                <th>Motivo</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	        {% for hc in urgencias_hc%}
+	            <tr>
+	                <td>{{ hc.updated | date('H:m d/m/Y')}}</td>
+	                <td>{{ hc.factura.paciente.priNombre }} {{ hc.factura.paciente.priApellido }}</td>
+	                <td><a href="{{ path('historia_edit', {'factura':hc.factura.id}) }}">{{ hc.factura.paciente.identificacion }}</a></td>
+	                <td>{{ hc.factura.cliente.nombre}}</td>
+	                <td>{{ hc.factura.servicio.nombre}}</td>
+	                <td>{{ hc.motivo}}</td>
+	            </tr>
+	        {% endfor %}
+	        </tbody>
+	    </table>
+	    
+	    <div class="navigation">	    
+    		{{ knp_pagination_render(urgencias_hc) }}    	
+		</div>
+	{% else %}
+		<div class="alert alert-success">
+	    	<button data-dismiss="alert" class="close" type="button">X</button>
+	        <span>No historias de urgencias disponibles</span>
+	    </div>
+	{% endif %}
+	
+{% endblock %}

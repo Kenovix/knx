@@ -2,1747 +2,1742 @@
 
 namespace knx\HistoriaBundle\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Tests\Component\Translation\String;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-
 
 /**
  *  
- * knx\HcBundle\Entity\Hc
+ * knx\HistoriaBundle\Entity\Hc
  *
  * @ORM\Table(name="hc")
  * @ORM\Entity
  * 
  * @ORM\Entity(repositoryClass="knx\HistoriaBundle\Entity\Repository\HcRepository")
  */
-class Hc
-{
-    /**
-     * @var integer $id
-     *
-     * @ORM\Column(name="id", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $id;
+class Hc {
+	/**
+	 * @var integer $id
+	 *
+	 * @ORM\Column(name="id", type="integer", nullable=false)
+	 * @ORM\Id
+	 * @ORM\GeneratedValue(strategy="IDENTITY")
+	 */
+	private $id;
+
+	/**
+	 * @var datetime $fechaIngre
+	 *
+	 * @ORM\Column(name="fecha_ingre", type="datetime", nullable=false)
+	 */
+	private $fechaIngre;
+
+	/**
+	 * @var datetime $fechaEgre
+	 *
+	 * @ORM\Column(name="fecha_egre", type="datetime", nullable=true)
+	 */
+	private $fechaEgre;
+
+	/**
+	 * @var string $serviIngre
+	 *
+	 * @ORM\Column(name="servi_ingre", type="integer", nullable=false)
+	 */
+	private $serviIngre;
+
+	/**
+	 * @var string $serviEgre
+	 *
+	 * @ORM\Column(name="servi_egre", type="integer", nullable=true)
+	 */
+	private $serviEgre;
+
+	/**
+	 * @var text $motivo
+	 *
+	 * @ORM\Column(name="motivo", type="text", nullable=false)
+	 */
+	private $motivo;
+
+	/**
+	 * @var text $estadoGen
+	 *
+	 * @ORM\Column(name="estado_gen", type="text", nullable=true)
+	 */
+	private $estadoGen;
+
+	/**
+	 * @var text $enfermedad
+	 *
+	 * @ORM\Column(name="enfermedad", type="text", nullable=false)
+	 */
+	private $enfermedad;
+
+	/**
+	 * @var integer $causaExt
+	 *
+	 * @ORM\Column(name="causaExt", type="integer", nullable=true)
+	 * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
+	 * @Assert\Choice(choices = {"1", "2", "3","4", "5", "6","7", "8", "9","10", "11", "12","13", "14", "15"}, message = "Selecciona una opción valida.")
+	 */ 
+	/*
+	 * 01 = Accidente  de trabajo
+	 * 02 = Accidente  de tránsito
+	 * 03 = Accidente rábico
+	 * 04 = Accidente ofídico
+	 * 05 = Otro tipo de accidente
+	 * 06 = Evento catastrófico
+	 * 07 = Lesión por agresión
+	 * 08 = Lesión auto infligida
+	 * 09 = Sospecha de maltrato físico
+	 * 10 = Sospecha de abuso sexual
+	 * 11 = Sospecha de violencia sexual
+	 * 12 = Sospecha de maltrato emocional
+	 * 13 = Enfermedad general
+	 * 14 = Enfermedad profesional
+	 * 15 = Otra
+	 */
+	private $causaExt;
+
+	/**
+	 * @var string $tipoAtencion
+	 *
+	 * @ORM\Column(name="tipo_atencion", type="string", length=30, nullable=true)
+	 */
+	private $tipoAtencion;
+
+	/**
+	 * @var text $antecedentesGenerales
+	 *
+	 * @ORM\Column(name="antecedentes_generales", type="text", nullable=true)
+	 */
+	private $antecedentesGenerales;
+
+	/**
+	 * @var text $antecedentesFisio
+	 *
+	 * @ORM\Column(name="antecedentes_fisio", type="text", nullable=true)
+	 */
+	private $antecedentesFisio;
+
+	/**
+	 * @var text $antecedentesGine
+	 *
+	 * @ORM\Column(name="antecedentes_gine", type="text", nullable=true)
+	 */
+	private $antecedentesGine;
+
+	/**
+	 * @var text $antecedentesPatologicos
+	 *
+	 * @ORM\Column(name="antecedentes_patologicos", type="text", nullable=true)
+	 */
+	private $antecedentesPatologicos;
+
+	/**
+	 * @var text $habitosNocivos
+	 *
+	 * @ORM\Column(name="habitos_nocivos", type="text", nullable=true)
+	 */
+	private $habitosNocivos;
+
+	/**
+	 * @var text $inmunizaciones
+	 *
+	 * @ORM\Column(name="inmunizaciones", type="text", nullable=true)
+	 */
+	private $inmunizaciones;
+
+	/**
+	 * @var text $alergias
+	 *
+	 * @ORM\Column(name="alergias", type="text", nullable=true)
+	 */
+	private $alergias;
+
+	/**
+	 * @var text $antecedentesFami
+	 *
+	 * @ORM\Column(name="antecedentes_fami", type="text", nullable=true)
+	 */
+	private $antecedentesFami;
+
+	/**
+	 * @var text $revSistema
+	 *
+	 * @ORM\Column(name="rev_sistema", type="text", nullable=true)
+	 */
+	private $revSistema;
+
+	/**
+	 * @var text $cabeza
+	 *
+	 * @ORM\Column(name="cabeza", type="text", nullable=true)
+	 */
+	private $cabeza;
+
+	/**
+	 * @var text $cara
+	 *
+	 * @ORM\Column(name="cara", type="text", nullable=true)
+	 */
+	private $cara;
+
+	/**
+	 * @var text $ojos
+	 *
+	 * @ORM\Column(name="ojos", type="text", nullable=true)
+	 */
+	private $ojos;
+
+	/**
+	 * @var text $oidos
+	 *
+	 * @ORM\Column(name="oidos", type="text", nullable=true)
+	 */
+	private $oidos;
+
+	/**
+	 * @var text $nariz
+	 *
+	 * @ORM\Column(name="nariz", type="text", nullable=true)
+	 */
+	private $nariz;
+
+	/**
+	 * @var text $boca
+	 *
+	 * @ORM\Column(name="boca", type="text", nullable=true)
+	 */
+	private $boca;
+
+	/**
+	 * @var text $cuello
+	 *
+	 * @ORM\Column(name="cuello", type="text", nullable=true)
+	 */
+	private $cuello;
+
+	/**
+	 * @var text $torax
+	 *
+	 * @ORM\Column(name="torax", type="text", nullable=true)
+	 */
+	private $torax;
+
+	/**
+	 * @var text $pulmones
+	 *
+	 * @ORM\Column(name="pulmones", type="text", nullable=true)
+	 */
+	private $pulmones;
+
+	/**
+	 * @var text $abdomen
+	 *
+	 * @ORM\Column(name="abdomen", type="text", nullable=true)
+	 */
+	private $abdomen;
+
+	/**
+	 * @var text $espalda
+	 *
+	 * @ORM\Column(name="espalda", type="text", nullable=true)
+	 */
+	private $espalda;
+
+	/**
+	 * @var text $extremidades
+	 *
+	 * @ORM\Column(name="extremidades", type="text", nullable=true)
+	 */
+	private $extremidades;
+
+	/**
+	 * @var text $genitales
+	 *
+	 * @ORM\Column(name="genitales", type="text", nullable=true)
+	 */
+	private $genitales;
+
+	/**
+	 * @var string $tipoDx
+	 *
+	 * @ORM\Column(name="tipo_dx", type="string", length=20, nullable=false)
+	 */
+	private $tipoDx;
+
+	/**
+	 * @var text $conducta
+	 *
+	 * @ORM\Column(name="conducta", type="text", nullable=false)
+	 */
+	private $conducta;
+
+	/**
+	 * @var text $evolucion
+	 *
+	 * @ORM\Column(name="evolucion", type="text", nullable=true)
+	 */
+	private $evolucion;
+
+	/**
+	 * @var text $dxSalida
+	 *
+	 * @ORM\Column(name="dx_salida", type="text", nullable=true)
+	 */
+	private $dxSalida;
+
+	/**
+	 * @var text $condSalida
+	 *
+	 * @ORM\Column(name="cond_salida", type="text", nullable=true)
+	 */
+	private $condSalida;
+
+	/**
+	 * @var text $manejoSalida
+	 *
+	 * @ORM\Column(name="manejo_salida", type="text", nullable=true)
+	 */
+	private $manejoSalida;
+
+	/**
+	 * @var text $destino
+	 *
+	 * @ORM\Column(name="destino", type="string", length=20, nullable=true)
+	 * * @Assert\MaxLength(limit=20, message="El valor ingresado debe tener maximo {{ limit }} caracteres.")
+	 */
+	private $destino;
+	
+	/**
+	 * @var string $destino_r
+	 *
+	 * @ORM\Column(name="destino_r", type="string", length=50, nullable=true)	
+	 * @Assert\MaxLength(limit=50, message="El valor ingresado debe tener máximo {{ limit }} caracteres.")
+	 */	
+	private $destino_r;
+	/**
+	 * @var string $especialidad_r
+	 *
+	 * @ORM\Column(name="especialidad_r", type="string", length=50, nullable=true)
+	 * @Assert\MaxLength(limit=50, message="El valor ingresado debe tener maximo {{ limit }} caracteres.")
+	 */
+	private $especialidad_r;
+	/**
+	 * @var string $nuAuto_r
+	 *
+	 * @ORM\Column(name="nuAuto_r", type="string", length=10, nullable=true)
+	 * @Assert\MaxLength(limit=9, message="El valor ingresado debe tener maximo {{ limit }} caracteres.")
+	 */	
+	private $nuAuto_r;
+	/**
+	 * @var text $descripcion_r
+	 *
+	 * @ORM\Column(name="descripcion_r", type="text", nullable=true)	 
+	 */
+	private $descripcion_r;	
+	/*
+	 * @var string $servicio_r
+	 * 
+	 * @ORM\Column(name="servicio_r", type="string", length=10, nullable=true)
+	 * @Assert\Choice(choices = {"urgencia","ambulatoria"}, message = "Selecciona una opción valida.")
+	 */
+	private $servicio_r;	
+	
+	/**
+	 * @var text $o_sentidos
+	 *
+	 * @ORM\Column(name="o_sentidos", type="text", nullable=true)
+	 */
+	private $o_sentidos;
+	/**
+	 * @var text $a_respiratorio
+	 *
+	 * @ORM\Column(name="a_respiratorio", type="text", nullable=true)
+	 */
+	private $a_respiratorio;
+	/**
+	 * @var text $a_cardiovascular
+	 *
+	 * @ORM\Column(name="a_cardiovascular", type="text", nullable=true)
+	 */
+	private $a_cardiovascular;
+	/**
+	 * @var text $a_digestivo
+	 *
+	 * @ORM\Column(name="a_digestivo", type="text", nullable=true)
+	 */
+	private $a_digestivo;
+	/**
+	 * @var text $a_genitoUrinario
+	 *
+	 * @ORM\Column(name="a_genitoUrinario", type="text", nullable=true)
+	 */
+	private $a_genitoUrinario;
+	/**
+	 * @var text $a_hematologico
+	 *
+	 * @ORM\Column(name="a_hematologico", type="text", nullable=true)
+	 */
+	private $a_hematologico;
+	/**
+	 * @var text $s_osteoarticular
+	 *
+	 * @ORM\Column(name="s_osteoarticular", type="text", nullable=true)
+	 */
+	private $s_osteoarticular;
+	/**
+	 * @var text $s_nervioso
+	 *
+	 * @ORM\Column(name="s_nervioso", type="text", nullable=true)
+	 */
+	private $s_nervioso;
+	/**
+	 * @var text $s_endocrino
+	 *
+	 * @ORM\Column(name="s_endocrino", type="text", nullable=true)
+	 */
+	private $s_endocrino;
+	
+	/**
+	 * @var text $medicamentos_s
+	 *
+	 * @ORM\Column(name="medicamentos_s", type="text", nullable=true)
+	 */
+	private $medicamentos_s;
+	/**
+	 * @var text $procedimientos_s
+	 *
+	 * @ORM\Column(name="procedimientos_s", type="text", nullable=true)
+	 */
+	private $procedimientos_s;
+	/**
+	 * @var text $examenes_s
+	 *
+	 * @ORM\Column(name="examenes_s", type="text", nullable=true)
+	 */
+	private $examenes_s;
+	
+	/**
+	 * @var text $incapacidad
+	 *
+	 * @ORM\Column(name="incapacidad", type="text", nullable=true)
+	 */
+	private $incapacidad;
+	
+	
+	
+
+	/**
+	 * @ORM\OneToOne(targetEntity="knx\FacturacionBundle\Entity\Factura", inversedBy="hc")
+	 * @ORM\JoinColumns({
+	 *   @ORM\JoinColumn(name="factura_id", referencedColumnName="id" )
+	 * })          
+	 */ 
+
+	private $factura;
+
+	/** @var date $created
+	 *
+	 * @Gedmo\Timestampable(on="create")
+	 * @ORM\Column(name="created", type="date")
+	 */
+	private $created;
+
+	/**
+	 * @var datetime $updated
+	 *
+	 * @Gedmo\Timestampable(on="update")
+	 * @ORM\Column(name="updated", type="datetime")
+	 */
+	private $updated;
+
+	/**
+	 * Get id
+	 *
+	 * @return integer 
+	 */
+	public function getId() {
+		return $this->id;
+	}
+
+	/**
+	 * Set fechaIngre
+	 *
+	 * @param \DateTime $fechaIngre
+	 * @return Hc
+	 */
+	public function setFechaIngre($fechaIngre) {
+		$this->fechaIngre = $fechaIngre;
+
+		return $this;
+	}
+
+	/**
+	 * Get fechaIngre
+	 *
+	 * @return \DateTime 
+	 */
+	public function getFechaIngre() {
+		return $this->fechaIngre;
+	}
+
+	/**
+	 * Set fechaEgre
+	 *
+	 * @param \DateTime $fechaEgre
+	 * @return Hc
+	 */
+	public function setFechaEgre($fechaEgre) {
+		$this->fechaEgre = $fechaEgre;
+
+		return $this;
+	}
+
+	/**
+	 * Get fechaEgre
+	 *
+	 * @return \DateTime 
+	 */
+	public function getFechaEgre() {
+		return $this->fechaEgre;
+	}
+
+	/**
+	 * Set serviIngre
+	 *
+	 * @param integer $serviIngre
+	 * @return Hc
+	 */
+	public function setServiIngre($serviIngre) {
+		$this->serviIngre = $serviIngre;
+
+		return $this;
+	}
+
+	/**
+	 * Get serviIngre
+	 *
+	 * @return integer 
+	 */
+	public function getServiIngre() {
+		return $this->serviIngre;
+	}
+
+	/**
+	 * Set serviEgre
+	 *
+	 * @param integer $serviEgre
+	 * @return Hc
+	 */
+	public function setServiEgre($serviEgre) {
+		$this->serviEgre = $serviEgre;
+
+		return $this;
+	}
+
+	/**
+	 * Get serviEgre
+	 *
+	 * @return integer 
+	 */
+	public function getServiEgre() {
+		return $this->serviEgre;
+	}
+
+	/**
+	 * Set motivo
+	 *
+	 * @param string $motivo
+	 * @return Hc
+	 */
+	public function setMotivo($motivo) {
+		$this->motivo = $motivo;
+
+		return $this;
+	}
+
+	/**
+	 * Get motivo
+	 *
+	 * @return string 
+	 */
+	public function getMotivo() {
+		return $this->motivo;
+	}
+
+	/**
+	 * Set estadoGen
+	 *
+	 * @param string $estadoGen
+	 * @return Hc
+	 */
+	public function setEstadoGen($estadoGen) {
+		$this->estadoGen = $estadoGen;
+
+		return $this;
+	}
+
+	/**
+	 * Get estadoGen
+	 *
+	 * @return string 
+	 */
+	public function getEstadoGen() {
+		return $this->estadoGen;
+	}
+
+	/**
+	 * Set enfermedad
+	 *
+	 * @param string $enfermedad
+	 * @return Hc
+	 */
+	public function setEnfermedad($enfermedad) {
+		$this->enfermedad = $enfermedad;
+
+		return $this;
+	}
+
+	/**
+	 * Get enfermedad
+	 *
+	 * @return string 
+	 */
+	public function getEnfermedad() {
+		return $this->enfermedad;
+	}
+
+	/**
+	 * Set causaExt
+	 *
+	 * @param integer $causaExt
+	 * @return Hc
+	 */
+	public function setCausaExt($causaExt) {
+		$this->causaExt = $causaExt;
+
+		return $this;
+	}
+
+	/**
+	 * Get causaExt
+	 *
+	 * @return integer 
+	 */
+	public function getCausaExt() {
+		return $this->causaExt;
+	}
+
+	/**
+	 * Set tipoAtencion
+	 *
+	 * @param string $tipoAtencion
+	 * @return Hc
+	 */
+	public function setTipoAtencion($tipoAtencion) {
+		$this->tipoAtencion = $tipoAtencion;
+
+		return $this;
+	}
+
+	/**
+	 * Get tipoAtencion
+	 *
+	 * @return string 
+	 */
+	public function getTipoAtencion() {
+		return $this->tipoAtencion;
+	}
+
+	/**
+	 * Set antecedentesGenerales
+	 *
+	 * @param string $antecedentesGenerales
+	 * @return Hc
+	 */
+	public function setAntecedentesGenerales($antecedentesGenerales) {
+		$this->antecedentesGenerales = $antecedentesGenerales;
+
+		return $this;
+	}
+
+	/**
+	 * Get antecedentesGenerales
+	 *
+	 * @return string 
+	 */
+	public function getAntecedentesGenerales() {
+		return $this->antecedentesGenerales;
+	}
+
+	/**
+	 * Set antecedentesFisio
+	 *
+	 * @param string $antecedentesFisio
+	 * @return Hc
+	 */
+	public function setAntecedentesFisio($antecedentesFisio) {
+		$this->antecedentesFisio = $antecedentesFisio;
+
+		return $this;
+	}
+
+	/**
+	 * Get antecedentesFisio
+	 *
+	 * @return string 
+	 */
+	public function getAntecedentesFisio() {
+		return $this->antecedentesFisio;
+	}
+
+	/**
+	 * Set antecedentesGine
+	 *
+	 * @param string $antecedentesGine
+	 * @return Hc
+	 */
+	public function setAntecedentesGine($antecedentesGine) {
+		$this->antecedentesGine = $antecedentesGine;
+
+		return $this;
+	}
+
+	/**
+	 * Get antecedentesGine
+	 *
+	 * @return string 
+	 */
+	public function getAntecedentesGine() {
+		return $this->antecedentesGine;
+	}
+
+	/**
+	 * Set antecedentesPatologicos
+	 *
+	 * @param string $antecedentesPatologicos
+	 * @return Hc
+	 */
+	public function setAntecedentesPatologicos($antecedentesPatologicos) {
+		$this->antecedentesPatologicos = $antecedentesPatologicos;
+
+		return $this;
+	}
+
+	/**
+	 * Get antecedentesPatologicos
+	 *
+	 * @return string 
+	 */
+	public function getAntecedentesPatologicos() {
+		return $this->antecedentesPatologicos;
+	}
+
+	/**
+	 * Set habitos_nocivos
+	 *
+	 * @param string $habitosNocivos
+	 * @return Hc
+	 */
+	public function setHabitosNocivos($habitosNocivos) {
+		$this->habitosNocivos = $habitosNocivos;
+
+		return $this;
+	}
+
+	/**
+	 * Get habitos_nocivos
+	 *
+	 * @return string 
+	 */
+	public function getHabitosNocivos() {
+		return $this->habitosNocivos;
+	}
+
+	/**
+	 * Set inmunizaciones
+	 *
+	 * @param string $inmunizaciones
+	 * @return Hc
+	 */
+	public function setInmunizaciones($inmunizaciones) {
+		$this->inmunizaciones = $inmunizaciones;
+
+		return $this;
+	}
+
+	/**
+	 * Get inmunizaciones
+	 *
+	 * @return string 
+	 */
+	public function getInmunizaciones() {
+		return $this->inmunizaciones;
+	}
+
+	/**
+	 * Set alergias
+	 *
+	 * @param string $alergias
+	 * @return Hc
+	 */
+	public function setAlergias($alergias) {
+		$this->alergias = $alergias;
+
+		return $this;
+	}
+
+	/**
+	 * Get alergias
+	 *
+	 * @return string 
+	 */
+	public function getAlergias() {
+		return $this->alergias;
+	}
+
+	/**
+	 * Set antecedentesFami
+	 *
+	 * @param string $antecedentesFami
+	 * @return Hc
+	 */
+	public function setAntecedentesFami($antecedentesFami) {
+		$this->antecedentesFami = $antecedentesFami;
+
+		return $this;
+	}
+
+	/**
+	 * Get antecedentesFami
+	 *
+	 * @return string 
+	 */
+	public function getAntecedentesFami() {
+		return $this->antecedentesFami;
+	}
+
+	/**
+	 * Set revSistema
+	 *
+	 * @param string $revSistema
+	 * @return Hc
+	 */
+	public function setRevSistema($revSistema) {
+		$this->revSistema = $revSistema;
+
+		return $this;
+	}
+
+	/**
+	 * Get revSistema
+	 *
+	 * @return string 
+	 */
+	public function getRevSistema() {
+		return $this->revSistema;
+	}
+
+	/**
+	 * Set cabeza
+	 *
+	 * @param string $cabeza
+	 * @return Hc
+	 */
+	public function setCabeza($cabeza) {
+		$this->cabeza = $cabeza;
+
+		return $this;
+	}
+
+	/**
+	 * Get cabeza
+	 *
+	 * @return string 
+	 */
+	public function getCabeza() {
+		return $this->cabeza;
+	}
+
+	/**
+	 * Set cara
+	 *
+	 * @param string $cara
+	 * @return Hc
+	 */
+	public function setCara($cara) {
+		$this->cara = $cara;
+
+		return $this;
+	}
+
+	/**
+	 * Get cara
+	 *
+	 * @return string 
+	 */
+	public function getCara() {
+		return $this->cara;
+	}
+
+	/**
+	 * Set ojos
+	 *
+	 * @param string $ojos
+	 * @return Hc
+	 */
+	public function setOjos($ojos) {
+		$this->ojos = $ojos;
+
+		return $this;
+	}
+
+	/**
+	 * Get ojos
+	 *
+	 * @return string 
+	 */
+	public function getOjos() {
+		return $this->ojos;
+	}
+
+	/**
+	 * Set oidos
+	 *
+	 * @param string $oidos
+	 * @return Hc
+	 */
+	public function setOidos($oidos) {
+		$this->oidos = $oidos;
+
+		return $this;
+	}
+
+	/**
+	 * Get oidos
+	 *
+	 * @return string 
+	 */
+	public function getOidos() {
+		return $this->oidos;
+	}
+
+	/**
+	 * Set nariz
+	 *
+	 * @param string $nariz
+	 * @return Hc
+	 */
+	public function setNariz($nariz) {
+		$this->nariz = $nariz;
+
+		return $this;
+	}
+
+	/**
+	 * Get nariz
+	 *
+	 * @return string 
+	 */
+	public function getNariz() {
+		return $this->nariz;
+	}
+
+	/**
+	 * Set boca
+	 *
+	 * @param string $boca
+	 * @return Hc
+	 */
+	public function setBoca($boca) {
+		$this->boca = $boca;
+
+		return $this;
+	}
+
+	/**
+	 * Get boca
+	 *
+	 * @return string 
+	 */
+	public function getBoca() {
+		return $this->boca;
+	}
+
+	/**
+	 * Set cuello
+	 *
+	 * @param string $cuello
+	 * @return Hc
+	 */
+	public function setCuello($cuello) {
+		$this->cuello = $cuello;
+
+		return $this;
+	}
+
+	/**
+	 * Get cuello
+	 *
+	 * @return string 
+	 */
+	public function getCuello() {
+		return $this->cuello;
+	}
+
+	/**
+	 * Set torax
+	 *
+	 * @param string $torax
+	 * @return Hc
+	 */
+	public function setTorax($torax) {
+		$this->torax = $torax;
+
+		return $this;
+	}
+
+	/**
+	 * Get torax
+	 *
+	 * @return string 
+	 */
+	public function getTorax() {
+		return $this->torax;
+	}
+
+	/**
+	 * Set pulmones
+	 *
+	 * @param string $pulmones
+	 * @return Hc
+	 */
+	public function setPulmones($pulmones) {
+		$this->pulmones = $pulmones;
+
+		return $this;
+	}
+
+	/**
+	 * Get pulmones
+	 *
+	 * @return string 
+	 */
+	public function getPulmones() {
+		return $this->pulmones;
+	}
+
+	/**
+	 * Set abdomen
+	 *
+	 * @param string $abdomen
+	 * @return Hc
+	 */
+	public function setAbdomen($abdomen) {
+		$this->abdomen = $abdomen;
+
+		return $this;
+	}
+
+	/**
+	 * Get abdomen
+	 *
+	 * @return string 
+	 */
+	public function getAbdomen() {
+		return $this->abdomen;
+	}
+
+	/**
+	 * Set espalda
+	 *
+	 * @param string $espalda
+	 * @return Hc
+	 */
+	public function setEspalda($espalda) {
+		$this->espalda = $espalda;
+
+		return $this;
+	}
+
+	/**
+	 * Get espalda
+	 *
+	 * @return string 
+	 */
+	public function getEspalda() {
+		return $this->espalda;
+	}
+
+	/**
+	 * Set extremidades
+	 *
+	 * @param string $extremidades
+	 * @return Hc
+	 */
+	public function setExtremidades($extremidades) {
+		$this->extremidades = $extremidades;
+
+		return $this;
+	}
+
+	/**
+	 * Get extremidades
+	 *
+	 * @return string 
+	 */
+	public function getExtremidades() {
+		return $this->extremidades;
+	}
+
+	/**
+	 * Set genitales
+	 *
+	 * @param string $genitales
+	 * @return Hc
+	 */
+	public function setGenitales($genitales) {
+		$this->genitales = $genitales;
+
+		return $this;
+	}
+
+	/**
+	 * Get genitales
+	 *
+	 * @return string 
+	 */
+	public function getGenitales() {
+		return $this->genitales;
+	}
+
+	/**
+	 * Set tipoDx
+	 *
+	 * @param string $tipoDx
+	 * @return Hc
+	 */
+	public function setTipoDx($tipoDx) {
+		$this->tipoDx = $tipoDx;
+
+		return $this;
+	}
+
+	/**
+	 * Get tipoDx
+	 *
+	 * @return string 
+	 */
+	public function getTipoDx() {
+		return $this->tipoDx;
+	}
+
+	/**
+	 * Set conducta
+	 *
+	 * @param string $conducta
+	 * @return Hc
+	 */
+	public function setConducta($conducta) {
+		$this->conducta = $conducta;
+
+		return $this;
+	}
+
+	/**
+	 * Get conducta
+	 *
+	 * @return string 
+	 */
+	public function getConducta() {
+		return $this->conducta;
+	}
+
+	/**
+	 * Set evolucion
+	 *
+	 * @param string $evolucion
+	 * @return Hc
+	 */
+	public function setEvolucion($evolucion) {
+		$this->evolucion = $evolucion;
+
+		return $this;
+	}
+
+	/**
+	 * Get evolucion
+	 *
+	 * @return string 
+	 */
+	public function getEvolucion() {
+		return $this->evolucion;
+	}
+
+	/**
+	 * Set dxSalida
+	 *
+	 * @param string $dxSalida
+	 * @return Hc
+	 */
+	public function setDxSalida($dxSalida) {
+		$this->dxSalida = $dxSalida;
+
+		return $this;
+	}
+
+	/**
+	 * Get dxSalida
+	 *
+	 * @return string 
+	 */
+	public function getDxSalida() {
+		return $this->dxSalida;
+	}
+
+	/**
+	 * Set condSalida
+	 *
+	 * @param string $condSalida
+	 * @return Hc
+	 */
+	public function setCondSalida($condSalida) {
+		$this->condSalida = $condSalida;
+
+		return $this;
+	}
+
+	/**
+	 * Get condSalida
+	 *
+	 * @return string 
+	 */
+	public function getCondSalida() {
+		return $this->condSalida;
+	}
+
+	/**
+	 * Set manejoSalida
+	 *
+	 * @param string $manejoSalida
+	 * @return Hc
+	 */
+	public function setManejoSalida($manejoSalida) {
+		$this->manejoSalida = $manejoSalida;
+
+		return $this;
+	}
+
+	/**
+	 * Get manejoSalida
+	 *
+	 * @return string 
+	 */
+	public function getManejoSalida() {
+		return $this->manejoSalida;
+	}
+
+	/**
+	 * Set destino
+	 *
+	 * @param string $destino
+	 * @return Hc
+	 */
+	public function setDestino($destino) {
+		$this->destino = $destino;
+
+		return $this;
+	}
+
+	/**
+	 * Get destino
+	 *
+	 * @return string 
+	 */
+	public function getDestino() {
+		return $this->destino;
+	}
+
+	/**
+	 * Set created
+	 *
+	 * @param \DateTime $created
+	 * @return Hc
+	 */
+	public function setCreated($created) {
+		$this->created = $created;
+
+		return $this;
+	}
+
+	/**
+	 * Get created
+	 *
+	 * @return \DateTime 
+	 */
+	public function getCreated() {
+		return $this->created;
+	}
+
+	/**
+	 * Set updated
+	 *
+	 * @param \DateTime $updated
+	 * @return Hc
+	 */
+	public function setUpdated($updated) {
+		$this->updated = $updated;
+
+		return $this;
+	}
+
+	/**
+	 * Get updated
+	 *
+	 * @return \DateTime 
+	 */
+	public function getUpdated() {
+		return $this->updated;
+	}
+
+	/**
+	 * Set factura
+	 *
+	 * @param \knx\FacturacionBundle\Entity\Factura $factura
+	 * @return Hc
+	 */
+	public function setFactura(\knx\FacturacionBundle\Entity\Factura $factura) {
+		$this->factura = $factura;
+
+		return $this;
+	}
+
+	/**
+	 * Get factura
+	 *
+	 * @return \knx\FacturacionBundle\Entity\Factura 
+	 */
+	public function getFactura() {
+		return $this->factura;
+	}
 
     /**
-     * @var datetime $fechaIngre
+     * Set destino_r
      *
-     * @ORM\Column(name="fecha_ingre", type="datetime", nullable=true)
-     */
-    private $fechaIngre;
-    
-    /**
-     * @var datetime $fechaEgre
-     *
-     * @ORM\Column(name="fecha_egre", type="datetime", nullable=true)
-     */
-    private $fechaEgre;
-    
-    
-    /**
-     * @var string $serviIngre
-     *
-     * @ORM\Column(name="servi_ingre", type="string", length=30, nullable=false)
-     */
-       private $serviIngre;
-       
-       
-     /**
-     * @var string $serviEgre
-     *
-     * @ORM\Column(name="servi_egre", type="string", length=30, nullable=false)
-     */
-       private $serviEgre;
-
-     /**
-     * @var text $motivo
-     *
-     * @ORM\Column(name="motivo", type="text", nullable=false)
-     */
-       private $motivo;
-       
-       
-     /**
-     * @var text $estadoGen
-     *
-     * @ORM\Column(name="estado_gen", type="text", nullable=false)
-     */
-       private $estadoGen;
-
-
-     /**
-     * @var text $enfermedad
-     *
-     * @ORM\Column(name="enfermedad", type="text", nullable=false)
-     */
-        private $enfermedad;
-
-     /**
-     * @var string $causaExt
-     *
-     * @ORM\Column(name="causaExt", type="string", length=30, nullable=false)
-     */
-       private $causaExt;
-       
-       
-     /**
-     * @var string $tipoAtencion
-     *
-     * @ORM\Column(name="tipo_atencion", type="string", length=30, nullable=false)
-     */
-       private $tipoAtencion;
-       
-     /**
-     * @var text $antecedentesGenerales
-     *
-     * @ORM\Column(name="antecedentes_generales", type="text")
-     */
-       private $antecedentesGenerales;
-
-    /**
-     * @var text $antecedentesFisio
-     *
-     * @ORM\Column(name="antecedentes_fisio", type="text")
-     */
-       private $antecedentesFisio;
-
-
-    /**
-     * @var text $antecedentesGine
-     *
-     * @ORM\Column(name="$antecedentes_gine", type="text")
-     */
-       private $antecedentesGine;
-
-       
-
-    /**
-     * @var text $antecedentesPatologicos
-     *
-     * @ORM\Column(name="antecedentes_patologicos", type="text")
-     */
-       private $antecedentesPatologicos;
-
-
-    /**
-     * @var text $habitos_nocivos
-     *
-     * @ORM\Column(name="habitos_nocivos", type="text")
-     */
-       private $habitos_nocivos;
-
-
-    /**
-     * @var text $inmunizaciones
-     *
-     * @ORM\Column(name="inmunizaciones", type="text")
-     */
-       private $inmunizaciones;
-
-
-    /**
-     * @var text $alergias
-     *
-     * @ORM\Column(name="alergias", type="text")
-     */
-       private $alergias;
-       
-       
-    /**
-     * @var text $antecedentesFami
-     *
-     * @ORM\Column(name="antecedentes_fami", type="text")
-     */
-       private $antecedentesFami;
-
-
-       /**
-     * @var text $revSistema
-     *
-     * @ORM\Column(name="rev_sistema", type="text")
-     */
-       private $revSistema;
-
-
-     /**
-     * @var text $cabeza
-     *
-     * @ORM\Column(name="cabeza", type="text")
-     */
-       private $cabeza;
-
-
-      /**
-     * @var text $cara
-     *
-     * @ORM\Column(name="cara", type="text")
-     */
-       private $cara;
-       
-       
-     /**
-     * @var text $ojos
-     *
-     * @ORM\Column(name="ojos", type="text")
-     */
-       private $ojos;
-       
-       
-     /**
-     * @var text $oidos
-     *
-     * @ORM\Column(name="oidos", type="text")
-     */
-       private $oidos;
-       
-       
-       
-       
-     /**
-     * @var text $nariz
-     *
-     * @ORM\Column(name="nariz", type="text")
-     */
-       private $nariz;
-       
-       
-     /**
-     * @var text $boca
-     *
-     * @ORM\Column(name="boca", type="text")
-     */
-       private $boca;
-
-
-     /**
-     * @var text $cuello
-     *
-     * @ORM\Column(name="cuello", type="text")
-     */
-       private $cuello;
-
-
-     /**
-     * @var text $torax
-     *
-     * @ORM\Column(name="torax", type="text")
-     */
-       private $torax;
-
-
-
-     /**
-     * @var text $pulmones
-     *
-     * @ORM\Column(name="pulmones", type="text")
-     */
-       private $pulmones;
-       
-       
-     /**
-     * @var text $cardiaco
-     *
-     * @ORM\Column(name="cardiaco", type="text")
-     */
-       private $cardiaco;
-
-
-
-     /**
-     * @var text $abdomen
-     *
-     * @ORM\Column(name="abdomen", type="text")
-     */
-       private $abdomen;
-       
-       
-       
-     /**
-     * @var text $espalda
-     *
-     * @ORM\Column(name="espalda", type="text")
-     */
-       private $espalda;
-       
-       
-     /**
-     * @var text $extremidades
-     *
-     * @ORM\Column(name="extremidades", type="text")
-     */
-       private $extremidades;
-       
-       
-     /**
-     * @var text $genitales
-     *
-     * @ORM\Column(name="genitales", type="text")
-     */
-       private $genitales;
-       
-       
-       
-     /**
-     * @var integer $temp
-     *
-     * @ORM\Column(name="temp", type="integer", nullable=true)
-     */
-       private $temp;
-       
-
-     /**
-     * @var integer $pulso
-     *
-     * @ORM\Column(name="pulso", type="integer", nullable=true)
-     */
-       private $pulso;
-
-     /**
-     * @var integer $fC
-     *
-     * @ORM\Column(name="f_c", type="integer", nullable=true)
-     */
-    private $fC;
-
-    /**
-     * @var integer $fR
-     *
-     * @ORM\Column(name="f_r", type="integer", nullable=true)
-     */
-    private $fR;
-    
-    
-    
-    
-      /**
-     * @var string $ta
-     *
-     * @ORM\Column(name="ta", type="string", nullable=false)
-     */
-    private $ta;
-    
-    
-    
-     /**
-     * @var integer $peso
-     *
-     * @ORM\Column(name="peso", type="integer", nullable=true)
-     */
-    private $peso;
-
-    /**
-     * @var integer $estatura
-     *
-     * @ORM\Column(name="estatura", type="integer", nullable=true)
-     */
-       private $estatura;
-
-
-
-     /**
-     * @var string $glasgow
-     *
-     * @ORM\Column(name="glasgow", type="string", nullable=false)
-     */
-    private $glasgow;
-
-
-
-     /**
-     * @var integer $imc
-     *
-     * @ORM\Column(name="imc", type="integer")
-     */
-       private $imc;
-       
-       
-     /**
-     * @var text $dxPrin
-     *
-     * @ORM\Column(name="dxPrin", type="text", nullable=true)
-     */
-    private $dxPrin;
-    
-    
-    
- /**
-     * @var text $dxre1
-     *
-     * @ORM\Column(name="dxre1", type="text")
-     */
-    private $dxre1;
-
-
-     /**
-     * @var text $dxre2
-     *
-     * @ORM\Column(name="dxre2", type="text")
-     */
-    private $dxre2;
-
-
-     /**
-     * @var text $dxre3
-     *
-     * @ORM\Column(name="dxre3", type="text")
-     */
-    private $dxre3;
-
-    
-
-     /**
-     * @var text $tipoDx
-     *
-     * @ORM\Column(name="tipo_dx", type="text", nullable=true)
-     */
-    private $tipoDx;
-
-
-     /**
-     * @var text $conducta
-     *
-     * @ORM\Column(name="conducta", type="text", nullable=true)
-     */
-    private $conducta;
-    
-    
-    
-    /**
-     * @var text $evolucion
-     *
-     * @ORM\Column(name="evolucion", type="text", nullable=true)
-     */
-    private $evolucion;
-
-     /**
-     * @var text $dxSalida
-     *
-     * @ORM\Column(name="dx_salida", type="text", nullable=false)
-     */
-    private $dxSalida;
-
-
-       /**
-     * @var text $condSalida
-     *
-     * @ORM\Column(name="cond_salida", type="text", nullable=true)
-     */
-    private $condSalida;
-
-
-     /**
-     * @var text $manejoSalida
-     *
-     * @ORM\Column(name="manejo_salida", type="text", nullable=true)
-     */
-    private $manejoSalida;   
-    
-    
-     /**
-     * @var text $destino
-     *
-     * @ORM\Column(name="destino", type="text", nullable=true)
-     */
-    private $destino;
-    
-    
-    /**
-     * @ORM\OneToOne(targetEntity="knx\FacturacionBundle\Entity\Factura", mappedBy="hc")
-     */    
-
-    private $factura;
-    
-     /** @var date $created
-    *
-    * @Gedmo\Timestampable(on="create")
-    * @ORM\Column(name="created", type="date")
-    */
-   private $created;
-
-     /**
-      * @var datetime $updated
-      *
-      * @Gedmo\Timestampable(on="update")
-      * @ORM\Column(name="updated", type="datetime")
-      */
-   private $updated;
-
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Set fechaIngre
-     *
-     * @param \DateTime $fechaIngre
+     * @param string $destinoR
      * @return Hc
      */
-    public function setFechaIngre($fechaIngre)
+    public function setDestinoR($destinoR)
     {
-        $this->fechaIngre = $fechaIngre;
+        $this->destino_r = $destinoR;
     
         return $this;
     }
 
     /**
-     * Get fechaIngre
-     *
-     * @return \DateTime 
-     */
-    public function getFechaIngre()
-    {
-        return $this->fechaIngre;
-    }
-
-    /**
-     * Set fechaEgre
-     *
-     * @param \DateTime $fechaEgre
-     * @return Hc
-     */
-    public function setFechaEgre($fechaEgre)
-    {
-        $this->fechaEgre = $fechaEgre;
-    
-        return $this;
-    }
-
-    /**
-     * Get fechaEgre
-     *
-     * @return \DateTime 
-     */
-    public function getFechaEgre()
-    {
-        return $this->fechaEgre;
-    }
-
-    /**
-     * Set serviIngre
-     *
-     * @param string $serviIngre
-     * @return Hc
-     */
-    public function setServiIngre($serviIngre)
-    {
-        $this->serviIngre = $serviIngre;
-    
-        return $this;
-    }
-
-    /**
-     * Get serviIngre
+     * Get destino_r
      *
      * @return string 
      */
-    public function getServiIngre()
+    public function getDestinoR()
     {
-        return $this->serviIngre;
+        return $this->destino_r;
     }
 
     /**
-     * Set serviEgre
+     * Set especialidad_r
      *
-     * @param string $serviEgre
+     * @param string $especialidadR
      * @return Hc
      */
-    public function setServiEgre($serviEgre)
+    public function setEspecialidadR($especialidadR)
     {
-        $this->serviEgre = $serviEgre;
+        $this->especialidad_r = $especialidadR;
     
         return $this;
     }
 
     /**
-     * Get serviEgre
+     * Get especialidad_r
      *
      * @return string 
      */
-    public function getServiEgre()
+    public function getEspecialidadR()
     {
-        return $this->serviEgre;
+        return $this->especialidad_r;
     }
 
     /**
-     * Set motivo
+     * Set nuAuto_r
      *
-     * @param string $motivo
+     * @param string $nuAutoR
      * @return Hc
      */
-    public function setMotivo($motivo)
+    public function setNuAutoR($nuAutoR)
     {
-        $this->motivo = $motivo;
+        $this->nuAuto_r = $nuAutoR;
     
         return $this;
     }
 
     /**
-     * Get motivo
+     * Get nuAuto_r
      *
      * @return string 
      */
-    public function getMotivo()
+    public function getNuAutoR()
     {
-        return $this->motivo;
+        return $this->nuAuto_r;
     }
 
     /**
-     * Set estadoGen
+     * Set descripcion_r
      *
-     * @param string $estadoGen
+     * @param string $descripcionR
      * @return Hc
      */
-    public function setEstadoGen($estadoGen)
+    public function setDescripcionR($descripcionR)
     {
-        $this->estadoGen = $estadoGen;
+        $this->descripcion_r = $descripcionR;
     
         return $this;
     }
 
     /**
-     * Get estadoGen
+     * Get descripcion_r
      *
      * @return string 
      */
-    public function getEstadoGen()
+    public function getDescripcionR()
     {
-        return $this->estadoGen;
+        return $this->descripcion_r;
+    }
+    
+    /**
+     * Set servicio_r
+     *
+     * @param string $servicioR
+     * @return Hc
+     */
+    public function setServicioR($servicioR)
+    {
+    	$this->servicio_r = $servicioR;
+    
+    	return $this;
+    }
+    
+    /**
+     * Get servicio_r
+     *
+     * @return string
+     */
+    public function getServicioR()
+    {
+    	return $this->servicio_r;
     }
 
     /**
-     * Set enfermedad
+     * Set o_sentidos
      *
-     * @param string $enfermedad
+     * @param string $oSentidos
      * @return Hc
      */
-    public function setEnfermedad($enfermedad)
+    public function setOSentidos($oSentidos)
     {
-        $this->enfermedad = $enfermedad;
+        $this->o_sentidos = $oSentidos;
     
         return $this;
     }
 
     /**
-     * Get enfermedad
+     * Get o_sentidos
      *
      * @return string 
      */
-    public function getEnfermedad()
+    public function getOSentidos()
     {
-        return $this->enfermedad;
+        return $this->o_sentidos;
     }
 
     /**
-     * Set causaExt
+     * Set a_respiratorio
      *
-     * @param string $causaExt
+     * @param string $aRespiratorio
      * @return Hc
      */
-    public function setCausaExt($causaExt)
+    public function setARespiratorio($aRespiratorio)
     {
-        $this->causaExt = $causaExt;
+        $this->a_respiratorio = $aRespiratorio;
     
         return $this;
     }
 
     /**
-     * Get causaExt
+     * Get a_respiratorio
      *
      * @return string 
      */
-    public function getCausaExt()
+    public function getARespiratorio()
     {
-        return $this->causaExt;
+        return $this->a_respiratorio;
     }
 
     /**
-     * Set tipoAtencion
+     * Set a_cardiovascular
      *
-     * @param string $tipoAtencion
+     * @param string $aCardiovascular
      * @return Hc
      */
-    public function setTipoAtencion($tipoAtencion)
+    public function setACardiovascular($aCardiovascular)
     {
-        $this->tipoAtencion = $tipoAtencion;
+        $this->a_cardiovascular = $aCardiovascular;
     
         return $this;
     }
 
     /**
-     * Get tipoAtencion
+     * Get a_cardiovascular
      *
      * @return string 
      */
-    public function getTipoAtencion()
+    public function getACardiovascular()
     {
-        return $this->tipoAtencion;
+        return $this->a_cardiovascular;
     }
 
     /**
-     * Set antecedentesGenerales
+     * Set a_digestivo
      *
-     * @param string $antecedentesGenerales
+     * @param string $aDigestivo
      * @return Hc
      */
-    public function setAntecedentesGenerales($antecedentesGenerales)
+    public function setADigestivo($aDigestivo)
     {
-        $this->antecedentesGenerales = $antecedentesGenerales;
+        $this->a_digestivo = $aDigestivo;
     
         return $this;
     }
 
     /**
-     * Get antecedentesGenerales
+     * Get a_digestivo
      *
      * @return string 
      */
-    public function getAntecedentesGenerales()
+    public function getADigestivo()
     {
-        return $this->antecedentesGenerales;
+        return $this->a_digestivo;
     }
 
     /**
-     * Set antecedentesFisio
+     * Set a_genitoUrinario
      *
-     * @param string $antecedentesFisio
+     * @param string $aGenitoUrinario
      * @return Hc
      */
-    public function setAntecedentesFisio($antecedentesFisio)
+    public function setAGenitoUrinario($aGenitoUrinario)
     {
-        $this->antecedentesFisio = $antecedentesFisio;
+        $this->a_genitoUrinario = $aGenitoUrinario;
     
         return $this;
     }
 
     /**
-     * Get antecedentesFisio
+     * Get a_genitoUrinario
      *
      * @return string 
      */
-    public function getAntecedentesFisio()
+    public function getAGenitoUrinario()
     {
-        return $this->antecedentesFisio;
+        return $this->a_genitoUrinario;
     }
 
     /**
-     * Set antecedentesGine
+     * Set a_hematologico
      *
-     * @param string $antecedentesGine
+     * @param string $aHematologico
      * @return Hc
      */
-    public function setAntecedentesGine($antecedentesGine)
+    public function setAHematologico($aHematologico)
     {
-        $this->antecedentesGine = $antecedentesGine;
+        $this->a_hematologico = $aHematologico;
     
         return $this;
     }
 
     /**
-     * Get antecedentesGine
+     * Get a_hematologico
      *
      * @return string 
      */
-    public function getAntecedentesGine()
+    public function getAHematologico()
     {
-        return $this->antecedentesGine;
+        return $this->a_hematologico;
     }
 
     /**
-     * Set antecedentesPatologicos
+     * Set s_osteoarticular
      *
-     * @param string $antecedentesPatologicos
+     * @param string $sOsteoarticular
      * @return Hc
      */
-    public function setAntecedentesPatologicos($antecedentesPatologicos)
+    public function setSOsteoarticular($sOsteoarticular)
     {
-        $this->antecedentesPatologicos = $antecedentesPatologicos;
+        $this->s_osteoarticular = $sOsteoarticular;
     
         return $this;
     }
 
     /**
-     * Get antecedentesPatologicos
+     * Get s_osteoarticular
      *
      * @return string 
      */
-    public function getAntecedentesPatologicos()
+    public function getSOsteoarticular()
     {
-        return $this->antecedentesPatologicos;
+        return $this->s_osteoarticular;
     }
 
     /**
-     * Set habitos_nocivos
+     * Set s_nervioso
      *
-     * @param string $habitosNocivos
+     * @param string $sNervioso
      * @return Hc
      */
-    public function setHabitosNocivos($habitosNocivos)
+    public function setSNervioso($sNervioso)
     {
-        $this->habitos_nocivos = $habitosNocivos;
+        $this->s_nervioso = $sNervioso;
     
         return $this;
     }
 
     /**
-     * Get habitos_nocivos
+     * Get s_nervioso
      *
      * @return string 
      */
-    public function getHabitosNocivos()
+    public function getSNervioso()
     {
-        return $this->habitos_nocivos;
+        return $this->s_nervioso;
     }
 
     /**
-     * Set inmunizaciones
+     * Set s_endocrino
      *
-     * @param string $inmunizaciones
+     * @param string $sEndocrino
      * @return Hc
      */
-    public function setInmunizaciones($inmunizaciones)
+    public function setSEndocrino($sEndocrino)
     {
-        $this->inmunizaciones = $inmunizaciones;
+        $this->s_endocrino = $sEndocrino;
     
         return $this;
     }
 
     /**
-     * Get inmunizaciones
+     * Get s_endocrino
      *
      * @return string 
      */
-    public function getInmunizaciones()
+    public function getSEndocrino()
     {
-        return $this->inmunizaciones;
+        return $this->s_endocrino;
     }
 
     /**
-     * Set alergias
+     * Set medicamentos_s
      *
-     * @param string $alergias
+     * @param string $medicamentosS
      * @return Hc
      */
-    public function setAlergias($alergias)
+    public function setMedicamentosS($medicamentosS)
     {
-        $this->alergias = $alergias;
+        $this->medicamentos_s = $medicamentosS;
     
         return $this;
     }
 
     /**
-     * Get alergias
+     * Get medicamentos_s
      *
      * @return string 
      */
-    public function getAlergias()
+    public function getMedicamentosS()
     {
-        return $this->alergias;
+        return $this->medicamentos_s;
     }
 
     /**
-     * Set antecedentesFami
+     * Set procedimientos_s
      *
-     * @param string $antecedentesFami
+     * @param string $procedimientosS
      * @return Hc
      */
-    public function setAntecedentesFami($antecedentesFami)
+    public function setProcedimientosS($procedimientosS)
     {
-        $this->antecedentesFami = $antecedentesFami;
+        $this->procedimientos_s = $procedimientosS;
     
         return $this;
     }
 
     /**
-     * Get antecedentesFami
+     * Get procedimientos_s
      *
      * @return string 
      */
-    public function getAntecedentesFami()
+    public function getProcedimientosS()
     {
-        return $this->antecedentesFami;
+        return $this->procedimientos_s;
     }
 
     /**
-     * Set revSistema
+     * Set examenes_s
      *
-     * @param string $revSistema
+     * @param string $examenesS
      * @return Hc
      */
-    public function setRevSistema($revSistema)
+    public function setExamenesS($examenesS)
     {
-        $this->revSistema = $revSistema;
+        $this->examenes_s = $examenesS;
     
         return $this;
     }
 
     /**
-     * Get revSistema
+     * Get examenes_s
      *
      * @return string 
      */
-    public function getRevSistema()
+    public function getExamenesS()
     {
-        return $this->revSistema;
+        return $this->examenes_s;
     }
-
+    
+    
     /**
-     * Set cabeza
+     * Set incapacidad
      *
-     * @param string $cabeza
+     * @param string $incapacidad
      * @return Hc
      */
-    public function setCabeza($cabeza)
+    public function setIncapacidad($incapacidad)
     {
-        $this->cabeza = $cabeza;
+    	$this->incapacidad = $incapacidad;
     
-        return $this;
+    	return $this;
     }
-
-    /**
-     * Get cabeza
-     *
-     * @return string 
-     */
-    public function getCabeza()
-    {
-        return $this->cabeza;
-    }
-
-    /**
-     * Set cara
-     *
-     * @param string $cara
-     * @return Hc
-     */
-    public function setCara($cara)
-    {
-        $this->cara = $cara;
     
-        return $this;
-    }
-
     /**
-     * Get cara
+     * Get incapacidad
      *
-     * @return string 
+     * @return string
      */
-    public function getCara()
+    public function getIncapacidad()
     {
-        return $this->cara;
-    }
-
-    /**
-     * Set ojos
-     *
-     * @param string $ojos
-     * @return Hc
-     */
-    public function setOjos($ojos)
-    {
-        $this->ojos = $ojos;
-    
-        return $this;
-    }
-
-    /**
-     * Get ojos
-     *
-     * @return string 
-     */
-    public function getOjos()
-    {
-        return $this->ojos;
-    }
-
-    /**
-     * Set oidos
-     *
-     * @param string $oidos
-     * @return Hc
-     */
-    public function setOidos($oidos)
-    {
-        $this->oidos = $oidos;
-    
-        return $this;
-    }
-
-    /**
-     * Get oidos
-     *
-     * @return string 
-     */
-    public function getOidos()
-    {
-        return $this->oidos;
-    }
-
-    /**
-     * Set nariz
-     *
-     * @param string $nariz
-     * @return Hc
-     */
-    public function setNariz($nariz)
-    {
-        $this->nariz = $nariz;
-    
-        return $this;
-    }
-
-    /**
-     * Get nariz
-     *
-     * @return string 
-     */
-    public function getNariz()
-    {
-        return $this->nariz;
-    }
-
-    /**
-     * Set boca
-     *
-     * @param string $boca
-     * @return Hc
-     */
-    public function setBoca($boca)
-    {
-        $this->boca = $boca;
-    
-        return $this;
-    }
-
-    /**
-     * Get boca
-     *
-     * @return string 
-     */
-    public function getBoca()
-    {
-        return $this->boca;
-    }
-
-    /**
-     * Set cuello
-     *
-     * @param string $cuello
-     * @return Hc
-     */
-    public function setCuello($cuello)
-    {
-        $this->cuello = $cuello;
-    
-        return $this;
-    }
-
-    /**
-     * Get cuello
-     *
-     * @return string 
-     */
-    public function getCuello()
-    {
-        return $this->cuello;
-    }
-
-    /**
-     * Set torax
-     *
-     * @param string $torax
-     * @return Hc
-     */
-    public function setTorax($torax)
-    {
-        $this->torax = $torax;
-    
-        return $this;
-    }
-
-    /**
-     * Get torax
-     *
-     * @return string 
-     */
-    public function getTorax()
-    {
-        return $this->torax;
-    }
-
-    /**
-     * Set pulmones
-     *
-     * @param string $pulmones
-     * @return Hc
-     */
-    public function setPulmones($pulmones)
-    {
-        $this->pulmones = $pulmones;
-    
-        return $this;
-    }
-
-    /**
-     * Get pulmones
-     *
-     * @return string 
-     */
-    public function getPulmones()
-    {
-        return $this->pulmones;
-    }
-
-    /**
-     * Set cardiaco
-     *
-     * @param string $cardiaco
-     * @return Hc
-     */
-    public function setCardiaco($cardiaco)
-    {
-        $this->cardiaco = $cardiaco;
-    
-        return $this;
-    }
-
-    /**
-     * Get cardiaco
-     *
-     * @return string 
-     */
-    public function getCardiaco()
-    {
-        return $this->cardiaco;
-    }
-
-    /**
-     * Set abdomen
-     *
-     * @param string $abdomen
-     * @return Hc
-     */
-    public function setAbdomen($abdomen)
-    {
-        $this->abdomen = $abdomen;
-    
-        return $this;
-    }
-
-    /**
-     * Get abdomen
-     *
-     * @return string 
-     */
-    public function getAbdomen()
-    {
-        return $this->abdomen;
-    }
-
-    /**
-     * Set espalda
-     *
-     * @param string $espalda
-     * @return Hc
-     */
-    public function setEspalda($espalda)
-    {
-        $this->espalda = $espalda;
-    
-        return $this;
-    }
-
-    /**
-     * Get espalda
-     *
-     * @return string 
-     */
-    public function getEspalda()
-    {
-        return $this->espalda;
-    }
-
-    /**
-     * Set extremidades
-     *
-     * @param string $extremidades
-     * @return Hc
-     */
-    public function setExtremidades($extremidades)
-    {
-        $this->extremidades = $extremidades;
-    
-        return $this;
-    }
-
-    /**
-     * Get extremidades
-     *
-     * @return string 
-     */
-    public function getExtremidades()
-    {
-        return $this->extremidades;
-    }
-
-    /**
-     * Set genitales
-     *
-     * @param string $genitales
-     * @return Hc
-     */
-    public function setGenitales($genitales)
-    {
-        $this->genitales = $genitales;
-    
-        return $this;
-    }
-
-    /**
-     * Get genitales
-     *
-     * @return string 
-     */
-    public function getGenitales()
-    {
-        return $this->genitales;
-    }
-
-    /**
-     * Set temp
-     *
-     * @param integer $temp
-     * @return Hc
-     */
-    public function setTemp($temp)
-    {
-        $this->temp = $temp;
-    
-        return $this;
-    }
-
-    /**
-     * Get temp
-     *
-     * @return integer 
-     */
-    public function getTemp()
-    {
-        return $this->temp;
-    }
-
-    /**
-     * Set pulso
-     *
-     * @param integer $pulso
-     * @return Hc
-     */
-    public function setPulso($pulso)
-    {
-        $this->pulso = $pulso;
-    
-        return $this;
-    }
-
-    /**
-     * Get pulso
-     *
-     * @return integer 
-     */
-    public function getPulso()
-    {
-        return $this->pulso;
-    }
-
-    /**
-     * Set fC
-     *
-     * @param integer $fC
-     * @return Hc
-     */
-    public function setFC($fC)
-    {
-        $this->fC = $fC;
-    
-        return $this;
-    }
-
-    /**
-     * Get fC
-     *
-     * @return integer 
-     */
-    public function getFC()
-    {
-        return $this->fC;
-    }
-
-    /**
-     * Set fR
-     *
-     * @param integer $fR
-     * @return Hc
-     */
-    public function setFR($fR)
-    {
-        $this->fR = $fR;
-    
-        return $this;
-    }
-
-    /**
-     * Get fR
-     *
-     * @return integer 
-     */
-    public function getFR()
-    {
-        return $this->fR;
-    }
-
-    /**
-     * Set ta
-     *
-     * @param string $ta
-     * @return Hc
-     */
-    public function setTa(\string $ta)
-    {
-        $this->ta = $ta;
-    
-        return $this;
-    }
-
-    /**
-     * Get ta
-     *
-     * @return string 
-     */
-    public function getTa()
-    {
-        return $this->ta;
-    }
-
-    /**
-     * Set peso
-     *
-     * @param integer $peso
-     * @return Hc
-     */
-    public function setPeso($peso)
-    {
-        $this->peso = $peso;
-    
-        return $this;
-    }
-
-    /**
-     * Get peso
-     *
-     * @return integer 
-     */
-    public function getPeso()
-    {
-        return $this->peso;
-    }
-
-    /**
-     * Set estatura
-     *
-     * @param integer $estatura
-     * @return Hc
-     */
-    public function setEstatura($estatura)
-    {
-        $this->estatura = $estatura;
-    
-        return $this;
-    }
-
-    /**
-     * Get estatura
-     *
-     * @return integer 
-     */
-    public function getEstatura()
-    {
-        return $this->estatura;
-    }
-
-    /**
-     * Set glasgow
-     *
-     * @param string $glasgow
-     * @return Hc
-     */
-    public function setGlasgow(\string $glasgow)
-    {
-        $this->glasgow = $glasgow;
-    
-        return $this;
-    }
-
-    /**
-     * Get glasgow
-     *
-     * @return string 
-     */
-    public function getGlasgow()
-    {
-        return $this->glasgow;
-    }
-
-    /**
-     * Set imc
-     *
-     * @param integer $imc
-     * @return Hc
-     */
-    public function setImc($imc)
-    {
-        $this->imc = $imc;
-    
-        return $this;
-    }
-
-    /**
-     * Get imc
-     *
-     * @return integer 
-     */
-    public function getImc()
-    {
-        return $this->imc;
-    }
-
-    /**
-     * Set dxPrin
-     *
-     * @param string $dxPrin
-     * @return Hc
-     */
-    public function setDxPrin($dxPrin)
-    {
-        $this->dxPrin = $dxPrin;
-    
-        return $this;
-    }
-
-    /**
-     * Get dxPrin
-     *
-     * @return string 
-     */
-    public function getDxPrin()
-    {
-        return $this->dxPrin;
-    }
-
-    /**
-     * Set dxre1
-     *
-     * @param string $dxre1
-     * @return Hc
-     */
-    public function setDxre1($dxre1)
-    {
-        $this->dxre1 = $dxre1;
-    
-        return $this;
-    }
-
-    /**
-     * Get dxre1
-     *
-     * @return string 
-     */
-    public function getDxre1()
-    {
-        return $this->dxre1;
-    }
-
-    /**
-     * Set dxre2
-     *
-     * @param string $dxre2
-     * @return Hc
-     */
-    public function setDxre2($dxre2)
-    {
-        $this->dxre2 = $dxre2;
-    
-        return $this;
-    }
-
-    /**
-     * Get dxre2
-     *
-     * @return string 
-     */
-    public function getDxre2()
-    {
-        return $this->dxre2;
-    }
-
-    /**
-     * Set dxre3
-     *
-     * @param string $dxre3
-     * @return Hc
-     */
-    public function setDxre3($dxre3)
-    {
-        $this->dxre3 = $dxre3;
-    
-        return $this;
-    }
-
-    /**
-     * Get dxre3
-     *
-     * @return string 
-     */
-    public function getDxre3()
-    {
-        return $this->dxre3;
-    }
-
-    /**
-     * Set tipoDx
-     *
-     * @param string $tipoDx
-     * @return Hc
-     */
-    public function setTipoDx($tipoDx)
-    {
-        $this->tipoDx = $tipoDx;
-    
-        return $this;
-    }
-
-    /**
-     * Get tipoDx
-     *
-     * @return string 
-     */
-    public function getTipoDx()
-    {
-        return $this->tipoDx;
-    }
-
-    /**
-     * Set conducta
-     *
-     * @param string $conducta
-     * @return Hc
-     */
-    public function setConducta($conducta)
-    {
-        $this->conducta = $conducta;
-    
-        return $this;
-    }
-
-    /**
-     * Get conducta
-     *
-     * @return string 
-     */
-    public function getConducta()
-    {
-        return $this->conducta;
-    }
-
-    /**
-     * Set evolucion
-     *
-     * @param string $evolucion
-     * @return Hc
-     */
-    public function setEvolucion($evolucion)
-    {
-        $this->evolucion = $evolucion;
-    
-        return $this;
-    }
-
-    /**
-     * Get evolucion
-     *
-     * @return string 
-     */
-    public function getEvolucion()
-    {
-        return $this->evolucion;
-    }
-
-    /**
-     * Set dxSalida
-     *
-     * @param string $dxSalida
-     * @return Hc
-     */
-    public function setDxSalida($dxSalida)
-    {
-        $this->dxSalida = $dxSalida;
-    
-        return $this;
-    }
-
-    /**
-     * Get dxSalida
-     *
-     * @return string 
-     */
-    public function getDxSalida()
-    {
-        return $this->dxSalida;
-    }
-
-    /**
-     * Set condSalida
-     *
-     * @param string $condSalida
-     * @return Hc
-     */
-    public function setCondSalida($condSalida)
-    {
-        $this->condSalida = $condSalida;
-    
-        return $this;
-    }
-
-    /**
-     * Get condSalida
-     *
-     * @return string 
-     */
-    public function getCondSalida()
-    {
-        return $this->condSalida;
-    }
-
-    /**
-     * Set manejoSalida
-     *
-     * @param string $manejoSalida
-     * @return Hc
-     */
-    public function setManejoSalida($manejoSalida)
-    {
-        $this->manejoSalida = $manejoSalida;
-    
-        return $this;
-    }
-
-    /**
-     * Get manejoSalida
-     *
-     * @return string 
-     */
-    public function getManejoSalida()
-    {
-        return $this->manejoSalida;
-    }
-
-    /**
-     * Set destino
-     *
-     * @param string $destino
-     * @return Hc
-     */
-    public function setDestino($destino)
-    {
-        $this->destino = $destino;
-    
-        return $this;
-    }
-
-    /**
-     * Get destino
-     *
-     * @return string 
-     */
-    public function getDestino()
-    {
-        return $this->destino;
-    }
-
-    /**
-     * Set created
-     *
-     * @param \DateTime $created
-     * @return Hc
-     */
-    public function setCreated($created)
-    {
-        $this->created = $created;
-    
-        return $this;
-    }
-
-    /**
-     * Get created
-     *
-     * @return \DateTime 
-     */
-    public function getCreated()
-    {
-        return $this->created;
-    }
-
-    /**
-     * Set updated
-     *
-     * @param \DateTime $updated
-     * @return Hc
-     */
-    public function setUpdated($updated)
-    {
-        $this->updated = $updated;
-    
-        return $this;
-    }
-
-    /**
-     * Get updated
-     *
-     * @return \DateTime 
-     */
-    public function getUpdated()
-    {
-        return $this->updated;
-    }
-
-    /**
-     * Set factura
-     *
-     * @param \knx\FacturacionBundle\Entity\Factura $factura
-     * @return Hc
-     */
-    public function setFactura(\knx\FacturacionBundle\Entity\Factura $factura = null)
-    {
-        $this->factura = $factura;
-    
-        return $this;
-    }
-
-    /**
-     * Get factura
-     *
-     * @return \knx\FacturacionBundle\Entity\Factura 
-     */
-    public function getFactura()
-    {
-        return $this->factura;
+    	return $this->incapacidad;
     }
 }
