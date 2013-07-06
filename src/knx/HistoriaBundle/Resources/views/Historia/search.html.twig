@@ -1,0 +1,80 @@
+{% extends "::admin_layout.html.twig" %}
+
+{% block menu %}
+	{{ knp_menu_render('HistoriaBundle:Builder:HistoriaMenu') }}
+{% endblock %}
+
+{% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
+
+{% block titulo %}Buscar Historia{% endblock %}
+
+{% block msg %}
+	{% if app.session.hasFlash('ok') %}
+	    <div class="alert alert-success">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('ok') }}</span>
+	    </div>
+	{% elseif app.session.hasFlash('info') %}
+		<div class="alert alert-info">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('info') }}</span>
+	    </div>
+	{% elseif app.session.hasFlash('error') %}
+		<div class="alert alert-error">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('error') }}</span>
+	    </div>
+	{% endif %}
+{% endblock %}
+
+{% block cuerpo %}
+
+	<form action="{{ path('historia_search_result') }}" class="form-horizontal"  method="post" {{ form_enctype(search_form) }}>
+	    <fieldset>
+	    	<legend>Buscar historia del paciente</legend>    
+			
+		   		{{ form_rest(search_form) }}
+		   
+			<div class="form-actions">
+				<input class="btn btn-primary" name="guardar" type="submit" value="Buscar" />
+			    <a href="{{ path('historia_search') }}" class="btn btn-danger">Cancelar</a>			    
+			</div>
+		</fieldset>
+	</form>
+	
+	{% if historia %}
+	    
+  	 <h4>Historia clinica {{ paciente.priNombre}}  {{ paciente.priApellido}} {{ paciente.tipoId }} {{ paciente.identificacion }}</h4>	 
+  
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>No.</th>
+                <th>Fecha DD-MM-AA</th>
+                <th>Servicio. Ingreso</th>             
+                <th>Imprimir</th>
+                <th>Ver. Notas</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in historia %}
+            <tr>           
+                <td>{{ loop.index }}</td>              
+                {% if is_granted('ROLE_MEDICO') %}
+			     	<td><a href="{{ path('historia_edit', { 'factura': entity.factura.id }) }}">{{ entity.fechaEgre|date('d-m-Y H:i') }}</a></td>
+			    {% else %}
+			    	<td>{{ entity.fechaEgre|date('d-m-Y H:i') }}</td>	
+            	{% endif %}
+                <td><strong>{{ entity.factura.servicio.nombre }}</strong></td>                               
+                <td><a href="{{ path('historia_imprime', { 'factura': entity.factura.id }) }}" target="blank" class="btn">Ver info.</a></td>
+                <td><a href="{{ path('nota_list', { 'historia': entity.id }) }}"  class="btn">Notas</a></td>
+            </tr>
+         {% else %}
+         	<tr>
+         		<td colspan="10">No hay información disponible.</td>
+         	</tr>
+        {% endfor %}
+        </tbody>
+    </table>
+	 {% endif %}	    
+{% endblock %}

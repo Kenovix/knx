@@ -1,0 +1,52 @@
+{% extends "::admin_layout.html.twig" %}
+
+{% block menu %}
+	{{ knp_menu_render('HistoriaBundle:Builder:HistoriaMenu') }}
+{% endblock %}
+
+{% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
+
+{% block titulo %}Información del examen o procedimiento{% endblock %}
+
+{% block msg %}
+	{% if app.session.hasFlash('ok') %}
+	    <div class="alert alert-success">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('ok') }}</span>
+	    </div>
+	{% elseif app.session.hasFlash('info') %}
+		<div class="alert alert-info">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('info') }}</span>
+	    </div>
+	{% elseif app.session.hasFlash('error') %}
+		<div class="alert alert-error">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('error') }}</span>
+	    </div>
+	{% endif %}
+{% endblock %}
+
+{% block cuerpo %}
+	    
+
+	<table class="table">
+        <tbody>
+        	<tr>                
+                <th>Codigo</th>
+                <td>{{ examen.codigo }}</td>
+            </tr>
+            <tr>
+                <th>Nombre</th>
+                <td>{{ examen.nombre }}</td>
+            </tr>
+            <tr>
+                <th>Tipo</th>
+                <td>{{ examen.tipo }}</td>
+            </tr>        
+        </tbody>
+    </table>  
+    
+    <a href="{{ path('examen_edit', { 'examen': examen.id }) }}" class="btn">Modificar información</a>
+    <a href="{{ path('examen_list') }}" class="btn">Regresar</a>
+{% endblock %}

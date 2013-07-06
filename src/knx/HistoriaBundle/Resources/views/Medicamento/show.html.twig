@@ -1,0 +1,60 @@
+{% extends "::admin_layout.html.twig" %}
+
+{% block menu %}
+	{{ knp_menu_render('HistoriaBundle:Builder:HistoriaMenu') }}
+{% endblock %}
+
+{% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
+
+{% block titulo %}Información del medicamento{% endblock %}
+
+{% block msg %}
+	{% if app.session.hasFlash('ok') %}
+	    <div class="alert alert-success">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('ok') }}</span>
+	    </div>
+	{% elseif app.session.hasFlash('info') %}
+		<div class="alert alert-info">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('info') }}</span>
+	    </div>
+	{% elseif app.session.hasFlash('error') %}
+		<div class="alert alert-error">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('error') }}</span>
+	    </div>
+	{% endif %}
+{% endblock %}
+
+{% block cuerpo %}
+	    
+
+	<table class="table">		                
+        <tbody>
+        	<tr>                
+                <th>Principio activo</th>
+                <td>{{ medicamento.principioActivo }}</td>
+            </tr>
+            <tr>
+                <th>Presentacion</th>
+                <td>{{ medicamento.presentacion }}</td>
+            </tr>
+            <tr>
+                <th>Consentracion</th>
+                <td>{{ medicamento.concentracion }}</td>
+            </tr>
+            <tr>
+                <th>Posologia</th>
+                <td>{{ medicamento.posologia }}</td>
+            </tr>
+            <tr>
+                <th>Estado</th>
+                <td>{{ medicamento.estado }}</td>
+            </tr>                                
+        </tbody>
+    </table>    
+    
+    <a href="{{ path('medicamento_edit', { 'medicamento': medicamento.id }) }}" class="btn">Modificar medicamento</a>
+    <a href="{{ path('medicamento_list') }}" class="btn">Regresar</a>
+{% endblock %}

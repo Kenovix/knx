@@ -36,12 +36,7 @@ class Builder extends ContainerAware
 				$menu['farmacia']['Nueva']->addChild('Farmacia', array('route' => 'farmacia_list', 'routeParameters' => array('char' => 'A')));
 				$menu['farmacia']['Nueva']->addChild('Categoria', array('route' => 'categoria_list', 'routeParameters' => array('char' => 'A')));
 				$menu['farmacia']['Nueva']->addChild('Stock', array('route' => 'imv_search'));
-			//$menu['Parametrizar']->addChild('Usuarios', array('route' => 'usuario_list'));
-				
-		
-		
-
-			
+			//$menu['Parametrizar']->addChild('Usuarios', array('route' => 'usuario_list'));			
 
 			
 		

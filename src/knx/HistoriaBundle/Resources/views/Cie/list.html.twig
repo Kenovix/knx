@@ -1,0 +1,83 @@
+{% extends "::admin_layout.html.twig" %}
+
+{% block menu %}
+	{{ knp_menu_render('HistoriaBundle:Builder:HistoriaMenu') }}
+{% endblock %}
+
+{% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
+
+{% block titulo %}Listado Del Cie-10{% endblock %}
+
+{% block msg %}
+	{% if app.session.hasFlash('ok') %}
+	    <div class="alert alert-success">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('ok') }}</span>
+	    </div>
+	{% elseif app.session.hasFlash('info') %}
+		<div class="alert alert-info">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('info') }}</span>
+	    </div>
+	{% elseif app.session.hasFlash('error') %}
+		<div class="alert alert-error">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('error') }}</span>
+	    </div>
+	{% endif %}
+{% endblock %}
+
+{% block cuerpo %}
+
+<form action="{{ path('cie_search') }}" class="form-horizontal" method="post" {{ form_enctype(search_form) }}>
+    <fieldset>
+    	<legend>Busqueda rapida</legend>
+    		<div>
+    			{{ form_label(search_form.nombre) }}
+				{{ form_errors(search_form.nombre) }}
+				{{ form_widget(search_form.nombre,{ 'attr': {'class': 'input-xxlarge'} }) }}	
+    		</div>
+    	
+    	{{ form_rest(search_form) }}
+    </fieldset>
+    
+    <div class="form-actions">
+		<input class="btn btn-primary" name="guardar" type="submit" value="Buscar" />
+	    <a href="{{ path('cie_list') }}" class="btn">Listar todo</a>
+	</div>
+
+</form><br/><br/><br/>
+
+	{% if cies %}
+	    <table class="table">
+	        <thead>
+	            <tr>
+	                <th>No.</th>
+	                <th>Codigo</th>
+	                <th>Nombre</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	        {% for cie in cies%}
+	            <tr>
+	                <td>{{ loop.index }}</td>
+	                <td>{{ cie.codigo }}</td>
+	                <td>{{ cie.nombre}}</td>	                
+	            </tr>
+	        {% endfor %}
+	        </tbody>
+	    </table>
+	    
+	    <div class="navigation">
+	    {% if filtro == 1 %}
+    		{{ knp_pagination_render(cies) }}
+    	{% endif %}
+		</div>
+	{% else %}
+		<div class="alert alert-success">
+	    	<button data-dismiss="alert" class="close" type="button">x</button>
+	        <span>No existen cies creados</span>
+	    </div>
+	{% endif %}    
+    
+{% endblock %}
