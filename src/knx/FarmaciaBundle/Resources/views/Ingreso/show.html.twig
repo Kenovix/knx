@@ -48,9 +48,9 @@
             	<td>{{ ingreso.almacen }}</td>
             	<td>{{ ingreso.numFact }}</td>
             	<td>{{ ingreso.fecha | date('d-m-Y')}}</td>
-            	<td>{{ ingreso.valorT}}</td>
-            	<td>{{ ingreso.valorN}}</td>
-            	<td>{{ ingreso.valorIva}} %</td>         	
+            	<td>$ {{ ingreso.valorT| number_format(0,',','.')}}</td>
+            	<td>$ {{ ingreso.valorN| number_format(0,',','.')}}</td>
+            	<td> {{ ingreso.valorIva}} %</td>         	
         	</tr>
         </tbody>    
     </table>
@@ -86,9 +86,9 @@
                 <td><a href="{{ path('inventario_edit', { 'inventario': inventario.id }) }}">{{ inventario.imv}}</a></td>
                 <td>{{ inventario.proveedor }} </td>
                 <td>{{ inventario.cant }} </td>
-                <td>{{ inventario.precioCompra }} </td> 
-                <td>{{ inventario.precioVenta }} </td>
-                <td>{{ inventario.precioTotal }} </td>     
+                <td>$ {{ inventario.precioCompra | number_format(0,',','.')}} </td> 
+                <td>$ {{ inventario.precioVenta | number_format(0,',','.') }} </td>
+                <td>$ {{ inventario.precioTotal | number_format(0,',','.')}} </td>     
                 
             </tr>
          {% else %}

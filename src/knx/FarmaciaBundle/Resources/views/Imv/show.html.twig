@@ -29,33 +29,34 @@
 
 {% block cuerpo %}	    
 
-	<table class="table">
+
+
+
+
+<table class="table">
         <tbody>
-        	<tr>
+            <tr>
                 <td><strong>No.</strong></td>
                 <td>{{ imv.id }}</td>
-            </tr>
-            <tr>
                 <td><strong>Tipo</strong></td>
                 <td>{{ imv.tipoImv }}</td>
             </tr>
             <tr>
                 <td><strong>Codigo</strong></td>
                 <td>{{ imv.codCups }}</td>
-            </tr>
-            <tr>
                 <td><strong>Nombre</strong></td>
                 <td>{{ imv.nombre }}</td>
             </tr>
-            
-             <tr>
-                <td><strong>Cant_Existencia</strong></td>
-                <td>{{ imv.cantT}}</td>
-            </tr>
-            
-            
+            <tr>
+                <td><strong>Forma Farmarceutica</strong></td>
+                <td>{{ imv.formaFarmaceutica }}</td>
+                <td></td>
+                <td></td>
+            </tr>            
         </tbody>
     </table>
+
+	
 
 	<div class="btn-group">
 	    <a href="{{ path('imv_edit', {'imv':imv.id}) }}" class="btn btn-primary">Modificar</a>

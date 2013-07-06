@@ -157,6 +157,7 @@ class DevolucionController extends Controller
     	$devolucion = $em->getRepository('FarmaciaBundle:Devolucion')->findAll();
     	 
     	$devolucion = new Devolucion();
+    	$devolucion->setFecha(new \datetime('now'));
     	 
     	$request = $this->getRequest();
     	$form   = $this->createForm(new DevolucionType(), $devolucion);

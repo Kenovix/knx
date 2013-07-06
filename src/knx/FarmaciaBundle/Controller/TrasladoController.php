@@ -140,7 +140,7 @@ class TrasladoController extends Controller
     	$breadcrumbs->addItem("Nueva Traslado");
     	 
     	$traslado = new Traslado();
-    	
+    	 
     	$traslado->setFecha(new \datetime('now'));
     	$form   = $this->createForm(new TrasladoType(), $traslado);
 
@@ -164,6 +164,7 @@ class TrasladoController extends Controller
     	$traslado = $em->getRepository('FarmaciaBundle:Traslado')->findAll();
     	 
     	$traslado = new Traslado();
+    	$traslado->setFecha(new \datetime('now'));
     	 
     	$request = $this->getRequest();
     	$form   = $this->createForm(new TrasladoType(), $traslado);
