@@ -18,9 +18,6 @@ class HistoriaController extends Controller
 		$em = $this->getDoctrine()->getEntityManager();
 		$factura = $em->getRepository('FacturacionBundle:Factura')->find($factura);
 		$historia = $factura->getHc();
-		
-		
-		//$pdfObj = $this->$container->get("white_october.tcpdf")->create();
 
 		/* No se verifica la existencia del paciente y los servicios porque si existe la factura existe el paciente
 		 * y si existe la historia existen los servicios.
