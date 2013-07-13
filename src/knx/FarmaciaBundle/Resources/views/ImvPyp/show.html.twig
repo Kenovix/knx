@@ -6,7 +6,7 @@
 
 {% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
 
-{% block titulo %}Información de la Imv_Pyp{% endblock %}
+{% block titulo %}Información del Stock_Pyp{% endblock %}
 
 {% block msg %}
 	{% if app.session.hasFlash('ok') %}
@@ -34,31 +34,39 @@
         	<tr>
                 <td><strong>No.</strong></td>
                 <td>{{ imvpyp.id }}</td>
-            </tr>
-            <tr>
                 <td><strong>Imv</strong></td>
                 <td>{{ imvpyp.imv }}</td>
-            </tr>
-            <tr>
                 <td><strong>Categoria_Pyp</strong></td>
-                <td>{{ imvpyp.pyp }}</td>
-            </tr>
+                <td>{{ imvpyp.pyp }}</td>                                          
+            </tr>                                   
+                     
+                
+            
+           
             <tr>
                 <td><strong>Edad_Inicial</strong></td>
                 <td>{{ imvpyp.edadIni }}</td>
-            </tr>
-            <tr>
                 <td><strong>Edad_Final</strong></td>
                 <td>{{ imvpyp.edadFin }}</td>
-            </tr>
-            
+                <td><strong>Rango</strong></td>
+                <td>{{ imvpyp.rango }}</td>
+            </tr>          
             <tr>
                 <td><strong>Sexo</strong></td>
                 <td>{{ imvpyp.sexo }}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
             </tr>
             
         </tbody>
-    </table>
+    </table>     
+            
+          
+        
+            
+
 
 			<div class="form-actions">
     	    <a href="{{ path('imvpyp_edit', {'imvpyp':imvpyp.id}) }}" class="btn btn-primary">Modificar</a>

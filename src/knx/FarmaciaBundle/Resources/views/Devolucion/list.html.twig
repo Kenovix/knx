@@ -6,7 +6,7 @@
 
 {% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
 
-{% block titulo %}Listado de Devolucion{% endblock %}
+{% block titulo %}Listado de Devoluciones{% endblock %}
 
 {% block msg %}
 	{% if app.session.hasFlash('ok') %}
@@ -51,7 +51,7 @@
 	        {% endfor %}
 	        </tbody>
 	    </table>
-	    
+	   
 	    
 	     <div class="form-actions">
 				<a href="{{ path('devolucion_new') }}" class="btn btn-primary">Nuevo Devolucion</a>				

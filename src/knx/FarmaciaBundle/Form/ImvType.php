@@ -11,7 +11,7 @@ class ImvType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('tipoImv', 		  'choice', array('label' => 'Tipo Insumo: *',			'choices'   => array('M' => 'Medicamento', 'I' => 'Insumo','V' => 'Vacuna', 'MP' => 'Medicamento_PYP'),'required'  => true))
+            ->add('tipoImv', 		  'choice', array('label' => 'Tipo Insumo: *',			'choices'   => array('empty_value' => 'Seleccione una opción','M' => 'Medicamento', 'I' => 'Insumo','V' => 'Vacuna', 'MP' => 'Medicamento_PYP'),'required'  => true))
             ->add('codCups',		  'text', 	array('label' => 'Codigo:* ',	'required' => true, 'attr' => array('placeholder' => 'Ingrese Codigo')))
             ->add('codAdmin',		  'text', 	array('label' => 'Codigo Administrativo: ','required' => false, 'attr' => array('placeholder' => 'CodigoAdministracion')))
             ->add('cums',			  'text', 	array('label' => 'Cums:',					'required' => false, 'attr' => array('placeholder' => 'Cums')))

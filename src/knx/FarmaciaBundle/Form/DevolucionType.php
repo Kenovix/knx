@@ -12,7 +12,6 @@ class DevolucionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('fecha',	'datetime', array('label' => 'Fecha Realizacion:', 'read_only' => true, 'label' => 'Fecha Devolucion:'))    
             ->add('inventario', 		'entity', array(
             		'class' => 'knx\\FarmaciaBundle\\Entity\\Inventario',
             		'required' => true,

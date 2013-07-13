@@ -16,9 +16,11 @@ class CatfarmaController extends Controller
     	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
     	$breadcrumbs->addItem("Farmacia", $this->get("router")->generate("categoria_list"));
     	$breadcrumbs->addItem("Listado");
-    	
+    	$paginator  = $this->get('knp_paginator');
+    	 
     	$em = $this->getDoctrine()->getEntityManager();    
         $catImv = $em->getRepository('FarmaciaBundle:CategoriaImv')->findAll();
+        $catImv = $paginator->paginate($catImv,$this->getRequest()->query->get('page', 1), 10);
         
         return $this->render('FarmaciaBundle:CategoriaImv:list.html.twig', array(
                 'catImv'  => $catImv
@@ -167,10 +169,12 @@ class CatfarmaController extends Controller
     	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
     	$breadcrumbs->addItem("Farmacia", $this->get("router")->generate("farmacia_list"));
     	$breadcrumbs->addItem("Listado");
+    	$paginator  = $this->get('knp_paginator');
     	 
     	$em = $this->getDoctrine()->getEntityManager();
     	$farmacia = $em->getRepository('FarmaciaBundle:Farmacia')->findAll();
-    
+    	$farmacia = $paginator->paginate($farmacia,$this->getRequest()->query->get('page', 1), 5);
+    	 
     	return $this->render('FarmaciaBundle:Farmacia:list.html.twig', array(
     			'farmacia'  => $farmacia
     	));

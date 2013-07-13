@@ -1,0 +1,95 @@
+{% extends "::admin_layout.html.twig" %}
+
+{% block menu %}
+	{{ knp_menu_render('HistoriaBundle:Builder:HistoriaMenu') }}
+{% endblock %}
+
+{% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
+
+{% block titulo %}Listado de las notas{% endblock %}
+
+{% block msg %}
+	{% if app.session.hasFlash('ok') %}
+	    <div class="alert alert-success">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('ok') }}</span>
+	    </div>
+	{% elseif app.session.hasFlash('info') %}
+		<div class="alert alert-info">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('info') }}</span>
+	    </div>
+	{% elseif app.session.hasFlash('error') %}
+		<div class="alert alert-error">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('error') }}</span>
+	    </div>
+	{% endif %}
+{% endblock %}
+
+{% block cuerpo %}
+
+	<div id="tableHcPaciente">
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th>Nombres</th>
+					<th>Apellidos</th>
+					<th>Identificación</th>				
+					<th>GrupoEtnico</th>
+					<th>Edad</th>					
+					<th>EstadoCivil</th>					
+					<th>Aseguradora</th>
+					<th>Afiliación</th>								
+				</tr>
+			</thead>
+	        <tbody>
+	            <tr>                
+	                <td>{{ paciente.priNombre | capitalize }} {{ paciente.segNombre | capitalize }}</td>                
+	                <td>{{ paciente.priApellido | capitalize }} {{ paciente.segApellido | capitalize }}</td>
+	                <td>{{ paciente.identificacion }}</td>
+	                <td>{{ paciente.pertEtnica }}</td>
+	                <td>{{ date('now') | date('Y-m-d') - paciente.fn | date('Y-m-d') }} Años</td>	                
+	                <td>{{ paciente.estaCivil }}</td>	                        
+	                <td>{{ factura.cliente.nombre }}</td>
+	                <td>{{ paciente.tipoAfi }}</td>                                           
+	            </tr>            
+	        </tbody>
+	    </table>
+   </div>
+   
+
+	{% if listNotas %}
+	    <table class="table table-hover">
+	        <thead>
+	            <tr>
+	                <th>No.</th>
+	                <th>Fecha DD-MM-AA H:M</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	        {% for entity in listNotas%}
+	            <tr>
+	                <td>{{ loop.index }}</td>
+	                <td><a href="{{ path('nota_show', {'nota': entity.id}) }}">{{ entity.fecha|date('d-m-Y H:i')}}</a></td>	                
+		        </tr>
+	        {% endfor %}
+	        </tbody>
+	    </table>
+	    
+	    <div class="navigation">	    
+    		{{ knp_pagination_render(listNotas) }}    	
+		</div>
+	{% else %}
+		<div class="alert alert-success">
+	    	<button data-dismiss="alert" class="close" type="button">X</button>
+	        <span>No existen notas creados</span>
+	    </div>
+	{% endif %}
+		
+    
+    <a href="{{ path('nota_new', {'factura': factura.id }) }}" class="btn">Nueva nota</a>
+    {% if usuario.roles == "ROLE_MEDICO" %}
+    	<a href="{{ path('historia_edit', {'factura': factura.id }) }}" class="btn">Editar Historia</a>
+    {% endif %}
+{% endblock %}

@@ -126,6 +126,10 @@ class Servicio
      */
     public function getEmpresa()
     {
-        return $this->empresa;
+        return $this->empresa; 
     }
+    
+    public function __toString() {
+		return $this->getNombre();
+	}
 }

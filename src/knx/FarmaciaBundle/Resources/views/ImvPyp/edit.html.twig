@@ -6,7 +6,7 @@
 
 {% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
 
-{% block titulo %}Modificar ImvPyp{% endblock %}
+{% block titulo %}Modificar Stock_Pyp{% endblock %}
 
 {% block msg %}
 	{% if app.session.hasFlash('ok') %}
@@ -39,5 +39,6 @@
 				<input class="btn btn-primary" name="guardar" type="submit" value="Modificar" />
 			    <a href="{{ path('imvpyp_show', {'imvpyp': imvpyp.id}) }}" class="btn btn-danger">Cancelar</a>
 			</div>
+		</fieldset>	
 	</form>
 {% endblock %}

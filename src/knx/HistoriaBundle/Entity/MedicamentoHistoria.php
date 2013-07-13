@@ -1,7 +1,6 @@
 <?php
 
 namespace knx\HistoriaBundle\Entity;
-
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -13,85 +12,79 @@ use Symfony\Component\Validator\Constraints as Assert;
  * 
  * @ORM\Entity(repositoryClass="knx\HistoriaBundle\Entity\Repository\MedicamentoRepository")
  */
-class MedicamentoHistoria
-{
-    
-    /**
-     * @ORM\Id
-     * @ORM\ManyToOne(targetEntity="knx\HistoriaBundle\Entity\Hc")
-     */
-    private $hc;
+class MedicamentoHistoria {
 
-    /**
-     * @ORM\Id
-     * @ORM\ManyToOne(targetEntity="knx\HistoriaBundle\Entity\Medicamento")
-     */
-    private $medicamento;
-     /**
-     * @var boolean $estado
-     *
-     * @ORM\Column(name="estado", type="string", length=1, nullable=false)
-     */
-    private $estado;
+	/**
+	 * @ORM\Id
+	 * @ORM\ManyToOne(targetEntity="knx\HistoriaBundle\Entity\Hc")
+	 */
+	private $hc;
 
-  
-    /**
-     * Set estado
-     *
-     * @param string $estado
-     */
-    public function setEstado($estado)
-    {
-        $this->estado = $estado;
-    }
+	/**
+	 * @ORM\Id
+	 * @ORM\ManyToOne(targetEntity="knx\HistoriaBundle\Entity\Medicamento")
+	 */
+	private $medicamento;
+	/**
+	 * @var boolean $estado
+	 *
+	 * @ORM\Column(name="estado", type="string", length=1, nullable=false)
+	 * @Assert\Length(max=1)
+	 */
+	private $estado;
 
-    /**
-     * Get estado
-     *
-     * @return boolean 
-     */
-    public function getEstado()
-    {
-        return $this->estado;
-    }
+	/**
+	 * Set estado
+	 *
+	 * @param string $estado
+	 */
+	public function setEstado($estado) {
+		$this->estado = $estado;
+	}
 
-    /**
-     * Set hc
-     *
-     * @param knx\HistoriaBundle\Entity\Hc $hc
-     */
-    public function setHc(\knx\HistoriaBundle\Entity\Hc $hc)
-    {
-        $this->hc = $hc;
-    }
+	/**
+	 * Get estado
+	 *
+	 * @return boolean 
+	 */
+	public function getEstado() {
+		return $this->estado;
+	}
 
-    /**
-     * Get hc
-     *
-     * @return knx\HistoriaBundle\Entity\Hc 
-     */
-    public function getHc()
-    {
-        return $this->hc;
-    }
+	/**
+	 * Set hc
+	 *
+	 * @param knx\HistoriaBundle\Entity\Hc $hc
+	 */
+	public function setHc(\knx\HistoriaBundle\Entity\Hc $hc) {
+		$this->hc = $hc;
+	}
 
-    /**
-     * Set medicamento
-     *
-     * @param knx\HistoriaBundle\Entity\Medicamento $medicamento
-     */
-    public function setMedicamento(\knx\HistoriaBundle\Entity\Medicamento $medicamento)
-    {
-        $this->medicamento = $medicamento;
-    }
+	/**
+	 * Get hc
+	 *
+	 * @return knx\HistoriaBundle\Entity\Hc 
+	 */
+	public function getHc() {
+		return $this->hc;
+	}
 
-    /**
-     * Get medicamento
-     *
-     * @return knx\HistoriaBundle\Entity\medicamento 
-     */
-    public function getMedicamento()
-    {
-        return $this->medicamento;
-    }
+	/**
+	 * Set medicamento
+	 *
+	 * @param knx\HistoriaBundle\Entity\Medicamento $medicamento
+	 */
+	public function setMedicamento(
+			\knx\HistoriaBundle\Entity\Medicamento $medicamento) {
+		$this->medicamento = $medicamento;
+	}
+
+	/**
+	 * Get medicamento
+	 *
+	 * @return knx\HistoriaBundle\Entity\medicamento 
+	 */
+	public function getMedicamento() {
+		return $this->medicamento;
+	}
 }

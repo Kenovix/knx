@@ -1,0 +1,136 @@
+{% extends "::admin_layout.html.twig" %}
+
+{% block menu %}
+	{{ knp_menu_render('HistoriaBundle:Builder:HistoriaMenu') }}
+{% endblock %}
+
+{% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
+
+{% block titulo %}Información de la nota{% endblock %}
+
+{% block msg %}
+	{% if app.session.hasFlash('ok') %}
+	    <div class="alert alert-success">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('ok') }}</span>
+	    </div>
+	{% elseif app.session.hasFlash('info') %}
+		<div class="alert alert-info">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('info') }}</span>
+	    </div>
+	{% elseif app.session.hasFlash('error') %}
+		<div class="alert alert-error">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('error') }}</span>
+	    </div>
+	{% endif %}
+{% endblock %}
+
+{% block cuerpo %}
+	    
+	<div id="tableHcPaciente">
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th>Nombres</th>
+					<th>Apellidos</th>
+					<th>Identificación</th>				
+					<th>GrupoEtnico</th>
+					<th>Edad</th>					
+					<th>EstadoCivil</th>					
+					<th>Aseguradora</th>
+					<th>Afiliación</th>								
+				</tr>
+			</thead>
+	        <tbody>
+	            <tr>                
+	                <td>{{ paciente.priNombre | capitalize }} {{ paciente.segNombre | capitalize }}</td>                
+	                <td>{{ paciente.priApellido | capitalize }} {{ paciente.segApellido | capitalize }}</td>
+	                <td>{{ paciente.identificacion }}</td>
+	                <td>{{ paciente.pertEtnica }}</td>
+	                <td>{{ date('now') | date('Y-m-d') - paciente.fn | date('Y-m-d') }} Años</td>	                
+	                <td>{{ paciente.estaCivil }}</td>	                        
+	                <td>{{ factura.cliente.nombre }}</td>
+	                <td>{{ paciente.tipoAfi }}</td>                                           
+	            </tr>            
+	        </tbody>
+	    </table>
+   </div>
+   
+	 <div id="detalleNota">
+			 <table class="table">
+                	<thead>                		
+                		<tr>
+                			<th>FC</th>
+                			<th>FR</th>
+	                		<th>TA</th>
+	                		<th>Temp</th>
+	                		<th>Pulso</th>
+	                		<th>Peso</th>
+	                		<th>Estatura</th>
+	                		<th>IMC</th>
+	                		<th>Glasgow</th>
+                		</tr>
+                	</thead>
+                	<tbody>
+                		<tr>
+                			<td>{{ nota.fC}}</td>
+                			<td>{{ nota.fR }}</td>
+                			<td>{{ nota.ta }}</td>
+                			<td>{{ nota.temp }}</td>
+                			<td>{{ nota.pulso }}</td>
+                			<td>{{ nota.peso }}</td>
+                			<td>{{ nota.estatura }}</td>
+                			<td>{{ nota.imc }}</td>
+                			<td>{{ nota.glasgow }}</td>
+                		</tr>                		
+                	</tbody>                	
+                </table>
+
+				<table class="table">
+			        <tbody>
+			        	<tr>                
+			                <th>Fecha</th>
+			                <td>{{ nota.fecha|date('Y-m-d')}}</td>
+			            </tr>
+			            <tr>
+			            	<th colspan="2" style="text-align: center;">Resumen De La Nota</th>
+			            </tr>
+			            <tr>           	
+			                <td colspan="2">{{ nota.resumenNota }}</td>
+			            </tr>                    
+			        </tbody>
+			    </table>  
+    
+		    <a href="{{ path('nota_edit', { 'nota': nota.id }) }}" class="btn">Modificar nota</a>
+		    <a href="{{ path('historia_search') }}" class="btn">Regresar</a>
+	 </div>   
+	     
+    <div id="listDetalleNotas">
+	    {% if listNotas %}
+	    <h4>Listado de otras notas</h4>
+	    	<table class="table table-hover">
+		        <thead>
+		            <tr>
+		                <th>No.</th>
+		                <th>Fecha Fecha DD-MM-AA H:M</th>
+		            </tr>
+		        </thead>
+		        <tbody>
+		        {% for entity in listNotas%}
+		        	{% if entity.id != nota.id %}
+		            <tr>
+		                <td>{{ loop.index }}</td>
+		                <td><a href="{{ path('nota_show', {'nota': entity.id}) }}">{{ entity.fecha|date('d-m-Y H:i')}}</a></td>	                
+		            </tr>
+		            {% endif %}
+		        {% endfor %}
+		        </tbody>
+		    </table>    
+	    {% endif %}
+	    <a href="{{ path('nota_new', {'factura': factura.id}) }}" class="btn">Nueva nota</a>
+    </div>
+    
+    
+{% endblock %}

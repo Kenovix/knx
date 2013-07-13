@@ -57,12 +57,12 @@
             
             <tr>
                 <td><strong>Precio Compra</strong></td>
-                <td>{{ inventario.precioCompra  }}</td>
+                <td>${{ inventario.precioCompra | number_format(0,',','.') }}</td>
             </tr>
             
             <tr>
                 <td><strong>Precio Venta</strong></td>
-                <td>{{ inventario.precioVenta  }}</td>
+                <td>${{ inventario.precioVenta | number_format(0,',','.') }}</td>
             </tr>
             
         </tbody>

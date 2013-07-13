@@ -1,3 +1,176 @@
-historia_homepage:
-    pattern:  /hello/{name}
-    defaults: { _controller: HistoriaBundle:Default:index }
+#************** Historia ***************#
+   
+historia_edit:
+    pattern:  /{factura}/edit
+    defaults: { _controller: HistoriaBundle:Historia:edit }
+    
+historia_update:
+    pattern:  /{factura}/update
+    defaults: { _controller: HistoriaBundle:Historia:update }    
+
+historia_search_result:
+    pattern:  /search_result
+    defaults: { _controller: HistoriaBundle:Historia:searchResult }
+
+historia_search:
+    pattern:  /search
+    defaults: { _controller: HistoriaBundle:Historia:search }
+    
+historia_imprime:
+    pattern:  /{factura}/print
+    defaults: { _controller: HistoriaBundle:Historia:print }
+    
+#************** Examen ***************#
+
+examen_new:
+    pattern:  /examen/new
+    defaults: { _controller: HistoriaBundle:Examen:new }
+    
+examen_save:
+    pattern:  /examen/save
+    defaults: { _controller: HistoriaBundle:Examen:save }
+    
+examen_show:
+    pattern:  /examen/{examen}/show
+    defaults: { _controller: HistoriaBundle:Examen:show }
+    
+examen_edit:
+    pattern:  /examen/{examen}/edit
+    defaults: { _controller: HistoriaBundle:Examen:edit }
+    
+examen_update:
+    pattern:  /examen/{examen}/update
+    defaults: { _controller: HistoriaBundle:Examen:update }
+    
+examen_list:
+    pattern:  /examen/list
+    defaults: { _controller: HistoriaBundle:Examen:list }
+    
+examen_search:
+    pattern:  /examen/search
+    defaults: { _controller: HistoriaBundle:Examen:search }
+    
+#************** Medicamento ***************#
+
+medicamento_new:
+    pattern:  /medicamento/new
+    defaults: { _controller: HistoriaBundle:Medicamento:new }
+    
+medicamento_save:
+    pattern:  /medicamento/save
+    defaults: { _controller: HistoriaBundle:Medicamento:save }
+    
+medicamento_show:
+    pattern:  /medicamento/{medicamento}/show
+    defaults: { _controller: HistoriaBundle:Medicamento:show }
+    
+medicamento_edit:
+    pattern:  /medicamento/{medicamento}/edit
+    defaults: { _controller: HistoriaBundle:Medicamento:edit }
+    
+medicamento_update:
+    pattern:  /medicamento/{medicamento}/update
+    defaults: { _controller: HistoriaBundle:Medicamento:update }
+    
+medicamento_list:
+    pattern:  /medicamento/list
+    defaults: { _controller: HistoriaBundle:Medicamento:list }
+    
+medicamento_search:
+    pattern:  /medicamento/search
+    defaults: { _controller: HistoriaBundle:Medicamento:search }
+    
+#************** Cie ***************#
+
+cie_list:
+    pattern:  /cie/list
+    defaults: { _controller: HistoriaBundle:Cie:list }
+    
+cie_search:
+    pattern:  /cie/search
+    defaults: { _controller: HistoriaBundle:Cie:search }
+    
+#************** NOTAS ***************#
+
+nota_new:
+    pattern:  /nota/{factura}/new
+    defaults: { _controller: HistoriaBundle:Nota:new }
+    
+nota_save:
+    pattern:  /nota/{factura}/save
+    defaults: { _controller: HistoriaBundle:Nota:save }
+    
+nota_show:
+    pattern:  /nota/{nota}/show
+    defaults: { _controller: HistoriaBundle:Nota:show }
+    
+nota_edit:
+    pattern:  /nota/{nota}/edit
+    defaults: { _controller: HistoriaBundle:Nota:edit }
+    
+nota_update:
+    pattern:  /nota/{nota}/update
+    defaults: { _controller: HistoriaBundle:Nota:update }
+    
+nota_list:
+    pattern:  /nota/{historia}/list
+    defaults: { _controller: HistoriaBundle:Nota:list }
+    
+#**************** DIAGNOSTICO HISTORIA ***********************#
+
+historia_dxHc:
+    pattern:  /dx/save/historia_dx
+    defaults: { _controller: HistoriaBundle:HistoriaDx:saveHcDx }
+    requirements:
+        _method:  POST
+        
+historia_delDxHc:
+    pattern:  /delDxHistoria/delete
+    defaults: { _controller: HistoriaBundle:HistoriaDx:hcDxDeleted }
+    requirements:
+        _method:  POST
+        
+#**************** EXAMEN HISTORIA ***********************#
+
+historia_examenHc:
+    pattern:  /save/examenHc
+    defaults: { _controller: HistoriaBundle:HistoriaExamen:examenHcSave }
+    requirements:
+        _method:  POST
+        
+historia_delExamenHc:
+    pattern:  /delExamenHc/delete
+    defaults: { _controller: HistoriaBundle:HistoriaExamen:examenDelHc }
+    requirements:
+        _method:  POST
+        
+historia_saveResultadoExamen:
+    pattern:  /resultado/examen/save
+    defaults: { _controller: HistoriaBundle:HistoriaExamen:resultadoSaveExamen }
+    requirements:
+        _method:  POST
+#**************** LABORATORIO HISTORIA ***********************#
+
+historia_laboratorioHc:
+    pattern:  /laboratorioHc/save
+    defaults: { _controller: HistoriaBundle:HistoriaLaboratorio:laboratorioHcSave }
+    requirements:
+        _method:  POST
+        
+historia_delLaboratorioHc:
+    pattern:  /delLaboratorioHc/delete
+    defaults: { _controller: HistoriaBundle:HistoriaLaboratorio:laboratorioDelHc }
+    requirements:
+        _method:  POST
+        
+#**************** Listar las historias que se encuentran en hospitalizacion ***********************#
+  
+historia_urgenciaList:
+    pattern:  /urgencias/list
+    defaults: { _controller: HistoriaBundle:Historia:listUrgencias }
+        
+#**************** RUTAS PARA EL SMARTWIG ***********************#
+
+smart_signos_save:
+    pattern:  /signos/smart/{factura}/save
+    defaults: { _controller: HistoriaBundle:SmarTwig:saveSignos }

@@ -6,7 +6,7 @@
 
 {% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
 
-{% block titulo %}Listado de Imv_Pyp{% endblock %}
+{% block titulo %}Listado de Stock_Pyp{% endblock %}
 
 {% block msg %}
 	{% if app.session.hasFlash('ok') %}
@@ -30,19 +30,19 @@
 {% block cuerpo %}
 
 <form name="consultaImv" id="consultaImv" class="form-horizontal" method="post" action="{{ path('imvpyp_list') }}" {{ form_enctype(form) }}>
-		    <fieldset>
+	<fieldset>
 		    	<legend>Busqueda</legend>
 					{{ form_widget(form) }}
-		    </fieldset>
+		 
 
 		   <div class="form-actions">
 				<input class="btn btn-primary" name="Buscar"  type="submit" value="Buscar" />
-				<a href="{{ path('imvpyp_new') }}" class="btn btn-primary">Nueva Imv_Pyp</a>				
+				<a href="{{ path('imvpyp_new') }}" class="btn btn-primary">Nueva Stock_Pyp</a>				
 			    <a href="{{ path('imvpyp_search') }}" class="btn">Volver</a>
 				
 			</div>
-
-		</form>
+   </fieldset>
+</form>
 
 	{% if imvpyp %}
 	    <table class="table">
@@ -72,7 +72,7 @@
 	{% else %}
 		<div class="alert alert-success">
 	    	<button data-dismiss="alert" class="close" type="button">×</button>
-	        <span>No existen ImvPyp creadas</span>
+	        <span>No existen Stock_Pyp creadas</span>
 	    </div>
 	{% endif %}
 		

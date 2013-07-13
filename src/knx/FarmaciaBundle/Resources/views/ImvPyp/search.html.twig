@@ -6,7 +6,7 @@
 
 {% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
 
-{% block titulo %}Farmacia Item_Pyp{% endblock %}
+{% block titulo %}Stock_Pyp{% endblock %}
 
 {% block msg %}
 	{% if app.session.hasFlash('ok') %}
@@ -32,21 +32,16 @@
 	
 {% block cuerpo %}
 
-		<form name="consultaImv" id="consultaImv" class="form-horizontal" method="post" action="{{ path('imvpyp_list') }}" {{ form_enctype(form) }}>
-		    <fieldset>
+	<form name="consultaImv" id="consultaImv" class="form-horizontal" method="post" action="{{ path('imvpyp_list') }}" {{ form_enctype(form) }}>
+		   <fieldset>
 		    	<legend>Busqueda</legend>
 					{{ form_widget(form) }}
-		    </fieldset>
-
-		   <div class="form-actions">
-				<input class="btn btn-primary" name="Buscar" type="submit" value="Buscar" />
-			    <a href="{{ path('imvpyp_new') }}" class="btn btn-primary">Nuevo Item_Pyp</a>
-			   
-			    
-			    
-			</div>
-
-		</form>
+		   			<div class="form-actions">
+						<input class="btn btn-primary" name="Buscar" type="submit" value="Buscar" />
+			    		<a href="{{ path('imvpyp_new') }}" class="btn btn-primary">Nuevo Stock_Pyp</a>		    
+					</div>
+		    </fieldset>			
+	</form>
 
 {% endblock %}
 	

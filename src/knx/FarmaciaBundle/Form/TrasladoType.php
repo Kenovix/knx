@@ -12,7 +12,6 @@ class TrasladoType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('fecha',	'datetime', array('required' => true, 'label' => 'Fecha Traslado', 'read_only' => true))
              ->add('inventario', 		'entity', array(
                 'class' => 'knx\\FarmaciaBundle\\Entity\\Inventario',
                 'required' => true,

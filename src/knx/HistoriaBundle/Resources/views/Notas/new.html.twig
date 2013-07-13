@@ -1,0 +1,137 @@
+{% extends "::admin_layout.html.twig" %}
+
+{% block menu %}
+	{{ knp_menu_render('HistoriaBundle:Builder:HistoriaMenu') }}
+{% endblock %}
+
+{% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
+
+{% block titulo %}Nueva Nota{% endblock %}
+
+{% block msg %}
+	{% if app.session.hasFlash('ok') %}
+	    <div class="alert alert-success">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('ok') }}</span>
+	    </div>
+	{% elseif app.session.hasFlash('info') %}
+		<div class="alert alert-info">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('info') }}</span>
+	    </div>
+	{% elseif app.session.hasFlash('error') %}
+		<div class="alert alert-error">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('error') }}</span>
+	    </div>
+	{% endif %}
+{% endblock %}
+
+{% block cuerpo %}
+
+	<div id="tableHcPaciente">
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th>Nombres</th>
+					<th>Apellidos</th>
+					<th>Identificación</th>				
+					<th>GrupoEtnico</th>
+					<th>Edad</th>					
+					<th>EstadoCivil</th>					
+					<th>Aseguradora</th>
+					<th>Afiliación</th>								
+				</tr>
+			</thead>
+	        <tbody>
+	            <tr>                
+	                <td>{{ paciente.priNombre | capitalize }} {{ paciente.segNombre | capitalize }}</td>                
+	                <td>{{ paciente.priApellido | capitalize }} {{ paciente.segApellido | capitalize }}</td>
+	                <td>{{ paciente.identificacion }}</td>
+	                <td>{{ paciente.pertEtnica }}</td>
+	                <td>{{ date('now') | date('Y-m-d') - paciente.fn | date('Y-m-d') }} Años</td>	                
+	                <td>{{ paciente.estaCivil }}</td>	                        
+	                <td>{{ factura.cliente.nombre }}</td>
+	                <td>{{ paciente.tipoAfi }}</td>                                           
+	            </tr>            
+	        </tbody>
+	    </table>
+   </div>
+
+	<form action="{{ path('nota_save', {'factura':factura.id}) }}" class="form-inline" method="post" {{ form_enctype(form) }} {{ form_enctype(form) }}>
+	  <fieldset>
+		<div>	  
+	    	<legend>Datos de la nota</legend>
+	    		
+				<div>			
+					{{ form_label(form.fC) }}
+					{{ form_errors(form.fC) }}
+					{{ form_widget(form.fC,{ 'attr': {'class': 'input-mini'} }) }}
+					
+					{{ form_label(form.fR) }}
+					{{ form_errors(form.fR) }}
+					{{ form_widget(form.fR,{ 'attr': {'class': 'input-mini'} }) }}							
+												
+					{{ form_label(form.ta) }}
+					{{ form_errors(form.ta) }}								
+					{{ form_widget(form.ta,{ 'attr': {'class': 'input-mini'} }) }}	
+					
+					{{ form_label(form.temp) }}
+					{{ form_errors(form.temp) }}
+					{{ form_widget(form.temp,{ 'attr': {'class': 'input-mini'} }) }}
+					
+					{{ form_label(form.pulso) }}
+					{{ form_errors(form.pulso) }}
+					{{ form_widget(form.pulso,{ 'attr': {'class': 'input-mini'} }) }}
+						
+					{{ form_label(form.peso) }}
+					{{ form_errors(form.peso) }}
+					{{ form_widget(form.peso,{ 'attr': {'class': 'input-mini'} }) }}
+					
+					{{ form_label(form.estatura) }}
+					{{ form_errors(form.estatura) }}
+					{{ form_widget(form.estatura,{ 'attr': {'class': 'input-mini'} }) }}
+					
+					{{ form_label(form.imc) }}
+					{{ form_errors(form.imc) }}
+					{{ form_widget(form.imc,{ 'attr': {'class': 'input-mini'} }) }}							
+						
+					{{ form_label(form.glasgow) }}
+					{{ form_errors(form.glasgow) }}
+					{{ form_widget(form.glasgow,{ 'attr': {'class': 'input-mini'} }) }}															
+				 </div><br/>
+				 
+				 	{{ form_label(form.triage) }}
+					{{ form_errors(form.triage) }}
+					{{ form_widget(form.triage,{ 'attr': {'class': 'input-mini'} }) }}
+					
+			    	{{ form_rest(form) }}				
+		   
+			<div class="form-actions">
+				<input class="btn btn-primary" name="guardar" type="submit" value="Guardar" />
+			    <a href="{{ path('historia_search') }}" class="btn btn-danger">Cancelar</a>
+			</div>		
+	 	</div>
+	 </fieldset>
+	</form>
+{% endblock %}
+
+{% block javascripts %}
+
+	<script type="text/javascript">
+		$("#newNotasType_peso,#newNotasType_estatura").focusout(function() {
+			var imc = 0;
+			
+			peso = $("#newNotasType_peso").val();
+			talla = $("#newNotasType_estatura").val();
+		
+			if(peso && talla){
+				imc = (peso/(Math.pow((talla/100),2)));		
+				
+				$("#newNotasType_imc").val(imc.toFixed(0));
+			}else{
+				$("#newNotasType_imc").val('');
+			}		
+		});
+	</script>
+{% endblock %}

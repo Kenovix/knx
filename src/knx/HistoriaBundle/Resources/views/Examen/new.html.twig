@@ -1,0 +1,67 @@
+{% extends "::admin_layout.html.twig" %}
+
+{% block menu %}
+	{{ knp_menu_render('HistoriaBundle:Builder:HistoriaMenu') }}
+{% endblock %}
+
+{% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
+
+{% block titulo %}Nuevo Examenes y Procedimientos{% endblock %}
+
+{% block msg %}
+	{% if app.session.hasFlash('ok') %}
+	    <div class="alert alert-success">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('ok') }}</span>
+	    </div>
+	{% elseif app.session.hasFlash('info') %}
+		<div class="alert alert-info">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('info') }}</span>
+	    </div>
+	{% elseif app.session.hasFlash('error') %}
+		<div class="alert alert-error">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('error') }}</span>
+	    </div>
+	{% endif %}
+{% endblock %}
+
+{% block cuerpo %}
+
+	<form action="{{ path('examen_save') }}" class="form-horizontal" method="post" {{ form_enctype(form) }}>
+	    <fieldset>
+	    	<legend>Datos Del Examen o Procedimiento</legend>
+	    	    
+	    	    <div class="control-group">
+	    	    	{{ form_label(form.codigo) }}
+	    	    	<div class="controls">
+						{{ form_errors(form.codigo) }}
+						{{ form_widget(form.codigo,{ 'attr': {'class': 'input-small'} }) }}
+					</div>
+	    	    </div>		    	
+				<div class="control-group"> 
+					{{ form_label(form.nombre) }}
+					<div class="controls">
+						{{ form_errors(form.nombre) }}
+						{{ form_widget(form.nombre,{ 'attr': {'class': 'input-xlarge'} }) }}
+					</div>
+	    	    </div>											
+				<div class="control-group">
+					{{ form_label(form.tipo) }}
+					<div class="controls">
+						{{ form_errors(form.tipo) }}								
+						{{ form_widget(form.tipo,{ 'attr': {'class': 'input-xlarge'} }) }}
+					</div>
+	    	    </div>							
+					
+		  
+		  		{{ form_rest(form) }}
+		   
+			<div class="form-actions">
+				<input class="btn btn-primary" name="guardar" type="submit" value="Guardar" />
+			    <a href="{{ path('examen_list') }}" class="btn btn-danger">Cancelar</a>
+			</div>
+		</fieldset>
+	</form>
+{% endblock %}
