@@ -9,17 +9,17 @@
 {% block titulo %}Nuevo contrato{% endblock %}
 
 {% block msg %}
-	{% if app.session.flash('ok') %}
+	{% if app.session.hasFlash('ok') %}
 	    <div class="alert alert-success">
 	    	<button data-dismiss="alert" class="close" type="button">×</button>
 	        <span>{{ app.session.flash('ok') }}</span>
 	    </div>
-	{% elseif app.session.flash('info') %}
+	{% elseif app.session.hasFlash('info') %}
 		<div class="alert alert-info">
 	    	<button data-dismiss="alert" class="close" type="button">×</button>
 	        <span>{{ app.session.flash('info') }}</span>
 	    </div>
-	{% elseif app.session.flash('error') %}
+	{% elseif app.session.hasFlash('error') %}
 		<div class="alert alert-error">
 	    	<button data-dismiss="alert" class="close" type="button">×</button>
 	        <span>{{ app.session.flash('error') }}</span>

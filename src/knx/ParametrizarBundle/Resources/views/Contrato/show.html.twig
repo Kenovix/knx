@@ -9,17 +9,17 @@
 {% block titulo %}Información del contrato{% endblock %}
 
 {% block msg %}
-	{% if app.session.flash('ok') %}
+	{% if app.session.hasFlash('ok') %}
 	    <div class="alert alert-success">
 	    	<button data-dismiss="alert" class="close" type="button">×</button>
 	        <span>{{ app.session.flash('ok') }}</span>
 	    </div>
-	{% elseif app.session.flash('info') %}
+	{% elseif app.session.hasFlash('info') %}
 		<div class="alert alert-info">
 	    	<button data-dismiss="alert" class="close" type="button">×</button>
 	        <span>{{ app.session.flash('info') }}</span>
 	    </div>
-	{% elseif app.session.flash('error') %}
+	{% elseif app.session.hasFlash('error') %}
 		<div class="alert alert-error">
 	    	<button data-dismiss="alert" class="close" type="button">×</button>
 	        <span>{{ app.session.flash('error') }}</span>
@@ -68,7 +68,7 @@
     
     <h2>Contratos</h2>
     
-    {% if contratado %}
+    {% if contratado and contrato.tipo == 'P' %}
     
 		<table class="table">
 			<tr>
@@ -95,15 +95,50 @@
 	    		<td>{{ pactado.created | date('d-m-Y') }}</td>
 	    		<td>{{ pactado.updated | date('d-m-Y') }}</td>
 	  		</tr>
+	  	{% else %}
+	  		<div class="alert alert-info">
+		        <span>No hay insumos contratadas</span>
+		    </div>
 		{% endfor %}
 		
 		</table>
 	{% else %}
-		<div class="alert alert-info">
-	        <span>No hay actividades contratadas</span>
-	    </div>
+		<table class="table">
+			<tr>
+	    		<th>Código</th>
+	    		<th>Nombre</th>
+	    		<th>Valor</th>
+	    		<th>Estado</th>
+	    		<th>Observación</th>
+	  		</tr>
+    
+    	{% for pactado in contratado %}    
+    		<tr>
+	    		<td>{{ pactado.imv.cums }}</td>
+	    		<td><a href="{{ path('imv_contrato_show', {'contrato': contrato.id, 'imv': pactado.imv.id }) }}" title="Modificar actividad">{{ pactado.imv.nombre }}</a></td>
+	    		<td>
+	    			{% if pactado.precio %}
+	    				<strong>${{ pactado.precio | number_format(0,',','.') }}</strong>
+	    			{% endif %}
+	    		</td>
+	    		<td>{{ pactado.estado }}</td>
+	    		<td>{{ pactado.observacion }}</td>
+	    		
+	  		</tr>
+	  	{% else %}
+	  		<div class="alert alert-info">
+		        <span>No hay insumos contratadas</span>
+		    </div>
+		{% endfor %}
+		
+		</table>
+		
 	{% endif %}
 	
-	<a href="{{ path('contrato_cargo_new', {'contrato': contrato.id}) }}" class="btn btn-primary">Nueva actividad</a>
+	{% if contrato.tipo == 'P' %}
+		<a href="{{ path('contrato_cargo_new', {'contrato': contrato.id}) }}" class="btn btn-primary">Nueva actividad</a>
+	{% else %}
+		<a href="{{ path('imv_contrato_new', {'contrato': contrato.id}) }}" class="btn btn-primary">Nuevo medicamento</a>
+	{% endif %}
 
 {% endblock %}
