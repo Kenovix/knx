@@ -106,6 +106,7 @@ class Hc {
 	 * @var string $tipoAtencion
 	 *
 	 * @ORM\Column(name="tipo_atencion", type="string", length=30, nullable=true)
+	 * @Assert\Length(max=30)
 	 */
 	private $tipoAtencion;
 
@@ -164,13 +165,6 @@ class Hc {
 	 * @ORM\Column(name="antecedentes_fami", type="text", nullable=true)
 	 */
 	private $antecedentesFami;
-
-	/**
-	 * @var text $revSistema
-	 *
-	 * @ORM\Column(name="rev_sistema", type="text", nullable=true)
-	 */
-	private $revSistema;
 
 	/**
 	 * @var text $cabeza
@@ -267,6 +261,7 @@ class Hc {
 	 * @var string $tipoDx
 	 *
 	 * @ORM\Column(name="tipo_dx", type="string", length=20, nullable=false)
+	 * @Assert\Length(max=20)
 	 */
 	private $tipoDx;
 
@@ -287,7 +282,7 @@ class Hc {
 	/**
 	 * @var text $dxSalida
 	 *
-	 * @ORM\Column(name="dx_salida", type="text", nullable=true)
+	 * @ORM\Column(name="dx_salida", type="integer", nullable=true)
 	 */
 	private $dxSalida;
 
@@ -309,7 +304,7 @@ class Hc {
 	 * @var text $destino
 	 *
 	 * @ORM\Column(name="destino", type="string", length=20, nullable=true)
-	 * * @Assert\MaxLength(limit=20, message="El valor ingresado debe tener maximo {{ limit }} caracteres.")
+	 * @Assert\Length(max=20)
 	 */
 	private $destino;
 	
@@ -317,21 +312,21 @@ class Hc {
 	 * @var string $destino_r
 	 *
 	 * @ORM\Column(name="destino_r", type="string", length=50, nullable=true)	
-	 * @Assert\MaxLength(limit=50, message="El valor ingresado debe tener máximo {{ limit }} caracteres.")
+	 * @Assert\Length(max=50)
 	 */	
 	private $destino_r;
 	/**
 	 * @var string $especialidad_r
 	 *
 	 * @ORM\Column(name="especialidad_r", type="string", length=50, nullable=true)
-	 * @Assert\MaxLength(limit=50, message="El valor ingresado debe tener maximo {{ limit }} caracteres.")
+	 * @Assert\Length(max=50)
 	 */
 	private $especialidad_r;
 	/**
 	 * @var string $nuAuto_r
 	 *
 	 * @ORM\Column(name="nuAuto_r", type="string", length=10, nullable=true)
-	 * @Assert\MaxLength(limit=9, message="El valor ingresado debe tener maximo {{ limit }} caracteres.")
+	 * @Assert\Length(max=10)
 	 */	
 	private $nuAuto_r;
 	/**
@@ -340,66 +335,75 @@ class Hc {
 	 * @ORM\Column(name="descripcion_r", type="text", nullable=true)	 
 	 */
 	private $descripcion_r;	
-	/*
-	 * @var string $servicio_r
-	 * 
-	 * @ORM\Column(name="servicio_r", type="string", length=10, nullable=true)
-	 * @Assert\Choice(choices = {"urgencia","ambulatoria"}, message = "Selecciona una opción valida.")
+	/**
+	 * @var string $rServicio
+	 *
+	 * @ORM\Column(name="rServicio", type="string", length=15, nullable=true)
+	 * @Assert\Length(max=15)
 	 */
-	private $servicio_r;	
+	private $rServicio;	
 	
 	/**
-	 * @var text $o_sentidos
+	 * @var string $o_sentidos
 	 *
-	 * @ORM\Column(name="o_sentidos", type="text", nullable=true)
+	 * @ORM\Column(name="o_sentidos", type="string", length=200, nullable=true)
+	 * @Assert\Length(max=200)
 	 */
 	private $o_sentidos;
 	/**
-	 * @var text $a_respiratorio
+	 * @var string $a_respiratorio
 	 *
-	 * @ORM\Column(name="a_respiratorio", type="text", nullable=true)
+	 * @ORM\Column(name="a_respiratorio", type="string", length=200, nullable=true)
+	 * @Assert\Length(max=200)
 	 */
 	private $a_respiratorio;
 	/**
-	 * @var text $a_cardiovascular
+	 * @var string $a_cardiovascular
 	 *
-	 * @ORM\Column(name="a_cardiovascular", type="text", nullable=true)
+	 * @ORM\Column(name="a_cardiovascular", type="string", length=200, nullable=true)
+	 * @Assert\Length(max=200)
 	 */
 	private $a_cardiovascular;
 	/**
-	 * @var text $a_digestivo
+	 * @var string $a_digestivo
 	 *
-	 * @ORM\Column(name="a_digestivo", type="text", nullable=true)
+	 * @ORM\Column(name="a_digestivo", type="string", length=200, nullable=true)
+	 * @Assert\Length(max=200)
 	 */
 	private $a_digestivo;
 	/**
-	 * @var text $a_genitoUrinario
+	 * @var string $a_genitoUrinario
 	 *
-	 * @ORM\Column(name="a_genitoUrinario", type="text", nullable=true)
+	 * @ORM\Column(name="a_genitoUrinario", type="string", length=200, nullable=true)
+	 * @Assert\Length(max=200)
 	 */
 	private $a_genitoUrinario;
 	/**
-	 * @var text $a_hematologico
+	 * @var string $a_hematologico
 	 *
-	 * @ORM\Column(name="a_hematologico", type="text", nullable=true)
+	 * @ORM\Column(name="a_hematologico", type="string", length=200, nullable=true)
+	 * @Assert\Length(max=200)
 	 */
 	private $a_hematologico;
 	/**
-	 * @var text $s_osteoarticular
+	 * @var string $s_osteoarticular
 	 *
-	 * @ORM\Column(name="s_osteoarticular", type="text", nullable=true)
+	 * @ORM\Column(name="s_osteoarticular", type="string", length=200, nullable=true)
+	 * @Assert\Length(max=200)
 	 */
 	private $s_osteoarticular;
 	/**
-	 * @var text $s_nervioso
+	 * @var string $s_nervioso
 	 *
-	 * @ORM\Column(name="s_nervioso", type="text", nullable=true)
+	 * @ORM\Column(name="s_nervioso", type="string", length=200, nullable=true)
+	 * @Assert\Length(max=200)
 	 */
 	private $s_nervioso;
 	/**
-	 * @var text $s_endocrino
+	 * @var string $s_endocrino
 	 *
-	 * @ORM\Column(name="s_endocrino", type="text", nullable=true)
+	 * @ORM\Column(name="s_endocrino", type="string", length=200, nullable=true)
+	 * @Assert\Length(max=200)
 	 */
 	private $s_endocrino;
 	
@@ -820,27 +824,6 @@ class Hc {
 	 */
 	public function getAntecedentesFami() {
 		return $this->antecedentesFami;
-	}
-
-	/**
-	 * Set revSistema
-	 *
-	 * @param string $revSistema
-	 * @return Hc
-	 */
-	public function setRevSistema($revSistema) {
-		$this->revSistema = $revSistema;
-
-		return $this;
-	}
-
-	/**
-	 * Get revSistema
-	 *
-	 * @return string 
-	 */
-	public function getRevSistema() {
-		return $this->revSistema;
 	}
 
 	/**
@@ -1418,28 +1401,7 @@ class Hc {
         return $this->descripcion_r;
     }
     
-    /**
-     * Set servicio_r
-     *
-     * @param string $servicioR
-     * @return Hc
-     */
-    public function setServicioR($servicioR)
-    {
-    	$this->servicio_r = $servicioR;
     
-    	return $this;
-    }
-    
-    /**
-     * Get servicio_r
-     *
-     * @return string
-     */
-    public function getServicioR()
-    {
-    	return $this->servicio_r;
-    }
 
     /**
      * Set o_sentidos
@@ -1739,5 +1701,28 @@ class Hc {
     public function getIncapacidad()
     {
     	return $this->incapacidad;
+    }
+
+    /**
+     * Set rServicio
+     *
+     * @param string $rServicio
+     * @return Hc
+     */
+    public function setRServicio($rServicio)
+    {
+        $this->rServicio = $rServicio;
+    
+        return $this;
+    }
+
+    /**
+     * Get rServicio
+     *
+     * @return string 
+     */
+    public function getRServicio()
+    {
+        return $this->rServicio;
     }
 }

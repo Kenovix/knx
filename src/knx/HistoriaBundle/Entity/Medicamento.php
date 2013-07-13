@@ -27,7 +27,7 @@ class Medicamento {
 	 * 
 	 * @ORM\Column(name="principio_activo", type="string", length=200, nullable=false)
 	 * @Assert\NotBlank()
-	 * @Assert\MaxLength(limit=200, message="El principioActivo ingresado no puede sobrepasar {{ limit }} caracteres.")
+	 * @Assert\Length(max=200)
 	 */
 	private $principioActivo;
 
@@ -36,7 +36,7 @@ class Medicamento {
 	 * 
 	 * @ORM\Column(name="concentracion", type="string", length=10, nullable=false)
 	 * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
-	 * @Assert\MaxLength(limit=10, message="La concentracion ingresado no puede sobrepasar {{ limit }} caracteres.")
+	 * @Assert\Length(min=1,max=10)
 	 */
 	private $concentracion;
 
@@ -45,7 +45,7 @@ class Medicamento {
 	 * 
 	 * @ORM\Column(name="presentacion", type="string", length=30, nullable=false)
 	 * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
-	 * @Assert\MaxLength(limit=30, message="La presentacion ingresado no puede sobrepasar {{ limit }} caracteres.")
+	 * @Assert\Length(min=1,max=30)
 	 */
 	private $presentacion;
 
@@ -54,7 +54,7 @@ class Medicamento {
 	 * 
 	 * @ORM\Column(name="posologia", type="string", length=100, nullable=true)
 	 * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
-	 * @Assert\MaxLength(limit=100, message="La presentacion ingresado no puede sobrepasar {{ limit }} caracteres.")
+	 * @Assert\Length(min=1,max=100)
 	 * 
 	 */
 	private $posologia;

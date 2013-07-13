@@ -25,6 +25,7 @@ class Cie {
 	 * @var string $codigo
 	 *
 	 * @ORM\Column(name="codigo", type="string", length=5, nullable=false)
+	 * @Assert\Length(max=5)
 	 */
 	private $codigo;
 
@@ -32,6 +33,7 @@ class Cie {
 	 * @var string $nombre
 	 *
 	 * @ORM\Column(name="nombre", type="string", length=255, nullable=false)
+	 * @Assert\Length(max=255)
 	 */
 	private $nombre;
 

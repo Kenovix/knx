@@ -218,13 +218,7 @@
 			<div class="controls">
 				<span class="input-xlarge uneditable-input">{{ factura.servicio.nombre }}</span>
 			</div>
-		</div>
-    		<div>
-	    		{{ form_label(edit_form.serviEgre) }}
-				{{ form_errors(edit_form.serviEgre) }}
-				{{ form_widget(edit_form.serviEgre) }}
-    		</div>		
-    	
+		</div>    	
     	    		
 	
 	  {% ui_expander expanded=false  %}
@@ -304,17 +298,6 @@
 				{{ form_errors(edit_form.alergias) }}
 				{{ form_widget(edit_form.alergias) }}
 		      </div>				
-	    	</div>
-      {%  end_ui_content %}
-     {% end_ui_expander %}
-     
-      {% ui_expander expanded=false %}
-  		{% ui_header label="Revision De Sistema" %}
-		    {% ui_content style="height:200px" %}      
-	      <div id="RevisionSistema">
-	    		{{ form_label(edit_form.revSistema) }}
-				{{ form_errors(edit_form.revSistema) }}
-				{{ form_widget(edit_form.revSistema) }}
 	    	</div>
       {%  end_ui_content %}
      {% end_ui_expander %}
@@ -404,53 +387,80 @@
       
        {% ui_expander expanded=false %}
   		{% ui_header label="Revision por sistemas" %}
-		    {% ui_content style="height:1300px" %}	   
+		    {% ui_content style="height:500px" %}	   
 	    <div>
-			<div>	
+	    
+	    	<div class="control-group">
 				{{ form_label(edit_form.o_sentidos) }}
+    	    	<div class="controls">
 				{{ form_errors(edit_form.o_sentidos) }}
-				{{ form_widget(edit_form.o_sentidos) }}
-			</div>
-			<div>	
+				{{ form_widget(edit_form.o_sentidos,{ 'attr': {'class': 'input-xxlarge'} }) }}
+				</div>
+    	    </div>
+    	    
+    	    <div class="control-group">
 				{{ form_label(edit_form.a_respiratorio) }}
+    	    	<div class="controls">
 				{{ form_errors(edit_form.a_respiratorio) }}
-				{{ form_widget(edit_form.a_respiratorio) }}
-			</div>
-			<div>	
+				{{ form_widget(edit_form.a_respiratorio,{ 'attr': {'class': 'input-xxlarge'} }) }}
+				</div>
+    	    </div>
+    	    
+    	    <div class="control-group">
 				{{ form_label(edit_form.a_cardiovascular) }}
+    	    	<div class="controls">
 				{{ form_errors(edit_form.a_cardiovascular) }}
-				{{ form_widget(edit_form.a_cardiovascular) }}
-			</div>
-			<div>	
+				{{ form_widget(edit_form.a_cardiovascular,{ 'attr': {'class': 'input-xxlarge'} }) }}
+				</div>
+    	    </div>
+    	    
+    	    <div class="control-group">
 				{{ form_label(edit_form.a_digestivo) }}
+    	    	<div class="controls">
 				{{ form_errors(edit_form.a_digestivo) }}
-				{{ form_widget(edit_form.a_digestivo) }}
-			</div>
-			<div>	
+				{{ form_widget(edit_form.a_digestivo,{ 'attr': {'class': 'input-xxlarge'} }) }}
+				</div>
+    	    </div>
+    	    
+    	    <div class="control-group">
 				{{ form_label(edit_form.a_genitoUrinario) }}
+    	    	<div class="controls">
 				{{ form_errors(edit_form.a_genitoUrinario) }}
-				{{ form_widget(edit_form.a_genitoUrinario) }}
-			</div>	    
-			<div>	
-				{{ form_label(edit_form.a_hematologico) }}
-				{{ form_errors(edit_form.a_hematologico) }}
-				{{ form_widget(edit_form.a_hematologico) }}			
-			</div>
-			<div>	
+				{{ form_widget(edit_form.a_genitoUrinario,{ 'attr': {'class': 'input-xxlarge'} }) }}
+				</div>
+    	    </div>
+			
+			<div class="control-group">
 				{{ form_label(edit_form.s_nervioso) }}
+    	    	<div class="controls">
 				{{ form_errors(edit_form.s_nervioso) }}
-				{{ form_widget(edit_form.s_nervioso) }}
-			</div>
-			<div>	
+				{{ form_widget(edit_form.s_nervioso,{ 'attr': {'class': 'input-xxlarge'} }) }}
+				</div>
+    	    </div>
+    	    
+    	    <div class="control-group">
+				{{ form_label(edit_form.a_hematologico) }}	
+    	    	<div class="controls">
+				{{ form_errors(edit_form.a_hematologico) }}
+				{{ form_widget(edit_form.a_hematologico,{ 'attr': {'class': 'input-xxlarge'} }) }}
+				</div>
+    	    </div>
+				
+			<div class="control-group">
 				{{ form_label(edit_form.s_osteoarticular) }}
+    	    	<div class="controls">
 				{{ form_errors(edit_form.s_osteoarticular) }}
-				{{ form_widget(edit_form.s_osteoarticular) }}
-			</div>	
-			<div>	
+				{{ form_widget(edit_form.s_osteoarticular,{ 'attr': {'class': 'input-xxlarge'} }) }}
+				</div>
+    	    </div>
+    	    
+			<div class="control-group">
 				{{ form_label(edit_form.s_endocrino) }}
-				{{ form_errors(edit_form.s_endocrino) }}
-				{{ form_widget(edit_form.s_endocrino) }}
-			</div>		
+    	    	<div class="controls">
+					{{ form_errors(edit_form.s_endocrino) }}
+					{{ form_widget(edit_form.s_endocrino,{ 'attr': {'class': 'input-xxlarge'} }) }}
+				</div>
+    	    </div>	
 	    </div>       
        {%  end_ui_content %}
       {% end_ui_expander %}      
@@ -639,7 +649,7 @@
 		    	 <div>
 		    	    {{ form_label(edit_form.dxSalida) }}
 					{{ form_errors(edit_form.dxSalida) }}
-					{{ form_widget(edit_form.dxSalida) }}
+					{{ form_widget(edit_form.dxSalida,{ 'attr': {'class': 'input-xxlarge'} }) }}
 				 </div>
 				 <div>	
 					{{ form_label(edit_form.condSalida) }}
@@ -692,46 +702,73 @@
 					{{ form_label(edit_form.incapacidad) }}
 					{{ form_errors(edit_form.incapacidad) }}
 					{{ form_widget(edit_form.incapacidad) }}
-				  </div>				 
-				 
-				 <div>	
-					{{ form_label(edit_form.destino) }}
+				  </div>	
+				  
+				  <div class="control-group">
+					{{ form_label(edit_form.destino) }}	
+    	    		<div class="controls">
 					{{ form_errors(edit_form.destino) }}
 					{{ form_widget(edit_form.destino) }}
-				  </div>			  
+					</div>
+    	   		 </div>				  
 				  			
 		    	</div>     
 		    	
 		    	
-		    	<div id="remision" style="display: none;" >		    	
-		    	   <div>
-					{{ form_label(edit_form.destino_r) }}
+		    	<div id="remision" style="display: none;" >	
+		    	
+		    	<div class="control-group">
+					{{ form_label(edit_form.destino_r) }}	
+    	    		<div class="controls">
 					{{ form_errors(edit_form.destino_r) }}
-					{{ form_widget(edit_form.destino_r,{ 'attr': {'class': 'input-xxlarge'} }) }}	
-				   </div>
-				   <div>
+					{{ form_widget(edit_form.destino_r,{ 'attr': {'class': 'input-xxlarge'} }) }}
+					</div>
+    	   		 </div>	
+    	   		 
+    	   		 <div class="control-group">
 					{{ form_label(edit_form.especialidad_r) }}
+    	    		<div class="controls">
 					{{ form_errors(edit_form.especialidad_r) }}
 					{{ form_widget(edit_form.especialidad_r,{ 'attr': {'class': 'input-xxlarge'} }) }}
-				   </div>
-				   <div>
+					</div>
+    	   		 </div>	
+    	   		 
+    	   		 <div class="control-group">
 					{{ form_label(edit_form.nuAuto_r) }}
+    	    		<div class="controls">
 					{{ form_errors(edit_form.nuAuto_r) }}
-					{{ form_widget(edit_form.nuAuto_r,{ 'attr': {'class': 'input-xxlarge'} }) }}
-				   </div>
-				   <div>
+					{{ form_widget(edit_form.nuAuto_r,{ 'attr': {'class': 'input-small'} }) }}
+					</div>
+    	   		 </div>	    	   		 				   
+				 <div class="control-group">
+					{{ form_label(edit_form.rServicio) }}
+    	    		<div class="controls">
+					{{ form_errors(edit_form.rServicio) }}
+					{{ form_widget(edit_form.rServicio,{ 'attr': {'class': 'input-xlarge'} }) }}
+					</div>
+    	   		 </div>	    	   						
+				</div>	
+				
+				<div div id="remision2" style="display: none;" >
+				 <div class="control-group">
 					{{ form_label(edit_form.descripcion_r) }}
+    	    		<div class="controls">
 					{{ form_errors(edit_form.descripcion_r) }}
 					{{ form_widget(edit_form.descripcion_r) }}
-				   </div>
-				   <div>
-					{{ form_label(edit_form.servicio_r) }}
-					{{ form_errors(edit_form.servicio_r) }}
-					{{ form_widget(edit_form.servicio_r,{ 'attr': {'class': 'input-xxlarge'} }) }}
-				   </div>					
-				</div>						
+					</div>
+    	   		 </div>	
+				</div>					
 		    {% end_ui_content %}
-		{% end_ui_expander %}      
+		{% end_ui_expander %}  <br/>    
+		
+				<div class="control-group">
+	    			{{ form_label(edit_form.serviEgre) }}
+    	    		<div class="controls">
+						{{ form_errors(edit_form.serviEgre) }}
+						{{ form_widget(edit_form.serviEgre) }}
+					</div>
+    	   		 </div>					
+				
   		
 		   {{ form_rest(edit_form) }}
        </fieldset>
@@ -770,8 +807,14 @@
 
 			if(opcion == 'remision' || opcion == 'contraRemision'){
 				$('#remision').show('slow');
+				$('#remision2').show('slow');
 			}else{
 				$('#remision').hide('slow');
+				$('#remision2').hide('slow');
+			}
+
+			if(opcion == 'muerte'){
+				$('#remision2').show('slow');
 			}
 		});		
 	</script>

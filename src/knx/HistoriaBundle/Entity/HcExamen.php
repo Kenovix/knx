@@ -42,7 +42,8 @@ class HcExamen {
 	/**
 	 * @var string $resultado
 	 *
-	 * @ORM\Column(name="resultado", type="string", length=150, nullable=true)     
+	 * @ORM\Column(name="resultado", type="string", length=150, nullable=true)
+	 * @Assert\Length(max=150)     
 	 */
 	private $resultado;
 
@@ -50,6 +51,7 @@ class HcExamen {
 	 * @var string $estado
 	 *
 	 * @ORM\Column(name="estado", type="string", length=150, nullable=false)
+	 * @Assert\Length(max=150)
 	 */
 	private $estado;
 

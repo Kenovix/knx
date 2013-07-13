@@ -26,7 +26,8 @@ class HcDx {
 	/**
 	 * @var string $observacion
 	 * 
-	 * @ORM\Column(name="observacion", type="string", length=255, nullable=true)     
+	 * @ORM\Column(name="observacion", type="string", length=255, nullable=true) 
+	 * @Assert\Length(max=200)    
 	 */
 	private $observacion;
 

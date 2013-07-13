@@ -89,4 +89,7 @@
 		
     
     <a href="{{ path('nota_new', {'factura': factura.id }) }}" class="btn">Nueva nota</a>
+    {% if usuario.roles == "ROLE_MEDICO" %}
+    	<a href="{{ path('historia_edit', {'factura': factura.id }) }}" class="btn">Editar Historia</a>
+    {% endif %}
 {% endblock %}

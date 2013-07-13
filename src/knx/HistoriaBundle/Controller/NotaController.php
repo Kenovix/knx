@@ -231,15 +231,19 @@ class NotaController extends Controller
 		$breadcrumbs->addItem("Inicio",$this->get("router")->generate("historia_search"));
 		$breadcrumbs->addItem("Notas",$this->get("router")->generate("historia_search"));
 		$breadcrumbs->addItem("Listado");
+		
+		// se optione el role del usuario.
+		$usuario = $this->get('security.context')->getToken()->getUser();
 
 		// Se realiza la respectiva paginacion
 		$paginator = $this->get('knp_paginator');
 		$listNotas = $paginator->paginate($listNotas,$this->getRequest()->query->get('page', 1), 10);
 
 		return $this->render('HistoriaBundle:Notas:list.html.twig',array(
-				'listNotas' => $listNotas,
-				'factura' => $factura,
+				'listNotas'=> $listNotas,
+				'factura'  => $factura,
 				'paciente' => $paciente,
+				'usuario'  => $usuario,
 			));
 	}
 }

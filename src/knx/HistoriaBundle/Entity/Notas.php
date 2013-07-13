@@ -42,68 +42,86 @@ class Notas {
 	/**
 	 * @var integer $temp
 	 *
-	 * @ORM\Column(name="temp", type="integer", nullable=true)
-	 * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
-	 * @Assert\Min(limit = "1", message = "El valor ingresado no puede ser menor de {{ limit }}", invalidMessage = "El valor ingresado debe ser un numero valido")
-	 * @Assert\Max(limit = "99", message = "El valor ingresado no puede ser mayor de {{ limit }}", invalidMessage = "El valor ingresado debe ser un numero valido")
+	 * @ORM\Column(name="temp", type="integer", nullable=true)	 
+	 * @Assert\Range(
+     *      min = "1",
+     *      max = "99",
+     *      minMessage = "El menor número a ingresar es 1",
+     *      maxMessage = "El mayor número a ingresar es 99"
+     * )	 
 	 */
 	private $temp;
 
 	/**
 	 * @var integer $pulso
 	 *
-	 * @ORM\Column(name="pulso", type="integer", nullable=true)
-	 * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
-	 * @Assert\Min(limit = "1", message = "El valor ingresado no puede ser menor de {{ limit }}", invalidMessage = "El valor ingresado debe ser un numero valido")
-	 * @Assert\Max(limit = "199", message = "El valor ingresado no puede ser mayor de {{ limit }}", invalidMessage = "El valor ingresado debe ser un numero valido")
+	 * @ORM\Column(name="pulso", type="integer", nullable=true)	 
+	 * @Assert\Range(
+     *      min = "1",
+     *      max = "199",
+     *      minMessage = "El menor número a ingresar es 1",
+     *      maxMessage = "El mayor número a ingresar es 199"
+     * )	
 	 */
 	private $pulso;
 
 	/**
 	 * @var integer $fC
 	 *
-	 * @ORM\Column(name="f_c", type="integer", nullable=true)
-	 * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
-	 * @Assert\Min(limit = "1", message = "El valor ingresado no puede ser menor de {{ limit }}", invalidMessage = "El valor ingresado debe ser un numero valido")
-	 * @Assert\Max(limit = "199", message = "El valor ingresado no puede ser mayor de {{ limit }}", invalidMessage = "El valor ingresado debe ser un numero valido")
+	 * @ORM\Column(name="f_c", type="integer", nullable=true)	 
+	 * @Assert\Range(
+     *      min = "1",
+     *      max = "199",
+     *      minMessage = "El menor número a ingresar es 1",
+     *      maxMessage = "El mayor número a ingresar es 199"
+     * )	 
 	 */
 	private $fC;
 
 	/**
 	 * @var integer $fR
 	 *
-	 * @ORM\Column(name="f_r", type="integer", nullable=true)
-	 * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
-	 * @Assert\Min(limit = "1", message = "El valor ingresado no puede ser menor de {{ limit }}", invalidMessage = "El valor ingresado debe ser un numero valido")
-	 * @Assert\Max(limit = "99", message = "El valor ingresado no puede ser mayor de {{ limit }}", invalidMessage = "El valor ingresado debe ser un numero valido")
+	 * @ORM\Column(name="f_r", type="integer", nullable=true)	 
+	 * @Assert\Range(
+     *      min = "1",
+     *      max = "99",
+     *      minMessage = "El menor número a ingresar es 1",
+     *      maxMessage = "El mayor número a ingresar es 99"
+     * )
 	 */
 	private $fR;
 
 	/**
 	 * @var string $ta
 	 *
-	 * @ORM\Column(name="ta", type="string", length=5, nullable=false)	 
-	 * @Assert\MaxLength(limit=5, message="El valor ingresado debe tener maximo {{ limit }} caracteres.")
+	 * @ORM\Column(name="ta", type="string", length=7, nullable=false)
+	 * @Assert\Length(max=7)	 
 	 */
 	private $ta;
 
 	/**
 	 * @var integer $peso
 	 *
-	 * @ORM\Column(name="peso", type="integer", nullable=true)
-	 * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
-	 * @Assert\Min(limit = "1", message = "El valor ingresado no puede ser menor de {{ limit }}", invalidMessage = "El valor ingresado debe ser un numero valido")
-	 * @Assert\Max(limit = "499", message = "El valor ingresado no puede ser mayor de {{ limit }}", invalidMessage = "El valor ingresado debe ser un numero valido")
+	 * @ORM\Column(name="peso", type="integer", nullable=true)	 
+	 * @Assert\Range(
+     *      min = "1",
+     *      max = "499",
+     *      minMessage = "El menor número a ingresar es 1",
+     *      maxMessage = "El mayor número a ingresar es 499"
+     * )	 
 	 */
 	private $peso;
 
 	/**
 	 * @var integer $estatura
 	 *
-	 * @ORM\Column(name="estatura", type="integer", nullable=true)
-	 * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
-	 * @Assert\Min(limit = "1", message = "El valor ingresado no puede ser menor de {{ limit }}", invalidMessage = "El valor ingresado debe ser un numero valido")
-	 * @Assert\Max(limit = "399", message = "El valor ingresado no puede ser mayor de {{ limit }}", invalidMessage = "El valor ingresado debe ser un numero valido")
+	 * @ORM\Column(name="estatura", type="integer", nullable=true)	 
+	 * @Assert\Range(
+     *      min = "1",
+     *      max = "399",
+     *      minMessage = "El menor número a ingresar es 1",
+     *      maxMessage = "El mayor número a ingresar es 399"
+     * )
 	 */
 	private $estatura;
 
@@ -111,7 +129,7 @@ class Notas {
 	 * @var string $glasgow
 	 *
 	 * @ORM\Column(name="glasgow", type="string", length=5, nullable=false)
-	 * @Assert\MaxLength(limit=5, message="El valor ingresado debe tener maximo {{ limit }} caracteres.")
+	 * @Assert\Length(max=5)
 	 */
 	private $glasgow;
 
@@ -119,8 +137,12 @@ class Notas {
 	 * @var integer $imc
 	 *
 	 * @ORM\Column(name="imc", type="integer")
-	 * @Assert\Min(limit = "1", message = "El valor ingresado no puede ser menor de {{ limit }}", invalidMessage = "El valor ingresado debe ser un numero valido")
-	 * @Assert\Max(limit = "399", message = "El valor ingresado no puede ser mayor de {{ limit }}", invalidMessage = "El valor ingresado debe ser un numero valido")
+	 * @Assert\Range(
+     *      min = "1",
+     *      max = "399",
+     *      minMessage = "El menor número a ingresar es 1",
+     *      maxMessage = "El mayor número a ingresar es 399"
+     * )
 	 *
 	 */
 	private $imc;
@@ -129,7 +151,7 @@ class Notas {
 	 * @var string $triage
 	 *
 	 * @ORM\Column(name="triage", type="string", length=3, nullable=true)	
-	 * @Assert\MaxLength(limit=3, message="El valor ingresado debe tener maximo {{ limit }} caracteres.")
+	 * @Assert\Length(max=3)
 	 */
 	private $triage;
 

@@ -23,6 +23,31 @@ class NotasRepository extends EntityRepository {
 		$historia->setEnfermedad("Ingrese la informacion correspondiente");
 		$historia->setConducta("Ingrese la informacion correspondiente");
 		$historia->setTipoDx("Ingrese la informacion correspondiente");
+		
+		$historia->setOSentidos("NO REFIERE");
+		$historia->setSEndocrino("NO REFIERE");
+		$historia->setSNervioso("NO REFIERE");
+		$historia->setSOsteoarticular("NO REFIERE");
+		$historia->setARespiratorio("NO REFIERE");
+		$historia->setACardiovascular("NO REFIERE");
+		$historia->setADigestivo("NO REFIERE");
+		$historia->setAGenitoUrinario("NO REFIERE");
+		$historia->setAHematologico("NO REFIERE");
+		
+		$historia->setCabeza("NORMAL");
+		$historia->setCara("NORMAL");
+		$historia->setCuello("NORMAL");
+		$historia->setOidos("NORMAL");
+		$historia->setOjos("NORMAL");
+		$historia->setNariz("NORMAL");
+		$historia->setBoca("NORMAL");
+		
+		$historia->setTorax("NORMAL");
+		$historia->setPulmones("NORMAL");
+		$historia->setAbdomen("NORMAL");
+		$historia->setEspalda("NORMAL");
+		$historia->setEnfermedad("NORMAL");
+		$historia->setGenitales("NORMAL");
 
 		$em->persist($historia);
 		$em->flush();

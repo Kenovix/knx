@@ -29,6 +29,7 @@ class MedicamentoHistoria {
 	 * @var boolean $estado
 	 *
 	 * @ORM\Column(name="estado", type="string", length=1, nullable=false)
+	 * @Assert\Length(max=1)
 	 */
 	private $estado;
 

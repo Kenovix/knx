@@ -91,14 +91,7 @@ class HcType extends AbstractType {
 										'placeholder' => 'Inmunizaciones')))
 				->add('alergias', 'textarea',
 						array('label' => 'Alergias:', 'required' => false,
-								'attr' => array('placeholder' => 'Alergias')))/* EndAntecendentes*/
-
-				/* RevisionSistema*/
-				->add('revSistema', 'textarea',
-						array('label' => 'Revision del Sistema:',
-								'required' => false,
-								'attr' => array(
-										'placeholder' => 'Revision del Sistema')))/* EndRevisionSistema*/ 
+								'attr' => array('placeholder' => 'Alergias')))/* EndAntecendentes*/		
 
 				/* ExamenFisico */
 				->add('cabeza', 'textarea',
@@ -197,10 +190,17 @@ class HcType extends AbstractType {
 								'attr' => array('placeholder' => 'Evolucion')))/* EndMedico*/
 
 				/* Egreso */
-				->add('dxSalida', 'textarea',
-						array('label' => 'Dx Salida:', 'required' => false,
-								'attr' => array(
-										'placeholder' => 'Diagnostico Salida')))
+				->add('dxSalida', 'entity',
+						array(	'label' => 'Seleccione el dx salida:',
+								'class' => 'knx\\HistoriaBundle\\Entity\\Cie',
+								'required' => false,
+								'empty_value' => '--diagnosticos salida--',
+								'query_builder' => function (
+										EntityRepository $repositorio) {
+									return $repositorio
+									->createQueryBuilder('c')
+									->orderBy('c.nombre', 'ASC');
+								}))
 				->add('condSalida', 'textarea',
 						array('label' => 'Condicion Salidad:',
 								'required' => false,
@@ -220,7 +220,8 @@ class HcType extends AbstractType {
 										'remision' => 'Remisión',
 										'contraRemision' => 'Contra remisión',
 										'muerte' => 'Muerte', 'otro' => 'Otro',),
-								'multiple' => false,))/* EndEgreso */
+								'multiple' => false,))
+				/* EndEgreso */
 
 
 			 // opciones para cuando el usuario selecciona la opcion de remision y contraremision
@@ -240,50 +241,60 @@ class HcType extends AbstractType {
 				->add('descripcion_r', 'textarea',
 						array('label' => 'descripcion R:','required' => false,
 								'attr' => array('placeholder' => 'descripcion de la remisión')))
-																				
-				->add('servicio_r',  'choice',
-						array('label' => 'Destino:', 'required' => false,
+								
+				->add('rServicio', 'choice',
+						array('label' => 'servicio R:', 'required' => false,
 								'choices' => array('' => '--seleccione--',
 										'urgencia' => 'Urgencias',
-										'ambulatoria' => 'Ambulatoria',),
+										'ambulatorio' => 'Ambulatoria',),
 								'multiple' => false,))
 			// fin de las opciones para la remision y contraremision
 								
 			// opciones para la revision por sistema.
-				->add('o_sentidos', 'textarea',
-						array('label' => 'Organos sentidos:','required' => false,
+				->add('o_sentidos', 'text',
+						array('label' => 'Organos sentidos:',
+								'required' => true,								
 								'attr' => array('placeholder' => 'Organos de los sentidos')))
 								
-				->add('a_respiratorio', 'textarea',
-						array('label' => 'Aparato respiratorio:','required' => false,
+				->add('a_respiratorio', 'text',
+						array('label' => 'Aparato respiratorio:',
+								'required' => true,								
 								'attr' => array('placeholder' => 'Aparato Respiratorio')))
 								
-				->add('a_cardiovascular', 'textarea',
-						array('label' => 'Aparato cardiovascular:','required' => false,
+				->add('a_cardiovascular', 'text',
+						array('label' => 'Aparato cardiovascular:',
+								'required' => true,								
 								'attr' => array('placeholder' => 'Aparato Cardiovascular')))
 								
-				->add('a_digestivo', 'textarea',
-						array('label' => 'Aparato digestivo:','required' => false,
+				->add('a_digestivo', 'text',
+						array('label' => 'Aparato digestivo:',
+								'required' => true,								
 								'attr' => array('placeholder' => 'Aparato Digestivo')))
 								
-				->add('a_hematologico', 'textarea',
-						array('label' => 'Aparato hematologico:','required' => false,
+				->add('a_hematologico', 'text',
+						array('label' => 'Aparato hematologico:',
+								'required' => true,								
 								'attr' => array('placeholder' => 'Aparato Hematologico')))
 								
-				->add('a_genitoUrinario', 'textarea',
-						array('label' => 'Aparato genito urinario:','required' => false,
+				->add('a_genitoUrinario', 'text',
+						array('label' => 'Aparato genito urinario:',
+								'required' => true,								
 								'attr' => array('placeholder' => 'Aparato Genito Urinario')))
 								
-				->add('s_osteoarticular', 'textarea',
-						array('label' => 'Sistema osteoarticular:','required' => false,
+				->add('s_osteoarticular', 'text',
+						array('label' => 'Sistema osteoarticular:',
+								'required' => true,
+								'data' => 'NORMAL',
 								'attr' => array('placeholder' => 'Sistema Osteoarticular')))
 								
-				->add('s_nervioso', 'textarea',
-						array('label' => 'Sistema nervioso:','required' => false,
+				->add('s_nervioso', 'text',
+						array('label' => 'Sistema nervioso:',
+								'required' => true,								
 								'attr' => array('placeholder' => 'Sistema Nervioso')))
 								
-				->add('s_endocrino', 'textarea',
-						array('label' => 'Sistema endocrino:','required' => false,
+				->add('s_endocrino', 'text',
+						array('label' => 'Sistema endocrino:',
+								'required' => true,								
 								'attr' => array('placeholder' => 'Sistema Endocrino')))
 			// fin revision por sistema.
 								

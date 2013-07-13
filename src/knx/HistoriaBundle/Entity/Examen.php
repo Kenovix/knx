@@ -25,8 +25,8 @@ class Examen {
 	 * @var string $codigo
 	 *
 	 * @ORM\Column(name="codigo", type="string", length=7, nullable=false)
-	 * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
-	 * @Assert\MaxLength(limit=7, message="El valor ingresado debe tener maximo {{ limit }} caracteres.")
+	 * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")	 
+	 * @Assert\Length(min=1,max=7)	 
 	 */
 	private $codigo;
 
@@ -35,7 +35,7 @@ class Examen {
 	 *
 	 * @ORM\Column(name="nombre", type="string", length=60, nullable=false)
 	 * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
-	 * @Assert\MaxLength(limit=60, message="El valor ingresado debe tener maximo {{ limit }} caracteres.")
+	 * @Assert\Length(min=1,max=60)	 
 	 */
 	private $nombre;
 

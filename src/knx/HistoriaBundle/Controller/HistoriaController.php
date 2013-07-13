@@ -19,7 +19,8 @@ class HistoriaController extends Controller
 		$factura = $em->getRepository('FacturacionBundle:Factura')->find($factura);
 		$historia = $factura->getHc();
 		
-		$pdfObj = $this->$container->get("white_october.tcpdf")->create();
+		
+		//$pdfObj = $this->$container->get("white_october.tcpdf")->create();
 
 		/* No se verifica la existencia del paciente y los servicios porque si existe la factura existe el paciente
 		 * y si existe la historia existen los servicios.
@@ -33,11 +34,18 @@ class HistoriaController extends Controller
 		} else {
 			$serviEgre = "";
 		}
-		3113391234 
+		if($historia->getDxSalida())
+		{
+			$dxSalida = $em->getRepository('HistoriaBundle:Cie')->find($historia->getDxSalida());
+		}else{
+			$dxSalida = "";
+		}
+		
 		// se cargan los respectivos objetos para que el formulario los visualice correctamente.
 		$historia->setServiEgre($serviEgre);
-		$historia->setFechaEgre(new \DateTime('now'));
-		$form_historia = $this->createForm(new HcType(), $historia);	
+		$historia->setDxSalida($dxSalida);
+		$historia->setFechaEgre(new \DateTime('now'));		
+		$form_historia = $this->createForm(new HcType(), $historia);		
 		
 		return $this->validarHistoria($factura, $historia, $form_historia);		
 	}
@@ -58,17 +66,22 @@ class HistoriaController extends Controller
 
 		if($form_historia->isValid()) 
 		{
-
+			
 			/* Para el ingreso de los sevicios se trabaja con los IDs mas no con sus objetos ya q la informacion
 			 * que se almacena en la historia no son relaciones, pero el formulario si trabaja con objetos.
 			 */ 
-			$historia->setServiEgre($historia->getServiEgre()->getId());
+			if($historia->getDxSalida()){
+				$historia->setDxSalida($historia->getDxSalida()->getId());
+			}
+			if($historia->getServiEgre()){
+				$historia->setServiEgre($historia->getServiEgre()->getId());				
+			}		
 
-			$historia->setFactura($factura);
+			$historia->setFactura($factura);			
 			$em->persist($historia);
-			$em->flush();
+			$em->flush();		
 
-			$this->get('session')->setFlash('ok','El examen ha sido modificada éxitosamente.');
+			$this->get('session')->setFlash('ok','La historia clinica ha sido modificada éxitosamente.');
 			return $this->redirect($this->generateUrl('historia_edit',array('factura' => $factura->getId())));
 		}
 		
@@ -206,11 +219,44 @@ class HistoriaController extends Controller
 		
 		return $this->render('HistoriaBundle:Historia:urgencias.html.twig',array(
 				'urgencias_hc' => $urgencias,
-		));
-		
+		));		
 	}
 
-	public function printAction() {
+	public function printAction($factura) {
+		$em = $this->getDoctrine()->getEntityManager();
+		$factura = $em->getRepository('FacturacionBundle:Factura')->find($factura);
+		$historia = $factura->getHc();
+		$paciente = $factura->getPaciente();
+		
+		//return $this->render('HistoriaBundle:Historia:HcPrint.html.twig');
+		
+		$pdf = $this->get('white_october.tcpdf')->create();
+		$pdf->SetCreator(PDF_CREATOR);
+		$pdf->SetAuthor('Kenovix');
+		$pdf->SetTitle('Impresos Kenovix');				
+		$pdf->SetFont('dejavusans', '', 10);
+		
+		$html = $this->render('HistoriaBundle:Historia:HcPrint.html.twig');
+		
+		// set color for text
+		$pdf->SetTextColor(0, 63, 127);
+		
+		//Write($h, $txt, $link='', $fill=0, $align='', $ln=false, $stretch=0, $firstline=false, $firstblock=false, $maxh=0)
+		
+		// write the text
+		$pdf->writeHTML($html, true, false, true, false, '');	
+		
+		return $pdf->Output('example_006.pdf', 'D');
+		
+		
+/*
+cambiar textarea a mas angostas
 
+no olvidar que cuando se elegi en salida domicilio,
+remision muerte y otro la historia debe queder cerrada no se podra modificar
+
+solo la historia queda activa cuando se elige observacion,
+internacion alli la historia queda abierta de igual manera cuando a el paciente se le da la salida debe de cerrarse esta historia.
+*/
 	}
 }
