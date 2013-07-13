@@ -86,7 +86,9 @@ class ClienteController extends Controller
     		throw $this->createNotFoundException('El cliente solicitado no esta disponible.');
     	}
     	
-    	$contrato = $em->getRepository('ParametrizarBundle:Contrato')->findBy(array('cliente' => $cliente));
+    	$procedimientos = $em->getRepository('ParametrizarBundle:Contrato')->findBy(array('cliente' => $cliente, 'tipo' => 'P'));
+    	
+    	$farmacos = $em->getRepository('ParametrizarBundle:Contrato')->findBy(array('cliente' => $cliente, 'tipo' => 'M'));
     	
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
     	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
@@ -95,7 +97,8 @@ class ClienteController extends Controller
     	
     	return $this->render('ParametrizarBundle:Cliente:show.html.twig', array(
     			'cliente'  => $cliente,
-    			'contratos' => $contrato
+    			'procedimientos' => $procedimientos,
+    			'farmacos' => $farmacos
     	));
     }
     

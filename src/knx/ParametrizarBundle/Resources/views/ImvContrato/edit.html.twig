@@ -6,7 +6,7 @@
 
 {% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
 
-{% block titulo %}Modificar cliente{% endblock %}
+{% block titulo %}Modificar insumo contratado{% endblock %}
 
 {% block msg %}
 	{% if app.session.hasFlash('ok') %}
@@ -29,15 +29,15 @@
 
 {% block cuerpo %}
 
-	<form action="{{ path('cliente_update', {'cliente': cliente.id}) }}" class="form-horizontal" method="post" {{ form_enctype(form) }}>
+	<form action="{{ path('imv_contrato_update', {'contrato': contratado.contrato.id, 'imv': contratado.imv.id}) }}" class="form-horizontal" method="post" {{ form_enctype(form) }}>
 	    <fieldset>
-	    	<legend>Datos del cliente</legend>
+	    	<legend>Datos del contrato</legend>
 	    	    
 		   {{ form_widget(form) }}
 		   
 			<div class="form-actions">
 				<input class="btn btn-primary" name="guardar" type="submit" value="Modificar" />
-			    <a href="{{ path('cliente_show', {'cliente': cliente.id}) }}" class="btn btn-danger">Cancelar</a>
+			    <a href="{{ path('imv_contrato_show', {'contrato': contratado.contrato.id, 'imv': contratado.imv.id }) }}" class="btn btn-danger">Cancelar</a>
 			</div>
 	</form>
 {% endblock %}

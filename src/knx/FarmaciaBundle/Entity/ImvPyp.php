@@ -14,35 +14,20 @@ use Symfony\Component\Validator\Constraints as Assert;
 class ImvPyp
 {
 	/**
-	 * @var integer $id
-	 *
-	 * @ORM\Column(name="id", type="integer", nullable=false)
+	 * @var imv
+	 * 
 	 * @ORM\Id
-	 * @ORM\GeneratedValue(strategy="IDENTITY")
+	 * @ORM\ManyToOne(targetEntity="knx\FarmaciaBundle\Entity\Imv")
 	 */
-	private $id;
-	
+    private $imv;
 
     /**
-     * @var imv
-     *
-     * @ORM\ManyToOne(targetEntity="knx\FarmaciaBundle\Entity\Imv")
-     * @ORM\JoinColumns({
-     * @ORM\JoinColumn(name="imv_id", referencedColumnName="id")
-     * })
-     */   
-    private $imv;
-        
-
-      /**
      * @var pyp
      *
+     * @ORM\Id
      * @ORM\ManyToOne(targetEntity="knx\ParametrizarBundle\Entity\Pyp")
-     * @ORM\JoinColumns({
-     * @ORM\JoinColumn(name="pyp_id", referencedColumnName="id")
-     * })
-     */  
-    private $pyp;
+     */
+	private $pyp;
 
      /**
      * @var integer $edadIni
@@ -51,43 +36,33 @@ class ImvPyp
      * @Assert\Min(limit = "1", message = "El valor ingresado no puede ser menor de {{ limit }}", invalidMessage = "El valor ingresado debe ser un numero valido")
      * @Assert\Max(limit = "99", message = "El valor ingresado no puede ser mayor de {{ limit }}", invalidMessage = "El valor ingresado debe ser un numero valido")
      */
-        private $edadIni;
+	private $edadIni;
 
      /**
      * @var integer $edadFin
      *
-     * @ORM\Column(name="edad_fin", type="integer", nullable=true)     * 
-     * @Assert\Min(limit = "1", message = "El valor ingresado no puede ser menor de {{ limit }}", invalidMessage = "El valor ingresado debe ser un n�mero v�lido")
-     * @Assert\Max(limit = "99", message = "El valor ingresado no puede ser mayor de {{ limit }}", invalidMessage = "El valor ingresado debe ser un n�mero v�lido")
+     * @ORM\Column(name="edad_fin", type="integer", nullable=true)
+     * @Assert\Min(limit = "1", message = "El valor ingresado no puede ser menor de {{ limit }}", invalidMessage = "El valor ingresado debe ser un número válido")
+     * @Assert\Max(limit = "99", message = "El valor ingresado no puede ser mayor de {{ limit }}", invalidMessage = "El valor ingresado debe ser un número válido")
      */
-        private $edadFin;
+	private $edadFin;
 
      /**
      * @var string $rango
      *
-     * @ORM\Column(name="rango", type="string", nullable=true)     * 
+     * @ORM\Column(name="rango", type="string", nullable=true)
      * 
      */
-        private $rango;
+	private $rango;
 
      /**
      * @var string $sexo
      *
      * @ORM\Column(name="sexo", type="string", nullable=false)     
      * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
-     * @Assert\Choice(choices = {"M", "F","A"}, message = "Selecciona una opci�n valida.")
+     * @Assert\Choice(choices = {"M", "F","A"}, message = "Selecciona una opción valida.")
      */
-        private $sexo;
-        
-        /**
-         * Get id
-         *
-         * @return integer
-         */
-        public function getId()
-        {
-        	return $this->id;
-        }
+	private $sexo;
         
         /**
          * Set edadIni

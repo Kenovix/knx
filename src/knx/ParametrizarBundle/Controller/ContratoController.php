@@ -100,10 +100,11 @@ class ContratoController extends Controller
     	
     	$cliente = $contrato->getCliente();
     	
-    	if($contrato->getTipo() == 'P')    	
+    	if($contrato->getTipo() == 'P'){
     		$contratado = $em->getRepository('ParametrizarBundle:ContratoCargo')->findBy(array('contrato' => $contrato->getId()));
-    	else
-    		$contratado = $em->getRepository('ParametrizarBundle:imvContrato')->findBy(array('contrato' => $contrato->getId()));
+    	}else{
+    		$contratado = $em->getRepository('ParametrizarBundle:ImvContrato')->findBy(array('contrato' => $contrato->getId()));
+    	}
     	
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
     	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));

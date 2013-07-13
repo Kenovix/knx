@@ -22,7 +22,21 @@ class ImvContrato
      * @ORM\Id
      * @ORM\ManyToOne(targetEntity="knx\ParametrizarBundle\Entity\Contrato")
      */
-    private $contrato;    
+    private $contrato;
+    
+    /**
+     * @var integer $precio
+     *
+     * @ORM\Column(name="precio", type="integer", nullable=true)
+     */
+    private $precio;
+    
+    /**
+     * @var string $estado
+     *
+     * @ORM\Column(name="estado", type="string", length=1, nullable=false)
+     */
+    private $estado;
           
     /**
      * @var string $observacion
@@ -33,13 +47,62 @@ class ImvContrato
     private $observacion;
 
     /**
+     * Set precio
+     *
+     * @param integer $precio
+     * @return ImvContrato
+     */
+    public function setPrecio($precio)
+    {
+        $this->precio = $precio;
+    
+        return $this;
+    }
+
+    /**
+     * Get precio
+     *
+     * @return integer 
+     */
+    public function getPrecio()
+    {
+        return $this->precio;
+    }
+
+    /**
+     * Set estado
+     *
+     * @param string $estado
+     * @return ImvContrato
+     */
+    public function setEstado($estado)
+    {
+        $this->estado = $estado;
+    
+        return $this;
+    }
+
+    /**
+     * Get estado
+     *
+     * @return string 
+     */
+    public function getEstado()
+    {
+        return $this->estado;
+    }
+
+    /**
      * Set observacion
      *
      * @param string $observacion
+     * @return ImvContrato
      */
     public function setObservacion($observacion)
     {
         $this->observacion = $observacion;
+    
+        return $this;
     }
 
     /**
@@ -53,46 +116,6 @@ class ImvContrato
     }
 
     /**
-     * Set medicamento
-     *
-     * @param knx\HcBundle\Entity\Medicamento $medicamento
-     */
-    public function setMedicamento(\knx\HcBundle\Entity\Medicamento $medicamento)
-    {
-        $this->medicamento = $medicamento;
-    }
-
-    /**
-     * Get medicamento
-     *
-     * @return knx\HcBundle\Entity\Medicamento 
-     */
-    public function getMedicamento()
-    {
-        return $this->medicamento;
-    }
-
-    /**
-     * Set contrato
-     *
-     * @param knx\ParametrizarBundle\Entity\Contrato $contrato
-     */
-    public function setContrato(\knx\ParametrizarBundle\Entity\Contrato $contrato)
-    {
-        $this->contrato = $contrato;
-    }
-
-    /**
-     * Get contrato
-     *
-     * @return knx\ParametrizarBundle\Entity\Contrato
-     */
-    public function getContrato()
-    {
-        return $this->contrato;
-    }
-
-    /**
      * Set imv
      *
      * @param \knx\FarmaciaBundle\Entity\Imv $imv
@@ -103,6 +126,39 @@ class ImvContrato
         $this->imv = $imv;
     
         return $this;
+    }
+
+    /**
+     * Get imv
+     *
+     * @return \knx\FarmaciaBundle\Entity\Imv 
+     */
+    public function getImv()
+    {
+        return $this->imv;
+    }
+
+    /**
+     * Set contrato
+     *
+     * @param \knx\ParametrizarBundle\Entity\Contrato $contrato
+     * @return ImvContrato
+     */
+    public function setContrato(\knx\ParametrizarBundle\Entity\Contrato $contrato)
+    {
+        $this->contrato = $contrato;
+    
+        return $this;
+    }
+
+    /**
+     * Get contrato
+     *
+     * @return \knx\ParametrizarBundle\Entity\Contrato 
+     */
+    public function getContrato()
+    {
+        return $this->contrato;
     }
 
     /**

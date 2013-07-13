@@ -35,16 +35,12 @@
                 <td><strong>Número de contrato</strong></td>
                 <td>{{ contratado.contrato.numero }}</td>
                 <td><strong>Actividad</strong></td>
-                <td>{{ contratado.cargo.nombre }}</td>
+                <td>{{ contratado.imv.nombre }}</td>
             </tr>
             <tr>
                 <td><strong>Precio</strong></td>
                 <td>
-                	{% if contratado.precio %}
-                		<strong>${{ contratado.precio | number_format(0,',','.') }}</strong>
-                	{% else %}
-                		${{ ((contratado.cargo.valor * contratado.contrato.porcentaje) + contratado.cargo.valor) | number_format(0,',','.') }}
-                	{% endif %}
+                	<strong>${{ contratado.precio | number_format(0,',','.') }}</strong>
                 </td>
                 <td><strong>Estado</strong></td>
                 <td>{{ contratado.estado }}</td>
@@ -53,14 +49,12 @@
             <tr>
                 <td><strong>Observación</strong></td>
                 <td>{{ contratado.observacion }}</td>
-                <td><strong>Creado</strong></td>
-                <td>{{ contratado.created | date('d-m-Y') }}</td>
             </tr>    
         </tbody>
     </table>
 
 	<div class="btn-group">
-	    <a href="{{ path('contrato_cargo_edit', {'contrato': contratado.contrato.id, 'cargo': contratado.cargo.id}) }}" class="btn btn-primary">Modificar</a>
+	    <a href="{{ path('imv_contrato_edit', {'contrato': contratado.contrato.id, 'imv': contratado.imv.id}) }}" class="btn btn-primary">Modificar</a>
 	    <a href="{{ path('contrato_show', {'contrato': contratado.contrato.id }) }}" class="btn">Volver</a>
     </div>
 {% endblock %}

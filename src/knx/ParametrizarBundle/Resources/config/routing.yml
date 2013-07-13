@@ -184,6 +184,29 @@ contrato_cargo_update:
     pattern:  /contrato/cargo/{contrato}/{cargo}/update
     defaults: { _controller: ParametrizarBundle:ContratoCargo:update }
     
+
+#************** Imv Contrato ***************#
+
+imv_contrato_new:
+    pattern:  /imv/contrato/new/{contrato}
+    defaults: { _controller: ParametrizarBundle:ImvContrato:new }
+    
+imv_contrato_save:
+    pattern:  /imv/contrato/save/{contrato}
+    defaults: { _controller: ParametrizarBundle:ImvContrato:save }
+    
+imv_contrato_show:
+    pattern:  /imv/contrato/{contrato}/{imv}/show
+    defaults: { _controller: ParametrizarBundle:ImvContrato:show }
+    
+imv_contrato_edit:
+    pattern:  /imv/contrato/{contrato}/{imv}/edit
+    defaults: { _controller: ParametrizarBundle:ImvContrato:edit }
+
+imv_contrato_update:
+    pattern:  /imv/contrato/{contrato}/{imv}/update
+    defaults: { _controller: ParametrizarBundle:ImvContrato:update }
+    
 #************** Proveedor ***************#
 
 proveedor_list:
