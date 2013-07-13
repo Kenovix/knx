@@ -17,7 +17,7 @@ class HistoriaController extends Controller
 	{
 		$em = $this->getDoctrine()->getEntityManager();
 		$factura = $em->getRepository('FacturacionBundle:Factura')->find($factura);
-		$historia = $factura->getHc();
+		$historia = $factura->getHc();       
 
 		/* No se verifica la existencia del paciente y los servicios porque si existe la factura existe el paciente
 		 * y si existe la historia existen los servicios.
@@ -31,13 +31,15 @@ class HistoriaController extends Controller
 		} else {
 			$serviEgre = "";
 		}
+
+
 		if($historia->getDxSalida())
 		{
 			$dxSalida = $em->getRepository('HistoriaBundle:Cie')->find($historia->getDxSalida());
 		}else{
 			$dxSalida = "";
-		}
-		
+		}		
+	
 		// se cargan los respectivos objetos para que el formulario los visualice correctamente.
 		$historia->setServiEgre($serviEgre);
 		$historia->setDxSalida($dxSalida);
