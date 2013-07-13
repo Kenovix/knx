@@ -91,4 +91,27 @@ class ImvContrato
     {
         return $this->contrato;
     }
+
+    /**
+     * Set imv
+     *
+     * @param \knx\FarmaciaBundle\Entity\Imv $imv
+     * @return ImvContrato
+     */
+    public function setImv(\knx\FarmaciaBundle\Entity\Imv $imv)
+    {
+        $this->imv = $imv;
+    
+        return $this;
+    }
+
+    /**
+     * Get imv
+     *
+     * @return \knx\FarmaciaBundle\Entity\Imv 
+     */
+    public function getImv()
+    {
+        return $this->imv;
+    }
 }

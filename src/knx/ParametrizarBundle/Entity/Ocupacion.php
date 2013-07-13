@@ -27,7 +27,7 @@ class Ocupacion
      * @var string $codOcupacion
      *
      * @ORM\Column(name="cod_ocupacion", type="string", length=30, nullable=false)
-     *
+     * @Assert\Length(max=30)
      */
       private $codOcupacion;
 
@@ -36,17 +36,12 @@ class Ocupacion
      * @var string $nombre
      *
      * @ORM\Column(name="nombre", type="string", length=30, nullable=false)
-     *
+     * @Assert\Length(max=30)
      */
-      private $nombre;
+      private $nombre;     
       
-       /**
-     * @var Paciente
-     *
-     * @ORM\OneToOne(targetEntity="knx\ParametrizarBundle\Entity\Paciente", inversedBy="ocupacion")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="paciente_id", referencedColumnName="id" )
-     * })
+    /**
+     * @ORM\OneToOne(targetEntity="knx\ParametrizarBundle\Entity\Paciente", mappedBy="ocupacion")
      */
     private $paciente; 
 
