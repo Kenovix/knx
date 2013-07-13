@@ -160,14 +160,4 @@ class ImvContrato
     {
         return $this->contrato;
     }
-
-    /**
-     * Get imv
-     *
-     * @return \knx\FarmaciaBundle\Entity\Imv 
-     */
-    public function getImv()
-    {
-        return $this->imv;
-    }
 }

@@ -285,7 +285,8 @@ class Paciente
      * @ORM\OneToOne(targetEntity="knx\ParametrizarBundle\Entity\Ocupacion", inversedBy="paciente")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="ocupacion_id", referencedColumnName="id" )
-     * })    
+     * })
+     **/    
 
     private $ocupacion;
     
