@@ -34,36 +34,39 @@
         	<tr>
                 <td><strong>No.</strong></td>
                 <td>{{ imvpyp.id }}</td>
-            </tr>
-            <tr>
                 <td><strong>Imv</strong></td>
                 <td>{{ imvpyp.imv }}</td>
-            </tr>
-            <tr>
                 <td><strong>Categoria_Pyp</strong></td>
-                <td>{{ imvpyp.pyp }}</td>
-            </tr>
+                <td>{{ imvpyp.pyp }}</td>                                          
+            </tr>                                   
+                     
+                
+            
+           
             <tr>
                 <td><strong>Edad_Inicial</strong></td>
                 <td>{{ imvpyp.edadIni }}</td>
-            </tr>
-            <tr>
                 <td><strong>Edad_Final</strong></td>
                 <td>{{ imvpyp.edadFin }}</td>
-            </tr>
-            
-            <tr>
                 <td><strong>Rango</strong></td>
                 <td>{{ imvpyp.rango }}</td>
-            </tr>
-            
+            </tr>          
             <tr>
                 <td><strong>Sexo</strong></td>
                 <td>{{ imvpyp.sexo }}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
             </tr>
             
         </tbody>
-    </table>
+    </table>     
+            
+          
+        
+            
+
 
 			<div class="form-actions">
     	    <a href="{{ path('imvpyp_edit', {'imvpyp':imvpyp.id}) }}" class="btn btn-primary">Modificar</a>

@@ -38,7 +38,7 @@ class Imv
     /**
      * @var string $codAdmin
      * 
-     * @ORM\Column(name="cod_admin", type="string", length=100, nullable=false, unique=true)
+     * @ORM\Column(name="cod_admin", type="string", length=100, nullable=true, unique=true)
      */
     private $codAdmin;
     
