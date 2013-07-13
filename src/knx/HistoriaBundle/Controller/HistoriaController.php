@@ -19,8 +19,12 @@ class HistoriaController extends Controller
 		$factura = $em->getRepository('FacturacionBundle:Factura')->find($factura);
 		$historia = $factura->getHc();
 		
-		
+
+
 		//$pdfObj = $this->$container->get("white_october.tcpdf")->create();
+
+		//$pdfObj = $this->$container->get("white_october.tcpdf")->create();
+       
 
 		/* No se verifica la existencia del paciente y los servicios porque si existe la factura existe el paciente
 		 * y si existe la historia existen los servicios.
@@ -34,6 +38,8 @@ class HistoriaController extends Controller
 		} else {
 			$serviEgre = "";
 		}
+
+
 		if($historia->getDxSalida())
 		{
 			$dxSalida = $em->getRepository('HistoriaBundle:Cie')->find($historia->getDxSalida());
@@ -41,6 +47,10 @@ class HistoriaController extends Controller
 			$dxSalida = "";
 		}
 		
+
+
+		
+	
 		// se cargan los respectivos objetos para que el formulario los visualice correctamente.
 		$historia->setServiEgre($serviEgre);
 		$historia->setDxSalida($dxSalida);
