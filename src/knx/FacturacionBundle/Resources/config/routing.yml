@@ -1,3 +1,13 @@
-facturacion_homepage:
+facturacion_index:
     pattern:  /hello/{name}
     defaults: { _controller: FacturacionBundle:Default:index }
+
+facturacion_actividad_new:
+    pattern:  /actividad/new
+    defaults: { _controller: FacturacionBundle:Factura:newActividad }
+    
+facturacion_paciente_buscar:
+    pattern:  /paciente/buscar
+    defaults: { _controller: FacturacionBundle:Factura:ajaxBuscarPaciente }
+    requirements:
+        _method:  POST

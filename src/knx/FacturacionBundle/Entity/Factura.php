@@ -31,13 +31,6 @@ class Factura {
 	private $fecha;
 
 	/**
-	 * @var datetime $fR
-	 * 
-	 * @ORM\Column(name="f_r", type="datetime", nullable=true)
-	 */
-	private $fR;
-
-	/**
 	 * @var string $tipoActividad
 	 * 
 	 * @ORM\Column(name="tipo_actividad", type="string",  length=80, nullable=false)
@@ -64,6 +57,13 @@ class Factura {
 	 * @ORM\Column(name="observacion", type="string", length=255, nullable=true)
 	 */
 	private $observacion;
+	
+	/**
+	 * @var string estado
+	 *
+	 * @ORM\Column(name="estado", type="string", length=2, nullable=false)
+	 */
+	private $estado;
 
 	/**
 	 * @var Paciente
@@ -86,22 +86,19 @@ class Factura {
 	private $cliente;
 
 	/**
-	 * @var Responsable
+	 * @var Usuario
 	 *
 	 * @ORM\ManyToOne(targetEntity="knx\UsuarioBundle\Entity\Usuario")
 	 * @ORM\JoinColumns({
-	 *   @ORM\JoinColumn(name="responsable_id", referencedColumnName="id")
+	 *   @ORM\JoinColumn(name="usuario_id", referencedColumnName="id")
 	 * })
 	 */
-	private $responsable;
+	private $usuario;
 
 	/**
 	 * @var Profesional
 	 *
-	 * @ORM\ManyToOne(targetEntity="knx\UsuarioBundle\Entity\Usuario")
-	 * @ORM\JoinColumns({
-	 *   @ORM\JoinColumn(name="profecional_id", referencedColumnName="id")
-	 * })
+	 * @ORM\Column(name="profesional", type="integer", nullable=true)
 	 */
 	private $profesional;
 
@@ -165,27 +162,6 @@ class Factura {
 	 */
 	public function getFecha() {
 		return $this->fecha;
-	}
-
-	/**
-	 * Set fR
-	 *
-	 * @param \DateTime $fR
-	 * @return Factura
-	 */
-	public function setFR($fR) {
-		$this->fR = $fR;
-
-		return $this;
-	}
-
-	/**
-	 * Get fR
-	 *
-	 * @return \DateTime 
-	 */
-	public function getFR() {
-		return $this->fR;
 	}
 
 	/**
@@ -270,6 +246,27 @@ class Factura {
 	 */
 	public function getObservacion() {
 		return $this->observacion;
+	}
+	
+	/**
+	 * Set estado
+	 *
+	 * @param string $estado
+	 * @return Factura
+	 */
+	public function setEstado($estado) {
+		$this->estado = $estado;
+	
+		return $this;
+	}
+	
+	/**
+	 * Get estado
+	 *
+	 * @return string
+	 */
+	public function getEstado() {
+		return $this->estado;
 	}
 
 	/**
@@ -358,44 +355,44 @@ class Factura {
 	}
 
 	/**
-	 * Set responsable
+	 * Set usuario
 	 *
-	 * @param \knx\UsuarioBundle\Entity\Usuario $responsable
+	 * @param \knx\UsuarioBundle\Entity\Usuario $usuario
 	 * @return Factura
 	 */
-	public function setResponsable(
-			\knx\UsuarioBundle\Entity\Usuario $responsable) {
-		$this->responsable = $responsable;
+	public function setUsuario(
+			\knx\UsuarioBundle\Entity\Usuario $usuario) {
+		$this->usuario = $usuario;
 
 		return $this;
 	}
 
 	/**
-	 * Get responsable
+	 * Get usuario
 	 *
 	 * @return \knx\UsuarioBundle\Entity\Usuario 
 	 */
-	public function getResponsable() {
-		return $this->responsable;
+	public function getUsuario() {
+		return $this->usuario;
 	}
 
 	/**
 	 * Set profesional
 	 *
-	 * @param \knx\UsuarioBundle\Entity\Usuario $profesional
+	 * @param integer $profesional
 	 * @return Factura
 	 */
-	public function setProfesional(
-			\knx\UsuarioBundle\Entity\Usuario $profesional) {
+	public function setProfesional($profesional){
+		
 		$this->profesional = $profesional;
-
+			
 		return $this;
 	}
 
 	/**
 	 * Get profesional
 	 *
-	 * @return \knx\UsuarioBundle\Entity\Usuario 
+	 * @return integer 
 	 */
 	public function getProfesional() {
 		return $this->profesional;
