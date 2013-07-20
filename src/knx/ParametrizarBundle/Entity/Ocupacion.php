@@ -38,12 +38,7 @@ class Ocupacion
      * @ORM\Column(name="nombre", type="string", length=30, nullable=false)
      * @Assert\Length(max=30)
      */
-      private $nombre;     
-      
-    /**
-     * @ORM\OneToOne(targetEntity="knx\ParametrizarBundle\Entity\Paciente", mappedBy="ocupacion")
-     */
-    private $paciente; 
+      private $nombre;  
 
     /**
      * Set id
@@ -113,27 +108,9 @@ class Ocupacion
     {
         return $this->nombre;
     }
-
-    /**
-     * Set paciente
-     *
-     * @param \knx\ParametrizarBundle\Entity\Paciente $paciente
-     * @return Ocupacion
-     */
-    public function setPaciente(\knx\ParametrizarBundle\Entity\Paciente $paciente = null)
-    {
-        $this->paciente = $paciente;
     
-        return $this;
-    }
-
-    /**
-     * Get paciente
-     *
-     * @return \knx\ParametrizarBundle\Entity\Paciente 
-     */
-    public function getPaciente()
+    public function __toString()
     {
-        return $this->paciente;
+    	return $this->getNombre();
     }
 }

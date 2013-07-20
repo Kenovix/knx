@@ -1,0 +1,89 @@
+{% extends "::admin_layout.html.twig" %}
+
+{% block menu %}
+	{{ knp_menu_render('ParametrizarBundle:Builder:superAdminMenu') }}
+{% endblock %}
+
+{% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
+
+{% block titulo %}Listado de pacientes{% endblock %}
+
+{% block msg %}
+	{% if app.session.hasFlash('ok') %}
+	    <div class="alert alert-success">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('ok') }}</span>
+	    </div>
+	{% elseif app.session.hasFlash('info') %}
+		<div class="alert alert-info">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('info') }}</span>
+	    </div>
+	{% elseif app.session.hasFlash('error') %}
+		<div class="alert alert-error">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('error') }}</span>
+	    </div>
+	{% endif %}
+{% endblock %}
+
+{% block cuerpo %}
+	<div id="alfabeto">
+		<a href="{{ path('paciente_list', {'char':'A'}) }}" {% if char == 'A' %} class="alfa_sel" {% endif %}>A</a>
+		<a href="{{ path('paciente_list', {'char':'B'}) }}" {% if char == 'B' %} class="alfa_sel" {% endif %}>B</a>
+		<a href="{{ path('paciente_list', {'char':'C'}) }}" {% if char == 'C' %} class="alfa_sel" {% endif %}>C</a>
+	   	<a href="{{ path('paciente_list', {'char':'D'}) }}" {% if char == 'D' %} class="alfa_sel" {% endif %}>D</a>
+	   	<a href="{{ path('paciente_list', {'char':'E'}) }}" {% if char == 'E' %} class="alfa_sel" {% endif %}>E</a>
+	   	<a href="{{ path('paciente_list', {'char':'F'}) }}" {% if char == 'F' %} class="alfa_sel" {% endif %}>F</a>
+	   	<a href="{{ path('paciente_list', {'char':'G'}) }}" {% if char == 'G' %} class="alfa_sel" {% endif %}>G</a>
+	   	<a href="{{ path('paciente_list', {'char':'H'}) }}" {% if char == 'H' %} class="alfa_sel" {% endif %}>H</a>
+	   	<a href="{{ path('paciente_list', {'char':'I'}) }}" {% if char == 'I' %} class="alfa_sel" {% endif %}>I</a>
+	   	<a href="{{ path('paciente_list', {'char':'J'}) }}" {% if char == 'J' %} class="alfa_sel" {% endif %}>J</a>
+	   	<a href="{{ path('paciente_list', {'char':'K'}) }}" {% if char == 'K' %} class="alfa_sel" {% endif %}>K</a>
+	   	<a href="{{ path('paciente_list', {'char':'L'}) }}" {% if char == 'L' %} class="alfa_sel" {% endif %}>L</a>
+	   	<a href="{{ path('paciente_list', {'char':'M'}) }}" {% if char == 'M' %} class="alfa_sel" {% endif %}>M</a>
+	   	<a href="{{ path('paciente_list', {'char':'N'}) }}" {% if char == 'N' %} class="alfa_sel" {% endif %}>N</a>
+	   	<a href="{{ path('paciente_list', {'char':'O'}) }}" {% if char == 'O' %} class="alfa_sel" {% endif %}>O</a>
+	   	<a href="{{ path('paciente_list', {'char':'P'}) }}" {% if char == 'P' %} class="alfa_sel" {% endif %}>P</a>
+	   	<a href="{{ path('paciente_list', {'char':'Q'}) }}" {% if char == 'Q' %} class="alfa_sel" {% endif %}>Q</a>
+	   	<a href="{{ path('paciente_list', {'char':'R'}) }}" {% if char == 'R' %} class="alfa_sel" {% endif %}>R</a>
+		<a href="{{ path('paciente_list', {'char':'S'}) }}" {% if char == 'S' %} class="alfa_sel" {% endif %}>S</a>
+		<a href="{{ path('paciente_list', {'char':'T'}) }}" {% if char == 'T' %} class="alfa_sel" {% endif %}>T</a>
+		<a href="{{ path('paciente_list', {'char':'U'}) }}" {% if char == 'U' %} class="alfa_sel" {% endif %}>U</a>
+	    <a href="{{ path('paciente_list', {'char':'V'}) }}" {% if char == 'V' %} class="alfa_sel" {% endif %}>V</a>
+	    <a href="{{ path('paciente_list', {'char':'W'}) }}" {% if char == 'W' %} class="alfa_sel" {% endif %}>W</a>
+	    <a href="{{ path('paciente_list', {'char':'X'}) }}" {% if char == 'X' %} class="alfa_sel" {% endif %}>X</a>
+	    <a href="{{ path('paciente_list', {'char':'Y'}) }}" {% if char == 'Y' %} class="alfa_sel" {% endif %}>Y</a>
+	    <a href="{{ path('paciente_list', {'char':'Z'}) }}" {% if char == 'Z' %} class="alfa_sel" {% endif %}>Z</a>
+	    <a href="{{ path('paciente_filtro') }}" class="btn">Filtrar</a>
+	</div>
+
+    <table class="table table-striped">
+        <thead>        
+            <tr>
+                <th>No.</th>
+                <th>Identificación</th>
+                <th>Nombre</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in pacientes %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td><a href="{{ path('paciente_show', {'paciente':entity.id}) }}">{{ entity.identificacion }}</a></td>
+                <td>{{ entity.priNombre }} {{ entity.segNombre }} {{ entity.priApellido }} {{ entity.segApellido }}</td>
+            </tr>
+         {% else %}
+         	<tr>
+         		<td colspan="3">Verifique que esta realizando bien la consulta ó No tenemos pacientes creados.</td>
+         	</tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    
+    <a href="{{ path('paciente_new') }}" class="btn">Nuevo paciente</a>
+    
+    {% if pacientes %}
+		{{ knp_pagination_render(pacientes) }}
+    {% endif %}
+{% endblock %}

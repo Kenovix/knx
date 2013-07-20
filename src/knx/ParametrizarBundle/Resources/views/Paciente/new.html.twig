@@ -1,0 +1,257 @@
+{% extends "::admin_layout.html.twig" %}
+
+{% block menu %}
+	{{ knp_menu_render('ParametrizarBundle:Builder:superAdminMenu') }}
+{% endblock %}
+
+{% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
+
+{% block titulo %}Nuevo paciente{% endblock %}
+
+{% block msg %}
+	{% if app.session.hasFlash('ok') %}
+	    <div class="alert alert-success">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('ok') }}</span>
+	    </div>
+	{% elseif app.session.hasFlash('info') %}
+		<div class="alert alert-info">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('info') }}</span>
+	    </div>
+	{% elseif app.session.hasFlash('error') %}
+		<div class="alert alert-error">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('error') }}</span>
+	    </div>
+	{% endif %}
+{% endblock %}
+
+{% block cuerpo %}
+
+<form action="{{ path('paciente_save') }}" method="post" {{ form_enctype(form) }} class="form-horizontal">
+    <fieldset>
+    	<legend>Datos del paciente</legend>
+    	<div>
+    		<div>
+    			<label class="control-label" for="tipoid">
+    				<p>Tipo Id (*):
+    				<span style='display:inline; white-space:pre; padding-right: 0em;'>	</span>
+    				Numero de Indetificación (*):</p>
+    			</label>
+	    	    <div class="controls controls-row">
+	    	    	
+					{{ form_errors(form.tipoId) }}
+					{{ form_widget(form.tipoId,{ 'attr': {'class': 'span1'} }) }}				
+					
+					{{ form_errors(form.identificacion) }}
+					{{ form_widget(form.identificacion,{ 'attr': {'class': 'span2'} }) }}
+				</div> 
+    		</div>   	
+    		
+    		<div>
+    			<label class="control-label" for="tipoid">
+	    			<p>Primer Nombre(*):
+	    			<span style='display:inline; white-space:pre; padding-right: 10em;'>	</span>
+	    			Segundo Nombre:</p>
+    			</label>
+    			<div class="controls controls-row">
+	    	    	
+					{{ form_errors(form.priNombre) }}
+					{{ form_widget(form.priNombre,{ 'attr': {'class': 'span3'} }) }}					
+					
+					{{ form_errors(form.segNombre) }}
+					{{ form_widget(form.segNombre,{ 'attr': {'class': 'span3'} }) }}
+				</div>
+    		</div>	
+    		
+    		<div>
+    			<label class="control-label" for="tipoid">
+	    			<p>Primer Apellido(*):
+	    			<span style='display:inline; white-space:pre; padding-right: 10em;'>	</span>
+	    			Segundo Apellido:</p>
+    			</label>
+    			<div class="controls controls-row">
+	    	    	
+					{{ form_errors(form.priApellido) }}
+					{{ form_widget(form.priApellido,{ 'attr': {'class': 'span3'} }) }}					
+					
+					{{ form_errors(form.segApellido) }}
+					{{ form_widget(form.segApellido,{ 'attr': {'class': 'span3'} }) }}
+				</div>
+    		</div>	
+    		
+    		<div>
+    			<label class="control-label" for="tipoid">
+	    			<p>Ocupación(*):
+	    			<span style='display:inline; white-space:pre; padding-right: 11em;'>	</span>
+	    			Fecha Nacimiento(*):
+	    			<span style='display:inline; white-space:pre; padding-right: 5em;'>	</span>
+	    			Sexo(*):</p>
+    			</label>
+    			<div class="controls controls-row">
+	    	    	
+					{{ form_errors(form.ocupacion) }}
+					{{ form_widget(form.ocupacion,{ 'attr': {'class': 'span3'} }) }}
+					
+					{{ form_errors(form.fN) }}
+					{{ form_widget(form.fN,{ 'attr': {'class': 'span2'} }) }}					
+					
+					{{ form_errors(form.sexo) }}
+					{{ form_widget(form.sexo,{ 'attr': {'class': 'span1'} }) }}					
+				</div>
+    		</div>
+    		
+    		<div>
+    			<label class="control-label" for="tipoid">
+    				<p>Departamento(*):
+    				<span style='display:inline; white-space:pre; padding-right: 10em;'>	</span>
+    				 Municipio(*):
+    				 <span style='display:inline; white-space:pre; padding-right: 9em;'>	</span>
+    				 Zona(*):</p>
+    			</label>
+    			<div class="controls controls-row">
+	    	    	
+					{{ form_errors(form.depto) }}
+					{{ form_widget(form.depto,{ 'attr': {'class': 'span3'} }) }}
+					
+					{{ form_errors(form.mupio) }}
+					{{ form_widget(form.mupio,{ 'attr': {'class': 'span2'} }) }}					
+					
+					{{ form_errors(form.zona) }}
+					{{ form_widget(form.zona,{ 'attr': {'class': 'span1'} }) }}					
+				</div>
+    		</div>	
+    		
+    		<div>
+    			<label class="control-label" for="tipoid">
+    				<p>Estado Civil:
+    					<span style='display:inline; white-space:pre; padding-right: 7em;'>	</span>
+    				Dirección:</p>
+    			</label>
+    			<div class="controls controls-row">
+	    	    	
+					{{ form_errors(form.estaCivil) }}
+					{{ form_widget(form.estaCivil,{ 'attr': {'class': 'span2'} }) }}
+					
+					{{ form_errors(form.direccion) }}
+					{{ form_widget(form.direccion,{ 'attr': {'class': 'span4'} }) }}				
+				</div>
+    		</div>	
+    		
+    		<div>
+    			<label class="control-label" for="tipoid">
+    				<p>Numero Telefonico:
+    					<span style='display:inline; white-space:pre; padding-right: 3em;'>	</span>
+    				Correo Eclectronico:</p>
+    			</label>
+    			<div class="controls controls-row">
+    			
+	    			{{ form_errors(form.telefono) }}
+	    			{{ form_widget(form.telefono,{ 'attr': {'class': 'span2'} }) }}
+					
+					{{ form_errors(form.email) }}
+					{{ form_widget(form.email,{ 'attr': {'class': 'span2'} }) }}			
+									
+				</div>
+    		</div>
+    		
+    		<div>
+    			<label class="control-label" for="tipoid">
+    				<p>Numero Movil:
+    					<span style='display:inline; white-space:pre; padding-right: 5em;'>	</span>
+    				Rango(*):
+    					<span style='display:inline; white-space:pre; padding-right: 7em;'>	</span>
+    				Tipo Afiliado(*):
+    				</p>
+    			</label>
+    			<div class="controls controls-row">
+	    	    	
+					{{ form_errors(form.movil) }}
+					{{ form_widget(form.movil,{ 'attr': {'class': 'span2'} }) }}
+					
+					{{ form_errors(form.rango) }}
+					{{ form_widget(form.rango,{ 'attr': {'class': 'span2'} }) }}
+					
+					{{ form_errors(form.tipoAfi) }}
+					{{ form_widget(form.tipoAfi,{ 'attr': {'class': 'span2'} }) }}				
+				</div>
+    		</div>		
+    		
+    		<div>
+    			<label class="control-label" for="tipoid">
+    				<p>Pertenencia Etnica:</p>
+    			</label>
+    			<div class="controls controls-row">
+	    	    	
+					{{ form_errors(form.pertEtnica) }}
+					{{ form_widget(form.pertEtnica,{ 'attr': {'class': 'span6'} }) }}			
+				</div>
+    		</div>	
+    		
+    		<div>
+    			<label class="control-label" for="tipoid">
+    				<p>Nivel educativo:
+    					<span style='display:inline; white-space:pre; padding-right: 18em;'>	</span>
+    					tipo Desplazado:
+    				</p>
+    			</label>
+    			<div class="controls controls-row">
+	    	    	
+					{{ form_errors(form.nivelEdu) }}
+					{{ form_widget(form.nivelEdu,{ 'attr': {'class': 'span4'} }) }}
+					
+					{{ form_errors(form.tipoDes) }}
+					{{ form_widget(form.tipoDes,{ 'attr': {'class': 'span2'} }) }}				
+				</div>
+    		</div>		
+			
+			    		
+    	</div>
+    				 
+    	{{ form_rest(form) }}
+    </fieldset>
+    
+    <button class="btn btn-primary" type="submit">Crear</button>
+    <a href="{{ path('paciente_list', {'char':'A'}) }}" class="btn">Regresar al listado</a>
+    
+</form>
+{% endblock %}
+
+{% block javascripts %}
+<<script type="text/javascript">
+
+$("#knxPacientetype_depto").change(function(){
+		
+	var url="{{ path('paciente_findDepto') }}";
+	var depto = $("#knxPacientetype_depto").val();
+
+	if(depto == ""){
+		   alert("Seleccione una opcion valida");
+		}
+
+		$.post(url,{
+			depto: depto
+			},function(data){
+				if(data.responseCode==200){
+
+					$('#knxPacientetype_mupio').empty();					
+
+					$.each(data.mupio, function(i, val) {
+						$('#knxPacientetype_mupio').append('<option value="'+val.id+'">'+val.municipio+'</option>')
+					});					
+				}
+				else if(data.responseCode==400){
+					alert("Ha ocurrido un error 400 información no disponible.");
+	             }
+	             else{
+	         	    alert("Ha ocurrido un error en el sistema.");
+	             }
+	        })
+ });
+
+$(function() {
+    $( "#knxPacientetype_fN" ).datepicker({ dateFormat: 'dd/mm/yy' });
+});
+</script>
+{% endblock %}

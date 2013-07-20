@@ -260,32 +260,6 @@ almacen_update:
     pattern:  /almacen/{almacen}/update
     defaults: { _controller: ParametrizarBundle:Almacen:update }
     
-#************** Paciente ***************#
-
-paciente_list:
-    pattern:  /paciente/list
-    defaults: { _controller: ParametrizarBundle:Cargo:list }
-
-paciente_new:
-    pattern:  /paciente/new
-    defaults: { _controller: ParametrizarBundle:Cargo:new }
-
-paciente_save:
-    pattern:  /paciente/save
-    defaults: { _controller: ParametrizarBundle:Cargo:save }
-
-paciente_show:
-    pattern:  /paciente/{paciente}/show
-    defaults: { _controller: ParametrizarBundle:Cargo:show }
-
-paciente_edit:
-    pattern:  /paciente/{paciente}/edit
-    defaults: { _controller: ParametrizarBundle:Cargo:edit }
-
-paciente_update:
-    pattern:  /paciente/{paciente}/update
-    defaults: { _controller: ParametrizarBundle:Cargo:update }
-    
 #************** Pyp ***************#
 
 pyp_list:
@@ -333,3 +307,55 @@ cargo_pyp_edit:
 cargo_pyp_update:
     pattern:  /cargo/pyp/{pyp}/{cargo}/update
     defaults: { _controller: ParametrizarBundle:CargoPyp:update }
+    
+#************** Paciente ***************#
+
+paciente_new:
+    pattern:  /paciente/new
+    defaults: { _controller: ParametrizarBundle:Paciente:new }
+    
+paciente_save:
+    pattern:  /paciente/save
+    defaults: { _controller: ParametrizarBundle:Paciente:save }
+    
+paciente_show:
+    pattern:  /paciente/{paciente}/show
+    defaults: { _controller: ParametrizarBundle:Paciente:show }
+    
+paciente_edit:
+    pattern:  /paciente/{paciente}/edit
+    defaults: { _controller: ParametrizarBundle:Paciente:edit }
+
+paciente_update:
+    pattern:  /paciente/{paciente}/update
+    defaults: { _controller: ParametrizarBundle:Paciente:update }
+    
+paciente_list:
+    pattern:  /paciente/{char}/list
+    defaults: { _controller: ParametrizarBundle:Paciente:list }
+    
+paciente_filtro:
+    pattern:  /paciente/filtrar
+    defaults: { _controller: ParametrizarBundle:Paciente:filtrar }
+    
+paciente_findDepto:
+    pattern:  /paciente/findDepto
+    defaults: { _controller: ParametrizarBundle:Paciente:findDepto }
+    requirements:
+        _method:  POST
+        
+#************** Afiliación ***************#
+
+afiliacion_save:
+    pattern:  /afiliacion/{paciente}/save
+    defaults: { _controller: ParametrizarBundle:Afiliacion:save }
+    
+afiliacion_delete:
+    pattern:  /afiliacion/{paciente}/delete/{cliente}
+    defaults: { _controller: ParametrizarBundle:Afiliacion:delete }
+    
+afiliacion_ajax_save:
+    pattern:  /afiliacion/ajaxsave
+    defaults: { _controller: ParametrizarBundle:Afiliacion:ajaxSave }
+    requirements:
+        _method:  POST

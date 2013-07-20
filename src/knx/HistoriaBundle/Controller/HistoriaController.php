@@ -224,10 +224,11 @@ class HistoriaController extends Controller
 	public function printAction($factura) {
 		$em = $this->getDoctrine()->getEntityManager();
 		$factura = $em->getRepository('FacturacionBundle:Factura')->find($factura);
+		
+		
 		$historia = $factura->getHc();
 		$paciente = $factura->getPaciente();
 		
-		//return $this->render('HistoriaBundle:Historia:HcPrint.html.twig');
 		
 		$pdf = $this->get('white_october.tcpdf')->create();
 		$pdf->SetCreator(PDF_CREATOR);
@@ -235,17 +236,16 @@ class HistoriaController extends Controller
 		$pdf->SetTitle('Impresos Kenovix');				
 		$pdf->SetFont('dejavusans', '', 10);
 		
-		$html = $this->render('HistoriaBundle:Historia:HcPrint.html.twig');
+		$html = $this->render('HistoriaBundle:Historia:HcPrint.pdf.twig',array(
+				'paciente' => $paciente,
+				));	
 		
-		// set color for text
-		$pdf->SetTextColor(0, 63, 127);
+		$pdf->AddPage();
 		
-		//Write($h, $txt, $link='', $fill=0, $align='', $ln=false, $stretch=0, $firstline=false, $firstblock=false, $maxh=0)
+		$pdf->Annotation(50, 50, 5, 5, 'PDF file', array('Subtype'=>'FileAttachment', 'Name' => 'PushPin', 'FS' => 'example_012.pdf'));
+		$pdf->Bookmark('PDF file', 0, 0, '', 'B', array(128,0,255), -1, '%'.$html);			
 		
-		// write the text
-		$pdf->writeHTML($html, true, false, true, false, '');	
-		
-		return $pdf->Output('example_006.pdf', 'D');
+		return $pdf->Output('example_012.pdf', 'I');
 		
 		
 /*
