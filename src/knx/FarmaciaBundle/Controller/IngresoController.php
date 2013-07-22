@@ -42,11 +42,15 @@ class IngresoController extends Controller
     	
     	$em = $this->getDoctrine()->getEntityManager();    
         $ingreso = $em->getRepository('FarmaciaBundle:Ingreso')->findAll(); 
+        if (!$ingreso) {
+        	$this->get('session')->setFlash('info', 'No existen ingresos creadas');
+        }
+        
        // $inventarios = $em->getRepository('FarmaciaBundle:Inventario')->findOneBy(array('ingreso' => $ingreso->getId()));
         
         //die(var_dump($inventarios));
        // $proveedor = $inventarios->get
-        $ingreso = $paginator->paginate($ingreso,$this->getRequest()->query->get('page', 1), 10);
+        $ingreso = $paginator->paginate($ingreso,$this->getRequest()->query->get('page', 1), 8);
         
         return $this->render('FarmaciaBundle:Ingreso:list.html.twig', array(
         		
@@ -190,6 +194,17 @@ class IngresoController extends Controller
     		 
     		if ($form->isValid()) {
     	
+    			$valor_neto = $ingreso->getValorN();
+    			$valor_total = $ingreso->getValorT();
+    			if ($valor_total<$valor_neto){
+    				
+    				$this->get('session')->setFlash('error', 'Valor Total no puede ser menor a Valor Neto.');
+    				return $this->render('FarmaciaBundle:Ingreso:new.html.twig', array(
+    						'form'   => $form->createView()
+    				));
+    			}else {
+    			
+    			
     			$em = $this->getDoctrine()->getEntityManager();
     	
     			$em->persist($ingreso);
@@ -198,7 +213,9 @@ class IngresoController extends Controller
     			$this->get('session')->setFlash('ok', 'El ingreso ha sido creada éxitosamente.');
     
     			return $this->redirect($this->generateUrl('ingreso_show', array("ingreso" => $ingreso->getId())));	
+    			}
     		}
+    	
     	}
     	 
     	return $this->render('FarmaciaBundle:Ingreso:new.html.twig', array(

@@ -31,7 +31,8 @@ class Imv
      * @var string $codCups
      * 
      * @ORM\Column(name="cod_cups", type="string", length=100, nullable=false, unique=true)
-     * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")     
+     * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
+     * @Assert\Range(min=1,max=999999)     
      */
     private $codCups;
     
@@ -39,6 +40,7 @@ class Imv
      * @var string $codAdmin
      * 
      * @ORM\Column(name="cod_admin", type="string", length=100, nullable=true, unique=true)
+     * 
      */
     private $codAdmin;
     
@@ -56,16 +58,23 @@ class Imv
 
      * @ORM\Column(name="nombre", type="string", length=150, nullable=false, unique=true)
      * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
-     * @Assert\MaxLength(limit=150, message="El valor ingresado debe tener máximo {{ limit }} caracteres.")
+     * @Assert\Length(min=5,max=150)
      */
     private $nombre;
 
     /**
+     * @var string $tipoMedicamento
+     *
+     * @ORM\Column(name="tipo_med", type="string", length=100, nullable=true)
+     */
+    private $tipoMedicamento;
+    
+    
+    
+    /**
      * @var string $tipoImv
      * 
-     * @ORM\Column(name="tipo_imv", type="string", length=100, nullable=true)     
-     *
-     * @Assert\MaxLength(limit=100, message="El valor ingresado debe tener máximo {{ limit }} caracteres.")
+     * @ORM\Column(name="tipo_imv", type="string", length=100, nullable=true)
      */
     private $tipoImv;
     
@@ -74,7 +83,7 @@ class Imv
      * 
      * @ORM\Column(name="forma_farmaceutica", type="string",  length=40, nullable=true)     
      * 
-     * @Assert\MaxLength(limit=40, message="El valor ingresado debe tener máximo {{ limit }} caracteres.")
+     * @Assert\Length(min=3,max=10)
      */
     private $formaFarmaceutica;
 
@@ -83,7 +92,7 @@ class Imv
      * 
      * @ORM\Column(name="concentracion", type="string", length=30, nullable=true)     
      * 
-     * @Assert\MaxLength(limit=30, message="El valor ingresado debe tener máximo {{ limit }} caracteres.")
+     * @Assert\Length(min=3,max=12)
      */
     private $concentracion;
 
@@ -92,7 +101,7 @@ class Imv
      * 
      * @ORM\Column(name="uni_medida", type="string", length=100, nullable=true)     
      * 
-     * @Assert\MaxLength(limit=100, message="El valor ingresado debe tener máximo {{ limit }} caracteres.")
+     * @Assert\Length(min=3,max=20)
      * 
      */
     private $uniMedida;
@@ -100,16 +109,18 @@ class Imv
     /**
      * @var string $jeringa
      *
-     * @ORM\Column(name="jeringa", type="string", length=10, nullable=true)      
-     * @Assert\MaxLength(limit=10, message="El valor ingresado debe tener máximo {{ limit }} caracteres.")
+     * @ORM\Column(name="jeringa", type="string", length=10, nullable=true)  
+     *  
+     * @Assert\Length(min=2,max=12)
      */
     private $jeringa;
 
     /**
      * @var string $dosis
      *
-     * @ORM\Column(name="dosis", type="string", length=10, nullable=true)       
-     * @Assert\MaxLength(limit=10, message="El valor ingresado debe tener máximo {{ limit }} caracteres.")
+     * @ORM\Column(name="dosis", type="string", length=10, nullable=true)  
+     *  
+     * @Assert\Length(min=1,max=1)
      *
      */
     private $dosis;
@@ -259,6 +270,31 @@ class Imv
     	return $this->tipoImv;
     }
     
+    
+    /**
+     * Set tipoMedicamento
+     *
+     * @param string $tipoMedicamento
+     * @return Imv
+     */
+    public function setTipoMedicamento($tipoMedicamento)
+    {
+    	$this->tipoMedicamento = $tipoMedicamento;
+    
+    	return $this;
+    }
+    
+    /**
+     * Get tipoMedicamento
+     *
+     * @return string
+     */
+    public function getTipoMedicamento()
+    {
+    	return $this->tipoMedicamento;
+    }
+    
+      
         
     /**
      * Set formaFarmaceutica

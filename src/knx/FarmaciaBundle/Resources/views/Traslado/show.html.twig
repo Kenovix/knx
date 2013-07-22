@@ -32,7 +32,7 @@
 	<table class="table">
         <thead>
 	        <tr>
-                <th>No.</th>
+                <th>No.</th>                
                 <th>Fecha.</th>
                 <th>Farmacia</th>
                 <td>Inventario</th>
@@ -44,18 +44,18 @@
             
         <tbody>
             <tr>
-            	<td>{{ traslado.id }}</td>
-            	<td>{{ traslado.fecha | date('d-m-Y')}}</td>
-            	<td>{{ traslado.farmacia}}</td>
-            	<td>{{ traslado.inventario}}</td>            	
-            	<td>{{ traslado.cant}}</td>
-            	<td>{{ traslado.tipo}}</td>            	
+                <td>{{ trasfarma.id}}</td> 
+            	<td>{{ trasfarma.fecha | date('d-m-Y')}}</td>
+            	<td>{{ trasfarma.farmacia}}</td>
+            	<td>{{ trasfarma.inventario}}</td>            	
+            	<td>{{ trasfarma.cant}}</td>
+            	<td>{{ trasfarma.tipo}}</td>            	
         	</tr>
         </tbody>    
     </table>
 
 	<div class="btn-group">
-	    <a href="{{ path('traslado_edit', {'traslado':traslado.id}) }}" class="btn btn-primary">Modificar</a>
+	   <a href="{{ path('traslado_edit',  {'traslado': trasfarma.id}) }}" class="btn btn-primary">Modificar</a>
 	    <a href="{{ path('traslado_list') }}" class="btn">Volver</a>
     </div>
 {% endblock %}

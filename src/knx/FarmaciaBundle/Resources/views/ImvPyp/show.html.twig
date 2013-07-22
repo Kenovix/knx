@@ -6,7 +6,7 @@
 
 {% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
 
-{% block titulo %}Información del Stock_Pyp{% endblock %}
+{% block titulo %}Stock_Pyp {% endblock %}
 
 {% block msg %}
 	{% if app.session.hasFlash('ok') %}
@@ -27,50 +27,59 @@
 	{% endif %}
 {% endblock %}
 
-{% block cuerpo %}	    
-
-	<table class="table">
+{% block cuerpo %}	   
+ 
+    <h4>Informacion Categoria Pyp</h4>
+	<table class="table">	
         <tbody>
         	<tr>
-                <td><strong>No.</strong></td>
-                <td>{{ imvpyp.id }}</td>
-                <td><strong>Imv</strong></td>
-                <td>{{ imvpyp.imv }}</td>
-                <td><strong>Categoria_Pyp</strong></td>
-                <td>{{ imvpyp.pyp }}</td>                                          
-            </tr>                                   
-                     
-                
-            
+                <td><strong>Codigo</strong></td>                
+                <td>{{ pimv.pyp.codigo }}</td>
+                                                       
+            </tr>   
+            <tr>                                
+              <td><strong>Nombre</strong></td>
+                <td>{{ pimv.pyp.nombre }}</td>        
+            </tr>            
            
+        </tbody>
+    </table>     
+    
+    <hr>
+    <h4>Informacion del Item</h4>    
+    <table class="table">
+
+        <tbody>
+        	<tr>
+                <td><strong>Codigo Cups</strong></td>                
+                <td>{{ pimv.imv.codCups }}</td>
+              	<td><strong>Nombre</strong></td>
+                <td>{{ pimv.imv.nombre }}</td>
+                <td><strong>Tipo</strong></td>
+                <td>{{ pimv.imv.tipoImv }}</td>                                         
+            </tr>   
             <tr>
-                <td><strong>Edad_Inicial</strong></td>
-                <td>{{ imvpyp.edadIni }}</td>
-                <td><strong>Edad_Final</strong></td>
-                <td>{{ imvpyp.edadFin }}</td>
-                <td><strong>Rango</strong></td>
-                <td>{{ imvpyp.rango }}</td>
-            </tr>          
-            <tr>
-                <td><strong>Sexo</strong></td>
-                <td>{{ imvpyp.sexo }}</td>
-                <td></td>
-                <td></td>
+                <td><strong>Edad inicio (Años)</strong></td>
+                <td>{{ pimv.edadIni }}</td>
+                <td><strong>Edad fin (Años)</strong></td>
+                <td>{{ pimv.edadFin }}</td>
                 <td></td>
                 <td></td>
             </tr>
-            
+            <tr>
+                <td><strong>Rango (Años)</strong></td>
+                <td>{{ pimv.rango }}</td>
+                <td><strong>Sexo</strong></td>
+                <td>{{ pimv.sexo }}</td>
+                <td></td>
+                <td></td>
+            </tr>
         </tbody>
-    </table>     
+        </tbody>
+    </table>
             
-          
-        
-            
-
-
-			<div class="form-actions">
-    	    <a href="{{ path('imvpyp_edit', {'imvpyp':imvpyp.id}) }}" class="btn btn-primary">Modificar</a>
-	    <a href="{{ path('imvpyp_delete', {'imvpyp':imvpyp.id}) }}" onClick="return confirm('Seguro que quieres eliminar el Item de Pyp')" class="btn btn-danger">Eliminar</a>	    
-	    <a href="{{ path('imvpyp_list') }}" class="btn">Volver</a>
+<div class="btn-group">
+	    <a href="{{ path('imvpyp_edit', {'pyp': pimv.pyp.id, 'imv': pimv.imv.id}) }}"class="btn btn-primary">Modificar</a>
+	    <a href="{{ path('imvpyp_new') }}" class="btn">Volver</a>
     </div>
 {% endblock %}

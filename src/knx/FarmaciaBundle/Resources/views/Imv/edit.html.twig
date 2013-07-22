@@ -42,3 +42,73 @@
 		</fieldset>	
 	</form>
 {% endblock %}
+
+{% block javascripts %}
+	<script type="text/javascript">
+		$(document).ready(function() {
+
+			var opcion = $('#gstImv_tipoImv').val();
+
+			
+			if(opcion == 'V'){
+
+				$('#gstImv_codCups').removeAttr('disabled');
+				$('#gstImv_tipoMedicamento').attr('disabled', true);        
+			    $('#gstImv_codAdmin').attr('disabled', true);
+				$('#gstImv_cums').attr('disabled', true);
+				$('#gstImv_nombre').removeAttr('disabled');
+				$('#gstImv_formaFarmaceutica').attr('disabled', true);
+				$('#gstImv_concentracion').attr('disabled', true);
+				$('#gstImv_uniMedida').attr('disabled', true);
+				$('#gstImv_jeringa').removeAttr('disabled');
+				$('#gstImv_dosis').removeAttr('disabled');
+
+			}else{
+
+				$('#gstImv_codCups').removeAttr('disabled');
+				$('#gstImv_tipoMedicamento').removeAttr('disabled');        
+				$('#gstImv_codAdmin').removeAttr('disabled');
+				$('#gstImv_cums').removeAttr('disabled');
+				$('#gstImv_nombre').removeAttr('disabled');
+				$('#gstImv_formaFarmaceutica').removeAttr('disabled');
+				$('#gstImv_concentracion').removeAttr('disabled');
+				$('#gstImv_uniMedida').removeAttr('disabled');
+				$('#gstImv_jeringa').attr('disabled', true);
+				$('#gstImv_dosis').attr('disabled', true);
+			}
+		});
+
+		$('#gstImv_tipoImv').change(function() {
+
+			var opcion = $('#gstImv_tipoImv').val();
+
+			if(opcion == 'V'){
+
+				$('#gstImv_codCups').removeAttr('disabled');
+				$('#gstImv_tipoMedicamento').attr('disabled', true);
+				$('#gstImv_codAdmin').attr('disabled', true);
+				$('#gstImv_cums').attr('disabled', true);
+				$('#gstImv_nombre').removeAttr('disabled');
+				$('#gstImv_formaFarmaceutica').attr('disabled', true);
+				$('#gstImv_concentracion').attr('disabled', true);
+				$('#gstImv_uniMedida').attr('disabled', true);
+				$('#gstImv_jeringa').removeAttr('disabled');
+				$('#gstImv_dosis').removeAttr('disabled');
+
+			}else{
+
+				$('#gstImv_codCups').removeAttr('disabled');
+				$('#gstImv_tipoMedicamento').removeAttr('disabled', true);
+				$('#gstImv_codAdmin').removeAttr('disabled');
+				$('#gstImv_cums').removeAttr('disabled');
+				$('#gstImv_nombre').removeAttr('disabled');
+				$('#gstImv_formaFarmaceutica').removeAttr('disabled');
+				$('#gstImv_concentracion').removeAttr('disabled');
+				$('#gstImv_uniMedida').removeAttr('disabled');
+				$('#gstImv_jeringa').attr('disabled', true);
+				$('#gstImv_dosis').attr('disabled', true);
+			}
+		});
+		
+	</script>
+{% endblock %}

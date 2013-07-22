@@ -125,7 +125,7 @@ class InventarioController extends Controller
     	 
     	 
     	if (!$inventario) {
-    		throw $this->createNotFoundException('La inventario solicitada no esta disponible.');
+    		throw $this->createNotFoundException('El inventario solicitada no esta disponible.');
     	}
     	
     	$inventario = $em->getRepository('FarmaciaBundle:Inventario')->findBy(array('ingreso' => $ingreso));

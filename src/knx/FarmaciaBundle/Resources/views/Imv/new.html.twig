@@ -51,6 +51,7 @@
 	<script type="text/javascript">
 		$(document).ready(function() {
 			$('#gstImv_codCups').attr('disabled', true);
+			$('#gstImv_tipoMedicamento').attr('disabled', true);
 			$('#gstImv_codAdmin').attr('disabled', true);
 			$('#gstImv_cums').attr('disabled', true);
 			$('#gstImv_nombre').attr('disabled', true);
@@ -70,6 +71,7 @@
 
 				$('#gstImv_codCups').removeAttr('disabled');
 				$('#gstImv_codAdmin').attr('disabled', true);
+				$('#gstImv_tipoMedicamento').attr('disabled', true);                         
 				$('#gstImv_cums').attr('disabled', true);
 				$('#gstImv_nombre').removeAttr('disabled');
 				$('#gstImv_formaFarmaceutica').attr('disabled', true);
@@ -81,6 +83,7 @@
 			}else{
 
 				$('#gstImv_codCups').removeAttr('disabled');
+				$('#gstImv_tipoMedicamento').removeAttr('disabled');    
 				$('#gstImv_codAdmin').removeAttr('disabled');
 				$('#gstImv_cums').removeAttr('disabled');
 				$('#gstImv_nombre').removeAttr('disabled');

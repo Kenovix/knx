@@ -15,6 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Traslado
 {
+  
     /**
      * @var integer $id
      *
@@ -45,7 +46,7 @@ class Traslado
      * })
      */
     private $farmacia;    
-    
+       
 
     /**
      * @var datetime $fecha
@@ -58,6 +59,7 @@ class Traslado
      * @var cant
      *
      * @ORM\Column(name="cantidad", type="integer", nullable=false)
+     * @Assert\Range(min=1)
      */
      private $cant;
      
@@ -70,23 +72,22 @@ class Traslado
       */
      private $tipo;
 
-      
-
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
+     /**
+      * Get id
+      *
+      * @return integer
+      */
+     public function getId()
+     {
+     	return $this->id;
+     }
+         
 
     /**
      * Set fecha
      *
      * @param \DateTime $fecha
-     * @return Traslado
+     * @return 
      */
     public function setFecha($fecha)
     {

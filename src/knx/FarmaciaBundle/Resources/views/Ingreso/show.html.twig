@@ -34,6 +34,7 @@
 	        <tr>
                 <th>No.</th>
                 <th>Almacen</th>
+                <th>Proveedor</th>
                 <th>Factura</th>
                 <td>Fecha</th>
                 <th>Valor Total</th>
@@ -46,6 +47,7 @@
             <tr>
             	<td>{{ ingreso.id }}</td>
             	<td>{{ ingreso.almacen }}</td>
+            	<td>{{ ingreso.proveedor }}</td>
             	<td>{{ ingreso.numFact }}</td>
             	<td>{{ ingreso.fecha | date('d-m-Y')}}</td>
             	<td>$ {{ ingreso.valorT| number_format(0,',','.')}}</td>
@@ -62,14 +64,13 @@
     
     
     <hr>
-    <h3>Cargos IMV</h3>
+    <h3>Cargos</h3>
     
     <table class="table">
         <thead>
             <tr>
                 <th>No.</th>
                 <th>Imv</th>
-                <th>Proveedor</th>                
                 <th>Cantidad</th>
                 <th>Precio Compra</th>
                 <th>Precio de Venta</th>
@@ -84,7 +85,6 @@
             <tr>
                 <td>{{ loop.index }}</td>
                 <td><a href="{{ path('inventario_edit', { 'inventario': inventario.id }) }}">{{ inventario.imv}}</a></td>
-                <td>{{ inventario.proveedor }} </td>
                 <td>{{ inventario.cant }} </td>
                 <td>$ {{ inventario.precioCompra | number_format(0,',','.')}} </td> 
                 <td>$ {{ inventario.precioVenta | number_format(0,',','.') }} </td>

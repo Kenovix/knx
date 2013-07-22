@@ -40,11 +40,18 @@ class DevolucionController extends Controller
     	 
     	$em = $this->getDoctrine()->getEntityManager();    
         $devolucion = $em->getRepository('FarmaciaBundle:Devolucion')->findAll();
-        $devolucion = $paginator->paginate($devolucion,$this->getRequest()->query->get('page', 1), 10);
+       
+        if (!$devolucion) {
+        	$this->get('session')->setFlash('info', 'No existen devoluciones');
+        }
         
+        
+        $devolucion = $paginator->paginate($devolucion,$this->getRequest()->query->get('page', 1), 10);
+   		 
         
         return $this->render('FarmaciaBundle:Devolucion:list.html.twig', array(
-                'devolucion'  => $devolucion
+                'devfarma'  => $devolucion
+        		
         ));
     }
     
@@ -121,7 +128,7 @@ class DevolucionController extends Controller
     	}
     	 
     	return $this->render('FarmaciaBundle:Devolucion:list.html.twig', array(
-    			'devolucion' => $devolucion,
+    			'devfarma' => $devolucion,
     	));
     }
     
@@ -158,7 +165,8 @@ class DevolucionController extends Controller
     	 
     	$devolucion = new Devolucion();
     	$devolucion->setFecha(new \datetime('now'));
-    	 
+    	
+    	
     	$request = $this->getRequest();
     	$form   = $this->createForm(new DevolucionType(), $devolucion);
     	if ($request->getMethod() == 'POST') {
@@ -171,49 +179,84 @@ class DevolucionController extends Controller
     			
     			$cant_devolucion = $devolucion->getCant();/*cantidad de devolucion*/
     			$inventario = $devolucion->getInventario();/*Entidad inventario*/
-    			$cant_inventario = $inventario->getCant();
+    			$cant_inventario = $inventario->getCant();/*cantidad inventario*/
+    			$ingreso = $inventario->getIngreso();
+    			//die(var_dump($ingreso));
     			$imv = $inventario->getImv();/*Entidad imv para llegar a la cantidad total*/
     			$cant_imv = $imv->getCantT();/*traigo cantidad total del imv*/
-    	
+    			$proveedor = $ingreso->getProveedor();
+    			$precio_compra = $inventario->getPrecioCompra();
+    			$proveedor_ingresado = $devolucion->getProveedor();
+    			$inventariop = $devolucion->getInventario();/*Entidad inventario*/
+    			$cant_inventariop = $inventariop->getCant();/*cantidad inventario*/
+    			    
     			$em = $this->getDoctrine()->getEntityManager();
-    			if ($cant_imv < $cant_devolucion){
+    			
+    			if($proveedor == $proveedor_ingresado){
+    				
+    				
+    				if ($cant_inventario < $cant_devolucion){
+    						
+    					$this->get('session')->setFlash('error','La cantidad ingresada es mayor que cantidad en existencia,cantidad en existencia con proveedor-'.$cant_inventario = $inventario->getCant().'');
+    					return $this->redirect($this->generateUrl('devolucion_new'));
+    				}
+    				else {
+    				
+    						
+    					$imv->setCantT($cant_imv-$cant_devolucion);
+    					$inventario->setCant($cant_inventario-$cant_devolucion);
     					
-    				$this->get('session')->setFlash('error','La cantidad ingresada es mayor que cantidad en existencia,cantidad en existencia-'.$cant_imv = $imv->getCantT().'');
+    					$inventariop = $devolucion->getInventario();/*Entidad inventario*/
+    					$cant_inventariop = $inventariop->getCant();/*cantidad inventario*/
+    					//die(var_dump($cant_inventariop));
+    					    	
+    					$inventariop->setPrecioTotal($cant_inventariop * $precio_compra);	
+    					//die(var_dump($inventario));	
+    					 
+    					$em->persist($devolucion);
+    					$em->persist($imv);
+    					$em->persist($inventario);
+    					$em->persist($inventariop);
+    				
+    					$em->flush();
+    				
+    					$this->get('session')->setFlash('ok', 'El devolucion ha sido creada éxitosamente.');
+    				
+    					return $this->redirect($this->generateUrl('devolucion_show', array('devolucion' => $devolucion->getId())));
+    				}
+    				
+    				
+    				
+    				
+    			}
+    			else{
+    				
+    				$this->get('session')->setFlash('error','Item para devolucion no corresponde a Proveedor selecionado-'.$proveedor_ingresado = $devolucion->getProveedor().-'Perteneca a:'.$proveedor = $ingreso->getProveedor().'');
     				return $this->redirect($this->generateUrl('devolucion_new'));
     			}
-    			else {
-
-    			 					
-    				$imv->setCantT($cant_imv-$cant_devolucion);
-    				$inventario->setCant($cant_inventario-$cant_devolucion);	
-    					
-    					
     			
-    			$em->persist($devolucion);
-    			$em->persist($imv);
-    			$em->persist($inventario);
-    			 
-    			$em->flush();
-    
-    			$this->get('session')->setFlash('ok', 'El devolucion ha sido creada éxitosamente.');
-    
-    			return $this->redirect($this->generateUrl('devolucion_show', array("devolucion" => $devolucion->getId())));	
-    		}
+    		
+    			
+    				
+    		
+    			}
     	}
     	 
     	return $this->render('FarmaciaBundle:Devolucion:new.html.twig', array(
        			'form'   => $form->createView()
     	));
     }
-   } 
+    
+
     public function showAction($devolucion)
     {
     	$em = $this->getDoctrine()->getEntityManager();
     
     	$devolucion = $em->getRepository('FarmaciaBundle:Devolucion')->find($devolucion);
+    	    	
+       	$inventario = $devolucion->getInventario();/*Entidad inventario*/
     	
     	
-    	 
     	if (!$devolucion) {
     		throw $this->createNotFoundException('El devolucion solicitado no esta disponible.');
     	}
@@ -223,10 +266,11 @@ class DevolucionController extends Controller
     	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
     	$breadcrumbs->addItem("Farmacia");
     	$breadcrumbs->addItem("Devolucions", $this->get("router")->generate("devolucion_list"));
-    	$breadcrumbs->addItem($devolucion->getId());
+    	//$breadcrumbs->addItem($devolucion->getId());
     	 
     	return $this->render('FarmaciaBundle:Devolucion:show.html.twig', array(
-    			'devolucion'  => $devolucion,
+    			'devfarma'  => $devolucion,
+    			'inventario' => $inventario
     			
     			
     	));

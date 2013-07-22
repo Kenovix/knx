@@ -2,12 +2,14 @@
 
 namespace knx\FarmaciaBundle\Entity;
 
+use knx\ParametrizarBundle\Entity\Proveedor;
+
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * knx\FarmaciaBundle\Entity\Inventario
+ * knx\FarmaciaBundle\Entity\Ingreso
  *
  * @ORM\Table(name="Ingreso")
  * @ORM\Entity
@@ -35,7 +37,7 @@ class Ingreso
      * 
      * @ORM\Column(name="num_fact", type="string", length=11, nullable=false)
      * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
-     * @Assert\MinLength(limit=1, message="El valor ingresado debe tener al menos {{ limit }} caracteres.")
+     * @Assert\Length(min=1)
      */
     private $numFact;
     
@@ -44,6 +46,7 @@ class Ingreso
      * 
      * @ORM\Column(name="valor_t", type="integer",  nullable=false)
      * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
+     * @Assert\Range(min=1,max=9999999999)
      */
     private $valorT;
     
@@ -52,6 +55,7 @@ class Ingreso
      * 
      * @ORM\Column(name="valor_n", type="integer",  nullable=false)
      *  @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
+     *  @Assert\Range(min=1,max=9999999999)
      */
     private $valorN;
     
@@ -74,6 +78,16 @@ class Ingreso
      */
     private $almacen;
 
+    
+    /**
+     * @var Proveedor
+     *
+     * @ORM\ManyToOne(targetEntity="knx\ParametrizarBundle\Entity\Proveedor")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="proveedor_id", referencedColumnName="id")
+     * })
+     */
+    private $proveedor;
 
      /**
      * 
@@ -270,6 +284,30 @@ class Ingreso
         return $this->updated;
     }
 
+    
+    /**
+     * Set proveedor
+     *
+     * @param \knx\ParametrizarBundle\Entity\Proveedor $proveedor
+     * @return Inventario
+     */
+    public function setProveedor(\knx\ParametrizarBundle\Entity\Proveedor $proveedor = null)
+    {
+    	$this->proveedor = $proveedor;
+    
+    	return $this;
+    }
+    
+    /**
+     * Get proveedor
+     *
+     * @return \knx\ParametrizarBundle\Entity\Proveedor
+     */
+    public function getProveedor()
+    {
+    	return $this->proveedor;
+    }
+    
     /**
      * Set almacen
      *

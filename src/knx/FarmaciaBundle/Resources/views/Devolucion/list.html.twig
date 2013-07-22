@@ -28,25 +28,27 @@
 {% endblock %}
 
 {% block cuerpo %}
-	{% if devolucion %}
+	{% if devfarma %}
 	
 	    <table class="table">
 	        <thead>
 	            <tr>
-	                <th>No.</th>
-                	<th>Fecha.</th>                	
-                	<th>Inventario</th>
+	                <th>No Linea.</th>	                
+                	<th>Fecha.</th>
+                	<th>Item</th>               
+                	<th>Proveedor</th>              	               
                	 	<th>Cantidad</th>
 	               
 	            </tr>
 	        </thead>
 	        <tbody>
-	        {% for devolucion in devolucion %}
+	        {% for devfarma in devfarma %}
 	            <tr>
 	                <td>{{ loop.index }}</td>
-	                <td><a href="{{ path('devolucion_show', {'devolucion':devolucion.id}) }}">{{ devolucion.fecha | date('d-m-Y')}}</a></td>	             	
-            		<td>{{ devolucion.inventario}}</td>            	
-            		<td>{{ devolucion.cant}}</td>
+	                <td><a href="{{ path('devolucion_show',{'devolucion': devfarma.id}) }}">{{ devfarma.fecha | date('d-m-Y')}}</a></td>	             	
+            		<td>{{ devfarma.inventario}}</td>
+            		<td>{{ devfarma.proveedor}}</td>           		           	
+            		<td>{{ devfarma.cant}}</td>
 	            </tr>
 	        {% endfor %}
 	        </tbody>
