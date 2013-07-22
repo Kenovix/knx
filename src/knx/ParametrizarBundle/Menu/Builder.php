@@ -34,7 +34,11 @@ class Builder extends ContainerAware
 			$menu['Farmacia']['Nueva']->addChild('IMV', array('route' => 'imv_list', 'routeParameters' => array('char' => 'A')));
 				
 		$menu->addChild('Facturación', array('uri' => '#'));
-		
+			$menu['Facturación']->addChild('Facturar', array('uri' => '#'));
+				$menu['Facturación']['Facturar']->addChild('Consulta', array('route' => 'facturacion_actividad_new'));
+				$menu['Facturación']['Facturar']->addChild('Procedimiento', array('route' => 'facturacion_actividad_new'));
+				$menu['Facturación']['Facturar']->addChild('Medicamento', array('route' => 'facturacion_actividad_new'));
+			
 		$menu->addChild('Historia', array('uri' => '#'));
 		
 		$menu->addChild('Usuarios', array('uri' => '#'));

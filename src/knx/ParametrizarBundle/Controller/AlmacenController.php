@@ -32,8 +32,6 @@ class AlmacenController extends Controller
     	
     	$almacen = new Almacen();
     	$form   = $this->createForm(new AlmacenType(), $almacen);
-    	
-    	$em = $this->getDoctrine()->getEntityManager();
 
     	return $this->render('ParametrizarBundle:Almacen:new.html.twig', array(
     			'form'   => $form->createView()

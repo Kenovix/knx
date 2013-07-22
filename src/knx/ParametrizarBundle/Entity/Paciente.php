@@ -31,7 +31,7 @@ class Paciente
      * 
      * @ORM\Column(name="tipo_id", type="string", length=2, nullable=false)
      * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
-     * @Assert\Choice(choices = {"CC", "RC", "TI", "CE","NU","AS"}, message = "Selecciona una opci髇 valida.")
+     * @Assert\Choice(choices = {"MS","PA","CC", "RC", "TI", "CE", "NV", "AS"}, message = "Selecciona una opci贸n valida.")
      *
      */
     private $tipoId;
@@ -41,8 +41,12 @@ class Paciente
      * 
      * @ORM\Column(name="identificacion", type="string", length=13, unique=true)
      * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
-     * @Assert\Min(limit = "10000", message = "El valor ingresado no puede ser menor de {{ limit }}", invalidMessage = "El valor ingresado debe ser un n鷐ero v醠ido")
-     * @Assert\Max(limit = "9999999999999", message = "El valor ingresado no puede ser mayor de {{ limit }}", invalidMessage = "El valor ingresado debe ser un n鷐ero v醠ido")
+     * @Assert\Range(
+     *      min = "10000",
+     *      max = "9999999999999",
+     *      minMessage = "El menor n煤mero a ingresar es 10000",
+     *      maxMessage = "El mayor n煤mero a ingresar es 9999999999999"
+     * )
      */
     private $identificacion;
 
@@ -51,15 +55,15 @@ class Paciente
      * 
      * @ORM\Column(name="pri_nombre", type="string", length=30, nullable=false)
      * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
-     * @Assert\MaxLength(limit=30, message="El valor ingresado debe tener m醲imo {{ limit }} caracteres.")       *
+     * @Assert\Length(max=30)      
      */
     private $priNombre;
 
     /**
      * @var string $segNombre
      * 
-     * @ORM\Column(name="seg_nombre", type="string", length=30)
-     * @Assert\MaxLength(limit=30, message="El valor ingresado debe tener m醲imo {{ limit }} caracteres.")
+     * @ORM\Column(name="seg_nombre", type="string", length=30, nullable=true)
+     * @Assert\Length(max=30)
      *
      */
     private $segNombre;
@@ -69,7 +73,7 @@ class Paciente
      * 
      * @ORM\Column(name="pri_apellido", type="string", length=30, nullable=false)
      * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
-     * @Assert\MaxLength(limit=30, message="El valor ingresado debe tener m醲imo {{ limit }} caracteres.")
+     * @Assert\Length(max=30)
      *
      */
     private $priApellido;
@@ -77,17 +81,17 @@ class Paciente
     /**
      * @var string $segApellido
      *
-     * @ORM\Column(name="seg_apellido", type="string", length=30)
-     * @Assert\MaxLength(limit=30, message="El valor ingresado debe tener m醲imo {{ limit }} caracteres.")
+     * @ORM\Column(name="seg_apellido", type="string", length=30, nullable=true)
+     * @Assert\Length(max=30)
      */
     private $segApellido;
 
     /**
      * @var date $fN
      * 
-     * @ORM\Column(name="f_n", type="date", nullable=false)
+     * @ORM\Column(name="f_n", type="string", length=15, nullable=false)
      * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
-     * @Assert\Date(message="Por favor ingresa fecha valida")
+     * @Assert\Length(max=15)     
      */
     private $fN;
 
@@ -96,7 +100,7 @@ class Paciente
      * 
      * @ORM\Column(name="sexo", type="string", length=1, nullable=false)
      * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
-     * @Assert\Choice(choices = {"M", "F"}, message = "Selecciona una opci髇 valida.")
+     * @Assert\Choice(choices = {"M", "F"}, message = "Selecciona una opci贸n valida.")
      */
     private $sexo;
 
@@ -106,7 +110,7 @@ class Paciente
      * 
      * @ORM\Column(name="esta_civil", type="string", length=15, nullable=false)
      * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
-     * @Assert\Choice(choices = {"CASADO", "SOLTERO","UNION LIBRE"}, message = "Selecciona una opci髇 valida.")
+     * @Assert\Choice(choices = {"CASADO", "SOLTERO","UNION_LIBRE"}, message = "Selecciona una opci贸n valida.")
      */
        private $estaCivil;
 
@@ -133,7 +137,7 @@ class Paciente
      * @var string $direccion
      *
      * @ORM\Column(name="direccion", type="string", length=60, nullable=true)
-     * @Assert\MaxLength(limit=60, message="El valor ingresado debe tener m醲imo {{ limit }} caracteres.")
+     * @Assert\Length(max=60)
      */
     private $direccion;
 
@@ -142,7 +146,7 @@ class Paciente
      *
      * @ORM\Column(name="zona", type="string", length=1, nullable=false)
      * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
-     * @Assert\Choice(choices = {"U", "R"}, message = "Selecciona una opci髇 valida.")
+     * @Assert\Choice(choices = {"U", "R"}, message = "Selecciona una opci贸n valida.")
      *
      */
     private $zona;
@@ -150,9 +154,13 @@ class Paciente
     /**
      * @var string $telefono      
      * 
-     * @ORM\Column(name="telefono", type="string", length=7)
-     * @Assert\Min(limit = "1000000", message = "El valor ingresado no puede ser menor de {{ limit }}", invalidMessage = "El valor ingresado debe ser un n鷐ero v醠ido")
-	 * @Assert\Max(limit = "9999999", message = "El valor ingresado no puede ser mayor de {{ limit }}", invalidMessage = "El valor ingresado debe ser un n鷐ero v醠ido")
+     * @ORM\Column(name="telefono", type="string", length=7, nullable=true)
+     * @Assert\Range(
+     *      min = "1000000",
+     *      max = "9999999",
+     *      minMessage = "El menor n煤mero a ingresar es 1000000",
+     *      maxMessage = "El mayor n煤mero a ingresar es 9999999"
+     * )
 	 *
      */
     private $telefono;
@@ -160,9 +168,13 @@ class Paciente
     /**
      * @var string $movil
      * 
-     * @ORM\Column(name="movil", type="string", length=10)
-     * @Assert\Min(limit = "3000000000", message = "El valor ingresado no puede ser menor de {{ limit }}", invalidMessage = "El valor ingresado debe ser un n鷐ero v醠ido")
-	 * @Assert\Max(limit = "9999999999", message = "El valor ingresado no puede ser mayor de {{ limit }}", invalidMessage = "El valor ingresado debe ser un n鷐ero v醠ido")
+     * @ORM\Column(name="movil", type="string", length=10, nullable=true)
+     * @Assert\Range(
+     *      min = "3000000000",
+     *      max = "9999999999",
+     *      minMessage = "El menor n煤mero a ingresar es 3000000000",
+     *      maxMessage = "El mayor n煤mero a ingresar es 9999999999"
+     * )
      *
      */
     private $movil;
@@ -170,7 +182,7 @@ class Paciente
     /**
      * @var string $email
      * 
-     * @ORM\Column(name="email", type="string", length=200)
+     * @ORM\Column(name="email", type="string", length=200, nullable=true)
      * @Assert\Email(message = "El email '{{ value }}' no es valido.", checkMX = true)
      */
     private $email;
@@ -180,18 +192,18 @@ class Paciente
     /**
      * @var string $rango
      * 
-     * @ORM\Column(name="rango", type="string", length=1, nullable=true)
+     * @ORM\Column(name="rango", type="string", length=1, nullable=false)
      * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
-     * @Assert\Choice(choices = {"A", "B", "C"}, message = "Selecciona una opci髇 valida.")
+     * @Assert\Choice(choices = {"A", "B", "C"}, message = "Selecciona una opci贸n valida.")
      */
     private $rango;
 
     /**
      * @var string $tipoAfi
      * 
-     * @ORM\Column(name="tipo_afi", type="string", length=1, nullable=true)
+     * @ORM\Column(name="tipo_afi", type="string", length=1, nullable=false)
      * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
-     * @Assert\Choice(choices = {"B", "C"}, message = "Selecciona una opci髇 valida.")
+     * @Assert\Choice(choices = {"B", "C"}, message = "Selecciona una opci贸n valida.")
      *
      */
     private $tipoAfi;
@@ -199,16 +211,14 @@ class Paciente
      /**
      * @var string $tipoDes
      *
-     * @ORM\Column(name="tipo_des", type="string", length=200, nullable=true)
-     * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
-     * @Assert\Choice(choices = {"6", "7", "8"}, message = "Selecciona una opci髇 valida.")
+     * @ORM\Column(name="tipo_des", type="string", length=1, nullable=true) 
+     * @Assert\Choice(choices = {"6", "7", "8"}, message = "Selecciona una opci贸n valida.")
      */
      
-     /**
-     *
-     * 6= "Des.Contributivo"
-     * 7= "Des.Subsidiado"
-     * 8= "Des.Vinculado"        *
+     /*     
+      6- Des.Contributivo
+      7- Des.Subsidiado
+      8- Des.Vinculado        
      */
      
     private $tipoDes;
@@ -218,20 +228,16 @@ class Paciente
      *
      * @ORM\Column(name="pert_etnica", type="string", length=1, nullable=true)
      * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
-     * @Assert\Choice(choices = { "1", "2", "3", "4", "5","6",}, message = "Selecciona una opci髇 valida.")
-     */
+     * @Assert\Choice(choices = { "1", "2", "3", "4", "5","6",}, message = "Selecciona una opci贸n valida.")
+     */     
      
-     
-     /*  1 - Ind骻ena
+     /*  1 - Ind铆gena
          2 - ROM (gitano)
-         3 - Raizal (archipi髄ago de San Andr髎 y Providencia)
+         3 - Raizal (archipie茅lago de San Andr茅s y Providencia)
          4 - Palanquero de San  Basilio
          5 - Negro(a), Mulato(a),Afrocolombiano(a) o Afrodescendiente
          6 - Ninguno de los anteriores
-     */
-     
-     
-     
+     */     
 
     private $pertEtnica;    
        
@@ -240,26 +246,22 @@ class Paciente
      *
      * @ORM\Column(name="nivel_edu", type="string", length=15, nullable=true)
      * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
-     * @Assert\Choice(choices = {"1", "2", "3", "4", " 5", "6", "7", "8", "9", "10", "11", "12","13"}, message = "Selecciona una opci髇 valida.")
+     * @Assert\Choice(choices = {"1", "2", "3", "4", " 5", "6", "7", "8", "9", "10", "11", "12","13"}, message = "Selecciona una opci锟絥 valida.")
      */
      
      /*
      1- No Definido
      2- Preescolar
-     3- B髎ica Primaria
-     4- B髎ica Secundaria
-     (Bachillerato B髎ico)
-     5- Media Acad髆ica o
-     Cl髎ica (Bachillerato
-     B髎ico)
-     6- Media T骳nica
-     (Bachillerato T骳nico)
+     3- Basica Primaria
+     4- Basica Secundaria(Bachillerato Basico)
+     5- Media Academica o Cl谩sica (Bachillerato Basico)
+     6- Media Tecnica (Bachillerato Tecnico)
      7- Normalista
-     8- T骳nica Profesional
-     9- Tecnol骻ica
+     8- Tecnica Profesional
+     9- Tecnologica
      10- Profesional
-     11- Especializaci髇
-     12- Maestr骯
+     11- Especializacion
+     12- Maestria
      13- Doctorado
      */
 
@@ -268,8 +270,13 @@ class Paciente
     
     
     /**
-     * @ORM\OneToOne(targetEntity="knx\ParametrizarBundle\Entity\Ocupacion", mappedBy="paciente")
-     */    
+     * @var Ocupacion
+     *
+     * @ORM\ManyToOne(targetEntity="knx\ParametrizarBundle\Entity\Ocupacion")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="ocupacion_id", referencedColumnName="id" )
+     * })
+     **/    
 
     private $ocupacion;
     
@@ -826,5 +833,28 @@ class Paciente
     public function getOcupacion()
     {
         return $this->ocupacion;
+    }
+
+    /**
+     * Set tipoDes
+     *
+     * @param string $tipoDes
+     * @return Paciente
+     */
+    public function setTipoDes($tipoDes)
+    {
+        $this->tipoDes = $tipoDes;
+    
+        return $this;
+    }
+
+    /**
+     * Get tipoDes
+     *
+     * @return string 
+     */
+    public function getTipoDes()
+    {
+        return $this->tipoDes;
     }
 }

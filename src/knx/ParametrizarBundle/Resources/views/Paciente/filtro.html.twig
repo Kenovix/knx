@@ -1,0 +1,145 @@
+{% extends "::admin_layout.html.twig" %}
+
+{% block menu %}
+	{{ knp_menu_render('ParametrizarBundle:Builder:superAdminMenu') }}
+{% endblock %}
+
+{% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
+
+{% block titulo %}Buscar paciente{% endblock %}
+
+{% block msg %}
+	{% if app.session.hasFlash('ok') %}
+	    <div class="alert alert-success">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('ok') }}</span>
+	    </div>
+	{% elseif app.session.hasFlash('info') %}
+		<div class="alert alert-info">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('info') }}</span>
+	    </div>
+	{% elseif app.session.hasFlash('error') %}
+		<div class="alert alert-error">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('error') }}</span>
+	    </div>
+	{% endif %}
+{% endblock %}
+
+{% block cuerpo %}
+	<div>
+		<form action="{{ path('paciente_filtro') }}" method="post" {{ form_enctype(form) }} class="form-horizontal">
+		    <fieldset>
+		    	<legend>Parametros de busqueda</legend>	    	
+		    	
+		    	<div>
+				 <div class="control-group">
+					{{ form_label(form.tipoid) }}
+    	    		<div class="controls">
+					{{ form_errors(form.tipoid) }}
+					{{ form_widget(form.tipoid,{ 'attr': {'class': 'input-small'} }) }}
+					</div>
+    	   		 </div>
+    	   		 
+    	   		  <div class="control-group">
+					{{ form_label(form.identificacion) }}
+    	    		<div class="controls">
+					{{ form_errors(form.identificacion) }}
+					{{ form_widget(form.identificacion,{ 'attr': {'class': 'input-xlarge'} }) }}
+					</div>
+    	   		 </div>
+    	   		 
+    	   		  <div class="control-group">
+					{{ form_label(form.pri_nombre) }}
+    	    		<div class="controls">
+					{{ form_errors(form.pri_nombre) }}
+					{{ form_widget(form.pri_nombre,{ 'attr': {'class': 'input-xlarge'} }) }}
+					</div>
+    	   		 </div>
+    	   		 
+    	   		  <div class="control-group">
+					{{ form_label(form.seg_nombre) }}
+    	    		<div class="controls">
+					{{ form_errors(form.seg_nombre) }}
+					{{ form_widget(form.seg_nombre,{ 'attr': {'class': 'input-xlarge'} }) }}
+					</div>
+    	   		 </div>
+    	   		 
+    	   		  <div class="control-group">
+					{{ form_label(form.pri_apellido) }}
+    	    		<div class="controls">
+					{{ form_errors(form.pri_apellido) }}
+					{{ form_widget(form.pri_apellido,{ 'attr': {'class': 'input-xlarge'} }) }}
+					</div>
+    	   		 </div>
+    	   		 
+    	   		  <div class="control-group">
+					{{ form_label(form.seg_apellido) }}
+    	    		<div class="controls">
+					{{ form_errors(form.seg_apellido) }}
+					{{ form_widget(form.seg_apellido,{ 'attr': {'class': 'input-xlarge'} }) }}
+					</div>
+    	   		 </div>	 
+				</div>	
+				{{ form_rest(form) }}
+		    </fieldset>
+		    
+		    <button class="btn btn-primary" type="submit">Buscar</button>  
+		    <a href="#" onClick="limpiar(); return false;" class="btn">Limpiar</a>
+		</form>
+	</div>	
+
+    <table class="table table-hover">    
+        <thead>        
+            <tr>
+                <th>No.</th>
+                <th>Identificación</th>
+                <th>Nombre</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td><a href="{{ path('paciente_show', {'paciente':entity.id}) }}">{{ entity.tipoid }} - {{ entity.identificacion }}</a></td>
+                <td>{{ entity.priNombre }} {{ entity.segNombre }} {{ entity.priApellido }} {{ entity.segApellido }}</td>
+            </tr>
+         {% else %}
+         	<tr>
+         		<td colspan="3">Verifique que esta realizando bien la consulta ó No tenemos pacientes creados.</td>
+         	</tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    
+    <a href="{{ path('paciente_new') }}" class="btn">Nuevo paciente</a>    
+    
+    {% if entities %}
+		{{ knp_pagination_render(entities) }}
+    {% endif %}
+{% endblock %}
+
+{% block javascripts %}	
+
+
+	<script type="text/javascript">
+
+	$(function(){
+	    $("#searchPaciente_identificacion").keydown(function(event){
+	        if(event.keyCode < 48 || event.keyCode > 57){
+	            return false;
+	        }
+	    });
+	});
+
+	function limpiar(){
+			
+			$("#searchPaciente_identificacion").val('');
+			$("#searchPaciente_pri_nombre").val('');
+			$("#searchPaciente_seg_nombre").val('');
+			$("#searchPaciente_pri_apellido").val('');
+			$("#searchPaciente_seg_apellido").val('');
+		}
+	</script>
+{% endblock %}
