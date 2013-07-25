@@ -29,7 +29,7 @@
 
 {% block cuerpo %}
 
-<form action="{{ path('paciente_save') }}" method="post" {{ form_enctype(form) }} class="form-horizontal">
+<form action="{{ path('paciente_save') }}" method="post" {{ form_enctype(form) }} >
     <fieldset>
     	<legend>Datos del paciente</legend>
     	<div>
@@ -219,7 +219,7 @@
 {% endblock %}
 
 {% block javascripts %}
-<<script type="text/javascript">
+<script type="text/javascript">
 
 $("#knxPacientetype_depto").change(function(){
 		

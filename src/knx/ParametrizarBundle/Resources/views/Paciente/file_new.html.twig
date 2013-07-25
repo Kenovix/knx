@@ -1,0 +1,91 @@
+{% extends "::admin_layout.html.twig" %}
+
+{% block menu %}
+	{{ knp_menu_render('ParametrizarBundle:Builder:superAdminMenu') }}
+{% endblock %}
+
+{% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
+
+{% block titulo %}Subir información de pacientes{% endblock %}
+
+{% block msg %}
+	{% if app.session.hasFlash('ok') %}
+	    <div class="alert alert-success">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('ok') }}</span>
+	    </div>
+	{% elseif app.session.hasFlash('info') %}
+		<div class="alert alert-info">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('info') }}</span>
+	    </div>
+	{% elseif app.session.hasFlash('error') %}
+		<div class="alert alert-error">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('error') }}</span>
+	    </div>
+	{% endif %}
+{% endblock %}
+
+{% block cuerpo %}
+  <form action="{{ path('file_upload_csv') }}" method="post"  class="form-horizontal" enctype="multipart/form-data">
+    <fieldset>
+    	<legend>Carga de archivos a la base de datos solo archivos csv</legend>
+    	<div class="control-group">
+    		<label class="control-label" for="inputEmail">Archivo CSV:</label>
+    		<div class="controls">
+      			<input type="file" name="archivo" id="archivo" placeholder="Seleccione el archivo">
+      		</div>
+    	</div>
+    </fieldset>
+    <button class="btn btn-primary" type="submit">Subir Archivo</button>
+  </form>
+  
+  
+ {% if datosTemporales %}
+ <div style="display: none;">
+ 	{% ui_dialog id="infoTemporal"
+               title="Errores a corregir"
+               widgetVar="myDialog"
+               width="450px"
+               autoOpen=true
+               modal=true
+  %}
+
+   <table class="table table-hover">
+   	<thead>
+   		<tr class="error" >
+   			<th colspan="2">Elimine los siguientes datos del archivo y vuelva a cargar la información</th>
+   		</tr>
+   		<tr>
+   			<th>No.</th>
+   			<th>Identificación</th>
+   		</tr>
+   	</thead>
+   	<tbody>
+   		{% for entity in datosTemporales %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ entity }}</td>                
+            </tr>
+         {% endfor %}
+   	</tbody>
+   </table>    
+  {% end_ui_dialog %} 
+   </div>
+ {% endif %}
+ 
+{% endblock %}
+
+{% block javascripts %}
+<script type="text/javascript">
+
+$(function() {
+	var ext = $('#archivo').val().split('.').pop().toLowerCase();
+
+	if($.inArray(ext, ['csv']) == -1) {
+	alert('El archivo debe de ser CSV');
+	}    
+});
+</script>
+{% endblock %}
