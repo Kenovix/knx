@@ -32,7 +32,8 @@ class CategoriaImv
      * @var string nombre
      *
      * @ORM\Column(name="nombre", type="string", nullable=false,unique=true)
-     * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")     
+     * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")   
+     * @Assert\Length(min=3)  
      * 
      */
         private $nombre;

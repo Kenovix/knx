@@ -2,18 +2,24 @@
 
 namespace knx\FarmaciaBundle\Entity;
 
+use knx\ParametrizarBundle\Entity\Proveedor;
+
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
- * knx\FarmaciaBundle\Entity\Inventario
+ * knx\FarmaciaBundle\Entity\Devolucion
  * 
  * @ORM\Table(name="devolucion")
  * @ORM\Entity
  */
 class Devolucion
 {
-    /**
+	
+		
+	/**
      * @var integer $id
      *
      * @ORM\Column(name="id", type="integer", nullable=false)
@@ -33,7 +39,22 @@ class Devolucion
      */
 
         private $inventario;
-
+        
+        
+     /**
+       * @var Proveedor
+       *
+       * @ORM\ManyToOne(targetEntity="knx\ParametrizarBundle\Entity\Proveedor")
+       * @ORM\JoinColumns({
+       * @ORM\JoinColumn(name="proveedor_id", referencedColumnName="id")
+       * })
+       */
+        
+        private $proveedor;
+        
+        
+           
+        
     /**
      * @var datetime $fecha
      *
@@ -47,6 +68,7 @@ class Devolucion
      * @var cant
      *
      * @ORM\Column(name="cantidad", type="integer", nullable=false)
+     * @Assert\Range(min=1)
      */
         private $cant;
         
@@ -56,6 +78,7 @@ class Devolucion
      * @var motivo
      *
      * @ORM\Column(name="motivo", type="string", nullable=false)
+     * @Assert\Length(min=3 , max=255)
      */
         private $motivo;
         
@@ -76,16 +99,16 @@ class Devolucion
      */
     private $updated;
 
-
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
-        return $this->id;
+    	return $this->id;
     }
+   
 
     /**
      * Set fecha
@@ -228,4 +251,30 @@ class Devolucion
     {
         return $this->inventario;
     }
+    
+    
+    /**
+     * Set proveedor
+     *
+     * @param \knx\ParametrizarBundle\Entity\Proveedor $proveedor
+     * @return Devolucion
+     */
+    public function setProveedor(\knx\ParametrizarBundle\Entity\Proveedor $proveedor = null)
+    {
+    	$this->proveedor = $proveedor;
+    
+    	return $this;
+    }
+    
+    /**
+     * Get proveedor
+     *
+     * @return \knx\ParametrizarBundle\Entity\Proveedor
+     */
+    public function getProveedor()
+    {
+    	return $this->proveedor;
+    }
+    
+       
 }

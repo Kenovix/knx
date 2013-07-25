@@ -11,6 +11,8 @@ use knx\FarmaciaBundle\Form\SearchPypType;
 
 
 
+
+
 class ImvPypController extends Controller
 {
 	
@@ -35,8 +37,8 @@ class ImvPypController extends Controller
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
     	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
     	$breadcrumbs->addItem("Farmacia");
-    	$breadcrumbs->addItem("ImvPyp", $this->get("router")->generate("imvpyp_search"));
-    	$breadcrumbs->addItem("Listado ImvPyp");
+    	$breadcrumbs->addItem("Stock_Pyp", $this->get("router")->generate("imvpyp_search"));
+    	$breadcrumbs->addItem("Listado Stock_Pyp");
     	
     	
    		$form   = $this->createForm(new SearchPypType());
@@ -51,7 +53,7 @@ class ImvPypController extends Controller
     	    
     		$em = $this->getDoctrine()->getEntityManager();
     		$imvpyp = $em->getRepository('FarmaciaBundle:ImvPyp')->findOneBy(array('pyp' => $categoria));
-    		//die(var_dump($imv));
+    		//die(var_dump($imvpyp));
     		
     		
     		$query = "SELECT i FROM FarmaciaBundle:ImvPyp i WHERE ";
@@ -80,11 +82,10 @@ class ImvPypController extends Controller
     		}
     	 	
     		return $this->render('FarmaciaBundle:ImvPyp:list.html.twig', array(
-    				'imvpyp' => $imvpyp,    				
+    				'pimv' => $imvpyp,    				
     				'form'   => $form->createView()
     		));
     	}else{
-    		$this->get('session')->setFlash('error', 'Los parametros de busqueda ingresados son incorrectos.');
     			
     		return $this->redirect($this->generateUrl('imvpyp_search'));
     	}
@@ -97,8 +98,8 @@ class ImvPypController extends Controller
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
     	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
     	$breadcrumbs->addItem("Farmacia");
-    	$breadcrumbs->addItem("ImvPyps", $this->get("router")->generate("imvpyp_list"));
-    	$breadcrumbs->addItem("Nueva ImvPyp");
+    	$breadcrumbs->addItem("Listado_Stock", $this->get("router")->generate("imvpyp_list"));
+    	$breadcrumbs->addItem("Nueva Stock_Pyp");
     	
     	$imvpyp = new ImvPyp();    	
     	$form   = $this->createForm(new ImvPypType(), $imvpyp);
@@ -109,48 +110,87 @@ class ImvPypController extends Controller
     }
     
     
-    public function saveAction()
+ public function saveAction()
     {
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
     
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
     	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
-    	$breadcrumbs->addItem("Farmacia", $this->get("router")->generate("imvpyp_list"));
-    	$breadcrumbs->addItem("Nueva ImvPyp");
+    	$breadcrumbs->addItem("Listado_Stock", $this->get("router")->generate("imvpyp_list"));
+    	$breadcrumbs->addItem("Nueva Stock_Pyp");
     	 
+    	$em = $this->getDoctrine()->getEntityManager();
+    	 
+    	$imvpyp = $em->getRepository('FarmaciaBundle:ImvPyp')->findAll();
     	$imvpyp = new ImvPyp();
     	 
     	$request = $this->getRequest();
+    	
     	$form   = $this->createForm(new ImvPypType(), $imvpyp);
     	if ($request->getMethod() == 'POST') {
-    		 
+    		
+    	   		 
     		$form->bind($request);
     		 
     		if ($form->isValid()) {
-    	
-    			$em = $this->getDoctrine()->getEntityManager();
-    	
-    			$em->persist($imvpyp);
-    			$em->flush();
-    
-    			$this->get('session')->setFlash('ok', 'El imvpyp ha sido creada éxitosamente.');
-    
-    			return $this->redirect($this->generateUrl('imvpyp_show', array("imvpyp" => $imvpyp->getId())));	
-    		}
+    			$imv = $imvpyp->getImv();
+    			$pyp = $imvpyp->getPyp();
+    			$edadI = $imvpyp->getEdadIni();
+    			$edadF = $imvpyp->getEdadFin();
+    			
+    			if ($edadF < $edadI){
+    				
+    				$this->get('session')->setFlash('info', 'Edad final es menor a Edad inicial');
+    				
+    				return $this->render('FarmaciaBundle:ImvPyp:new.html.twig', array(
+    						'form'   => $form->createView()
+    				));
+    				
+    			}
+    			
+                else {
+    			$creada_imvpyp = $em->getRepository('FarmaciaBundle:ImvPyp')->findBy(array('pyp' => $pyp->getId(), 'imv' => $imv->getId()));
+    			if(!$creada_imvpyp){    			
+    			
+    				$em = $this->getDoctrine()->getEntityManager();
+    				 
+    				$em->persist($imvpyp);
+    				$em->flush();
+    			
+    				$this->get('session')->setFlash('ok', 'El imvpyp ha sido creada éxitosamente.');
+    			
+    				return $this->redirect($this->generateUrl('imvpyp_show', array('pyp' => $pyp->getId(), 'imv' => $imv->getId())));
+    			}else{
+    				$this->get('session')->setFlash('info', 'El item ya ha sido asociado anteriormente.');
+    				
+    				return $this->render('FarmaciaBundle:ImvPyp:new.html.twig', array(
+    						'form'   => $form->createView()
+    				));
+    				
+    				}
+    				
+    				
+    			}		
+   			}
     	}
-    	 
+
     	return $this->render('FarmaciaBundle:ImvPyp:new.html.twig', array(
-       			'form'   => $form->createView()
+    	
+    			'form' => $form->createView()
     	));
-    }
+    }				
+    			
+  
     
-    public function showAction($imvpyp)
+    public function showAction($imv,$pyp)
     {
     	$em = $this->getDoctrine()->getEntityManager();
     
-    	$imvpyp = $em->getRepository('FarmaciaBundle:ImvPyp')->find($imvpyp);
-    	
-    	
+    	$imvpyp = $em->getRepository('FarmaciaBundle:ImvPyp')->findOneBy(array("pyp" => $pyp, "imv" => $imv));
+    	//die(var_dump($imvpyp));
+    	   
+    	$pyp = $imvpyp->getPyp();
+    	$imv = $imvpyp->getImv();
     	 
     	if (!$imvpyp) {
     		throw $this->createNotFoundException('El imvpyp solicitado no esta disponible.');
@@ -161,46 +201,52 @@ class ImvPypController extends Controller
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
     	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
     	$breadcrumbs->addItem("Farmacia");
-    	$breadcrumbs->addItem("ImvPyps", $this->get("router")->generate("imvpyp_list"));
-    	$breadcrumbs->addItem($imvpyp->getId());
-    	 
+    	$breadcrumbs->addItem("Listado_Stock", $this->get("router")->generate("imvpyp_list"));
+    	$breadcrumbs->addItem($pyp->getNombre(), $this->get("router")->generate('imvpyp_show', array('pyp' => $pyp->getId(), 'imv' => $imv->getId())));
+    	$breadcrumbs->addItem($imv->getNombre());
+    	
     	return $this->render('FarmaciaBundle:ImvPyp:show.html.twig', array(
-    			'imvpyp'  => $imvpyp
+    			'pimv'  => $imvpyp
     			
     	));
     }
     
-    public function editAction($imvpyp)
+    public function editAction($imv,$pyp)
     {
     	$em = $this->getDoctrine()->getEntityManager();    
-    	$imvpyp = $em->getRepository('FarmaciaBundle:ImvPyp')->find($imvpyp);
-    
+    	$imvpyp = $em->getRepository('FarmaciaBundle:ImvPyp')->findOneBy(array("pyp" => $pyp, "imv" => $imv));
+    	    
    	   if (!$imvpyp) {
     		throw $this->createNotFoundException('El imvpyp solicitado no esta disponible.');
     	}
+    	
+    	$pyp = $imvpyp->getPyp();
+    	$imv = $imvpyp->getImv();
     	 
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
     	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
     	$breadcrumbs->addItem("Farmacia");
-    	$breadcrumbs->addItem("ImvPyps", $this->get("router")->generate("imvpyp_list"));
-    	$breadcrumbs->addItem($imvpyp->getId(), $this->get("router")->generate("imvpyp_show", array("imvpyp" => $imvpyp->getId())));
-    	$breadcrumbs->addItem("Modificar".$imvpyp->getId());
+    	$breadcrumbs->addItem("Listado_Stock", $this->get("router")->generate("imvpyp_list"));
+    	$breadcrumbs->addItem($pyp->getNombre(), $this->get("router")->generate('imvpyp_show', array('pyp' => $pyp->getId(), 'imv' => $imv->getId())));
+    	$breadcrumbs->addItem($imv->getNombre());
+    	$breadcrumbs->addItem("Modificar");
     
     	$form   = $this->createForm(new ImvPypType(), $imvpyp);
     
     	return $this->render('FarmaciaBundle:ImvPyp:edit.html.twig', array(
-    			'imvpyp' => $imvpyp,
+    			'pimv' => $imvpyp,
     			'form' => $form->createView(),
     	));
     }
     
     
-    public function updateAction($imvpyp)
+    public function updateAction($imv,$pyp)
     {
     	$em = $this->getDoctrine()->getEntityManager();
     
-    	$imvpyp = $em->getRepository('FarmaciaBundle:ImvPyp')->find($imvpyp);
-    
+    	$imvpyp = $em->getRepository('FarmaciaBundle:ImvPyp')->findOneBy(array("pyp" => $pyp, "imv" => $imv));
+    	//die(var_dump($imvpyp));
+    	   
         if (!$imvpyp) {
     		throw $this->createNotFoundException('El imvpyp solicitado no esta disponible.');
     	}
@@ -208,43 +254,59 @@ class ImvPypController extends Controller
     	$form = $this->createForm(new ImvPypType(), $imvpyp);
     	$request = $this->getRequest();
     	if ($request->getMethod() == 'POST') {
-    		 
+    		
     		$form->bind($request);
-    		 
-    		if ($form->isValid()) {
-    	
-    			$em = $this->getDoctrine()->getEntityManager();
-    	
-    			$em->persist($imvpyp);
-    			$em->flush();
+    		
+	    	if ($form->isValid()) {
+	    		$imv = $imvpyp->getImv();
+	    		$pyp = $imvpyp->getPyp();
+	    		//die(var_dump($imv));
+	    		$edadI = $imvpyp->getEdadIni();
+	    		$edadF = $imvpyp->getEdadFin();
+	    		if ($edadF < $edadI){
+	    		
+	    			$this->get('session')->setFlash('info', 'Edad final es menor a Edad inicial');
+	    		
+	    			return $this->render('FarmaciaBundle:ImvPyp:edit.html.twig', array(
+    					'pimv' => $imvpyp,
+    					'form' => $form->createView(),
+    				));
+	    		
+	    		}
+	    		else{
+	    		
+	    		$em->persist($imvpyp);
+	    		$em->flush();
+	    		
+    			
+      			$this->get('session')->setFlash('ok', 'El stock_pyp ha sido modificado éxitosamente.');
     
-    			$this->get('session')->setFlash('ok', 'El imvpyp ha sido modificado éxitosamente.');
-    
-    			return $this->redirect($this->generateUrl('imvpyp_show', array("imvpyp" => $imvpyp->getId())));	
-    		}
+    				return $this->redirect($this->generateUrl('imvpyp_show', array('pyp' => $pyp->getId(), 'imv' => $imv->getId())));
+      	   		}
+	    	}
     	}
     
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
     	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
     	$breadcrumbs->addItem("Farmacia", $this->get("router")->generate("imvpyp_list"));
-    	$breadcrumbs->addItem($imvpyp->getId(), $this->get("router")->generate("imvpyp_show", array("imvpyp" => $imvpyp->getId())));
-    	$breadcrumbs->addItem("Modificar".$imvpyp->getId());
+    	//$breadcrumbs->addItem($imvpyp->getId(), $this->get("router")->generate("imvpyp_show", array("imvpyp" => $imvpyp->getId())));
+    	//$breadcrumbs->addItem("Modificar".$imvpyp->getId());
     
     	return $this->render('FarmaciaBundle:ImvPyp:new.html.twig', array(
-       			'imvpyp' => $imvpyp,
+       			'pimv' => $imvpyp,
     			'form' => $form->createView(),
     	));
     }
     
     
     
-    public function deleteAction($imvpyp)
+    public function deleteAction($imv,$pyp)
     {
     	 
     	$em = $this->getDoctrine()->getEntityManager();
     
-    	$imvpyp = $em->getRepository('FarmaciaBundle:ImvPyp')->find($imvpyp);
-    
+    	$imvpyp = $em->getRepository('FarmaciaBundle:ImvPyp')->findOneBy(array("pyp" => $pyp, "imv" => $imv));
+    	    
     	 
     	  	 
     	//die(var_dump($cantidad_actual));

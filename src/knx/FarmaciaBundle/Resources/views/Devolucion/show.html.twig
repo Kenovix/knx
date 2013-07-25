@@ -32,20 +32,22 @@
 	<table class="table">
         <thead>
 	        <tr>
-                <th>No.</th>
                 <th>Fecha.</th>   
-                <td>Inventario</th>
-                <th>Cantidad</th>
+                <td>Item</th>
+                <td>Proveedor</th>                
+                <th>Cantidad_Existencia</th>
+                <th>Cantidad_Devolucion</th>
                 
             </tr>
         </thead>    
             
         <tbody>
             <tr>
-            	<td>{{ devolucion.id }}</td>
-            	<td>{{ devolucion.fecha | date('d-m-Y')}}</td>            
-            	<td>{{ devolucion.inventario}}</td>            	
-            	<td>{{ devolucion.cant}}</td>
+            	<td>{{ devfarma.fecha | date('d-m-Y')}}</td>   
+            	<td>{{ devfarma.inventario }}</td>
+            	<td>{{ devfarma.proveedor }}</td>         
+                <td>{{ inventario.cant }}</td>   	
+            	<td>{{ devfarma.cant}}</td>
         	</tr>
         </tbody>    
     </table>

@@ -18,6 +18,13 @@ class ImvController extends Controller
    public function searchAction()
     {
     	$form   = $this->createForm(new SearchType());
+    	
+    	$em = $this->getDoctrine()->getEntityManager();
+    	$imv = $em->getRepository('FarmaciaBundle:Imv')->findAll();
+    	
+    	if (!$imv) {
+    		$this->get('session')->setFlash('info', 'Stock sin ingresos');
+    	}
     
     	return $this->render('FarmaciaBundle:Imv:search.html.twig', array(
     			'form'   => $form->createView()
@@ -129,7 +136,7 @@ class ImvController extends Controller
     			$em->persist($imv);
     			$em->flush();
     
-    			$this->get('session')->setFlash('ok', 'El imv ha sido creada éxitosamente.');
+    			$this->get('session')->setFlash('ok', 'El Stock ha sido creada éxitosamente.');
     
     			return $this->redirect($this->generateUrl('imv_show', array("imv" => $imv->getId())));	
     		}
@@ -149,7 +156,7 @@ class ImvController extends Controller
     	
     	 
     	if (!$imv) {
-    		throw $this->createNotFoundException('El imv solicitado no esta disponible.');
+    		throw $this->createNotFoundException('El stock solicitado no esta disponible.');
     	}
     	
     	//$inventario = $em->getRepository('FarmaciaBundle:Inventario')->findByImv($imv);
@@ -172,7 +179,7 @@ class ImvController extends Controller
     	$imv = $em->getRepository('FarmaciaBundle:Imv')->find($imv);
     
    	   if (!$imv) {
-    		throw $this->createNotFoundException('El imv solicitado no esta disponible.');
+    		throw $this->createNotFoundException('El stock solicitado no esta disponible.');
     	}
     	 
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
@@ -198,7 +205,7 @@ class ImvController extends Controller
     	$imv = $em->getRepository('FarmaciaBundle:Imv')->find($imv);
     
         if (!$imv) {
-    		throw $this->createNotFoundException('El imv solicitado no esta disponible.');
+    		throw $this->createNotFoundException('El stock solicitado no esta disponible.');
     	}
     
     	$form = $this->createForm(new ImvType(), $imv);
@@ -214,7 +221,7 @@ class ImvController extends Controller
     			$em->persist($imv);
     			$em->flush();
     
-    			$this->get('session')->setFlash('ok', 'El imv ha sido modificado éxitosamente.');
+    			$this->get('session')->setFlash('ok', 'El stock ha sido modificado éxitosamente.');
     
     			return $this->redirect($this->generateUrl('imv_show', array("imv" => $imv->getId())));	
     		}

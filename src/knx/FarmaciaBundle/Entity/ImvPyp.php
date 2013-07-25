@@ -14,16 +14,14 @@ use Symfony\Component\Validator\Constraints as Assert;
 class ImvPyp
 {
 	/**
-	 * @var imv
-	 * 
+	 * 	  
 	 * @ORM\Id
 	 * @ORM\ManyToOne(targetEntity="knx\FarmaciaBundle\Entity\Imv")
 	 */
     private $imv;
 
     /**
-     * @var pyp
-     *
+     * 
      * @ORM\Id
      * @ORM\ManyToOne(targetEntity="knx\ParametrizarBundle\Entity\Pyp")
      */

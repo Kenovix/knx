@@ -29,7 +29,7 @@
 
 {% block cuerpo %}
 
-	<form action="{{ path('traslado_update', {'traslado': traslado.id}) }}" class="form-horizontal" method="post" {{ form_enctype(form) }}>
+	<form action="{{ path('traslado_update', {'traslado': trasfarma.id}) }}" class="form-horizontal" method="post" {{ form_enctype(form) }}>
 	    <fieldset>
 	    	<legend>Datos de los Traslado</legend>
 	    	    
@@ -37,7 +37,7 @@
 		   
 			<div class="form-actions">
 				<input class="btn btn-primary" name="guardar" type="submit" value="Modificar" />
-			    <a href="{{ path('traslado_show', {'traslado': traslado.id}) }}" class="btn btn-danger">Cancelar</a>
+			    <a href="{{ path('traslado_show', {'traslado': trasfarma.id}) }}" class="btn btn-danger">Cancelar</a>
 			</div>
 		</fieldset>	
 	</form>

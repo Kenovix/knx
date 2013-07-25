@@ -19,7 +19,9 @@ class TrasladoController extends Controller
 		$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
 		$breadcrumbs->addItem("Traslados");
 		$breadcrumbs->addItem("Busqueda");
-			
+		     
+		
+		
 		$form   = $this->createForm(new TrasladoSearchType());
 	
 		return $this->render('FarmaciaBundle:Traslado:search.html.twig', array(
@@ -32,6 +34,16 @@ class TrasladoController extends Controller
 	
 	public function resultAction()
 	{
+		
+		
+		$breadcrumbs = $this->get("white_october_breadcrumbs");
+		$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
+		$breadcrumbs->addItem("Farmacia");
+		$breadcrumbs->addItem("Traslados", $this->get("router")->generate("traslado_list"));
+		$breadcrumbs->addItem("Resultado Busqueda");
+		
+		
+		
 		$em = $this->getDoctrine()->getEntityManager();
 		$traslado = $em->getRepository('FarmaciaBundle:Traslado')->findAll();
 		$request = $this->get('request');
@@ -103,7 +115,7 @@ class TrasladoController extends Controller
 		}
 	
 		return $this->render('FarmaciaBundle:Traslado:list.html.twig', array(
-				'traslado'  => $traslado
+				'trasfarma'  => $traslado
 		));
 	}
 	
@@ -119,15 +131,20 @@ class TrasladoController extends Controller
     	
     	$paginator  = $this->get('knp_paginator');
     	 
-    	
-    	$em = $this->getDoctrine()->getEntityManager();    
-        $traslado = $em->getRepository('FarmaciaBundle:Traslado')->findAll();
+    	$em = $this->getDoctrine()->getEntityManager();
+    	$traslado = $em->getRepository('FarmaciaBundle:Traslado')->findAll();
+    	$farmacia = $em->getRepository('FarmaciaBundle:Farmacia')->findAll();
+    	 
+		if (!$traslado) {
+			$this->get('session')->setFlash('info', 'No existen traslados');
+		}	
         
         $traslado = $paginator->paginate($traslado,$this->getRequest()->query->get('page', 1), 10);
         
         
         return $this->render('FarmaciaBundle:Traslado:list.html.twig', array(
-                'traslado'  => $traslado
+                'trasfarma'  => $traslado,
+        		'farmacia'   => $farmacia
         ));
     }
     
@@ -168,9 +185,7 @@ class TrasladoController extends Controller
     	 
     	$request = $this->getRequest();
     	$form   = $this->createForm(new TrasladoType(), $traslado);
-    	
-    	
-    	   
+    	   	    	   
     	if ($request->getMethod() == 'POST') {
     		 
     		$form->bind($request);
@@ -183,11 +198,13 @@ class TrasladoController extends Controller
     			$imv = $inventario->getImv();/*Entidad imv para llegar a la cantidad total*/
     			$cant_imv = $imv->getCantT();/*traigo cantidad total del imv*/
     			//die(var_dump($cant_imv));
+    			$farmacia = $traslado->getFarmacia();
     			    
     			 
     	
     			$em = $this->getDoctrine()->getEntityManager();
     			if ($tipo_traslado=='T'){
+    				
     				if ($cant_imv < $cant_traslado){
     					
     				$this->get('session')->setFlash('error','La cantidad ingresada es mayor que cantidad en existencia,cantidad en existencia-'.$cant_imv = $imv->getCantT().'');
@@ -196,13 +213,14 @@ class TrasladoController extends Controller
     					
     					
     				}else {
-    				$em->persist($traslado);
-    				$em->flush();
+    					    					   					
+    					$em->persist($traslado);
+    					$em->flush();
     
-    				$this->get('session')->setFlash('ok', 'El traslado ha sido creada éxitosamente.');
+    					$this->get('session')->setFlash('ok', 'El traslado ha sido creada éxitosamente.');
     
     				return $this->redirect($this->generateUrl('traslado_show', array("traslado" => $traslado->getId())));
-    				}
+     					}
     			}	
     			elseif (($tipo_traslado=='D')){
     				
@@ -214,14 +232,15 @@ class TrasladoController extends Controller
     						
     						
     				}else {
-    				$em->persist($traslado);
-    				$em->flush();
+    						
+    					$em->persist($traslado);
+    					$em->flush();
     
     				$this->get('session')->setFlash('ok', 'El traslado ha sido creada éxitosamente.');
     
     				return $this->redirect($this->generateUrl('traslado_show', array("traslado" => $traslado->getId())));
-    				}
-    				
+         		 }
+    			  
     			}		
     		
     		}
@@ -237,8 +256,11 @@ class TrasladoController extends Controller
     	$em = $this->getDoctrine()->getEntityManager();
     
     	$traslado = $em->getRepository('FarmaciaBundle:Traslado')->find($traslado);
-    	
-    	
+    	    	
+    	$inventario = $traslado->getInventario();
+    	$imv = $inventario->getImv();
+    	$nombre_imv = $imv->getNombre();
+    	$farmacia = $traslado->getFarmacia();
     	 
     	if (!$traslado) {
     		throw $this->createNotFoundException('El traslado solicitado no esta disponible.');
@@ -249,10 +271,11 @@ class TrasladoController extends Controller
     	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
     	$breadcrumbs->addItem("Farmacia");
     	$breadcrumbs->addItem("Traslados", $this->get("router")->generate("traslado_list"));
-    	$breadcrumbs->addItem($traslado->getId());
+    	$breadcrumbs->addItem($nombre_imv, $this->get("router")->generate('traslado_show', array('traslado' => $traslado->getId())));
+    	$breadcrumbs->addItem($farmacia->getNombre());
     	 
     	return $this->render('FarmaciaBundle:Traslado:show.html.twig', array(
-    			'traslado'  => $traslado,
+    			'trasfarma'  => $traslado,
     			
     			
     	));
@@ -262,22 +285,27 @@ class TrasladoController extends Controller
     {
     	$em = $this->getDoctrine()->getEntityManager();    
     	$traslado = $em->getRepository('FarmaciaBundle:Traslado')->find($traslado);
-    
+    	    
    	   if (!$traslado) {
     		throw $this->createNotFoundException('El traslado solicitado no esta disponible.');
     	}
     	 
+    	$inventario = $traslado->getInventario();
+    	$imv = $inventario->getImv();
+    	$nombre_imv = $imv->getNombre();
+    	$farmacia = $traslado->getFarmacia();
+    	
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
     	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
     	$breadcrumbs->addItem("Farmacia");
     	$breadcrumbs->addItem("Traslados", $this->get("router")->generate("traslado_list"));
-    	$breadcrumbs->addItem($traslado->getId(), $this->get("router")->generate("traslado_show", array("traslado" => $traslado->getId())));
-    	$breadcrumbs->addItem("Modificar".$traslado->getId());
-    
+    	$breadcrumbs->addItem("Modificar");
+    	$breadcrumbs->addItem($nombre_imv, $this->get("router")->generate('traslado_show', array('traslado' => $traslado->getId())));
+    	    
     	$form   = $this->createForm(new TrasladoType(), $traslado);
     
     	return $this->render('FarmaciaBundle:Traslado:edit.html.twig', array(
-    			'traslado' => $traslado,
+    			'trasfarma' => $traslado,
     			'form' => $form->createView(),
     	));
     }
@@ -288,7 +316,7 @@ class TrasladoController extends Controller
     	$em = $this->getDoctrine()->getEntityManager();
     
     	$traslado = $em->getRepository('FarmaciaBundle:Traslado')->find($traslado);
-    
+    	    
         if (!$traslado) {
     		throw $this->createNotFoundException('El traslado solicitado no esta disponible.');
     	}
@@ -306,7 +334,8 @@ class TrasladoController extends Controller
     			$inventario = $traslado->getInventario();/*Entidad inventario*/
     			$imv = $inventario->getImv();/*Entidad imv para llegar a la cantidad total*/
     			$cant_imv = $imv->getCantT();/*traigo cantidad total del imv*/
-    	
+    			$farmacia = $traslado->getFarmacia();
+    			 
     			$em = $this->getDoctrine()->getEntityManager();
     			
     			
@@ -314,7 +343,7 @@ class TrasladoController extends Controller
     				if ($cant_imv < $cant_traslado){
     					
     				$this->get('session')->setFlash('error','La cantidad ingresada es mayor que cantidad en existencia,cantidad en existencia-'.$cant_imv = $imv->getCantT().'');
-    		        return $this->redirect($this->generateUrl('traslado_edit', array("traslado" => $traslado->getId())));
+    		        return $this->redirect($this->generateUrl('traslado_edit', array('inventario' => $inventario->getId(), 'farmacia' => $farmacia->getId())));
     					
     					
     					
@@ -322,9 +351,9 @@ class TrasladoController extends Controller
     				$em->persist($traslado);
     				$em->flush();
     
-    				$this->get('session')->setFlash('ok', 'El traslado ha sido creada éxitosamente.');
+    				$this->get('session')->setFlash('ok', 'El traslado ha sido modificado éxitosamente.');
     
-    				return $this->redirect($this->generateUrl('traslado_show', array("traslado" => $traslado->getId())));
+    				return $this->redirect($this->generateUrl('traslado_show', array('traslado' => $traslado->getId())));
     				}
     			}	
     			elseif (($tipo_traslado=='D')){
@@ -332,7 +361,7 @@ class TrasladoController extends Controller
     				if ($cant_imv < $cant_traslado){
     						
     					$this->get('session')->setFlash('error','La cantidad ingresada es mayor que cantidad en existencia,cantidad en existencia-'.$cant_imv = $imv->getCantT().'');
-    					return $this->redirect($this->generateUrl('traslado_edit', array("traslado" => $traslado->getId())));
+    					return $this->redirect($this->generateUrl('traslado_edit', array('traslado' => $traslado->getId())));
     						
     						
     						
@@ -340,9 +369,9 @@ class TrasladoController extends Controller
     				$em->persist($traslado);
     				$em->flush();
     
-    				$this->get('session')->setFlash('ok', 'El traslado ha sido creada éxitosamente.');
+    				$this->get('session')->setFlash('ok', 'El traslado ha sido modificado éxitosamente.');
     
-    				return $this->redirect($this->generateUrl('traslado_show', array("traslado" => $traslado->getId())));
+    				return $this->redirect($this->generateUrl('traslado_show', array('inventario' => $inventario->getId(), 'farmacia' => $farmacia->getId())));
     				}
     				
     			}	

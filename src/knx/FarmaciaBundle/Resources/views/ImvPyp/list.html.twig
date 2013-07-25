@@ -44,27 +44,29 @@
    </fieldset>
 </form>
 
-	{% if imvpyp %}
+	{% if pimv %}
 	    <table class="table">
 	        <thead>
 	            <tr>
-	                <th>No.</th>	                
+	               <th>No.</th>	             
 	                <th>Imv_pyp</th>
 	                <th>Categoria</th>
-	                <th>Edad_Inicial</th>
-	                <th>Edad_Final</th>
+	                <th>Edad_Inicial(Años)</th>
+	                <th>Edad_Final(Años)</th>
+	                <th>Rango(Años)</th>
 	                <th>Sexo</th>
 	            </tr>
 	        </thead>
 	        <tbody>
-	        {% for imvpyp in imvpyp %}
+	        {% for pimv in pimv %}
 	            <tr>
-	                <td>{{ loop.index }}</td>
-	                <td><a href="{{ path('imvpyp_show', {'imvpyp':imvpyp.id}) }}">{{ imvpyp.imv }}</a></td>
-	             	 <td>{{ imvpyp.pyp }}</td>
-	             	 <td>{{ imvpyp.edadini }}</td>
-	             	 <td>{{ imvpyp.edadfin}}</td>
-	             	 <td>{{ imvpyp.sexo}}</td>
+	                 <td>{{ loop.index }}</td>	   
+	                 <td><a href="{{ path('imvpyp_show', {'pyp': pimv.pyp.id, 'imv': pimv.imv.id }) }}">{{ pimv.imv }}</td>           
+	             	 <td>{{ pimv.pyp }}</td>
+	             	 <td>{{ pimv.edadini }}</td>
+	             	 <td>{{ pimv.edadfin}}</td>
+	             	 <td>{{ pimv.rango}}</td>	             	 
+	             	 <td>{{ pimv.sexo}}</td>
 	            </tr>
 	        {% endfor %}
 	        </tbody>

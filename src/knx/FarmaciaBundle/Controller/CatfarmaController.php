@@ -20,6 +20,11 @@ class CatfarmaController extends Controller
     	 
     	$em = $this->getDoctrine()->getEntityManager();    
         $catImv = $em->getRepository('FarmaciaBundle:CategoriaImv')->findAll();
+        
+        if (!$catImv) {
+        	$this->get('session')->setFlash('info', 'No existen categorias creadas');
+        }
+        
         $catImv = $paginator->paginate($catImv,$this->getRequest()->query->get('page', 1), 10);
         
         return $this->render('FarmaciaBundle:CategoriaImv:list.html.twig', array(
@@ -173,6 +178,11 @@ class CatfarmaController extends Controller
     	 
     	$em = $this->getDoctrine()->getEntityManager();
     	$farmacia = $em->getRepository('FarmaciaBundle:Farmacia')->findAll();
+    	
+    	if (!$farmacia) {
+    		$this->get('session')->setFlash('info', 'No existen farmacias creadas');
+    	}
+    	
     	$farmacia = $paginator->paginate($farmacia,$this->getRequest()->query->get('page', 1), 5);
     	 
     	return $this->render('FarmaciaBundle:Farmacia:list.html.twig', array(
