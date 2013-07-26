@@ -148,6 +148,7 @@ fos_user:
             
 parameters:
     security.authentication.success_handler.class: knx\UsuarioBundle\Component\Security\Http\Authentication\AuthenticationSuccessHandler
+    knx.directorio.uploads: %kernel.root_dir%/../web/uploads/
     
 services:
     security.authentication.success_handler:

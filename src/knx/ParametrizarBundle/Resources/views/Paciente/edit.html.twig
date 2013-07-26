@@ -29,7 +29,7 @@
 
 {% block cuerpo %}
 
-<form action="{{ path('paciente_update',{'paciente':paciente.id}) }}" method="post" {{ form_enctype(edit_form) }} class="form-horizontal">
+<form action="{{ path('paciente_update',{'paciente':paciente.id}) }}" method="post" {{ form_enctype(edit_form) }} >
     <fieldset>
     	<legend>Datos del paciente</legend>
     	<div>

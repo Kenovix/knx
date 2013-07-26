@@ -354,8 +354,11 @@ afiliacion_delete:
     pattern:  /afiliacion/{paciente}/delete/{cliente}
     defaults: { _controller: ParametrizarBundle:Afiliacion:delete }
     
-afiliacion_ajax_save:
-    pattern:  /afiliacion/ajaxsave
-    defaults: { _controller: ParametrizarBundle:Afiliacion:ajaxSave }
-    requirements:
-        _method:  POST
+#************* upload csv file ********************#
+file_new_csv:
+    pattern:  /paciente/file/new/csv
+    defaults: { _controller: ParametrizarBundle:Paciente:newCSV }
+    
+file_upload_csv:
+    pattern:  /paciente/file/upload/csv
+    defaults: { _controller: ParametrizarBundle:Paciente:uploadCSV }
