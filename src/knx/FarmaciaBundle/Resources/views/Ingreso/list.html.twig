@@ -36,6 +36,8 @@
 	                <th>Factura</th>
 	                <th>Fecha</th>		                	                
 	                <th>Valor Total</th>
+	                <th>Almacen</th>
+	                <th>Proveedor</th>	                
 	            </tr>
 	        </thead>
 	        <tbody>
@@ -44,8 +46,9 @@
 	                <td>{{ loop.index }}</td>
 	                <td><a href="{{ path('ingreso_show', {'ingreso':ingreso.id}) }}">{{ ingreso.numFact }}</a></td>
 	                <td>{{ ingreso.fecha | date('d-m-Y')}}</td>	 
-	                <td>{{ ingreso.valorT }}</td>
-	              	
+	                <td> $ {{ ingreso.valorT | number_format(0,',','.')}}</td>
+	              	<td> $ {{ ingreso.almacen}}</td>
+	                <td>{{ ingreso.proveedor}}</td>              	
 	            </tr>                 	
 	             
 	        {% endfor %}
@@ -53,6 +56,7 @@
 	    </table>
 	   
 	    
+		
 	  <div class="form-actions">
 				<a href="{{ path('ingreso_new') }}" class="btn btn-primary">Nuevo Ingreso</a>				
 			    <a href="{{ path('ingreso_search') }}" class="btn btn-primary">Buscar Ingresos</a>

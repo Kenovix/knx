@@ -13,12 +13,7 @@ class InventarioType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-       	    ->add('proveedor', 		'entity', array('class' => 'knx\\ParametrizarBundle\\Entity\\Proveedor','required' => true,'label' => 'Proveedor:',
-        		'empty_value' => 'Selecciona un Proveedor',
-        		'query_builder' => function(EntityRepository $repositorio) {
-        			return $repositorio->createQueryBuilder('s')
-        			->orderBy('s.nombre', 'ASC');}
-        ))
+       	    
        	    ->add('imv', 			'entity', array('class' => 'knx\\FarmaciaBundle\\Entity\\Imv','required' => true,'label' => 'Imv:',
         		'empty_value' => 'Selecciona un Imv',
         		'query_builder' => function(EntityRepository $repositorio) {

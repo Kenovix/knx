@@ -28,7 +28,8 @@
 {% endblock %}
 
 {% block cuerpo %}
-	{% if traslado %}
+
+	{% if trasfarma %}
 	
 	    <table class="table">
 	        <thead>
@@ -42,23 +43,21 @@
 	            </tr>
 	        </thead>
 	        <tbody>
-	        {% for traslado in traslado %}
+	        {% for trasfarma in trasfarma %}
 	            <tr>
 	                <td>{{ loop.index }}</td>
-	                <td><a href="{{ path('traslado_show', {'traslado':traslado.id}) }}">{{ traslado.fecha | date('d-m-Y')}}</a></td>
-	             	<td>{{ traslado.farmacia}}</td>
-            		<td>{{ traslado.inventario}}</td>            	
-            		<td>{{ traslado.cant}}</td>
-            		<td>{{ traslado.tipo}}</td>
+	                <td><a href="{{ path('traslado_show', {'traslado': trasfarma.id}) }}">{{ trasfarma.fecha | date('d-m-Y')}}</a></td>
+	             	<td>{{ trasfarma.farmacia}}</td>
+            		<td>{{ trasfarma.inventario}}</td>            	
+            		<td>{{ trasfarma.cant}}</td>
+            		<td>{{ trasfarma.tipo}}</td>
             		
 	            </tr>
 	        {% endfor %}
 	        </tbody>
 	    </table>
 	    
-	    <div class="navigation">
-    		{{ knp_pagination_render(traslado) }}
-		</div>
+	   
 	    
 	    <div class="form-actions">
 				<a href="{{ path('traslado_new') }}" class="btn btn-primary">Nuevo Traslado</a>				
@@ -72,5 +71,27 @@
 	    </div>
 	{% endif %}
 		
+  
+  <table class="table">
+	        <thead>
+	            <tr>
+	                <th>No.</th>
+                	<th>Fecha.</th>
+                	<th>Farmacia</th>
+                	<th>Inventario</th>
+               	 	<th>Cantidad</th>
+	               <th>Tipo de Movimiento</th>               
+	            </tr>
+	        </thead>
+	      {% for farmacia in farmacia %}
+	            <tr>
+	                <td>{{ loop.index }}</td>
+	                <td><a href="{{ path('farmacia_show', {'farmacia':farmacia.id}) }}">{{ farmacia.nombre }}</a></td>
+	              	<td>{{ farmacia.observacion }}</td>
+	              	
+	            </tr>
+	        {% endfor %}
+	        </tbody>
+	    </table>
     
 {% endblock %}

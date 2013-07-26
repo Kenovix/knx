@@ -20,6 +20,21 @@ class DevolucionType extends AbstractType
             			return $repositorio->createQueryBuilder('s')
             			->orderBy('s.precioCompra', 'ASC');}
             ))
+            
+            
+            
+            ->add('proveedor', 		'entity', array(
+            		'class' => 'knx\\ParametrizarBundle\\Entity\\Proveedor',
+            		'required' => true,
+            		'empty_value' => 'Selecciona un Proveedor',
+            		'query_builder' => function(EntityRepository $repositorio) {
+            			return $repositorio->createQueryBuilder('s')
+            			->orderBy('s.nombre', 'ASC');}
+            ))
+            
+            
+            
+            
             ->add('cant',	'integer', 	array('label' => 'Cantidad: *', 'attr' => array('placeholder' => 'Cantidad', 'autofocus'=>'autofocus')))            
             ->add('motivo',	'text', 	array('label' => 'Motivo: *',   'attr' => array('placeholder' => 'Ingrese un motivo')))           
         ;

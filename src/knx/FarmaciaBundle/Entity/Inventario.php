@@ -33,16 +33,7 @@ class Inventario
 
         private $ingreso;
 
-     /**
-     * @ORM\ManyToOne(targetEntity="knx\ParametrizarBundle\Entity\Proveedor")
-     * @ORM\JoinColumns({
-     * @ORM\JoinColumn(name="proveedor_id", referencedColumnName="id")
-     * })
-     */
-
-        private $proveedor;
-
-
+   
       /**
      * @var Imv
      *
@@ -74,6 +65,9 @@ class Inventario
      * @var PrecioCompra
      *
      * @ORM\Column(name="precio_compra", type="string", nullable=false)
+     * @Assert\Range(
+     *      min = "1",
+     *      minMessage = "El menor número a ingresar es igual o mayor a 1" )
      */
         private $precioCompra;
         
@@ -82,6 +76,9 @@ class Inventario
      * @var PrecioVenta
      *
      * @ORM\Column(name="precio_venta", type="string", nullable=false)
+     * @Assert\Range(
+     *      min = "1",
+     *      minMessage = "El menor número a ingresar es igual o mayor a 1")
      */
         private $precioVenta;
         
@@ -226,28 +223,7 @@ class Inventario
         return $this->ingreso;
     }
 
-    /**
-     * Set proveedor
-     *
-     * @param \knx\ParametrizarBundle\Entity\Proveedor $proveedor
-     * @return Inventario
-     */
-    public function setProveedor(\knx\ParametrizarBundle\Entity\Proveedor $proveedor = null)
-    {
-        $this->proveedor = $proveedor;
-    
-        return $this;
-    }
-
-    /**
-     * Get proveedor
-     *
-     * @return \knx\ParametrizarBundle\Entity\Proveedor 
-     */
-    public function getProveedor()
-    {
-        return $this->proveedor;
-    }
+  
 
     /**
      * Set imv

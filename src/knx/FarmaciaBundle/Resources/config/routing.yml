@@ -234,19 +234,19 @@ imvpyp_save:
     defaults: { _controller: FarmaciaBundle:ImvPyp:save }
 
 imvpyp_show:
-    pattern:  /imvpyp/{imvpyp}/show
+    pattern:  /imvpyp/{imv}/{pyp}/show
     defaults: { _controller: FarmaciaBundle:ImvPyp:show }
 
 imvpyp_edit:
-    pattern:  /imvpyp/{imvpyp}/edit
+    pattern:  /imvpyp/{imv}/{pyp}/edit
     defaults: { _controller: FarmaciaBundle:ImvPyp:edit }
     
 imvpyp_update:
-    pattern:  /imvpyp/{imvpyp}/update
+    pattern:  /imvpyp/{imv}/{pyp}/update
     defaults: { _controller: FarmaciaBundle:ImvPyp:update }
     
 imvpyp_delete:
-    pattern:  /imvpyp/{imvpyp}/delete
+    pattern:  /imvpyp/{imv}/{pyp}/delete
     defaults: { _controller: FarmaciaBundle:ImvPyp:delete }    
     
 

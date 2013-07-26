@@ -12,6 +12,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
  *
  * @ORM\Table(name="paciente")
  * @ORM\Entity
+ * @ORM\Entity(repositoryClass="knx\ParametrizarBundle\Entity\Repository\PacienteRepository")
  * @DoctrineAssert\UniqueEntity("email")
  */
  
