@@ -72,26 +72,6 @@
 	{% endif %}
 		
   
-  <table class="table">
-	        <thead>
-	            <tr>
-	                <th>No.</th>
-                	<th>Fecha.</th>
-                	<th>Farmacia</th>
-                	<th>Inventario</th>
-               	 	<th>Cantidad</th>
-	               <th>Tipo de Movimiento</th>               
-	            </tr>
-	        </thead>
-	      {% for farmacia in farmacia %}
-	            <tr>
-	                <td>{{ loop.index }}</td>
-	                <td><a href="{{ path('farmacia_show', {'farmacia':farmacia.id}) }}">{{ farmacia.nombre }}</a></td>
-	              	<td>{{ farmacia.observacion }}</td>
-	              	
-	            </tr>
-	        {% endfor %}
-	        </tbody>
-	    </table>
+ 
     
 {% endblock %}

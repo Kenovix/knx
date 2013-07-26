@@ -96,8 +96,8 @@ class ImvController extends Controller
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
     	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
     	$breadcrumbs->addItem("Farmacia");
-    	$breadcrumbs->addItem("Imvs", $this->get("router")->generate("imv_list"));
-    	$breadcrumbs->addItem("Nueva Imv");
+    	$breadcrumbs->addItem("Stock", $this->get("router")->generate("imv_list"));
+    	$breadcrumbs->addItem("Nueva Existencia");
     	
     	//$tipo = $form->get('tipo')->getData();
     	 
@@ -117,7 +117,7 @@ class ImvController extends Controller
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
     	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
     	$breadcrumbs->addItem("Farmacia", $this->get("router")->generate("imv_list"));
-    	$breadcrumbs->addItem("Nueva Imv");
+    	$breadcrumbs->addItem("Nueva Existencia");
     	 
     	$imv = new Imv();
     	 
@@ -136,7 +136,7 @@ class ImvController extends Controller
     			$em->persist($imv);
     			$em->flush();
     
-    			$this->get('session')->setFlash('ok', 'El Stock ha sido creada éxitosamente.');
+    			$this->get('session')->setFlash('ok', 'La existencia ha sido creada éxitosamente.');
     
     			return $this->redirect($this->generateUrl('imv_show', array("imv" => $imv->getId())));	
     		}
@@ -156,7 +156,7 @@ class ImvController extends Controller
     	
     	 
     	if (!$imv) {
-    		throw $this->createNotFoundException('El stock solicitado no esta disponible.');
+    		throw $this->createNotFoundException('La existencia solicitada no esta disponible.');
     	}
     	
     	//$inventario = $em->getRepository('FarmaciaBundle:Inventario')->findByImv($imv);
@@ -164,8 +164,9 @@ class ImvController extends Controller
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
     	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
     	$breadcrumbs->addItem("Farmacia");
-    	$breadcrumbs->addItem("Imvs", $this->get("router")->generate("imv_list"));
+    	$breadcrumbs->addItem("Existencia", $this->get("router")->generate("imv_list"));
     	$breadcrumbs->addItem($imv->getcodAdmin());
+    	//$breadcrumbs->addItem("Mostrar");
     	 
     	return $this->render('FarmaciaBundle:Imv:show.html.twig', array(
     			'imv'  => $imv
@@ -179,15 +180,15 @@ class ImvController extends Controller
     	$imv = $em->getRepository('FarmaciaBundle:Imv')->find($imv);
     
    	   if (!$imv) {
-    		throw $this->createNotFoundException('El stock solicitado no esta disponible.');
+    		throw $this->createNotFoundException('La existencia solicitada no esta disponible.');
     	}
     	 
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
     	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
     	$breadcrumbs->addItem("Farmacia");
-    	$breadcrumbs->addItem("Imvs", $this->get("router")->generate("imv_list"));
-    	$breadcrumbs->addItem($imv->getcodAdmin(), $this->get("router")->generate("imv_show", array("imv" => $imv->getId())));
-    	$breadcrumbs->addItem("Modificar".$imv->getcodAdmin());
+    	$breadcrumbs->addItem("Existencia", $this->get("router")->generate("imv_list"));
+    	$breadcrumbs->addItem($imv->getcodCups(), $this->get("router")->generate("imv_show", array("imv" => $imv->getId())));
+    	$breadcrumbs->addItem("Modificar".$imv->getcodCups());
     
     	$form   = $this->createForm(new ImvType(), $imv);
     
@@ -205,7 +206,7 @@ class ImvController extends Controller
     	$imv = $em->getRepository('FarmaciaBundle:Imv')->find($imv);
     
         if (!$imv) {
-    		throw $this->createNotFoundException('El stock solicitado no esta disponible.');
+    		throw $this->createNotFoundException('La existencia solicitada no esta disponible.');
     	}
     
     	$form = $this->createForm(new ImvType(), $imv);
@@ -221,7 +222,7 @@ class ImvController extends Controller
     			$em->persist($imv);
     			$em->flush();
     
-    			$this->get('session')->setFlash('ok', 'El stock ha sido modificado éxitosamente.');
+    			$this->get('session')->setFlash('ok', 'La existencia ha sido modificado éxitosamente.');
     
     			return $this->redirect($this->generateUrl('imv_show', array("imv" => $imv->getId())));	
     		}
@@ -230,10 +231,10 @@ class ImvController extends Controller
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
     	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
     	$breadcrumbs->addItem("Farmacia", $this->get("router")->generate("imv_list"));
-    	$breadcrumbs->addItem($imv->getgetcodAdmin(), $this->get("router")->generate("imv_show", array("imv" => $imv->getId())));
-    	$breadcrumbs->addItem("Modificar".$imv->getcodAdmin());
+    	$breadcrumbs->addItem($imv->getcodCups(), $this->get("router")->generate("imv_show", array("imv" => $imv->getId())));
+    	$breadcrumbs->addItem("Modificar".$imv->getcodCups());
     
-    	return $this->render('FarmaciaBundle:Imv:new.html.twig', array(
+    	return $this->render('FarmaciaBundle:Imv:edit.html.twig', array(
        			'imv' => $imv,
     			'form' => $form->createView(),
     	));

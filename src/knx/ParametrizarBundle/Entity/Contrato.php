@@ -29,7 +29,7 @@ class Contrato
      * 
      * @ORM\Column(name="numero", type="string", length=15, nullable=false)
      * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
-     * @Assert\MaxLength(limit=20, message="El valor ingresado debe tener máximo {{ limit }} caracteres.")
+     * @Assert\Length(max=20)
      */
     private $numero;
     
@@ -56,7 +56,7 @@ class Contrato
      * 
      * @ORM\Column(name="contacto", type="string", length=80, nullable=false)
      * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
-     * @Assert\MaxLength(limit=80, message="El valor ingresado debe tener máximo {{ limit }} caracteres.")
+     * @Assert\Length(max=80)
      */
     private $contacto;
     
@@ -64,7 +64,7 @@ class Contrato
      * @var string $cargo
      *
      * @ORM\Column(name="cargo", type="string", length=30, nullable=false)
-     * @Assert\MaxLength(limit=30, message="El valor ingresado debe tener máximo {{ limit }} caracteres.")
+     * @Assert\Length(max=30)
      */
     private $cargo;
     
@@ -72,8 +72,7 @@ class Contrato
      * @var string $telefono
      * 
      * @ORM\Column(name="telefono", type="string", nullable=true)
-     * @Assert\Min(limit = "1000000", message = "El valor ingresado no puede ser menor de {{ limit }}", invalidMessage = "El valor ingresado debe ser un n�mero v�lido")
-     * @Assert\Max(limit = "9999999", message = "El valor ingresado no puede ser mayor de {{ limit }}", invalidMessage = "El valor ingresado debe ser un n�mero v�lido")
+     * @Assert\Length(min=7 , max=7)
      */
     private $telefono;
 
@@ -81,8 +80,7 @@ class Contrato
      * @var string $celular
      * 
      * @ORM\Column(name="celular", type="string", length=10, nullable=true)
-     * @Assert\Min(limit = "3000000000", message = "El valor ingresado no puede ser menor de {{ limit }}", invalidMessage = "El valor ingresado debe ser un n�mero v�lido")
-     * @Assert\Max(limit = "9999999999", message = "El valor ingresado no puede ser mayor de {{ limit }}", invalidMessage = "El valor ingresado debe ser un n�mero v�lido")
+     * @Assert\Length(max=9999999999)
      */
     private $celular;
     
@@ -117,7 +115,7 @@ class Contrato
      *
      * @ORM\Column(name="tipo", type="string", length=20, nullable=false)
      * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
-     * @Assert\MaxLength(limit=20, message="El valor ingresado debe tener máximo {{ limit }} caracteres.")
+     * @Assert\Length(max=7)
      */
     private $tipo;
     
@@ -125,7 +123,7 @@ class Contrato
      * @var string $observacion
      *
      * @ORM\Column(name="observacion", type="string", length=200, nullable=true)
-     * @Assert\MaxLength(limit=200, message="El valor ingresado debe tener máximo {{ limit }} caracteres.")
+     * @Assert\Length(max=200)
      */
     private $observacion;
     

@@ -101,7 +101,7 @@ class Imv
      * 
      * @ORM\Column(name="uni_medida", type="string", length=100, nullable=true)     
      * 
-     * @Assert\Length(min=3,max=20)
+     * @Assert\Length(min=1,max=20)
      * 
      */
     private $uniMedida;

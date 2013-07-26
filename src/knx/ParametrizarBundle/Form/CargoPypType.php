@@ -15,8 +15,7 @@ class CargoPypType extends AbstractType
         	->add('edadIni', 'integer',	array('label' => 'Edad inicio:' , 'required' => false))
         	->add('edadFin', 'integer',	array('label' => 'Edad fin:' , 'required' => false))
         	->add('rango', 'text',	array('label' => 'Rango:' , 'required' => false))
-        	->add('sexo', 'text',	array('label' => 'Sexo: *' , 'required' => true))
-        ;
+            ->add('sexo',		'choice',  array('choices'  => array('empty_value' => 'Selecciona Sexo','M' => 'Masculino', 'F' => 'Femenino','A' => 'Ambos'), 'label'=>'Sexo','required'  => true));
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)

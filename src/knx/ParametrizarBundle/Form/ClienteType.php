@@ -11,11 +11,11 @@ class ClienteType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('nit', 'integer', array('label' => 'Nit: *', 'required' => true))
+            ->add('nit', 'text', array('label' => 'Nit: *', 'required' => true))
             ->add('nombre', 'text',	array('label' => 'Nombre: *' ,	 'required' => true))
             ->add('razon', 'text', array('label' => 'Razón social: *' , 'required' => true))
             ->add('tipo', 'choice', array('choices' => array('1' => 'Contributivo', '2' => 'Subsidiado', '3' => 'Vinculado', '4' => 'Otro')))
-            ->add('codigo', 'text', array('label' => 'Código:', 'required' => false))
+            ->add('codigo', 'text', array('label' => 'Código Eps:', 'required' => false))
             ->add('telefono', 'integer', array('label' => 'Telefono:', 'required' => false))
             ->add('direccion', 'text', array('label' => 'Dirección:', 'required' => false))
             ->add('estado', 'choice', array('label' => 'Estado:', 'required' => true, 'choices' => array('A' => 'Activo', 'I' => 'Inactivo')))

@@ -11,7 +11,7 @@ class EmpresaType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('nit', 'integer', array('label' => 'Nit: *', 'required' => true))
+            ->add('nit', 'text', array('label' => 'Nit: *', 'required' => true))
             ->add('nombre', 'text',	array('label' => 'Nombre: *' ,	 'required' => true))
             ->add('habilitacion', 'text', array('label' => 'Código de habilitación: *' , 'required' => true))
             ->add('tipo', 'choice', array('choices' => array('PBC' => 'Publica', 'PVD' => 'Privada')))

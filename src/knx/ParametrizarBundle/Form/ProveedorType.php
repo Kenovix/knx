@@ -11,7 +11,7 @@ class ProveedorType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('nit', 'integer', array('label' => 'Nit: *', 'required' => true))
+            ->add('nit', 'text', array('label' => 'Nit: *', 'required' => true))
             ->add('nombre', 'text',	array('label' => 'Nombre: *' ,	 'required' => true))
             ->add('ciudad', 'text', array('label' => 'Ciudad:' , 'required' => true))
             ->add('direccion', 'text', 	array('label' => 'Dirección:', 'required' => false))

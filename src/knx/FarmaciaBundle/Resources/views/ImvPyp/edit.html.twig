@@ -6,7 +6,7 @@
 
 {% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
 
-{% block titulo %}Modificar Stock_Pyp{% endblock %}
+{% block titulo %}Modificar Insumo_Pyp{% endblock %}
 
 {% block msg %}
 	{% if app.session.hasFlash('ok') %}
@@ -31,7 +31,7 @@
 
 	<form action="{{ path('imvpyp_update', {'pyp': pimv.pyp.id, 'imv': pimv.imv.id }) }}" class="form-horizontal" method="post" {{ form_enctype(form) }}>
 	    <fieldset>
-	    	<legend>Datos de los Imv</legend>
+	    	<legend>Datos del Insumo</legend>
 	    	    
 		   {{ form_widget(form) }}
 		   

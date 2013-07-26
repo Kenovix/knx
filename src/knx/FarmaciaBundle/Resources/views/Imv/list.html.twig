@@ -6,7 +6,7 @@
 
 {% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
 
-{% block titulo %}Resultado Stock{% endblock %}
+{% block titulo %}Resultado Existencia{% endblock %}
 
 {% block msg %}
 	{% if app.session.hasFlash('ok') %}
@@ -37,7 +37,7 @@
 
 		   <div class="form-actions">
 				<input class="btn btn-primary" name="Buscar"  type="submit" value="Buscar" />
-				<a href="{{ path('imv_new') }}" class="btn btn-primary">Nuevo Stock</a>				
+				<a href="{{ path('imv_new') }}" class="btn btn-primary">Nueva Existencia</a>				
 			    <a href="{{ path('imv_search') }}" class="btn">Volver</a>
 				
 			</div>
@@ -73,7 +73,7 @@
 	{% else %}
 		<div class="alert alert-success">
 	    	<button data-dismiss="alert" class="close" type="button">×</button>
-	        <span>No existen Stock creadas</span>
+	        <span>No existe existencias creadas</span>
 	    </div>
 	{% endif %}
 		

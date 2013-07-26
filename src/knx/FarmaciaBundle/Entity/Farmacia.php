@@ -40,7 +40,7 @@ class Farmacia
      * 
      * @ORM\Column(name="observacion", type="string", length=10)
      * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
-     * @Assert\Length(min=2, max=255)
+     * @Assert\Length(min=5, max=255)
      */
     private $observacion; 
     

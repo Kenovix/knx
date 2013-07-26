@@ -37,7 +37,7 @@ class Empresa
      * 
      * @ORM\Column(name="nit", type="string", length=12, nullable=false, unique=true)
      * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
-     * @Assert\Min(limit = "1000000", message = "El valor ingresado no puede ser menor de {{ limit }}", invalidMessage = "El valor ingresado debe ser un n�mero v�lido")
+     * @Assert\Length(max=10000000000)  
      */
     private $nit;
 
@@ -46,7 +46,7 @@ class Empresa
      * 
      * @ORM\Column(name="nombre", type="string", length=80, nullable=false)
      * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
-     * @Assert\MinLength(limit=3, message="El valor ingresado debe tener al menos {{ limit }} caracteres.")
+     * @Assert\Length(min=3)  
      */
     private $nombre;
     
@@ -55,7 +55,7 @@ class Empresa
      * 
      * @ORM\Column(name="tipo", type="string", length=10, nullable=false)
      * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
-     * @Assert\MinLength(limit=3, message="El valor ingresado debe tener al menos {{ limit }} caracteres.")
+     * @Assert\Length(min=3)  
      */
     private $tipo; //"empresa social del estado o privada select"
     
@@ -63,7 +63,7 @@ class Empresa
      * @var string $direccion
      * 
      * @ORM\Column(name="direccion", type="string", length=50, nullable=false)
-     *@Assert\MaxLength(limit=60, message="El valor ingresado debe tener máximo {{ limit }} caracteres.")
+     * @Assert\Length(max=60)  
      */
     private $direccion;
     
