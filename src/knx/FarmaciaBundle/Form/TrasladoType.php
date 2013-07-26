@@ -13,12 +13,12 @@ class TrasladoType extends AbstractType
     {
         $builder
              ->add('inventario', 		'entity', array(
-                'class' => 'knx\\FarmaciaBundle\\Entity\\Inventario',
+                'class' => 'knx\\FarmaciaBundle\\Entity\\Imv',
                 'required' => true,
                 'empty_value' => 'Selecciona un Imv',
                 'query_builder' => function(EntityRepository $repositorio) {
-                return $repositorio->createQueryBuilder('s')
-                ->orderBy('s.precioCompra', 'ASC');}
+                return $repositorio->createQueryBuilder('i');
+                }
         ))
         ->add('tipo', 		  'choice', array('empty_value' => 'Selecione tipo','label' => 'Tipo: *',			'choices'   => array('D' => 'Devolucion', 'T' => 'Traslado'),'required'  => true))
         ->add('farmacia', 		'entity', array(

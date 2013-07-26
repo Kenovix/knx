@@ -178,4 +178,78 @@ class CargoPypController extends Controller
     			'form' => $form->createView()
     	));
     }
+    
+    /**
+     * @uses Función que consulta los cargos de pyp para una edad dada.
+     *
+     * @param ninguno
+     */
+    public function ajaxBuscarCargoPorEdadAction()
+    {    
+    
+    	$request = $this->get('request');
+    	
+    	$edad = $request->request->get('edad');
+    	    	
+    	if(is_numeric($edad)){
+    		
+    		$where = "";
+    		$parametros = array();
+    		
+    		if(in_array($edad, array(4, 14, 16, 45))){
+    			$rango = 1;
+    		}elseif(in_array($edad, array(55, 65, 70, 75, 80))){
+    			$rango = 2;
+    		}elseif(in_array($edad, array(45, 50 ,55, 60, 65, 70, 75, 80))){
+    			$rango = 3;
+    		}else{
+    			$rango = 0;
+    		}
+    		
+    		if($rango == 1){
+    			$where .= "OR cp.rango = :rango";
+    		}
+
+    		if($rango == 2){
+    			$where .= "OR cp.rango >= :rango";
+    		}
+    		
+    		if($rango == 3){
+    			$where .= "OR cp.rango = :rango";
+    		}
+    		
+    		$parametros['rango'] = $rango;
+    		$parametros['edad'] = $edad;
+    		
+    		$em = $this->getDoctrine()->getEntityManager();
+    		
+    		$query = $em->createQuery(' SELECT 
+    										cp 
+    									FROM 
+    										knx\ParametrizarBundle\Entity\CargoPyp cp 
+    									WHERE 
+    										cp.edadIni >= :edad AND 
+    										cp.edadFin <= :edad '.$where);   		
+    		
+    		die(print_r($query->getSQL()));
+    		
+    		$query->setParameters($parametros);
+    		
+    		$cargos = $query->getArrayResult();
+    		
+    		
+    	
+    		if($cargos){    			 
+    			$response=array("responseCode" => 200);    	
+    		}
+    		else{
+    			$response=array("responseCode"=>400, "msg"=>"No hay cargos disponibles para la edad dada.");
+    		}
+    	}else{
+    		$response=array("responseCode"=>400, "msg"=>"La edad no es valida.");
+    	}
+    	
+    	$return=json_encode($response);
+    	return new Response($return,200,array('Content-Type'=>'application/json'));    
+    }
 }

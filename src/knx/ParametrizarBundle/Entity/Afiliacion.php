@@ -30,7 +30,7 @@ class Afiliacion
      * @var string $observacion
      *
      * @ORM\Column(name="observacion", type="string", length=255, nullable=true)
-     * @Assert\MaxLength(limit=255, message="El valor ingresado debe tener m�ximo {{ limit }} caracteres.")
+     * @Assert\MaxLength(limit=255, message="El valor ingresado debe tener máximo {{ limit }} caracteres.")
      */
     private $observacion;
     

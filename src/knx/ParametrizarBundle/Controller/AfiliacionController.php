@@ -102,18 +102,17 @@ class AfiliacionController extends Controller
     				$em->persist($entity);
     				$em->flush();
     				 
-    				$response=array("responseCode"=>200, "msg"=>"El cliente ha sido agregado correctamente.");
+    				$response=array("responseCode"=>200);
     				 
     				$response['id']= $entity->getCliente()->getId();
     				$response['nombre']= $entity->getCliente()->getNombre();
     			}
     		}else{
-    			$response=array("responseCode"=>400, "msg"=>"El cliente ingresado aun no existe en el sistema.");
+    			$response=array("responseCode"=>400);
     		}
     	}
     	
     	$return=json_encode($response);
     	return new Response($return,200,array('Content-Type'=>'application/json'));
-    }
-    	 
+    }    	 
 }

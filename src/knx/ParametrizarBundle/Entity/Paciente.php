@@ -89,9 +89,7 @@ class Paciente
     /**
      * @var date $fN
      * 
-     * @ORM\Column(name="f_n", type="string", length=15, nullable=false)
-     * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
-     * @Assert\Length(max=15)     
+     * @ORM\Column(name="f_n", type="date", nullable=false)    
      */
     private $fN;
 
@@ -305,6 +303,12 @@ class Paciente
     {
         return $this->id;
     }
+    
+    public function getEdad()
+    {
+    	list($Y,$m,$d) = explode("-",$this->getFN()->format('Y-m-d'));
+    	return( date("md") < $m.$d ? date("Y")-$Y-1 : date("Y")-$Y );
+    }
 
     /**
      * Set tipoId
@@ -447,7 +451,7 @@ class Paciente
     /**
      * Set fN
      *
-     * @param \DateTime $fN
+     * @param \Date $fN
      * @return Paciente
      */
     public function setFN($fN)
@@ -460,7 +464,7 @@ class Paciente
     /**
      * Get fN
      *
-     * @return \DateTime 
+     * @return \Date 
      */
     public function getFN()
     {

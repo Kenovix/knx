@@ -308,6 +308,12 @@ cargo_pyp_update:
     pattern:  /cargo/pyp/{pyp}/{cargo}/update
     defaults: { _controller: ParametrizarBundle:CargoPyp:update }
     
+cargo_pyp_buscar:
+    pattern:  /cargo/pyp/buscar/edad
+    defaults: { _controller: ParametrizarBundle:CargoPyp:ajaxBuscarCargoPorEdad }
+    requirements:
+        _method:  POST
+    
 #************** Paciente ***************#
 
 paciente_new:

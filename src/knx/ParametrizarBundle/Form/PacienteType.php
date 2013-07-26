@@ -55,10 +55,9 @@ class PacienteType extends AbstractType {
 									->orderBy('o.nombre', 'ASC');
 								}))
 										
-				->add('fN', 'text',
+				->add('fN', 'date',
 						array('required' => true,
-								'label' => 'Fecha Nacimiento:',
-								'attr' => array('placeholder' => 'DD/MM/YYYY')))
+								'label' => 'Fecha Nacimiento:'))
 				->add('sexo', 'choice',
 						array('label' => 'Sexo:', 'required' => true,
 								'choices' => array('' => 'Sexo',

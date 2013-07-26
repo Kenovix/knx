@@ -45,10 +45,19 @@
 	            <tr>
 	                <td><a href="{{ path('usuario_edit', {'usuario': usuario.id}) }}">{{ usuario.username }}</a></td>
 	                <td>{{ usuario.nombre }} {{ usuario.apellido }}</td>
-	                <td>{{ usuario.cc }}</td>
+	                <td>{% for rol in usuario.roles %} 
+	                		{{ rol }} - 	                		
+	                	{% endfor %}
+	                </td>
 	                <td>{{ usuario.email }}</td>
 	                <td>{{ usuario.lastLogin | date('d-m-Y H:i:s') }}</td>
-	                <td>{{ usuario.enabled }}</td>
+	                <td>
+	                	{% if ( usuario.enabled == 1 ) %}
+	                		Activo
+	                	{% else %}
+	                		Inactivo
+	                	{% endif %}
+	                </td>
 	            </tr>
 	        {% endfor %}
 	        </tbody>
