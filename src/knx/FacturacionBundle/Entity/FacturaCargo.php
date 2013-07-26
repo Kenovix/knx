@@ -24,7 +24,14 @@ class FacturaCargo
      * @ORM\Id
      * @ORM\ManyToOne(targetEntity="knx\ParametrizarBundle\Entity\Cargo")
      */
-	 private $cargo; 
+	 private $cargo;
+
+	 /**
+	  * @var string $ambito
+	  *
+	  * @ORM\Column(name="ambito", type="integer", nullable=true)
+	  */
+	 private $ambito;
 
      /**
      * @var cantidad
@@ -102,6 +109,27 @@ class FacturaCargo
    private $updated;
     
 
+   /**
+    * Set ambito
+    *
+    * @param string $ambito
+    * @return Factura
+    */
+   public function setAmbito($ambito) {
+   	$this->ambito = $ambito;
+   
+   	return $this;
+   }
+   
+   /**
+    * Get ambito
+    *
+    * @return string
+    */
+   public function getAmbito() {
+   	return $this->ambito;
+   }
+    
     /**
      * Set cantidad
      *

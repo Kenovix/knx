@@ -5,6 +5,9 @@ namespace knx\FacturacionBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use knx\FacturacionBundle\Entity\Factura;
 use knx\FacturacionBundle\Form\FacturaType;
+
+use knx\ParametrizarBundle\Form\AfiliacionType;
+
 use Symfony\Component\HttpFoundation\Response;
 
 class FacturaController extends Controller
@@ -16,10 +19,13 @@ class FacturaController extends Controller
     	$breadcrumbs->addItem("Nueva factura", $this->get("router")->generate("facturacion_actividad_new"));
     	
     	$factura = new Factura();
-    	$form   = $this->createForm(new FacturaType(), $factura);
+    	$form = $this->createForm(new FacturaType(), $factura);
+    	
+    	$form_afiliacion = $this->createForm(new AfiliacionType()); 
 
     	return $this->render('FacturacionBundle:Factura:new.html.twig', array(
-    			'form'   => $form->createView()
+    			'form'   => $form->createView(),
+    			'form_afiliacion' => $form_afiliacion->createView()
     	));
     }
     
@@ -38,14 +44,20 @@ class FacturaController extends Controller
     	if(is_numeric($identificacion)){
     	
     		$em = $this->getDoctrine()->getEntityManager();
-    		$paciente = $em->getRepository('ParametrizarBundle:Paciente')->findOneBy(array('tipoId' => $tipoid, 'identificacion' => $id));
+    		$paciente = $em->getRepository('ParametrizarBundle:Paciente')->findOneBy(array('tipoId' => $tipoid, 'identificacion' => $identificacion));
     	
     		if($paciente){
     			$cliente = $em->getRepository('ParametrizarBundle:Afiliacion')->findBy(array('paciente' => $paciente->getId()));
     			 
     			$response=array("responseCode" => 200,
     					"id" => $paciente->getId(),
-    					"nombre" => $paciente->getPriNombre()." ".$paciente->getSegNombre()." ".$paciente->getPriApellido()." ".$paciente->getSegApellido());
+    					"nombre" => ucwords($paciente->getPriNombre()." ".$paciente->getSegNombre()." ".$paciente->getPriApellido()." ".$paciente->getSegApellido()),
+    					"nacimiento" => $paciente->getFN()->format('d-m-Y'),
+    					"edad" => $paciente->getEdad(),
+    					"sexo" => $paciente->getSexo(),
+    					"rango" => $paciente->getRango(),
+    					"afiliacion" => $paciente->getTipoAfi(),
+    					"creado" => $paciente->getCreated()->format('d-m-Y'));
     	
     			foreach($cliente as $value)
     			{
