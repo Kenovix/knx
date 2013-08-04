@@ -13,6 +13,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
  * @ORM\Table(name="cliente")
  * @ORM\Entity
  * @DoctrineAssert\UniqueEntity("nit")
+ * @DoctrineAssert\UniqueEntity("nombre")
  */
 class Cliente
 {
@@ -30,7 +31,7 @@ class Cliente
      * 
      * @ORM\Column(name="codigo", type="string", length=20, nullable=false)
      * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
-     * @Assert\MaxLength(limit=20, message="El valor ingresado debe tener máximo {{ limit }} caracteres.")
+     * @Assert\Length(max=20)  
      */
     private $codigo;
 
@@ -39,17 +40,16 @@ class Cliente
      * 
      * @ORM\Column(name="nit", type="string", length=12, nullable=false, unique=true)
      * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
-     * @Assert\Min(limit = "1000000", message = "El valor ingresado no puede ser menor de {{ limit }}", invalidMessage = "El valor ingresado debe ser un n�mero v�lido")
-     * @Assert\MaxLength(limit=12, message="El valor ingresado debe tener máximo {{ limit }} caracteres.")
+     * @Assert\Length(max=12 , min=11)  
      */
     private $nit;
 
     /**
      * @var string $nombre
      * 
-     * @ORM\Column(name="nombre", type="string", length=60, nullable=false)
-      * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
-     * @Assert\MaxLength(limit=60, message="El valor ingresado debe tener máximo {{ limit }} caracteres.")
+     * @ORM\Column(name="nombre", type="string", length=60, nullable=false, unique=true)
+     * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
+     * @Assert\Length(max=60 , min=3)  
      */
     private $nombre;
     
@@ -57,7 +57,8 @@ class Cliente
      * @var string $razon
      *
      * @ORM\Column(name="razon", type="string", length=60, nullable=false)
-     * @Assert\MaxLength(limit=255, message="El valor ingresado debe tener máximo {{ limit }} caracteres.")
+     * @Assert\Length(max=255)
+     * @Assert\Length(min=3) 
      */
     private $razon;
         
@@ -65,7 +66,7 @@ class Cliente
      * @var string $tipo
      *
      * @ORM\Column(name="tipo", type="string", length=2, nullable=true)
-     * @Assert\MaxLength(limit=2, message="El valor ingresado debe tener máximo {{ limit }} caracteres.")
+     * @Assert\Length(max=2)  
      */
     private $tipo;
     
@@ -73,7 +74,7 @@ class Cliente
      * @var string $direccion
      *
      * @ORM\Column(name="direccion", type="string", length=80, nullable=true)
-     * @Assert\MaxLength(limit=80, message="El valor ingresado debe tener máximo {{ limit }} caracteres.")
+     * @Assert\Length(max=80)  
      */
     private $direccion;
     
@@ -81,7 +82,7 @@ class Cliente
      * @var string $telefono
      *
      * @ORM\Column(name="telefono", type="string", length=10, nullable=true)
-     * @Assert\MaxLength(limit=10, message="El valor ingresado debe tener máximo {{ limit }} caracteres.")
+     * @Assert\Length(max=10)  
      */
     private $telefono;
     
@@ -89,7 +90,7 @@ class Cliente
      * @var string $estado
      *
      * @ORM\Column(name="estado", type="string", length=1, nullable=true)
-     * @Assert\MaxLength(limit=1, message="El valor ingresado debe tener máximo {{ limit }} caracteres.")
+     * @Assert\Length(max=1)  
      */
     private $estado;
     

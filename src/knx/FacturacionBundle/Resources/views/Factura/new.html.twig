@@ -29,7 +29,7 @@
 
 {% block cuerpo %}
 
-	<form action="#" class="form-horizontal" method="post" {{ form_enctype(form) }}>
+	<form action="#" class="form-inline" method="post" {{ form_enctype(form) }}>
 	    <fieldset>
 	    	<legend>Datos del paciente</legend>
 	    	
@@ -45,45 +45,125 @@
 	    			
 	    			<div class="input-append">
 	    				<input class="span6" type="text" name="identificacion" id="identificacion" placeholder="identificación" />
-    					<button id="buscar_paciente" class="btn" type="button">Buscar</button>
-    					
+    					<button id="buscar_paciente" class="btn" type="button">Buscar</button>    					
     				</div>
     				<span id="msg" class="label"></span>	
 	   
 	    		</div>
 	    	</div>
 	    	
-	    	<div id="datos-paciente"></div>
+	    	<div>
+	    		<div class="span4">Paciente: <span id="datos-paciente"></span></div>
+	    	</div>
 	    	
-	    	<div class="control-group">
-	    		<label class="control-label required" for="tipoid">{{ form_label(form.cliente) }}</label>
-	    		<div class="controls">	    			
+	    	<div>
+	    		<div class="span3">Fecha de nacimiento: <span id="fn"></span></div>
+	    	</div>	    		   			
+	            		    		
+	    	<div>
+	    		<div class="span2">Edad: <input class="span4" type="text" id="edad" readonly="readonly" /></div>
+	    	</div>		    			    			
+	            	
+	      	<div>
+	      		<div class="span1">Sexo: <span id="sexo"></span></div>
+	      	</div>
+	           		    		   			
+			<div>
+				<div class="span1">Rango: <span id="rango"></span></div>
+			</div>
+	    	
+	    	<div>          	
+	       		<div class="span2">Tipo afiliaci&oacute;n: <span id="ta"></span></div>
+	       	</div>
+	    	
+	    	<div>
+	    		<div class="span4">
+	     		     	 			
 	            	{{ form_errors(form.cliente) }}
 	            	{{ form_widget(form.cliente) }}
 	            	
-	            	{% ui_button onclick="myDialog.wijdialog('open');" value="Open"%}
+	            	{% ui_button onclick="myDialog.wijdialog('open');" id="new_afiliacion" value="Agregar" disabled="true" %}
 	            	 
 	    		</div>
 	    	</div>
 	    	  
-			{% ui_dialog id="myDialogId"
-			             title="Hello World"
+			{% ui_dialog id="dialog_afiliar"
+			             title="Agregar cliente"
 			             widgetVar="myDialog"
 			             autoOpen=false
 			             modal=true
+						 buttons={
+                 			'Agregar' : js_function("afiliar()"),
+                 			'Cancelar' : js_function("$(this).wijdialog('close')"),
+               			} 
 			%}
 			
-				Hello World
+				{{ form_widget(form_afiliacion) }}
 			    
 			{% end_ui_dialog %} 
 	    	
 		</fieldset>
 		
-		<fieldset>
-	    	<legend>Datos del paciente</legend>	    	
-	    	    
-			{{ form_rest(form) }}
-		</fieldset>
+		<hr>
+		
+		<div class="controls controls-row">
+    		<div class="span4">
+     		     	 			
+            	{{ form_errors(form.tipoActividad) }}
+				{{ form_label(form.tipoActividad) }}
+            	{{ form_widget(form.tipoActividad) }}
+            	 
+    		</div>
+    	
+    		<div class="span4">
+     		     	 			
+            	{{ form_errors(form.catPyp) }}
+            	{{ form_label(form.catPyp) }}
+            	{{ form_widget(form.catPyp) }}
+            	 
+    		</div>
+    	
+    		<div class="span4">
+     		     	 			
+            	{{ form_errors(form.autorizacion) }}
+            	{{ form_label(form.autorizacion) }}
+            	{{ form_widget(form.autorizacion) }}
+            	 
+    		</div>
+    	</div>
+    	
+    	<br />
+
+    	<div class="controls controls-row">
+    		<div class="span4">
+    		
+    			<label for="tipop">Profesional</label>
+     		     	 			
+            	<select required="required" name="tipop" id="tipop">
+    				<option value="M">Médico</option>
+    				<option value="O">Odontologo</option>
+    				<option value="E">Emfermera</option>
+    			</select>
+            	 
+    		</div>
+    	
+    		<div class="span4">
+     		     	 			
+            	{{ form_errors(form.profesional) }}
+            	{{ form_label(form.profesional) }}
+            	{{ form_widget(form.profesional) }}
+            	 
+    		</div>
+    	
+    		<div class="span4">
+     		     	 			
+            	{{ form_errors(form.observacion) }}
+            	{{ form_label(form.observacion) }}
+            	{{ form_widget(form.observacion) }}
+            	 
+    		</div>
+    	</div>
+
 		
 		<div class="form-actions">
 			<input class="btn btn-primary" name="guardar" type="submit" value="Guardar" />
@@ -116,9 +196,15 @@
 
 			            $("#msg").removeClass("label-important");
 		            	$("#msg").addClass("label-success");
-						$("#msg").html("Creado el "+data.paciente.nombre);
+						$("#msg").html("Creado el "+data.creado);
+						$("#datos-paciente").html(data.nombre);
+						$("#fn").html(data.nacimiento);
+						$("#edad").val(data.edad);
+						$("#sexo").html(data.sexo);
+						$("#rango").html(data.rango);
+						$("#ta").html(data.afiliacion);
 
-						var select = $('#Cupo_cliente');
+						var select = $('#knx_facturacionbundle_facturatype_cliente');
                 		if(select.prop) {
                 		  var options = select.prop('options');
                 		}
@@ -128,7 +214,7 @@
                 		$('option', select).remove();
 
                 	    if(data.cliente){
-                	    	options[options.length] = new Option('Seleccione aseguradora', '');
+                	    	options[options.length] = new Option('Seleccione cliente', '');
 
                     	}else{
                     		options[options.length] = new Option('--', '');
@@ -139,12 +225,28 @@
                 		});
 
                 		select.val('');
+                		select.removeAttr('disabled');
+
+                		$('#new_afiliacion').removeAttr('disabled');
+                		$('#new_afiliacion').removeClass('ui-state-disabled');
+                		
 		             }
 		             else if(data.responseCode==400){
 
 			            $("#msg").removeClass("label-success");
 						$("#msg").addClass("label-important");
-						$("#msg").html("El paciente con "+tipoid+" número "+identificacion+" no existe en la base de datos, verifique datos e intente nuevamente.");						
+						$("#msg").html("El paciente con "+tipoid+" número "+identificacion+" no existe en la base de datos, verifique datos e intente nuevamente.");
+						$("#datos-paciente").empty();
+						$("#fn").empty();
+						$("#edad").empty();
+						$("#sexo").empty();
+						$("#rango").empty();
+						$("#ta").empty();
+						$('#knx_facturacionbundle_facturatype_cliente').attr('disabled','disabled');
+
+
+						$('#new_afiliacion').attr('disabled', 'disabled');
+                		$('#new_afiliacion').addClass('ui-state-disabled');			
 		             }
 		             else{
 		         	    alert("Ha ocurrido un error en el sistema.");
@@ -154,6 +256,81 @@
 	    		$("#buscar_paciente").removeAttr('disabled');
 		    }else{
 			    alert("Por favor ingrese un valor valido.");
+			}
+		});
+
+		function afiliar(){
+
+			var url = "{{ path('afiliacion_ajax_save') }}";
+
+			var cliente = $("#newAfiliacion_cliente").val();
+			var paciente = $("#identificacion").val();
+
+			$.post(url,{
+                cliente: cliente,
+                paciente: paciente
+            },function(data){
+                if(data.responseCode==200 ){
+
+                	var select = $('#knx_facturacionbundle_facturatype_cliente');
+            		if(select.prop) {
+            		  var options = select.prop('options');
+            		}
+            		else {
+            		  var options = select.attr('options');
+            		}
+
+            		options[options.length] = new Option(data.nombre, data.id);
+
+            		$('#msg_afiliacion').remove();
+            		$('#dialog_afiliar').prepend('<span id="msg_afiliacion" class="label label-success">Cliente agregado</span>');
+                 }
+                 else if(data.responseCode==400){
+                	 $('#msg_afiliacion').remove();
+                	 $('#dialog_afiliar').prepend('<span id="msg_afiliacion" class="label label-important">Cliente NO agregado</span>');
+                 }
+                 else{
+             	    alert("Ha ocurrido un error en el sistema.");
+                 }
+          });
+		}
+
+		$("#knx_facturacionbundle_facturatype_tipoActividad").change(function(){
+
+			var ta = $("#knx_facturacionbundle_facturatype_tipoActividad").val();
+			
+			if(ta == "pyp"){
+
+				var url = "{{ path('cargo_pyp_buscar') }}";
+
+				var edad = $("#edad").val();
+
+				$.post(url,{
+	                edad: edad
+	            },function(data){
+	                if(data.responseCode==200 ){
+
+	                	var select = $('#knx_facturacionbundle_facturatype_cliente');
+	            		if(select.prop) {
+	            		  var options = select.prop('options');
+	            		}
+	            		else {
+	            		  var options = select.attr('options');
+	            		}
+
+	            		options[options.length] = new Option(data.nombre, data.id);
+
+	            		$('#msg_afiliacion').remove();
+	            		$('#dialog_afiliar').prepend('<span id="msg_afiliacion" class="label label-success">Cliente agregado</span>');
+	                 }
+	                 else if(data.responseCode==400){
+	                	 $('#msg_afiliacion').remove();
+	                	 $('#dialog_afiliar').prepend('<span id="msg_afiliacion" class="label label-important">Cliente NO agregado</span>');
+	                 }
+	                 else{
+	             	    alert("Ha ocurrido un error en el sistema.");
+	                 }
+	          });
 			}
 		});
 	</script>		

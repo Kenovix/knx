@@ -23,15 +23,16 @@ class Builder extends ContainerAware
 			$menu['Parametrizar']->addChild('Proveedor', array('route' => 'proveedor_list'));
 			$menu['Parametrizar']->addChild('Categoría pyp', array('route' => 'pyp_list'));
 			
-		$menu->addChild('Farmacia', array('uri' => '#'));
-			$menu['Farmacia']->addChild('Nueva', array('route' => 'empresa_list'));
-			$menu['Farmacia']->addChild('Ingresos', array('route' => 'ingreso_list'));
-			$menu['Farmacia']->addChild('Movimientos', array('route' => 'cargo_list'));
-			$menu['Farmacia']['Movimientos']->addChild('Traspasos', array('route' => 'traslado_list', 'routeParameters' => array('char' => 'A')));
-			$menu['Farmacia']['Movimientos']->addChild('Devoluciones', array('route' => 'categoria_list', 'routeParameters' => array('char' => 'A')));
-			$menu['Farmacia']['Nueva']->addChild('Farmacia', array('route' => 'farmacia_list', 'routeParameters' => array('char' => 'A')));
-			$menu['Farmacia']['Nueva']->addChild('Categoria', array('route' => 'categoria_list', 'routeParameters' => array('char' => 'A')));
-			$menu['Farmacia']['Nueva']->addChild('IMV', array('route' => 'imv_list', 'routeParameters' => array('char' => 'A')));
+		$menu->addChild('farmacia', array('uri' => '#'));	
+			$menu['farmacia']->addChild('Nueva', array('uri' => '#'));
+			$menu['farmacia']->addChild('Ingresos', array('route' => 'ingreso_list'));
+			$menu['farmacia']->addChild('Movimientos', array('uri' => '#'));
+			$menu['farmacia']->addChild('Pyp', array('route' => 'imvpyp_search'));
+				$menu['farmacia']['Movimientos']->addChild('Traslados', array('route' => 'traslado_list', 'routeParameters' => array('char' => 'A')));
+				$menu['farmacia']['Movimientos']->addChild('Devoluciones Proveedor', array('route' => 'devolucion_list', 'routeParameters' => array('char' => 'A')));
+				$menu['farmacia']['Nueva']->addChild('Farmacia', array('route' => 'farmacia_list', 'routeParameters' => array('char' => 'A')));
+				$menu['farmacia']['Nueva']->addChild('Categoria', array('route' => 'categoria_list', 'routeParameters' => array('char' => 'A')));
+				$menu['farmacia']['Nueva']->addChild('Existencia', array('route' => 'imv_search'));
 				
 		$menu->addChild('Facturación', array('uri' => '#'));
 			$menu['Facturación']->addChild('Facturar', array('uri' => '#'));

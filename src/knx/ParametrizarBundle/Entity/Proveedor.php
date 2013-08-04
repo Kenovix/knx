@@ -5,12 +5,15 @@ namespace knx\ParametrizarBundle\Entity;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
+
 
 /**
  * knx\ParametrizarBundle\Entity\Proveedor
  *
  * @ORM\Table(name="proveedor")
  * @ORM\Entity
+ * @DoctrineAssert\UniqueEntity("nit")
  */
  
 class Proveedor
@@ -29,7 +32,7 @@ class Proveedor
      * @var string $nit
      *
      * @ORM\Column(name="nit", type="string", length=13, unique=true, nullable=false)
-     *
+     * @Assert\Length(max=12 , min=11)       
      */
     private $nit;
 
@@ -37,6 +40,7 @@ class Proveedor
      * @var string $nombre
      *
      * @ORM\Column(name="nombre", type="string", length=30, nullable=false)
+     * @Assert\Length(max=60 , min=3) 
      *
      */
     private $nombre;
@@ -45,8 +49,7 @@ class Proveedor
      * @var integer $ciudad
      *
      * @ORM\Column(name="ciudad", type="string", length=160, nullable=false)
-     *
-     *
+     * @Assert\Length(max=15 , min=3)
      */
     private $ciudad;
 
@@ -62,7 +65,7 @@ class Proveedor
     /**
      * @var string $telefono
      *
-     * @ORM\Column(name="telefono", type="string", length=7)
+     * @ORM\Column(name="telefono", type="string", length=7, nullable=true)
 	 *
      */
     private $telefono;
@@ -71,7 +74,7 @@ class Proveedor
     /**
      * @var string $email
      *
-     * @ORM\Column(name="email", type="string", length=200)
+     * @ORM\Column(name="email", type="string", length=200, nullable=true)
      */
     private $email;
     

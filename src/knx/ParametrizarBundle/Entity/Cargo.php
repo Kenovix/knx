@@ -42,7 +42,7 @@ class Cargo
      * @var string $nombre
      * 
      * @ORM\Column(name="nombre", type="string", length=255, nullable=false)
-     *
+     * @Assert\Length(min=3)  
      */
     private $nombre;
 

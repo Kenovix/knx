@@ -4,12 +4,15 @@ namespace knx\ParametrizarBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
+
 
 /**
  *
  * knx\ParametrizarBundle\Entity\Pyp
  * @ORM\Table(name="categoria_pyp")
  * @ORM\Entity
+ * @DoctrineAssert\UniqueEntity("codigo")
  */
 class Pyp
 {
@@ -26,7 +29,7 @@ class Pyp
     /**
      * @var codigo
      *
-     * @ORM\Column(name="codigo", type="integer", nullable=false)
+     * @ORM\Column(name="codigo", type="integer", nullable=false, unique=true)
      *
      */
         private $codigo;
@@ -36,6 +39,7 @@ class Pyp
      * @var string nombre
      *
      * @ORM\Column(name="nombre", type="text", nullable=false)
+     * @Assert\Length(min=3)  
      */
         private $nombre;
 

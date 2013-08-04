@@ -7,6 +7,7 @@ use knx\FarmaciaBundle\Entity\Inventario;
 use knx\FarmaciaBundle\Entity\Imv;
 use knx\FarmaciaBundle\Entity\Ingreso;
 use knx\FarmaciaBundle\Entity\Traslado;
+use knx\FarmaciaBundle\Entity\Devolucion;
 use knx\FarmaciaBundle\Form\UpdateInventarioType;
 use knx\FarmaciaBundle\Form\InventarioType;
 
@@ -146,6 +147,7 @@ class InventarioController extends Controller
     	$em = $this->getDoctrine()->getEntityManager();    
     	$inventario = $em->getRepository('FarmaciaBundle:Inventario')->find($inventario);
     	$traslado = $em->getRepository('FarmaciaBundle:Traslado')->findBy(array("inventario"=>$inventario->getId()));
+    	$devolucion = $em->getRepository('FarmaciaBundle:Devolucion')->findBy(array("inventario"=>$inventario->getId()));
     	 
     	//die(var_dump($inventario));
     	
@@ -160,14 +162,29 @@ class InventarioController extends Controller
     	$breadcrumbs->addItem($inventario->getId(), $this->get("router")->generate("inventario_edit", array("inventario" => $inventario->getId())));
     	$breadcrumbs->addItem("Modificar".$inventario->getId());
     
-       if ($traslado == null){
+       if ($traslado == null ){
     				 
     				$form   = $this->createForm(new UpdateInventarioType(), $inventario);
     				 
     				 
-    			}else {
+    			}
+    			else {
+    			
+    				$this->get('session')->setFlash('error','El Item no se puede modificar ya que presenta movimientos');
+    				return $this->redirect($this->generateUrl('ingreso_list'));
+    			
+    			}
+    			
+    			
+    			if ( $devolucion == null){
+    				$form   = $this->createForm(new UpdateInventarioType(), $inventario);
+    					
+    					
+    				} 
+    			
+    			else {
 
-						$this->get('session')->setFlash('error','El Item no se puede modificar ya que ha sido trasladado');    			
+						$this->get('session')->setFlash('error','El Item no se puede modificar ya que presenta movimientos');    			
 						return $this->redirect($this->generateUrl('ingreso_list'));
 						
     			}

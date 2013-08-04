@@ -6,7 +6,7 @@
 
 {% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
 
-{% block titulo %}Farmacia Stock{% endblock %}
+{% block titulo %}Farmacia Existencia{% endblock %}
 
 {% block msg %}
 	{% if app.session.hasFlash('ok') %}
@@ -39,7 +39,7 @@
 					{{ form_widget(form) }}
 		   		<div class="form-actions">
 					<input class="btn btn-primary" name="Buscar" type="submit" value="Buscar" />
-			    	<a href="{{ path('imv_new') }}" class="btn btn-primary">Nuevo Stock</a>
+			    	<a href="{{ path('imv_new') }}" class="btn btn-primary">Nueva Existencia</a>
 			  	</div>
 		    </fieldset>			
 		</form>

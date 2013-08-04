@@ -97,6 +97,9 @@ class Usuario extends BaseUser
 		else if($rol == 5) {
 			array_push($this->roles, 'ROLE_AUXILIAR');
 		}
+		else if($rol == 6) {
+			array_push($this->roles, 'ROLE_FACTURADOR');
+		}
 	}
 
 

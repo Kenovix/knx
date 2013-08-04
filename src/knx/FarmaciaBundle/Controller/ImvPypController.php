@@ -138,17 +138,7 @@ class ImvPypController extends Controller
     			$edadI = $imvpyp->getEdadIni();
     			$edadF = $imvpyp->getEdadFin();
     			
-    			if ($edadF < $edadI){
-    				
-    				$this->get('session')->setFlash('info', 'Edad final es menor a Edad inicial');
-    				
-    				return $this->render('FarmaciaBundle:ImvPyp:new.html.twig', array(
-    						'form'   => $form->createView()
-    				));
-    				
-    			}
     			
-                else {
     			$creada_imvpyp = $em->getRepository('FarmaciaBundle:ImvPyp')->findBy(array('pyp' => $pyp->getId(), 'imv' => $imv->getId()));
     			if(!$creada_imvpyp){    			
     			
@@ -172,7 +162,7 @@ class ImvPypController extends Controller
     				
     			}		
    			}
-    	}
+    	
 
     	return $this->render('FarmaciaBundle:ImvPyp:new.html.twig', array(
     	

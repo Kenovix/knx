@@ -11,18 +11,12 @@ class FacturaType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-        	->add('cliente', 'choice', array('choices' => array('' => 'Seleccione cliente')))
-            ->add('tipoActividad')
-            ->add('catPyp')
+        	->add('cliente', 'choice', array('disabled' => true, 'choices' => array('' => 'Seleccione cliente')))
+            ->add('tipoActividad', 'choice', array('label' => 'Tipo de actividad', 'disabled' => false, 'choices' => array('n' => 'Normal', 'pyp' => 'PYP')))
+            ->add('catPyp', 'choice', array('label' => 'Categoría de PYP', 'disabled' => true, 'choices' => array('' => 'Seleccione una categoría')))
             ->add('autorizacion')
             ->add('observacion')
-            ->add('estado')
-            ->add('profesional')
-            ->add('created')
-            ->add('updated')            
-            ->add('usuario')
-            ->add('servicio')
-            ->add('hc')
+            ->add('profesional', 'choice', array('label' => 'Profesional', 'disabled' => true, 'choices' => array('' => 'Seleccione un profesional')))
         ;
     }
 

@@ -6,7 +6,7 @@
 
 {% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
 
-{% block titulo %}Nuevo Stock{% endblock %}
+{% block titulo %}Nueva Existencia{% endblock %}
 
 {% block msg %}
 	{% if app.session.hasFlash('ok') %}
@@ -34,7 +34,7 @@
 
 	<form action="{{ path('imv_save') }}" class="form-horizontal" method="post" {{ form_enctype(form) }}>
 	    <fieldset>
-	    	<legend>Datos del Stock</legend>
+	    	<legend>Datos de Existencia</legend>
 	    	    
 		   {{ form_widget(form) }}
 		   

@@ -3,12 +3,15 @@
 namespace knx\ParametrizarBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
 
 /**
  *
  * knx\ParametrizarBundle\Entity\Almacen
  * @ORM\Table(name="almacen")
  * @ORM\Entity
+ * @DoctrineAssert\UniqueEntity("nombre")
  */
 class Almacen
 {
@@ -26,6 +29,7 @@ class Almacen
      * @var string nombre
      *
      * @ORM\Column(name="nombre", type="text", nullable=false)
+     * @Assert\Length(min=3)  
      */
         private $nombre;
 	

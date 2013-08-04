@@ -6,7 +6,7 @@
 
 {% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
 
-{% block titulo %}Nuevo Stock_Pyp{% endblock %}
+{% block titulo %}Nueva Insumo_Pyp{% endblock %}
 
 {% block msg %}
 	{% if app.session.hasFlash('ok') %}
@@ -34,7 +34,7 @@
 
 	<form action="{{ path('imvpyp_save') }}" class="form-horizontal" method="post" {{ form_enctype(form) }}>
 	    <fieldset>
-	    	<legend>Datos del Stock_Pyp</legend>
+	    	<legend>Datos del  Insumo_Pyp</legend>
 	    	    
 		   {{ form_widget(form) }}
 		   

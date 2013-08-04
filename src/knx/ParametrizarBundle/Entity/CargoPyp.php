@@ -52,6 +52,7 @@ class CargoPyp
      * @var sexo
      *
      * @ORM\Column(name="sexo", type="string", nullable=false)
+     * @Assert\Choice(choices = {"M", "F","A"}, message = "Selecciona una opción valida.")
      */
         private $sexo;
 

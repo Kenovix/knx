@@ -15,8 +15,11 @@ class ImvPypType extends AbstractType
         ->add('imv', 'entity', array('class' => 'knx\\FarmaciaBundle\\Entity\\Imv','required' => true,'label' => 'Imv:',
         		'empty_value' => 'Selecciona un Imv',
         		'query_builder' => function(EntityRepository $repositorio) {
-        			return $repositorio->createQueryBuilder('s')        			
-        			->orderBy('s.nombre', 'ASC');}
+        			return $repositorio->createQueryBuilder('s')  
+        			->where('s.tipoImv = :tipo Or s.tipoImv = :tipo1' )
+        			->orderBy('s.nombre', 'ASC')
+        			->setParameters(array('tipo' => 'V','tipo1' => 'MP'));}
+
         ))
         
         ->add('pyp', 			'entity', array('class' => 'knx\\ParametrizarBundle\\Entity\\Pyp','required' => true,'label' => 'Categoria:',

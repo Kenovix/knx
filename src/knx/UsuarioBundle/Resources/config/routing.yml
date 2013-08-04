@@ -5,11 +5,3 @@ usuario_homepage:
 usuario_list:
     pattern: /list
     defaults: { _controller: UsuarioBundle:Usuario:list }
-    
-usuario_edit:
-    pattern: /{usuario}/edit
-    defaults: { _controller: UsuarioBundle:Usuario:edit }
-    
-usuario_update:
-    pattern: /{usuario}/update
-    defaults: { _controller: UsuarioBundle:Usuario:update }

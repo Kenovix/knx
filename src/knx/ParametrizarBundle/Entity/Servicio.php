@@ -4,12 +4,15 @@ namespace knx\ParametrizarBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
+
 
 /**
  * knx\ParametrizarBundle\Entity\Servicio
  *
  * @ORM\Table(name="servicio")
  * @ORM\Entity
+ * @DoctrineAssert\UniqueEntity("nombre")
  */
 class Servicio
 {
@@ -25,9 +28,9 @@ class Servicio
     /**
      * @var string $nombre
      * 
-     * @ORM\Column(name="nombre", type="string", length=75, nullable=false)
+     * @ORM\Column(name="nombre", type="string", length=75, nullable=false,unique=true)
      * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
-     * @Assert\MaxLength(limit=75, message="El valor ingresado debe tener máximo {{ limit }} caracteres.")
+     * @Assert\Length(max=75)  
      */
     private $nombre;
     
@@ -36,7 +39,7 @@ class Servicio
      *
      * @ORM\Column(name="estado", type="string", length=2, nullable=false)
      * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
-     * @Assert\MaxLength(limit=2, message="El valor ingresado debe tener máximo {{ limit }} caracteres.")
+     * @Assert\Length(max=2)  
      */
     private $estado;
 
