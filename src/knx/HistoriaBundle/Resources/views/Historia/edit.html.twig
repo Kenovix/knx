@@ -29,6 +29,13 @@
 
 {% block cuerpo %}
 
+{% set servicio_ingreso = factura.servicio.nombre %}
+	
+{% set boolean = '' %}
+{% if servicio_ingreso == 'URGENCIAS' or servicio_ingreso == 'HOSPITALIZACION' or servicio_ingreso == 'OBSERVACION' %}
+	{% set boolean = 'salida' %}
+{% endif %}
+
    <div id="tableHcPaciente">
 		<table class="table table-bordered">
 			<thead>
@@ -214,7 +221,7 @@
 			</div>
 		</div>			
 		<div class="control-group">
-			<label class="control-label"  for="fechaEgre">servicio Ingreso: *</label>
+			<label class="control-label"  for="fechaEgre">Servicio Ingreso: *</label>
 			<div class="controls">
 				<span class="input-xlarge uneditable-input">{{ factura.servicio.nombre }}</span>
 			</div>
@@ -223,7 +230,7 @@
 	
 	  {% ui_expander expanded=false  %}
   		{% ui_header label="Anamnesis" %}
-		    {% ui_content style="height:500px" %}      
+		    {% ui_content style="height:400px" %}      
 	      <div id="Anamnesis" style="padding:2px">
 	      	<div>
 	      		{{ form_label(edit_form.tipoAtencion) }}
@@ -256,7 +263,7 @@
       
       {% ui_expander expanded=false %}
   		{% ui_header label="Antecedentes" %}
-		    {% ui_content style="height:1200px" %}      
+		    {% ui_content style="height:900px" %}      
 	      <div id="Antecedentes">
 		      <div>
 		     	 {{ form_label(edit_form.antecedentesGenerales) }}
@@ -304,7 +311,7 @@
       
       {% ui_expander expanded=false %}
   		{% ui_header label="Examen Fisico rostro" %}
-		    {% ui_content style="height:900px" %}     
+		    {% ui_content style="height:600px" %}     
 	      <div id="ExamenFisico">
 	      	<div>
 	    		{{ form_label(edit_form.cabeza) }}
@@ -342,7 +349,7 @@
 	   
 	   {% ui_expander expanded=false %}
   		{% ui_header label="Examen Fisico Cuerpo" %}
-		    {% ui_content style="height:1100px" %} 	
+		    {% ui_content style="height:700px" %} 	
 	   
 	    <div>
 			<div>	
@@ -465,7 +472,7 @@
        {%  end_ui_content %}
       {% end_ui_expander %}      
       
-      
+  {% if servicio_ingreso == 'URGENCIAS' or servicio_ingreso == 'HOSPITALIZACION' or servicio_ingreso == 'OBSERVACION' %}    
       {% ui_accordion %}
       {% ui_tab label="Parte Medica Diagnostica" %}
      		 <div id="ParteMedica">
@@ -508,15 +515,18 @@
 					{{ form_errors(edit_form.conducta) }}
 					{{ form_widget(edit_form.conducta) }}
 	     		 </div>
+	     		 	     		
 	     		 <div>
 		     		{{ form_label(edit_form.evolucion) }}
 					{{ form_errors(edit_form.evolucion) }}
 					{{ form_widget(edit_form.evolucion) }}
-	     		 </div>			
+	     		 </div>
+	     		
     		 </div>
       {%  end_ui_tab %}
+	
+      {% ui_tab label="Parte Medica Examen" %}     	       
       
-      {% ui_tab label="Parte Medica Examen" %}
       			 <div class="control-group">
 		     		{{ form_label(edit_form.examenes) }}		     		
 					{{ form_errors(edit_form.examenes) }}
@@ -598,11 +608,11 @@
 	     		 			{% endfor %}
 	     		 		</tbody>
 	     		 	</table>
-	     		 </div>
-      {%  end_ui_tab %}
-       
+	     		 </div>	     
+      {%  end_ui_tab %}       
       
-	  {% ui_tab label="Parte Medica medicamento" %}		  
+	  {% ui_tab label="Parte Medica medicamento" %}	  	
+	  		  
 		    	<div>
 		     		{{ form_label(edit_form.laboratorio) }}
 					{{ form_errors(edit_form.laboratorio) }}
@@ -638,9 +648,56 @@
 	     		 			{% endfor %}
 	     		 		</tbody>
 	     		 	</table>
-	     		 </div>      
+	     		 </div>	     	
 		{%  end_ui_tab %}	
-		{% end_ui_accordion %} 
+		{% end_ui_accordion %}
+	{% else %}
+	 {% ui_accordion %}
+      {% ui_tab label="Parte Medica Diagnostica" %}
+     		 <div id="ParteMedica">
+	     		 <div>
+	     		 	{{ form_label(edit_form.dxPrin) }}
+					{{ form_errors(edit_form.dxPrin) }}
+					{{ form_widget(edit_form.dxPrin) }}     		 
+	     		 </div>
+	     		 <div id="dxSolicitados">
+	     		 	<div id="ajaxMsgCie"></div>
+		     		<table id="CieSolicitado" class="table table-striped">
+						<thead>
+		            		<tr>
+		                		<th>NOMBRE</th>
+		                		<th>CODIGO</th>
+		                		<th>OPCIÓN</th>                
+		            		</tr>
+		        		</thead>
+					    <tbody>  
+					    	{% for cie in hc_cie %}
+					    		<tr id="dx{{ cie.id }}">
+						    		<td>{{ cie.nombre }}</td>
+						    		<td>{{ cie.codigo }}</td>  
+						    		<td id="delCieBtn{{ cie.id }}">
+						    			<a class='btn' onClick='delCie({{ cie.id }}); return false;' href='#' title='Eliminar'><i class='icon-remove'></i></a>
+						    		</td>
+					    		</tr>
+					    	{% endfor %} 
+					    
+					    </tbody>
+					</table> 
+	     		 </div>
+	     		 <div>
+	     		 	{{ form_label(edit_form.tipoDx) }}
+					{{ form_errors(edit_form.tipoDx) }}
+					{{ form_widget(edit_form.tipoDx) }}
+				 </div>
+	     		 <div>
+		     		{{ form_label(edit_form.conducta) }}
+					{{ form_errors(edit_form.conducta) }}
+					{{ form_widget(edit_form.conducta) }}
+	     		 </div>	     		
+    		 </div>
+      {%  end_ui_tab %}
+     {% end_ui_accordion %}
+  {% endif %}
   		
   		{% ui_expander expanded=false %}
   		{% ui_header label="Egreso" %}
@@ -763,20 +820,21 @@
 		
 				<div class="control-group">
 	    			{{ form_label(edit_form.serviEgre) }}
+	    			
     	    		<div class="controls">
 						{{ form_errors(edit_form.serviEgre) }}
 						{{ form_widget(edit_form.serviEgre) }}
 					</div>
-    	   		 </div>					
-				
-  		
+    	   		 </div>			
+  		<div id="remision" style="display: none;" >	
 		   {{ form_rest(edit_form) }}
+		 </div>
        </fieldset>
        
 			<div class="form-actions">
 				<input class="btn btn-primary" name="guardar" type="submit" value="Modificar" />
 			    <a href="{{ path('historia_search') }}" class="btn btn-danger">Cancelar</a>
-			    <a href="#" class="btn" >Imprimir</a>
+			   {% if historia.serviEgre %} <a href="{{ path('historia_imprime', {'factura': factura.id}) }}" target='blank' class="btn" >Imprimir</a>{% endif %}
 			</div>
 	</form>
 {% endblock %}
@@ -814,7 +872,8 @@
 			}
 
 			if(opcion == 'muerte'){
-				$('#remision2').show('slow');
+				$("label[for='newHcType_descripcion_r']").text('Descrip, hora y fecha de la muerte');				
+				$('#remision2').show('slow');				
 			}
 		});		
 	</script>

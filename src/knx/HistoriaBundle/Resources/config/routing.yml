@@ -18,7 +18,7 @@ historia_search:
     
 historia_imprime:
     pattern:  /{factura}/print
-    defaults: { _controller: HistoriaBundle:Historia:print }
+    defaults: { _controller: HistoriaBundle:ImpresionHistoria:print }
     
 #************** Examen ***************#
 
