@@ -29,10 +29,10 @@
 
 {% block cuerpo %}
 
-{% set servicio_ingreso = factura.servicio.nombre %}
+{% set tipoingreso = factura.tipo %}
 	
 {% set boolean = '' %}
-{% if servicio_ingreso == 'URGENCIAS' or servicio_ingreso == 'HOSPITALIZACION' or servicio_ingreso == 'OBSERVACION' %}
+{% if tipoingreso == 'U' or tipoingreso == 'H' %}
 	{% set boolean = 'salida' %}
 {% endif %}
 
@@ -472,7 +472,7 @@
        {%  end_ui_content %}
       {% end_ui_expander %}      
       
-  {% if servicio_ingreso == 'URGENCIAS' or servicio_ingreso == 'HOSPITALIZACION' or servicio_ingreso == 'OBSERVACION' %}    
+  {% if tipoingreso == 'U' or tipoingreso == 'H' %}    
       {% ui_accordion %}
       {% ui_tab label="Parte Medica Diagnostica" %}
      		 <div id="ParteMedica">

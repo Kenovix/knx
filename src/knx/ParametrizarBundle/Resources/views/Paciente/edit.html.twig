@@ -251,7 +251,8 @@ $("#knxPacientetype_depto").change(function(){
  });
 
 $(function() {
-    $( "#knxPacientetype_fN" ).datepicker({ dateFormat: 'dd/mm/yy' });    
+    $( "#knxPacientetype_fN" ).datepicker({ dateFormat: 'dd/mm/yy' });
+    $( "#knxPacientetype_fN" ).val('{{ paciente.fN }}');    
 });
 </script>
 {% endblock %}

@@ -11,6 +11,38 @@ use knx\HistoriaBundle\Form\NotasType;
 
 class NotaController extends Controller 
 {
+	public function validaHcRutaAction($factura)
+	{
+		$em = $this->getDoctrine()->getEntityManager();
+		$factura = $em->getRepository('FacturacionBundle:Factura')->find($factura);
+		
+		if (!$factura) {
+			throw $this->createNotFoundException('La informacion solicitada no esta disponible.');
+		}
+		
+		$tipoIngreso = $factura->getTipo();
+		if( $tipoIngreso == 'U' or $tipoIngreso == 'H')
+		{
+			// se redirecciona a crear una nueva nota para la historia clinica.			
+			return $this->redirect($this->generateUrl('nota_new',array("factura" => $factura->getId())));
+		}
+		elseif($tipoIngreso == 'C')
+		{
+			// se crea automaticamente la historia y luego lo pasa al edit de la historia.
+			$historia = $factura->getHc();
+			/* Si la historia no existe se procedera a crear una historia en code behind, despues de crear la
+			 * historia se procede a visualizar el formulario de las notas. */
+			if(!$historia){				
+				
+				$historia = $em->getRepository('HistoriaBundle:Notas')->createEmptyHc($factura);
+			}
+			// se redirecciona la a la editccion de la historia
+			return $this->redirect($this->generateUrl('historia_edit',array("factura" => $factura->getId())));
+		}		
+		// envia un mesaje diciendo que la facuta no contiene los permisos suficientes para crear una historia clinica
+		return $this->redirect($this->generateUrl('historia_search'));		
+	}
+	
 	public function newAction($factura) 
 	{
 		$em = $this->getDoctrine()->getEntityManager();

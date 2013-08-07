@@ -67,6 +67,10 @@ class PacienteController extends Controller
 		$form    = $this->createForm(new PacienteType(), $paciente);
 		$form->bindRequest($request);		
 		
+		// Se convierte la fecha de naciemiento en una date se asigna al entity antes de ser validado
+		$fN = date_create_from_format('d/m/Y',$form->get('fN')->getData());		
+		$paciente->setFN($fN);
+		
 		if ($form->isValid()) {
 			
 			// se optinen los objetos mupio y depto para agregar su respectivo id
@@ -74,7 +78,7 @@ class PacienteController extends Controller
 			$mupio = $form->get('mupio')->getData();			
 			
 			$paciente->setMupio($mupio->getId());
-			$paciente->setDepto($depto->getId());
+			$paciente->setDepto($depto->getId());			
 						
 			$em = $this->getDoctrine()->getEntityManager();
 			$em->persist($paciente);
@@ -136,9 +140,11 @@ class PacienteController extends Controller
 		$mupio = $em->getRepository('ParametrizarBundle:Mupio')->find($paciente->getMupio());
 		
 		$paciente->setDepto($depto);				
-		$paciente->setMupio($mupio);
+		$paciente->setMupio($mupio);		
+		
+		$paciente->setFN($paciente->getFN()->format('d/m/Y'));		
 	
-		$editForm = $this->createForm(new PacienteType(), $paciente);	
+		$editForm = $this->createForm(new PacienteType(), $paciente);		
 		
 		$breadcrumbs = $this->get("white_october_breadcrumbs");
 		$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
@@ -165,12 +171,16 @@ class PacienteController extends Controller
 		$request = $this->getRequest();
 		$editForm->bindRequest($request);
 	
+		// Se convierte la fecha de naciemiento en una date se asigna al entity antes de ser validado
+		$fN = date_create_from_format('d/m/Y',$editForm->get('fN')->getData());		
+		$paciente->setFN($fN);
+		
 		if ($editForm->isValid()) {
 			
 			// se optinen los objetos mupio y depto para agregar su respectivo id				
 			$paciente->setMupio($paciente->getMupio()->getId());
 			$paciente->setDepto($paciente->getDepto()->getId());
-	
+				
 			$em->persist($paciente);
 			$em->flush();
 	
@@ -225,13 +235,6 @@ class PacienteController extends Controller
 		}
 	
 		$em = $this->getDoctrine()->getEntityManager();	
-	
-		/*$form->get('tipoid')->setData($tipoid);
-		$form->get('identificacion')->setData($id);
-		$form->get('pri_nombre')->setData($pri_nombre);
-		$form->get('seg_nombre')->setData($seg_nombre);
-		$form->get('pri_apellido')->setData($pri_apellido);
-		$form->get('seg_apellido')->setData($seg_apellido);*/
 	
 		$boolean = 0;
 		$query = "SELECT p FROM ParametrizarBundle:Paciente p WHERE ";
@@ -301,9 +304,7 @@ class PacienteController extends Controller
 		$dql->setParameters($parametros);			
 		$pacientes = $dql->getResult();		
 		$paginator = $this->get('knp_paginator');
-		$pacientes = $paginator->paginate($pacientes, $this->getRequest()->query->get('page', 1),15);
-		
-		
+		$pacientes = $paginator->paginate($pacientes, $this->getRequest()->query->get('page', 1),15);		
 	
 		return $this->render('ParametrizarBundle:Paciente:filtro.html.twig', array(
 				'entities'  => $pacientes,
@@ -518,10 +519,10 @@ class PacienteController extends Controller
 	public function downloadFile($ruta, $nameFile)
 	{
 		$downloadFile = $ruta.$nameFile;
-		/*header("Content-Disposition: attachment; filename=$nameFile");
+		header("Content-Disposition: attachment; filename=$nameFile");
 		header("Content-Type: application/octet-stream");
 		header("Content-Length: ".filesize($downloadFile));
-		readfile($downloadFile);*/
+		readfile($downloadFile);
 		unlink($downloadFile);	
 
 		return true;

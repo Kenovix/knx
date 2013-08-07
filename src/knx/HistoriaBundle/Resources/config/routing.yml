@@ -92,6 +92,10 @@ cie_search:
     
 #************** NOTAS ***************#
 
+nota_validaHcRuta:
+    pattern:  /valida_ruta/{factura}/historia
+    defaults: { _controller: HistoriaBundle:Nota:validaHcRuta }
+
 nota_new:
     pattern:  /nota/{factura}/new
     defaults: { _controller: HistoriaBundle:Nota:new }

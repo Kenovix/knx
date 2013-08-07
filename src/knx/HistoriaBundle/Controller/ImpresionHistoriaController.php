@@ -54,8 +54,17 @@ class ImpresionHistoriaController extends Controller
 		$pdf->setFontSubsetting(true);
 		$pdf->SetFont('dejavusans', '', 8, '', true);
 	
+		// se establece el titulo de la impresion dependiendo el servicio de ingreso
+		$tipoIngreso = $factura->getTipo();
+		if( $tipoIngreso == 'U' or $tipoIngreso == 'H')
+		{
+			$tipoIngreso = "Historia Clinica Urgencias No.".$historia->getId();
+		}elseif($tipoIngreso == 'C'){
+			$tipoIngreso = "Historia Clinica Ambulatoria No.".$historia->getId();
+		}
+		
 		// Header and footer
-		$pdf->SetHeaderData('logo.jpg', 20, 'Hospital San Agustin', 'Historia Clinica  No. '.$historia->getId());
+		$pdf->SetHeaderData('logo.jpg', 20, 'Hospital San Agustin', $tipoIngreso);
 		$pdf->setFooterData(array(0,64,0), array(0,64,128));
 	
 		// set header and footer fonts
@@ -70,7 +79,7 @@ class ImpresionHistoriaController extends Controller
 		// set image scale factor
 		$pdf->setImageScale(5);
 	
-		$pdf->AddPage();
+		$pdf->AddPage();		
 	
 		$header = $this->renderView('HistoriaBundle:Impresos:header.html.twig',array(
 				'factura'  	 => $factura,
