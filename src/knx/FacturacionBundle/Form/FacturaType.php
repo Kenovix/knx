@@ -11,12 +11,14 @@ class FacturaType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-        	->add('cliente', 'choice', array('disabled' => true, 'choices' => array('' => 'Seleccione cliente')))
+        	->add('paciente', 'text', array('attr' => array('placeholder' => 'Identificación', 'class' => 'span6'), 'property_path' => false))
+        	->add('cliente', 'choice', array('disabled' => true, 'choices' => array('' => 'Seleccione cliente'), 'property_path' => false))
             ->add('tipoActividad', 'choice', array('label' => 'Tipo de actividad', 'disabled' => false, 'choices' => array('n' => 'Normal', 'pyp' => 'PYP')))
             ->add('catPyp', 'choice', array('label' => 'Categoría de PYP', 'disabled' => true, 'choices' => array('' => 'Seleccione una categoría')))
             ->add('autorizacion')
             ->add('observacion')
             ->add('profesional', 'choice', array('label' => 'Profesional', 'disabled' => true, 'choices' => array('' => 'Seleccione un profesional')))
+            ->add('servicio', 'entity', array('required' => true, 'class' => 'knx\ParametrizarBundle\Entity\Servicio', 'empty_value' => 'Elige un servicio'))
         ;
     }
 

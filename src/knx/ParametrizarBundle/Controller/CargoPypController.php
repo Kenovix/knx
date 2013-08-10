@@ -5,6 +5,7 @@ namespace knx\ParametrizarBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use knx\ParametrizarBundle\Entity\CargoPyp;
 use knx\ParametrizarBundle\Form\CargoPypType;
+use Symfony\Component\HttpFoundation\Response;
 
 class CargoPypController extends Controller
 {
@@ -223,24 +224,30 @@ class CargoPypController extends Controller
     		
     		$em = $this->getDoctrine()->getEntityManager();
     		
-    		$query = $em->createQuery(' SELECT 
-    										cp 
+    		$query = $em->createQuery(' SELECT DISTINCT
+    										p.id,
+    										p.nombre 
     									FROM 
-    										knx\ParametrizarBundle\Entity\CargoPyp cp 
-    									WHERE 
-    										cp.edadIni >= :edad AND 
-    										cp.edadFin <= :edad '.$where);   		
-    		
-    		die(print_r($query->getSQL()));
+    										knx\ParametrizarBundle\Entity\CargoPyp cp
+    									JOIN
+    										cp.pyp p
+    									WHERE (
+    										cp.edadIni <= :edad AND 
+    										cp.edadFin >= :edad 
+    									) OR 
+    									cp.edadIni <= :edad OR
+    									cp.edadFin >= :edad '.$where);
     		
     		$query->setParameters($parametros);
     		
-    		$cargos = $query->getArrayResult();
-    		
-    		
+    		$cargos = $query->getResult();
     	
-    		if($cargos){    			 
-    			$response=array("responseCode" => 200);    	
+    		if($cargos){
+    			$response=array("responseCode" => 200);
+				
+    			foreach ($cargos as $key => $value){
+    				$response['categoria'][$value['id']] = $value['nombre'];
+    			}
     		}
     		else{
     			$response=array("responseCode"=>400, "msg"=>"No hay cargos disponibles para la edad dada.");

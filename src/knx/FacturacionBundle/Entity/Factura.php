@@ -31,18 +31,11 @@ class Factura {
 	private $fecha;
 
 	/**
-	 * @var string $tipoActividad
+	 * @var integer $pyp
 	 * 
-	 * @ORM\Column(name="tipo_actividad", type="string",  length=80, nullable=false)
+	 * @ORM\Column(name="pyp", type="integer", nullable=true)
 	 */
-	private $tipoActividad;
-
-	/**
-	 * @var string $catPyp
-	
-	 * @ORM\Column(name="catPyp", type="string", length=30, nullable=true)
-	 */
-	private $catPyp;
+	private $pyp;
 
 	/**
 	 * @var string $autorizacion
@@ -165,45 +158,24 @@ class Factura {
 	}
 
 	/**
-	 * Set tipoActividad
+	 * Set pyp
 	 *
-	 * @param string $tipoActividad
+	 * @param integer $pyp
 	 * @return Factura
 	 */
-	public function setTipoActividad($tipoActividad) {
-		$this->tipoActividad = $tipoActividad;
+	public function setPyp($pyp) {
+		$this->pyp = $pyp;
 
 		return $this;
 	}
 
 	/**
-	 * Get tipoActividad
+	 * Get pyp
 	 *
-	 * @return string 
+	 * @return integer
 	 */
-	public function getTipoActividad() {
-		return $this->tipoActividad;
-	}
-
-	/**
-	 * Set catPyp
-	 *
-	 * @param string $catPyp
-	 * @return Factura
-	 */
-	public function setCatPyp($catPyp) {
-		$this->catPyp = $catPyp;
-
-		return $this;
-	}
-
-	/**
-	 * Get catPyp
-	 *
-	 * @return string 
-	 */
-	public function getCatPyp() {
-		return $this->catPyp;
+	public function getPyp() {
+		return $this->pyp;
 	}
 
 	/**

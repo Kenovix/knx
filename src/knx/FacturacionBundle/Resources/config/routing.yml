@@ -6,6 +6,14 @@ facturacion_actividad_new:
     pattern:  /actividad/new
     defaults: { _controller: FacturacionBundle:Factura:newActividad }
     
+facturacion_actividad_save:
+    pattern:  /actividad/save
+    defaults: { _controller: FacturacionBundle:Factura:saveActividad }
+    
+facturacion_actividad_edit:
+    pattern:  /actividad/{factura}/edit
+    defaults: { _controller: FacturacionBundle:Factura:editActividad }
+    
 facturacion_paciente_buscar:
     pattern:  /paciente/buscar
     defaults: { _controller: FacturacionBundle:Factura:ajaxBuscarPaciente }

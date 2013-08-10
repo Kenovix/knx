@@ -9,6 +9,7 @@ use knx\FacturacionBundle\Form\FacturaType;
 use knx\ParametrizarBundle\Form\AfiliacionType;
 
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\SecurityContext;
 
 class FacturaController extends Controller
 {
@@ -26,6 +27,63 @@ class FacturaController extends Controller
     	return $this->render('FacturacionBundle:Factura:new.html.twig', array(
     			'form'   => $form->createView(),
     			'form_afiliacion' => $form_afiliacion->createView()
+    	));
+    }
+    
+    
+    public function saveActividadAction()
+    {
+    	$breadcrumbs = $this->get("white_october_breadcrumbs");
+    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
+    	$breadcrumbs->addItem("Nueva factura", $this->get("router")->generate("facturacion_actividad_new"));
+    	
+    	$factura = new Factura();
+    	
+    	$form = $this->createForm(new FacturaType(), $factura);
+    	$request = $this->getRequest();
+    	$entity = $request->get($form->getName());
+
+		$em = $this->getDoctrine()->getEntityManager();
+		
+		$paciente = $em->getRepository("ParametrizarBundle:Paciente")->findOneBy(array("identificacion" => $entity['paciente']));
+		$cliente = $em->getRepository("ParametrizarBundle:Cliente")->find($entity['cliente']);
+		$servicio = $em->getRepository("ParametrizarBundle:Servicio")->find($entity['servicio']);
+		$usuario = $this->get('security.context')->getToken()->getUser();
+		
+		$factura->setFecha(new \DateTime());
+		$factura->setAutorizacion($entity['autorizacion']);
+		$factura->setObservacion($entity['observacion']);
+		$factura->setProfesional($entity['profesional']);
+		
+    	  
+    	$em->persist($factura);
+    	$em->flush();
+    		 
+    	$this->get('session')->setFlash('ok', 'La factura ha sido registrada éxitosamente.');
+    			 
+    	return $this->redirect($this->generateUrl('factura_edit', array("factura" => $factura->getId())));
+    		
+    }
+    
+    public function editActividadAction($factura)
+    {
+    	$em = $this->getDoctrine()->getEntityManager();
+    
+    	$factura = $em->getRepository('FacturacionBundle:Factura')->find($factura);
+    
+    	if (!$factura) {
+    		throw $this->createNotFoundException('La factura solicitada no existe');
+    	}
+    	 
+    	$breadcrumbs = $this->get("white_october_breadcrumbs");
+    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
+    	$breadcrumbs->addItem("Nueva factura", $this->get("router")->generate("facturacion_actividad_new"));
+
+    	$form = $this->createForm(new FacturaType(), $factura);
+    
+    	return $this->render('FacturacionBundle:Factura:edit.html.twig', array(
+    			'factura' => $factura,
+    			'form' => $form->createView()
     	));
     }
     
