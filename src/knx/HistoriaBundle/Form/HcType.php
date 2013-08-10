@@ -24,7 +24,7 @@ class HcType extends AbstractType {
 								'multiple' => false,))
 				->add('causaExt', 'choice',
 						array('label' => 'Causa Externa: *',
-								'required' => false,
+								'required' => true,
 								'choices' => array('' => '--seleccione--',
 										'1' => 'Accidente de trabajo',
 										'2' => 'Accidente de tránsito',
@@ -43,10 +43,12 @@ class HcType extends AbstractType {
 										'15' => 'Otra',), 'multiple' => false,))
 				->add('enfermedad', 'textarea',
 						array('label' => 'Enfermedad actual: *',
+								'required' => true,
 								'attr' => array(
 										'placeholder' => 'Ingrese la enfermedad actual del paciente')))
 				->add('motivo', 'textarea',
 						array('label' => 'Motivo consulta: *',
+								'required' => true,
 								'attr' => array(
 										'placeholder' => 'Ingrese el motivo de la consulta')))
 				->add('estadoGen', 'textarea',
@@ -175,7 +177,7 @@ class HcType extends AbstractType {
 													'ASC');
 								}))
 				->add('tipoDx', 'choice',
-						array('label' => 'Tipo Dx:', 'required' => false,
+						array('label' => 'Tipo Dx:', 'required' => true,
 								'choices' => array('' => '--seleccione--',
 										'impresionDx' => 'Impresion diagnostica',
 										'confirmadoNuevo' => 'Confirmado nuevo',
@@ -183,7 +185,7 @@ class HcType extends AbstractType {
 								'multiple' => false,)) /* EndDiagnosticos */
 
 				->add('conducta', 'textarea',
-						array('label' => 'Conducta:', 'required' => false,
+						array('label' => 'Conducta:', 'required' => true,
 								'attr' => array('placeholder' => 'Conducta')))
 				->add('evolucion', 'textarea',
 						array('label' => 'Evolucion:', 'required' => false,
@@ -316,7 +318,7 @@ class HcType extends AbstractType {
 								'label' => 'Seleccione los examenes:',
 								'class' => 'knx\\HistoriaBundle\\Entity\\Examen',
 								'required' => false,
-								'empty_value' => '--examenes--',
+								'empty_value' => '--examenes y laboratorio--',
 								'query_builder' => function (
 										EntityRepository $repositorio) {
 									return $repositorio
@@ -343,7 +345,7 @@ class HcType extends AbstractType {
 								'label' => 'Seleccione los medicamentos:',
 								'class' => 'knx\\HistoriaBundle\\Entity\\Medicamento',
 								'required' => false,
-								'empty_value' => '--laboratorio--',
+								'empty_value' => '--medicamentos--',
 								'query_builder' => function (
 										EntityRepository $repositorio) {
 									return $repositorio

@@ -38,7 +38,7 @@
 	                <th>Cedula</th>
 	                <th>Entidad</th>
 	                <th>Servicio ingre</th>
-	                <th>Motivo</th>
+	                <th>Destino</th>
 	            </tr>
 	        </thead>
 	        <tbody>
@@ -49,7 +49,7 @@
 	                <td><a href="{{ path('historia_edit', {'factura':hc.factura.id}) }}">{{ hc.factura.paciente.identificacion }}</a></td>
 	                <td>{{ hc.factura.cliente.nombre}}</td>
 	                <td>{{ hc.factura.servicio.nombre}}</td>
-	                <td>{{ hc.motivo}}</td>
+	                <td>{{ hc.destino}}</td>
 	            </tr>
 	        {% endfor %}
 	        </tbody>

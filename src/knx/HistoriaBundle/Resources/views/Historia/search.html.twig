@@ -59,12 +59,8 @@
         <tbody>
         {% for entity in historia %}
             <tr>           
-                <td>{{ loop.index }}</td>              
-                {% if is_granted('ROLE_MEDICO') %}
-			     	<td><a href="{{ path('historia_edit', { 'factura': entity.factura.id }) }}">{{ entity.fechaEgre|date('d-m-Y H:i') }}</a></td>
-			    {% else %}
-			    	<td>{{ entity.fechaEgre|date('d-m-Y H:i') }}</td>	
-            	{% endif %}
+                <td>{{ loop.index }}</td>
+			    <td>{{ entity.fechaEgre|date('d-m-Y H:i') }}</td>            	
                 <td><strong>{{ entity.factura.servicio.nombre }}</strong></td>                               
                 <td><a href="{{ path('historia_imprime', { 'factura': entity.factura.id }) }}" target="blank" class="btn">Ver info.</a></td>
                 <td><a href="{{ path('nota_list', { 'historia': entity.id }) }}"  class="btn">Notas</a></td>

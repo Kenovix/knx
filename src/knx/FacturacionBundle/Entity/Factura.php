@@ -57,6 +57,14 @@ class Factura {
 	 * @ORM\Column(name="estado", type="string", length=2, nullable=false)
 	 */
 	private $estado;
+	
+	/**
+	 * @var string tipo
+	 *
+	 * @ORM\Column(name="tipo", type="string", length=2, nullable=false)
+	 */
+	// se establece el tipo de la factura para el tipo de atencion U: urgencias, H: Hospitalizacion, C: consulta, AN: Actividad Normal
+	private $tipo;
 
 	/**
 	 * @var Paciente
@@ -228,6 +236,27 @@ class Factura {
 	 */
 	public function setEstado($estado) {
 		$this->estado = $estado;
+	
+		return $this;
+	}
+	
+	/**
+	 * Get tipo
+	 *
+	 * @return string
+	 */
+	public function getTipo() {
+		return $this->tipo;
+	}
+	
+	/**
+	 * Set tipo
+	 *
+	 * @param string $tipo
+	 * @return Factura
+	 */
+	public function setTipo($tipo) {
+		$this->tipo = $tipo;
 	
 		return $this;
 	}

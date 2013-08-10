@@ -4,6 +4,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\SecurityContext;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpFoundation\Response;
 
 use knx\HistoriaBundle\Entity\Hc;
 use knx\HistoriaBundle\Form\HcType;
@@ -219,43 +220,5 @@ class HistoriaController extends Controller
 		return $this->render('HistoriaBundle:Historia:urgencias.html.twig',array(
 				'urgencias_hc' => $urgencias,
 		));		
-	}
-
-	public function printAction($factura) {
-		$em = $this->getDoctrine()->getEntityManager();
-		$factura = $em->getRepository('FacturacionBundle:Factura')->find($factura);
-		
-		
-		$historia = $factura->getHc();
-		$paciente = $factura->getPaciente();
-		
-		
-		$pdf = $this->get('white_october.tcpdf')->create();
-		$pdf->SetCreator(PDF_CREATOR);
-		$pdf->SetAuthor('Kenovix');
-		$pdf->SetTitle('Impresos Kenovix');				
-		$pdf->SetFont('dejavusans', '', 10);
-		
-		$html = $this->render('HistoriaBundle:Historia:HcPrint.pdf.twig',array(
-				'paciente' => $paciente,
-				));	
-		
-		$pdf->AddPage();
-		
-		$pdf->Annotation(50, 50, 5, 5, 'PDF file', array('Subtype'=>'FileAttachment', 'Name' => 'PushPin', 'FS' => 'example_012.pdf'));
-		$pdf->Bookmark('PDF file', 0, 0, '', 'B', array(128,0,255), -1, '%'.$html);			
-		
-		return $pdf->Output('example_012.pdf', 'I');
-		
-		
-/*
-cambiar textarea a mas angostas
-
-no olvidar que cuando se elegi en salida domicilio,
-remision muerte y otro la historia debe queder cerrada no se podra modificar
-
-solo la historia queda activa cuando se elige observacion,
-internacion alli la historia queda abierta de igual manera cuando a el paciente se le da la salida debe de cerrarse esta historia.
-*/
-	}
+	}	
 }
