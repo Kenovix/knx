@@ -236,9 +236,9 @@ class IngresoController extends Controller
     		throw $this->createNotFoundException('El ingreso solicitado no esta disponible.');
     	}
     	
-    	$inventarios = $em->getRepository('FarmaciaBundle:Inventario')->findByIngreso($ingreso);
+    	$inventario = $em->getRepository('FarmaciaBundle:Inventario')->findBy(array('ingreso' => $ingreso->getId()));
     	//$inventario = new Inventario();
-    	$inventarios = $paginator->paginate($inventarios,$this->getRequest()->query->get('page', 1), 10);
+    	$inventario = $paginator->paginate($inventario,$this->getRequest()->query->get('page', 1), 10);
     	 
     	
     	//$inventario = $em->getRepository('FarmaciaBundle:Inventario')->findByIngreso($ingreso);
@@ -251,7 +251,7 @@ class IngresoController extends Controller
     	 
     	return $this->render('FarmaciaBundle:Ingreso:show.html.twig', array(
     			'ingreso'  => $ingreso,
-    			'inventarios' => $inventarios
+    			'inventario' => $inventario
     			
     	));
     }

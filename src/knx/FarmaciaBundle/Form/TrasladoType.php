@@ -12,14 +12,8 @@ class TrasladoType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-             ->add('inventario', 		'entity', array(
-                'class' => 'knx\\FarmaciaBundle\\Entity\\Imv',
-                'required' => true,
-                'empty_value' => 'Selecciona un Imv',
-                'query_builder' => function(EntityRepository $repositorio) {
-                return $repositorio->createQueryBuilder('i');
-                }
-        ))
+             ->add('imv', 		'text',  array('required' => true, 'label' => 'Imv: *','disabled'=> true,'attr'=>array('class'=>'input-xxlarge')))
+
         ->add('tipo', 		  'choice', array('empty_value' => 'Selecione tipo','label' => 'Tipo: *',			'choices'   => array('D' => 'Devolucion', 'T' => 'Traslado'),'required'  => true))
         ->add('farmacia', 		'entity', array(
         		'class' => 'knx\\FarmaciaBundle\\Entity\\Farmacia',
@@ -27,9 +21,11 @@ class TrasladoType extends AbstractType
         		'empty_value' => 'Selecciona una Farmacia',
         		'query_builder' => function(EntityRepository $repositorio) {
         			return $repositorio->createQueryBuilder('s')
-        			->orderBy('s.nombre', 'ASC');}
+        			->where('s.estado = :estado ' )
+        			->orderBy('s.nombre', 'ASC')
+        			->setParameters(array('estado' => 'A'));}
         ))
-           	 ->add('cant',	'integer',  array('required' => true, 'label' => 'Cantidad: *', 'attr' => array('placeholder' => 'cantidad')))                        
+           	 ->add('cant',	'integer',  array('required' => true, 'label' => 'Cantidad: *', 'attr' => array('placeholder' => 'cantidad')))
         ;
     }
 

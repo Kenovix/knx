@@ -22,8 +22,7 @@ class InventarioType extends AbstractType
         ))
             ->add('cant',			'integer', array('required' => true, 'label' => 'Cantidad: *', 'attr' => array('placeholder' => 'Cantidad')))
             ->add('precioCompra',	'integer', array('required' => true, 'label' => 'PrecioCompra: *', 'attr' => array('placeholder' => 'PrecioCom')))
-            ->add('precioVenta',	'integer', array('required' => true, 'label' => 'PrecioVenta: *', 'attr' => array('placeholder' => 'PrecioVenta')))
-           
+			->add('precioventa','text',array('label'=> 'Precio_Venta:', 'required'=>false, 'property_path' => false,'attr' => array('placeholder' => 'Precio_venta', 'autofocus'=>'autofocus')));            
         ;
     }
 

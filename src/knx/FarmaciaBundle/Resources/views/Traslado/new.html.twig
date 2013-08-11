@@ -28,19 +28,19 @@
 {% endblock %}
 
 
-	
+
 {% block cuerpo %}
 
-	<form action="{{ path('traslado_save') }}" class="form-horizontal" method="post" {{ form_enctype(form) }}>
+	<form action="{{ path('traslado_save', {'imv':imv.id}) }}" class="form-horizontal" method="post" {{ form_enctype(form) }}>
 	    <fieldset>
 	    	<legend>Datos del Traslado</legend>
-	    	    
+
 		   {{ form_widget(form) }}
-		   
+
 			<div class="form-actions">
 				<input class="btn btn-primary" name="guardar" type="submit" value="Guardar" />
 			    <a href="{{ path('traslado_list') }}" class="btn btn-danger">Cancelar</a>
 			</div>
-		</fieldset>	
+		</fieldset>
 	</form>
 {% endblock %}

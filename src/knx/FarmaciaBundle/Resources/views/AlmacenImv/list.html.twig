@@ -37,38 +37,33 @@
 
 		   <div class="form-actions">
 				<input class="btn btn-primary" name="Buscar"  type="submit" value="Buscar" />
-				<a href="{{ path('imv_new') }}" class="btn btn-primary">Nueva Existencia</a>
-			    <a href="{{ path('imv_search') }}" class="btn">Volver</a>
+			    <a href="{{ path('almacenimv_search') }}" class="btn">Volver</a>
 
 			</div>
 
 		</form>
 
-	{% if imv %}
+	{% if almacenimv %}
 	    <table class="table">
 	        <thead>
 	            <tr>
 	                <th>No.</th>
-	              	<th>Codigo</th>
-	                <th>Tipo</th>
 	                <th>Nombre</th>
-	                <th>Cant_Existencia</th>
-	                <th>Precio Venta</th>
-
+					<th>cant</th>
 
 
 	            </tr>
 	        </thead>
 	        <tbody>
-	        {% for imv in imv %}
+	        {% for almacenimv in almacenimv %}
 	            <tr>
 	                <td>{{ loop.index }}</td>
-	                <td><a href="{{ path('imv_show', {'imv':imv.id}) }}">{{ imv.codCups}}</a></td>
-	             	 <td>{{ imv.tipoImv }}</td>
-	             	 <td>{{ imv.nombre }}</td>
-	             	 <td>{{ imv.cantT }}</td>
-	             	 <td>{{ imv.precioVenta }}</td>
+					{% if almacenimv.cant > 0 %}
+		           <td><a href="{{ path('traslado_new', {'imv':almacenimv.imv.id}) }}">{{ almacenimv.imv }}</a></td>
 
+	        		{% endif %}
+
+	             	 <td>{{ almacenimv.cant }}</td>
 
 	            </tr>
 	        {% endfor %}

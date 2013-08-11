@@ -29,43 +29,39 @@
 
 {% block cuerpo %}
 
-
-
-
-    <hr>
     <table class="table">
         <tbody>
         	<tr>
-                <td><strong>No.</strong></td>
-                <td>{{ inventario.id }}</td>
+                <td><strong>Codigo.</strong></td>
+                <td>{{ inv.imv.codCups }}</td>
             </tr>
             
             <tr>
-                <td><strong>Imv</strong></td>
-                <td>{{ inventario.imv }}</td>
+                <td><strong>Nombre</strong></td>
+                <td>{{ inv.imv.nombre }}</td>
             </tr>         
                   
             
             <tr>
                 <td><strong>Cantidad</strong></td>
-                <td>{{ inventario.cant }}</td>
+                <td>{{ inv.cant }}</td>
             </tr>
             
             <tr>
                 <td><strong>Precio Compra</strong></td>
-                <td>${{ inventario.precioCompra | number_format(0,',','.') }}</td>
+                <td>${{ inv.precioCompra | number_format(0,',','.') }}</td>
             </tr>
             
             <tr>
                 <td><strong>Precio Venta</strong></td>
-                <td>${{ inventario.precioVenta | number_format(0,',','.') }}</td>
+                <td>${{ inv.imv.precioVenta | number_format(0,',','.') }}</td>
             </tr>
             
         </tbody>
     </table>
 
 	<div class="btn-group">
-	    <a href="{{ path('inventario_edit', {'inventario':inventario.id}) }}" class="btn btn-primary">Modificar</a>
+	    <a href="{{ path('inventario_edit', {'ingreso': inv.ingreso.id, 'imv':inv.imv.id}) }}" class="btn btn-primary">Modificar</a>
 	    <a href="{{ path('ingreso_list') }}" class="btn">Volver</a>
     </div>
 {% endblock %}

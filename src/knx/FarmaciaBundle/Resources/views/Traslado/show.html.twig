@@ -27,31 +27,31 @@
 	{% endif %}
 {% endblock %}
 
-{% block cuerpo %}	    
+{% block cuerpo %}
 
 	<table class="table">
         <thead>
 	        <tr>
-                <th>No.</th>                
+                <th>No.</th>
                 <th>Fecha.</th>
                 <th>Farmacia</th>
                 <td>Inventario</th>
                 <th>Cantidad</th>
                 <th>Tipo de Movimiento</th>
-                
+
             </tr>
-        </thead>    
-            
+        </thead>
+
         <tbody>
             <tr>
-                <td>{{ trasfarma.id}}</td> 
+                <td>{{ trasfarma.id}}</td>
             	<td>{{ trasfarma.fecha | date('d-m-Y')}}</td>
             	<td>{{ trasfarma.farmacia}}</td>
-            	<td>{{ trasfarma.inventario}}</td>            	
+            	<td>{{ trasfarma.imv}}</td>
             	<td>{{ trasfarma.cant}}</td>
-            	<td>{{ trasfarma.tipo}}</td>            	
+            	<td>{{ trasfarma.tipo}}</td>
         	</tr>
-        </tbody>    
+        </tbody>
     </table>
 
 	<div class="btn-group">

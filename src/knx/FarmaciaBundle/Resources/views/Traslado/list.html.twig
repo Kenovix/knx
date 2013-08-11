@@ -30,16 +30,16 @@
 {% block cuerpo %}
 
 	{% if trasfarma %}
-	
+
 	    <table class="table">
 	        <thead>
 	            <tr>
 	                <th>No.</th>
                 	<th>Fecha.</th>
                 	<th>Farmacia</th>
-                	<th>Inventario</th>
+                	<th>Item</th>
                	 	<th>Cantidad</th>
-	               <th>Tipo de Movimiento</th>               
+	               <th>Tipo de Movimiento</th>
 	            </tr>
 	        </thead>
 	        <tbody>
@@ -48,30 +48,30 @@
 	                <td>{{ loop.index }}</td>
 	                <td><a href="{{ path('traslado_show', {'traslado': trasfarma.id}) }}">{{ trasfarma.fecha | date('d-m-Y')}}</a></td>
 	             	<td>{{ trasfarma.farmacia}}</td>
-            		<td>{{ trasfarma.inventario}}</td>            	
+            		<td>{{ trasfarma.imv}}</td>
             		<td>{{ trasfarma.cant}}</td>
             		<td>{{ trasfarma.tipo}}</td>
-            		
+
 	            </tr>
 	        {% endfor %}
 	        </tbody>
 	    </table>
-	    
-	   
-	    
+
+
+
 	    <div class="form-actions">
-				<a href="{{ path('traslado_new') }}" class="btn btn-primary">Nuevo Traslado</a>				
-			    <a href="{{ path('traslado_search') }}" class="btn btn-primary">Buscar Traslados</a>				
+				<a href="{{ path('traslado_new') }}" class="btn btn-primary">Nuevo Traslado</a>
+			    <a href="{{ path('traslado_search') }}" class="btn btn-primary">Buscar Traslados</a>
 		</div>
-		
+
 	{% else %}
 		<div class="alert alert-success">
 	    	<button data-dismiss="alert" class="close" type="button">×</button>
 	        <span>No existen traslados creadas</span>
 	    </div>
 	{% endif %}
-		
-  
- 
-    
+
+
+
+
 {% endblock %}

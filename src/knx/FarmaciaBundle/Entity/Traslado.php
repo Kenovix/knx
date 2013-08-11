@@ -27,14 +27,14 @@ class Traslado
 
 
     /**
-     * @var Inventario
+     * @var Imv
      *
-     * @ORM\ManyToOne(targetEntity="knx\FarmaciaBundle\Entity\Inventario")
+     * @ORM\ManyToOne(targetEntity="knx\FarmaciaBundle\Entity\Imv")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="inventario_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="imv_id", referencedColumnName="id")
      * })
      */
-    private $inventario;    
+    private $imv;    
     
 
      /**
@@ -155,26 +155,26 @@ class Traslado
     }
 
   /**
-     * Set inventario
+     * Set imv
      *
-     * @param \knx\FarmaciaBundle\Entity\Inventario $inventario
+     * @param \knx\FarmaciaBundle\Entity\Imv $imv
      * @return Traslado
      */
-    public function setInventario(\knx\FarmaciaBundle\Entity\Inventario $inventario = null)
+    public function setImv(\knx\FarmaciaBundle\Entity\Imv $imv = null)
     {
-        $this->inventario = $inventario;
+        $this->imv = $imv;
     
         return $this;
     }
 
     /**
-     * Get inventario
+     * Get imv
      *
-     * @return \knx\FarmaciaBundle\Entity\Inventario 
+     * @return \knx\FarmaciaBundle\Entity\Imv 
      */
-    public function getInventario()
+    public function getImv()
     {
-        return $this->inventario;
+        return $this->imv;
     }
      /**
      * Set farmacia

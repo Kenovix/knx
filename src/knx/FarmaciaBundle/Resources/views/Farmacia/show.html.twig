@@ -27,7 +27,7 @@
 	{% endif %}
 {% endblock %}
 
-{% block cuerpo %}	    
+{% block cuerpo %}
 
 	<table class="table">
         <tbody>
@@ -43,7 +43,12 @@
                 <td><strong>Observacion</strong></td>
                 <td>{{ farmacia.observacion }}</td>
             </tr>
-            
+
+            <tr>
+                <td><strong>Estado</strong></td>
+                <td>{{ farmacia.estado }}</td>
+            </tr>
+
         </tbody>
     </table>
 

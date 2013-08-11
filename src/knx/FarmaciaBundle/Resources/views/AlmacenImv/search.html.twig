@@ -6,7 +6,7 @@
 
 {% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
 
-{% block titulo %}Información del Devolucion{% endblock %}
+{% block titulo %}Almacen Existencia{% endblock %}
 
 {% block msg %}
 	{% if app.session.hasFlash('ok') %}
@@ -27,34 +27,20 @@
 	{% endif %}
 {% endblock %}
 
+
+
+
 {% block cuerpo %}
 
-	<table class="table">
-        <thead>
-	        <tr>
-                <th>Fecha.</th>
-                <td>Item</th>
-                <td>Proveedor</th>
-                <th>Almacen</th>
-                <th>Cantidad_Existencia</th>
-                <th>Cantidad_Devolucion</th>
 
-            </tr>
-        </thead>
+		<form name="consultaAlmacen" id="consultaAlmacen" class="form-horizontal" method="post" action="{{ path('almacenimv_list') }}" {{ form_enctype(form) }}>
+			</fieldset>
+		    	<legend>Busqueda</legend>
+					{{ form_widget(form) }}
+		   		<div class="form-actions">
+					<input class="btn btn-primary" name="Buscar" type="submit" value="Buscar" />
+			  	</div>
+		    </fieldset>
+		</form>
 
-        <tbody>
-            <tr>
-            	<td>{{ devfarma.fecha | date('d-m-Y')}}</td>
-            	<td>{{ devfarma.imv }}</td>
-            	<td>{{ devfarma.proveedor }}</td>
-            	<td>{{ devfarma.almacen }}</td>
-                <td>{{ imv.cantT }}</td>
-            	<td>{{ devfarma.cant}}</td>
-        	</tr>
-        </tbody>
-    </table>
-
-	<div class="btn-group">
-	    <a href="{{ path('devolucion_list') }}" class="btn">Volver</a>
-    </div>
 {% endblock %}

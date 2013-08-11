@@ -10,12 +10,12 @@ class Builder extends ContainerAware
 	public function farmaciaMenu(FactoryInterface $factory, array $options)
 	{
 		$security =  $this->container->get('security.context');
-		
+
 		$usuario = $security->getToken()->getUser();
-		
+
 		$menu = $factory->createItem('root');
 		$menu->setChildrenAttributes(array('id' => 'menu'));
-		
+
 		if($security->isGranted('ROLE_ADMIN')){
 			$menu->addChild('Parametrizar', array('uri' => '#'));
 				$menu['Parametrizar']->addChild('Empresa', array('route' => 'empresa_list'));
@@ -27,32 +27,32 @@ class Builder extends ContainerAware
 			$menu['Parametrizar']->addChild('Categoría pyp', array('route' => 'pyp_list'));
 		}
 
-		$menu->addChild('farmacia', array('uri' => '#'));	
+		$menu->addChild('farmacia', array('uri' => '#'));
 			$menu['farmacia']->addChild('Nueva', array('uri' => '#'));
 			$menu['farmacia']->addChild('Ingresos', array('route' => 'ingreso_list'));
 			$menu['farmacia']->addChild('Movimientos', array('uri' => '#'));
 			$menu['farmacia']->addChild('Pyp', array('route' => 'imvpyp_search'));
-				$menu['farmacia']['Movimientos']->addChild('Traslados', array('route' => 'traslado_list', 'routeParameters' => array('char' => 'A')));
+				$menu['farmacia']['Movimientos']->addChild('Traslados', array('route' => 'almacenimv_search'));
 				$menu['farmacia']['Movimientos']->addChild('Devoluciones Proveedor', array('route' => 'devolucion_list', 'routeParameters' => array('char' => 'A')));
 				$menu['farmacia']['Nueva']->addChild('Farmacia', array('route' => 'farmacia_list', 'routeParameters' => array('char' => 'A')));
 				$menu['farmacia']['Nueva']->addChild('Categoria', array('route' => 'categoria_list', 'routeParameters' => array('char' => 'A')));
 				$menu['farmacia']['Nueva']->addChild('Existencia', array('route' => 'imv_search'));
-			//$menu['Parametrizar']->addChild('Usuarios', array('route' => 'usuario_list'));			
+			//$menu['Parametrizar']->addChild('Usuarios', array('route' => 'usuario_list'));
 
 				$menu->addChild('Facturación', array('uri' => '#'));
 				$menu['Facturación']->addChild('Facturar', array('uri' => '#'));
 				$menu['Facturación']['Facturar']->addChild('Consulta', array('route' => 'facturacion_actividad_new'));
 				$menu['Facturación']['Facturar']->addChild('Procedimiento', array('route' => 'facturacion_actividad_new'));
 				$menu['Facturación']['Facturar']->addChild('Medicamento', array('route' => 'facturacion_actividad_new'));
-					
+
 				$menu->addChild('Historia', array('uri' => '#'));
-				
+
 				$menu->addChild('Usuarios', array('uri' => '#'));
 				$menu['Usuarios']->addChild('Listar', array('route' => 'usuario_list'));
 				$menu['Usuarios']->addChild('Crear', array('route' => 'fos_user_registration_register'));
-				
+
 				$usuario = $security->getToken()->getUser();
-				
+
 				$menu->addChild($usuario->getUsername(), array('uri' => '#'));
 				$menu[$usuario->getUsername()]->addChild('Perfil', array('route' => 'fos_user_profile_show'));
 				$menu[$usuario->getUsername()]->addChild('Salir', array('route' => 'logout'));

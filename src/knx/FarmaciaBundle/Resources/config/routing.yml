@@ -127,28 +127,28 @@ inventario_list:
     defaults: { _controller: FarmaciaBundle:Inventario:list }
 
 inventario_new:
-    pattern:  /inventario/new/{ingreso}
+    pattern:  /inventario/{ingreso}/new
     defaults: { _controller: FarmaciaBundle:Inventario:new }
     
 inventario_save:
-    pattern:  /inventario/save/{ingreso}
+    pattern:  /inventario/{ingreso}/save
     defaults: { _controller: FarmaciaBundle:Inventario:save }
 
   
 inventario_show:
-    pattern:  /inventario/{inventario}/show
+    pattern:  /inventario/{ingreso}/{imv}/show
     defaults: { _controller: FarmaciaBundle:Inventario:show }
     
 inventario_edit:
-    pattern:  /inventario/{inventario}/edit
+    pattern:  /inventario/{ingreso}/{imv}/edit
     defaults: { _controller: FarmaciaBundle:Inventario:edit }
 
 inventario_update:
-    pattern:  /inventario/{inventario}/update
+    pattern:  /inventario/{ingreso}/{imv}/update
     defaults: { _controller: FarmaciaBundle:Inventario:update }  
     
 inventario_delete:
-    pattern:  /inventario/{inventario}/delete
+    pattern:  /inventario/{ingreso}/{imv}/delete
     defaults: { _controller: FarmaciaBundle:Inventario:delete }      
 
 #************** Traslado ***************#    
@@ -166,11 +166,11 @@ traslado_list:
     defaults: { _controller: FarmaciaBundle:Traslado:list }
     
 traslado_new:
-    pattern:  /traslado/new
+    pattern:  /traslado/{imv}/new
     defaults: { _controller: FarmaciaBundle:Traslado:new }
     
 traslado_save:
-    pattern:  /traslado/save
+    pattern:  /traslado/{imv}/save
     defaults: { _controller: FarmaciaBundle:Traslado:save }
 
 traslado_show:
@@ -249,4 +249,12 @@ imvpyp_delete:
     pattern:  /imvpyp/{imv}/{pyp}/delete
     defaults: { _controller: FarmaciaBundle:ImvPyp:delete }    
     
+#************** ALMACENIMV ***************#    
 
+almacenimv_list:
+    pattern:  /almacenimv/list
+    defaults: { _controller: FarmaciaBundle:AlmacenImv:list }
+
+almacenimv_search:
+    pattern:  /almacenimv/search
+    defaults: { _controller: FarmaciaBundle:AlmacenImv:search }
