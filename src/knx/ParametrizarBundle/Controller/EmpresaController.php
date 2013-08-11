@@ -6,6 +6,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use knx\ParametrizarBundle\Entity\Empresa;
 use knx\ParametrizarBundle\Form\EmpresaType;
 
+use Symfony\Component\HttpFoundation\Response;
+
 class EmpresaController extends Controller
 {
 	public function listAction()

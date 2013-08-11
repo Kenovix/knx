@@ -69,6 +69,14 @@ class Usuario extends BaseUser
        */
       private $rm;
       
+      /**
+       * @var string $cargo
+       *
+       * @ORM\Column(name="cargo", type="string", length=80, nullable=true)
+       * @Assert\MaxLength(limit=80, message="El cadena ingresada  para cargo debe tener como maximo {{ limit }} caracteres.")
+       */
+      private $cargo;
+      
 	
 	public function __construct() {
 		parent::__construct();
@@ -226,5 +234,28 @@ class Usuario extends BaseUser
     public function getRm()
     {
         return $this->rm;
+    }
+    
+    /**
+     * Set cargo
+     *
+     * @param string $cargo
+     * @return Usuario
+     */
+    public function setCargo($cargo)
+    {
+    	$this->cargo = $cargo;
+    
+    	return $this;
+    }
+    
+    /**
+     * Get cargo
+     *
+     * @return string
+     */
+    public function getCargo()
+    {
+    	return $this->cargo;
     }
 }

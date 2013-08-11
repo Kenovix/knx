@@ -88,6 +88,14 @@ class Cargo
 
     private $tipoSer;
     
+    /**
+     * @var integer $tipoCargo
+     *
+     * @ORM\Column(name="tipoCargo", type="string", length=2, nullable=false)
+     */
+    
+    private $tipoCargo;
+    
      /** @var date $created
     *
     * @Gedmo\Timestampable(on="create")
@@ -300,6 +308,29 @@ class Cargo
     public function getTipoSer()
     {
         return $this->tipoSer;
+    }
+    
+    /**
+     * Set tipoCargo
+     *
+     * @param integer $tipoCargo
+     * @return Cargo
+     */
+    public function setTipoCargo($tipoCargo)
+    {
+    	$this->tipoCargo = $tipoCargo;
+    
+    	return $this;
+    }
+    
+    /**
+     * Get tipoCargo
+     *
+     * @return integer
+     */
+    public function getTipoCargo()
+    {
+    	return $this->tipoCargo;
     }
 
     /**

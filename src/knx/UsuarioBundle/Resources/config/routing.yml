@@ -5,3 +5,13 @@ usuario_homepage:
 usuario_list:
     pattern: /list
     defaults: { _controller: UsuarioBundle:Usuario:list }
+
+usuario_edit:
+    pattern: /edit/{usuario}
+    defaults: { _controller: UsuarioBundle:Usuario:edit }
+    
+usuario_buscar_cargo:
+    pattern:  /buscar/porcargo
+    defaults: { _controller: UsuarioBundle:Usuario:ajaxBuscarUsuarioPorCargo }
+    requirements:
+        _method:  POST

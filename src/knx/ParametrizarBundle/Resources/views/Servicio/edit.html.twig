@@ -6,7 +6,7 @@
 
 {% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
 
-{% block titulo %}Modificar servicio{% endblock %}
+{% block titulo %}Modificar centro de costo{% endblock %}
 
 {% block msg %}
 	{% if app.session.hasFlash('ok') %}
@@ -31,7 +31,7 @@
 
 	<form action="{{ path('servicio_update', {'servicio': servicio.id}) }}" class="form-horizontal" method="post" {{ form_enctype(form) }}>
 	    <fieldset>
-	    	<legend>Datos del servicio</legend>
+	    	<legend>Datos del centro de costo</legend>
 	    	    
 		   {{ form_widget(form) }}
 		   

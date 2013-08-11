@@ -94,7 +94,7 @@ class Inventario
         */
         public function __toString()
         {
-        	return $this->getPrecioCompra();
+        	return $this->getPrecioVenta();
         }
         
     /**

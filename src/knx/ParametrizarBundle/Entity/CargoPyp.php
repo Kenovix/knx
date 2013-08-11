@@ -45,6 +45,7 @@ class CargoPyp
      * @var rango
      *
      * @ORM\Column(name="rango", type="string", length=200, nullable=true)
+     * @Assert\Choice(choices = {"1", "2", "3"}, message = "Selecciona un rango valido.")
      */
         private $rango;
 
