@@ -19,7 +19,7 @@ class ExamenController extends Controller
 		$form = $this->createForm(new ExamenType(), $entity);
 
 		$breadcrumbs = $this->get("white_october_breadcrumbs");
-		$breadcrumbs->addItem("Inicio",$this->get("router")->generate("historia_search"));
+		$breadcrumbs->addItem("Inicio",$this->get("router")->generate("paciente_filtro"));
 		$breadcrumbs->addItem("Examen",$this->get("router")->generate("examen_list"));
 		$breadcrumbs->addItem("Nuevo");
 
@@ -36,7 +36,7 @@ class ExamenController extends Controller
 		$form->bindRequest($request);
 
 		$breadcrumbs = $this->get("white_october_breadcrumbs");
-		$breadcrumbs->addItem("Inicio",$this->get("router")->generate("historia_search"));
+		$breadcrumbs->addItem("Inicio",$this->get("router")->generate("paciente_filtro"));
 		$breadcrumbs->addItem("Examen",$this->get("router")->generate("examen_list"));
 		$breadcrumbs->addItem("Nuevo");
 
@@ -64,7 +64,7 @@ class ExamenController extends Controller
 		}
 
 		$breadcrumbs = $this->get("white_october_breadcrumbs");
-		$breadcrumbs->addItem("Inicio",$this->get("router")->generate("historia_search"));
+		$breadcrumbs->addItem("Inicio",$this->get("router")->generate("paciente_filtro"));
 		$breadcrumbs->addItem("Examen",$this->get("router")->generate("examen_list"));
 		$breadcrumbs->addItem("Detalle de " . $examen->getNombre());
 
@@ -82,7 +82,7 @@ class ExamenController extends Controller
 		$editForm = $this->createForm(new ExamenType(), $examen);
 
 		$breadcrumbs = $this->get("white_october_breadcrumbs");
-		$breadcrumbs->addItem("Inicio",$this->get("router")->generate("historia_search"));
+		$breadcrumbs->addItem("Inicio",$this->get("router")->generate("paciente_filtro"));
 		$breadcrumbs->addItem("Examen",$this->get("router")->generate("examen_list"));
 		$breadcrumbs->addItem("Detalle",$this->get("router")->generate("examen_show",array("examen" => $examen->getId())));
 		$breadcrumbs->addItem("Modificar " . $examen->getNombre());
@@ -116,7 +116,7 @@ class ExamenController extends Controller
 		}
 
 		$breadcrumbs = $this->get("white_october_breadcrumbs");
-		$breadcrumbs->addItem("Inicio",$this->get("router")->generate("historia_search"));
+		$breadcrumbs->addItem("Inicio",$this->get("router")->generate("paciente_filtro"));
 		$breadcrumbs->addItem("Examen",$this->get("router")->generate("examen_list"));
 		$breadcrumbs->addItem("Detalle",$this->get("router")->generate("examen_show",array("examen" => $examen->getId())));
 		$breadcrumbs->addItem("Modificar " . $examen->getNombre());
@@ -129,7 +129,7 @@ class ExamenController extends Controller
 
 	public function listAction() {
 		$breadcrumbs = $this->get("white_october_breadcrumbs");
-		$breadcrumbs->addItem("Inicio",$this->get("router")->generate("historia_search"));
+		$breadcrumbs->addItem("Inicio",$this->get("router")->generate("paciente_filtro"));
 		$breadcrumbs->addItem("Examen",$this->get("router")->generate("examen_list"));
 		$breadcrumbs->addItem("Listado");
 
@@ -153,7 +153,7 @@ class ExamenController extends Controller
 		$examen = null;
 
 		$breadcrumbs = $this->get("white_october_breadcrumbs");
-		$breadcrumbs->addItem("Inicio",$this->get("router")->generate("historia_search"));
+		$breadcrumbs->addItem("Inicio",$this->get("router")->generate("paciente_filtro"));
 		$breadcrumbs->addItem("Examen",$this->get("router")->generate("examen_list"));
 		$breadcrumbs->addItem("Listado");
 

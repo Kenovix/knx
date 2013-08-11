@@ -214,7 +214,7 @@ class HcType extends AbstractType {
 								'attr' => array(
 										'placeholder' => 'Manejo de Salida')))
 				->add('destino', 'choice',
-						array('label' => 'Destino:', 'required' => false,
+						array('label' => 'Destino:', 'required' => true,
 								'choices' => array('' => '--seleccione--',
 										'domicilio' => 'Domicilio',
 										'observacion' => 'Observación',

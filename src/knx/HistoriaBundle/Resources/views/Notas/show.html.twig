@@ -6,7 +6,7 @@
 
 {% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
 
-{% block titulo %}Información de la nota{% endblock %}
+{% block titulo %}Información De La Nota{% endblock %}
 
 {% block msg %}
 	{% if app.session.hasFlash('ok') %}
@@ -59,6 +59,7 @@
    </div>
    
 	 <div id="detalleNota">
+	 	<h2>Nota De Enfermeria</h2>
 			 <table class="table">
                 	<thead>                		
                 		<tr>
@@ -103,13 +104,21 @@
 			        </tbody>
 			    </table>  
     
-		    <a href="{{ path('nota_edit', { 'nota': nota.id }) }}" class="btn">Modificar nota</a>
-		    <a href="{{ path('historia_search') }}" class="btn">Regresar</a>
+    		{% if historia.serviEgre %}
+    			{% if historia.destino == 'domicilio' or historia.destino == 'remision' or historia.destino == 'muerte' %}
+    				<a href="{{ path('nota_print', { 'historia': historia.id }) }}" target='blank' class="btn"><i class="icon-print"></i></a>
+    			 {% else %}
+    			    <a href="{{ path('nota_edit', { 'nota': nota.id }) }}" class="btn">Modificar nota</a>
+    			{% endif %}
+    		  {% else %}
+    			    <a href="{{ path('nota_edit', { 'nota': nota.id }) }}" class="btn">Modificar nota</a>
+    		{% endif %}		    
+		    <a href="{{ path('paciente_filtro') }}" class="btn">Regresar</a>
 	 </div>   
 	     
     <div id="listDetalleNotas">
 	    {% if listNotas %}
-	    <h4>Listado de otras notas</h4>
+	    <h2>Listado De Otras Notas</h2>
 	    	<table class="table table-hover">
 		        <thead>
 		            <tr>

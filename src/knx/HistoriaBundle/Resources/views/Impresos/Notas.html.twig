@@ -1,0 +1,50 @@
+{% extends "::simple.html.twig" %}
+
+{% block body %}
+<div>
+	<h1>Listado De Todas Las Notas Del Paciente:</h1>
+	
+  					<table>
+  						<thead>
+  							<tr>
+  								<th width="50px">No.</th>
+  								<th>Fecha/Hora</th>
+  								<th>Responsable</th>
+  								<th>FC</th>
+	                			<th>FR</th>
+		                		<th>TA</th>
+		                		<th>Temp</th>
+		                		<th>Pulso</th>
+		                		<th>Peso</th>
+		                		<th>Estatura</th>
+		                		<th>IMC</th>
+		                		<th>Glasgow</th>		                		
+  							</tr>  							
+  						</thead>
+  						<tbody>
+  							{% for nota in listNotas %}  							
+	  							<tr border="1">
+	  								<td>{{ loop.index }}</td>
+	  								<td >{{ nota.fecha | date("H:m d/m/Y")}}</td>
+	  								<td>{{ nota.responsable.nombre}} {{ nota.responsable.apellido}}</td>
+		                			<td>{{ nota.fC}}</td>
+		                			<td>{{ nota.fR }}</td>
+		                			<td>{{ nota.ta }}</td>
+		                			<td>{{ nota.temp }}</td>
+		                			<td>{{ nota.pulso }}</td>
+		                			<td>{{ nota.peso }}</td>
+		                			<td>{{ nota.estatura }}</td>
+		                			<td>{{ nota.imc }}</td>
+		                			<td>{{ nota.glasgow }}</td>		                			
+	                			</tr>
+	                			<tr>
+  									<th colspan="12">Resumen De La Nota:</th>
+  								</tr> 
+	                			<tr>
+	                				<td colspan="12">{{ nota.resumenNota }}<br/></td>
+	                			</tr>
+  							{% endfor %}
+  						</tbody>
+  					</table>
+</div>
+{% endblock %}
