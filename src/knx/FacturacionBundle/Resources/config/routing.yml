@@ -19,3 +19,5 @@ facturacion_paciente_buscar:
     defaults: { _controller: FacturacionBundle:Factura:ajaxBuscarPaciente }
     requirements:
         _method:  POST
+        
+#******************** FACTURA CARGO ***************************#
