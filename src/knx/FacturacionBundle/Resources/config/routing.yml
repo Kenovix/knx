@@ -21,3 +21,11 @@ facturacion_paciente_buscar:
         _method:  POST
         
 #******************** FACTURA CARGO ***************************#
+
+reporte_cargo_new:
+    pattern:  /reporte/cargo/new
+    defaults: { _controller: FacturacionBundle:FacturaCargo:informeCargo }
+    
+reporte_cargo_question:
+    pattern:  /reporte/cargo/question
+    defaults: { _controller: FacturacionBundle:FacturaCargo:questionTipoCargo }
