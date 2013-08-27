@@ -90,6 +90,8 @@ class ClienteController extends Controller
     	
     	$farmacos = $em->getRepository('ParametrizarBundle:Contrato')->findBy(array('cliente' => $cliente, 'tipo' => 'M'));
     	
+    	$prevencion = $em->getRepository('ParametrizarBundle:Contrato')->findBy(array('cliente' => $cliente, 'tipo' => 'PP'));
+    	
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
     	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
     	$breadcrumbs->addItem("Clientes", $this->get("router")->generate("cliente_list"));
@@ -98,7 +100,8 @@ class ClienteController extends Controller
     	return $this->render('ParametrizarBundle:Cliente:show.html.twig', array(
     			'cliente'  => $cliente,
     			'procedimientos' => $procedimientos,
-    			'farmacos' => $farmacos
+    			'farmacos' => $farmacos,
+    			'prevencion' => $prevencion
     	));
     }
     

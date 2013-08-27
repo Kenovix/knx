@@ -181,82 +181,114 @@ class CargoPypController extends Controller
     }
     
     /**
-     * @uses Función que consulta los cargos de pyp para una edad dada.
+     * @uses Función que consulta los cargos de pyp para una edad y un sexo dado.
      *
-     * @param ninguno
+     * @param sexo, edad, cliente
      */
-    public function ajaxBuscarCargoPorEdadAction()
-    {    
-    
+    public function jxBuscarCargoPypAction()
+    {
+
     	$request = $this->get('request');
     	
     	$edad = $request->request->get('edad');
+    	$sexo = $request->request->get('sexo');
+    	$cliente = $request->request->get('cliente');
+    	
+    	$em = $this->getDoctrine()->getEntityManager();
+    	
+    	$dql = $em->createQuery("SELECT 
+    								c
+    							FROM
+    								knx\ParametrizarBundle\Entity\Contrato c    									
+    							WHERE
+    								c.cliente = :cliente AND
+    								c.fechaInicio <= :fecha AND
+    								c.fechaFin >= :fecha AND
+    								c.tipo = 'PP' AND
+    								c.estado = 'A'");
+    	
+    	$hoy = new \DateTime('now');
+    	
+    	$dql->setParameter("cliente", $cliente);
+    	$dql->setParameter("fecha", $hoy);
+    	
+    	$contrato = $dql->getResult();
+    	
+    	if ($contrato) {
+    		
     	    	
-    	if(is_numeric($edad)){
-    		
-    		$where = "";
-    		$parametros = array();
-    		
-    		if(in_array($edad, array(4, 14, 16, 45))){
-    			$rango = 1;
-    		}elseif(in_array($edad, array(55, 65, 70, 75, 80))){
-    			$rango = 2;
-    		}elseif(in_array($edad, array(45, 50 ,55, 60, 65, 70, 75, 80))){
-    			$rango = 3;
-    		}else{
-    			$rango = 0;
-    		}
-    		
-    		if($rango == 1){
-    			$where .= "OR cp.rango = :rango";
-    		}
-
-    		if($rango == 2){
-    			$where .= "OR cp.rango >= :rango";
-    		}
-    		
-    		if($rango == 3){
-    			$where .= "OR cp.rango = :rango";
-    		}
-    		
-    		$parametros['rango'] = $rango;
-    		$parametros['edad'] = $edad;
-    		
-    		$em = $this->getDoctrine()->getEntityManager();
-    		
-    		$query = $em->createQuery(' SELECT DISTINCT
-    										p.id,
-    										p.nombre 
-    									FROM 
-    										knx\ParametrizarBundle\Entity\CargoPyp cp
-    									JOIN
-    										cp.pyp p
-    									WHERE (
-    										cp.edadIni <= :edad AND 
-    										cp.edadFin >= :edad 
-    									) OR 
-    									cp.edadIni <= :edad OR
-    									cp.edadFin >= :edad '.$where);
-    		
-    		$query->setParameters($parametros);
-    		
-    		$cargos = $query->getResult();
-    	
-    		if($cargos){
-    			$response=array("responseCode" => 200);
-				
-    			foreach ($cargos as $key => $value){
-    				$response['categoria'][$value['id']] = $value['nombre'];
-    			}
-    		}
-    		else{
-    			$response=array("responseCode"=>400, "msg"=>"No hay cargos disponibles para la edad dada.");
-    		}
+	    	if(is_numeric($edad)){
+	    		
+	    		$where = "";
+	    		$parametros = array();
+	    		
+	    		if(in_array($edad, array(4, 14, 16, 45))){
+	    			$rango = 1;
+	    		}elseif(in_array($edad, array(55, 65, 70, 75, 80))){
+	    			$rango = 2;
+	    		}elseif(in_array($edad, array(45, 50 ,55, 60, 65, 70, 75, 80))){
+	    			$rango = 3;
+	    		}else{
+	    			$rango = 0;
+	    		}
+	    		
+	    		if($rango == 1){
+	    			$where .= "OR cp.rango = :rango";
+	    		}
+	
+	    		if($rango == 2){
+	    			$where .= "OR cp.rango >= :rango";
+	    		}
+	    		
+	    		if($rango == 3){
+	    			$where .= "OR cp.rango = :rango";
+	    		}
+	    		
+	    		$parametros['rango'] = $rango;
+	    		$parametros['edad'] = $edad;
+	    		$parametros['sexo'] = $sexo;
+	    		
+	    		
+	    		
+	    		$query = $em->createQuery(" SELECT DISTINCT
+	    										p.id,
+	    										p.nombre 
+	    									FROM 
+	    										knx\ParametrizarBundle\Entity\CargoPyp cp
+	    									JOIN
+	    										cp.pyp p
+	    									WHERE 
+	    									(cp.sexo = 'A' OR
+	    									 cp.sexo = :sexo ) AND	
+	    									(
+	    										cp.edadIni <= :edad AND 
+	    										cp.edadFin >= :edad 
+	    									) AND ( 
+	    									cp.edadIni <= :edad OR
+	    									cp.edadFin >= :edad ) ".$where);
+	    		
+	    		$query->setParameters($parametros);
+	    		
+	    		$cargos = $query->getResult();
+	    	
+	    		if($cargos){
+	    			$response=array("responseCode" => 200);
+					
+	    			foreach ($cargos as $key => $value){
+	    				$response['categoria'][$value['id']] = $value['nombre'];
+	    			}
+	    		}
+	    		else{
+	    			$response=array("responseCode"=>400, "msg"=>"No hay cargos disponibles para la edad dada.");
+	    		}
+	    	}else{
+	    		$response=array("responseCode"=>400, "msg"=>"La edad no es valida.");
+	    	}
     	}else{
-    		$response=array("responseCode"=>400, "msg"=>"La edad no es valida.");
+    		$response=array("responseCode"=>400, "msg"=>"No hay un contrato vigente para las actividades de PYP con este cliente.");
     	}
-    	
+	    	
     	$return=json_encode($response);
-    	return new Response($return,200,array('Content-Type'=>'application/json'));    
+    	return new Response($return,200,array('Content-Type'=>'application/json'));
     }
 }

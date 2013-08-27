@@ -133,6 +133,37 @@
 				<span>No hay contratos</span>
 			{% endif %}
        	{% end_ui_tab %}
+       	
+       	{% ui_tab label="PYP" %}
+			{% if prevencion %}    
+				<table class="table table-hover">
+					<tr>
+			    		<th>Número</th>
+			    		<th>Inicia</th>
+			    		<th>Finaliza</th>
+			    		<th>Contacto</th>
+			    		<th>Procentaje</th>
+			    		<th>Estado</th>
+			    		<th>Opciones</th>
+			  		</tr>
+		    
+		    	{% for pp in prevencion %}    
+		    		<tr>
+			    		<td><a href="{{ path('contrato_show', {'contrato': pp.id}) }}">{{ pp.numero }}</a></td>
+			    		<td>{{ pp.fechaInicio | date('d-m-Y')}}</td>
+			    		<td>{{ pp.fechaFin | date('d-m-Y') }}</td>
+			    		<td>{{ pp.contacto }}</td>
+			    		<td>{{ pp.porcentaje * 100 }}%</td>
+			    		<td>{{ pp.estado }}</td>
+			    		<td>{{ pp.estado }}</td>
+			  		</tr>
+				{% endfor %}
+				
+				</table>
+			{% else %}
+				<span>No hay contratos</span>
+			{% endif %}
+       	{% end_ui_tab %}
 
 	{% end_ui_tabs %}
 	

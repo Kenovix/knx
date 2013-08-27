@@ -5,6 +5,7 @@ namespace knx\ParametrizarBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use knx\ParametrizarBundle\Entity\Contrato;
 use knx\ParametrizarBundle\Form\ContratoType;
+use Symfony\Component\HttpFoundation\Response;
 
 class ContratoController extends Controller
 {
@@ -185,5 +186,59 @@ class ContratoController extends Controller
     			'contrato' => $contrato,
     			'form' => $form->createView()
     	));
+    }
+    
+    
+    /**
+     * @uses Función que consulta la tarifa pactada para las actividades de pyp.
+     *
+     * @param ninguno
+     */
+    public function jxBuscarTarifaPypAction() {
+    
+    	$request = $this->get('request');
+    	 
+    	$cliente = $request->request->get('cliente');
+    	$cargo = $request->request->get('cargo');
+    		 
+    	$em = $this->getDoctrine()->getEntityManager();
+    	
+    	$dql = $em->createQuery("SELECT 
+    								c
+    							FROM
+    								knx\ParametrizarBundle\Entity\Contrato c    									
+    							WHERE
+    								c.cliente = :cliente AND
+    								c.fechaInicio <= :fecha AND
+    								c.fechaFin >= :fecha AND
+    								c.tipo = 'PP' AND
+    								c.estado = 'A'");
+    	
+    	$hoy = new \DateTime('now');
+    	
+    	$dql->setParameter("cliente", $cliente);
+    	$dql->setParameter("fecha", $hoy);
+    	
+    	$contrato = $dql->getSingleResult();
+    		 
+    	if($contrato){
+    			
+    		$cargo = $em->getRepository('ParametrizarBundle:Cargo')->find($cargo);
+    		
+    		if ($cargo) {
+    			
+    			$precio = ($cargo->getValor() + ($cargo->getValor() * $contrato->getPorcentaje()));
+    			
+    			$response=array("responseCode" => 200, "precio" => $precio);
+    		}
+    		else{
+    			$response=array("responseCode"=>400, "msg"=>"La actividad solicitada no se encuentra parametrizada en el sistema");
+    		}
+    	}else{
+    		$response=array("responseCode"=>400, "msg"=>"No hay contrato vigente para la actividad.");
+    	}
+    	 
+    	$return=json_encode($response);
+    	return new Response($return,200,array('Content-Type'=>'application/json'));
     }
 }

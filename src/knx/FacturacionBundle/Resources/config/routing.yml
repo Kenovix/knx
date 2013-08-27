@@ -2,20 +2,30 @@ facturacion_index:
     pattern:  /hello/{name}
     defaults: { _controller: FacturacionBundle:Default:index }
 
-facturacion_actividad_new:
-    pattern:  /actividad/new
-    defaults: { _controller: FacturacionBundle:Factura:newActividad }
+facturacion_consulta_new:
+    pattern:  /consulta/new
+    defaults: { _controller: FacturacionBundle:Factura:newConsulta }
     
-facturacion_actividad_save:
-    pattern:  /actividad/save
-    defaults: { _controller: FacturacionBundle:Factura:saveActividad }
+facturacion_consulta_save:
+    pattern:  /consulta/save
+    defaults: { _controller: FacturacionBundle:Factura:saveConsulta }
     
-facturacion_actividad_edit:
-    pattern:  /actividad/{factura}/edit
-    defaults: { _controller: FacturacionBundle:Factura:editActividad }
+facturacion_consulta_show:
+    pattern:  /consulta/{factura}/show
+    defaults: { _controller: FacturacionBundle:Factura:showConsulta }
+
+facturacion_consulta_edit:
+    pattern:  /consulta/{factura}/edit
+    defaults: { _controller: FacturacionBundle:Factura:editConsulta }
     
 facturacion_paciente_buscar:
     pattern:  /paciente/buscar
-    defaults: { _controller: FacturacionBundle:Factura:ajaxBuscarPaciente }
+    defaults: { _controller: FacturacionBundle:Factura:jxBuscarPaciente }
     requirements:
-        _method:  POST
+        _method: POST
+        
+facturacion_cargo_save:
+    pattern:  /cargo/save
+    defaults: { _controller: FacturacionBundle:Factura:jxCargoSave }
+    requirements:
+        _method: POST
