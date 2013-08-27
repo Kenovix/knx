@@ -10,6 +10,8 @@ use knx\FarmaciaBundle\Entity\Imv;
 use knx\ParametrizarBundle\Entity\Almacen;
 use knx\FarmaciaBundle\Form\DevolucionType;
 use knx\FarmaciaBundle\Form\DevolucionSearchType;
+use Symfony\Component\HttpFoundation\Response;
+
 
 
 class DevolucionController extends Controller
@@ -25,6 +27,23 @@ class DevolucionController extends Controller
 		$form   = $this->createForm(new DevolucionSearchType());
 
 		return $this->render('FarmaciaBundle:Devolucion:search.html.twig', array(
+				'form'   => $form->createView()
+
+		));
+
+	}
+
+
+	public function searchprintAction(){
+
+		$breadcrumbs = $this->get("white_october_breadcrumbs");
+		$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
+		$breadcrumbs->addItem("Farmacia");
+		$breadcrumbs->addItem("Busqueda");
+
+		$form   = $this->createForm(new DevolucionSearchType());
+
+		return $this->render('FarmaciaBundle:Devolucion:searchprint.html.twig', array(
 				'form'   => $form->createView()
 
 		));
@@ -73,36 +92,39 @@ class DevolucionController extends Controller
 
     		//die(print_r($desde));
 
-    		if(!checkdate($desde[1],$desde[0],$desde[2])){
-    			$this->get('session')->setFlash('info', 'La fecha de inicio ingresada es incorrecta.');
-    			return $this->render('FarmaciaBundle:Devolucion:list.html.twig', array(
-    					'devolucion'  => $devolucion
-    			));
+    	if(!checkdate($desde[1],$desde[0],$desde[2])){
+				$this->get('session')->setFlash('info', 'La fecha de inicio ingresada es incorrecta.');
+				return $this->render('FarmaciaBundle:Devolucion:search.html.twig', array(
+				'form'   => $form->createView()
 
-    		}
-    	}else{
-    		$this->get('session')->setFlash('info', 'La fecha de inicio no puede estar en blanco.');
-    		return $this->render('FarmaciaBundle:Devolucion:list.html.twig', array(
-    				'devolucion'  => $devolucion
-    		));
+			));
 
-    		$this->get('session')->setFlash('info',$this->get('sessio', 'La fecha de finalización ingresada es incorrecta.'));
-    	}
+			}
+		}else{
+			$this->get('session')->setFlash('info', 'La fecha de inicio no puede estar en blanco.');
+			return $this->render('FarmaciaBundle:Devolucion:search.html.twig', array(
+				'form'   => $form->createView()
 
-    	if(trim($fecha_fin)){
-    		$hasta = explode('/',$fecha_fin);
+			));
+		}
 
-    		if(!checkdate($hasta[1],$hasta[0],$hasta[2])){
-    			return $this->render('FarmaciaBundle:Devolucion:list.html.twig', array(
-    					'devolucion'  => $devolucion
-    			));
-    		}
-    	}else{
-    		$this->get('session')->setFlash('info', 'La fecha de finalización no puede estar en blanco.');
-    		return $this->render('FarmaciaBundle:Devolucion:list.html.twig', array(
-    				'devolucion'  => $devolucion
-    		));
-    	}
+		if(trim($fecha_fin)){
+			$hasta = explode('/',$fecha_fin);
+
+			if(!checkdate($hasta[1],$hasta[0],$hasta[2])){
+				$this->get('session')->setFlash('info', 'La fecha de finalización ingresada es incorrecta.');
+				return $this->render('FarmaciaBundle:Devolucion:search.html.twig', array(
+				'form'   => $form->createView()
+
+			));
+			}
+		}else{
+			$this->get('session')->setFlash('info', 'La fecha de finalización no puede estar en blanco.');
+				return $this->render('FarmaciaBundle:Devolucion:search.html.twig', array(
+				'form'   => $form->createView()
+
+			));
+		}
 
     	$query = "SELECT f FROM FarmaciaBundle:Devolucion f WHERE
     				f.fecha >= :inicio AND
@@ -213,9 +235,9 @@ class DevolucionController extends Controller
     				}
 
 
-    				if ($cant_almacenimv <= 0 and $cant_almacenimv < $cant_devolucion){
+    				if ($cant_almacenimv < $cant_devolucion){
 
-    					$this->get('session')->setFlash('error','La cantidad ingresada es mayor que cantidad en almacen-'.$cant_almacenimv = $almacenimv->getCant().'');
+    					$this->get('session')->setFlash('error','La cantidad ingresada es mayor que cantidad en almacen='.$cant_almacenimv = $almacenimv->getCant().'');
     					return $this->redirect($this->generateUrl('devolucion_new'));
     				}
     				else {
@@ -277,5 +299,120 @@ class DevolucionController extends Controller
 
     	));
     }
+
+
+    public function printAction()
+    {
+
+
+    $em = $this->getDoctrine()->getEntityManager();
+    	$devolucion = $em->getRepository('FarmaciaBundle:Devolucion')->findAll();
+    	$request = $this->get('request');
+    	$fecha_inicio = $request->request->get('fecha_inicio');
+    	$fecha_fin = $request->request->get('fecha_fin');
+
+
+    	if(trim($fecha_inicio)){
+    		$desde = explode('/',$fecha_inicio);
+
+    		//die(print_r($desde));
+
+    	if(!checkdate($desde[1],$desde[0],$desde[2])){
+				$this->get('session')->setFlash('info', 'La fecha de inicio ingresada es incorrecta.');
+				return $this->render('FarmaciaBundle:Devolucion:searchprint.html.twig', array(
+				'form'   => $form->createView()
+
+			));
+
+			}
+		}else{
+			$this->get('session')->setFlash('info', 'La fecha de inicio no puede estar en blanco.');
+			return $this->render('FarmaciaBundle:Devolucion:searchprint.html.twig', array(
+				'form'   => $form->createView()
+
+			));
+		}
+
+		if(trim($fecha_fin)){
+			$hasta = explode('/',$fecha_fin);
+
+			if(!checkdate($hasta[1],$hasta[0],$hasta[2])){
+				$this->get('session')->setFlash('info', 'La fecha de finalización ingresada es incorrecta.');
+				return $this->render('FarmaciaBundle:Devolucion:searchprint.html.twig', array(
+				'form'   => $form->createView()
+
+			));
+			}
+		}else{
+			$this->get('session')->setFlash('info', 'La fecha de finalización no puede estar en blanco.');
+				return $this->render('FarmaciaBundle:Devolucion:searchprint.html.twig', array(
+				'form'   => $form->createView()
+
+			));
+		}
+
+    	$query = "SELECT f FROM FarmaciaBundle:Devolucion f WHERE
+    				f.fecha >= :inicio AND
+			    	f.fecha <= :fin
+    				ORDER BY
+    				f.fecha ASC";
+
+    	$dql = $em->createQuery($query);
+
+
+
+    	//die(print_r($dql));
+
+    	$dql->setParameter('inicio', $desde[2]."/".$desde[1]."/".$desde[0].' 00:00:00');
+    	$dql->setParameter('fin', $hasta[2]."/".$hasta[1]."/".$hasta[0].' 23:59:00');
+
+    	$devolucion = $dql->getResult();
+    	//die(var_dump($ingreso));
+    	//die("paso");
+
+    	if(!$devolucion)
+    	{
+    		$this->get('session')->setFlash('info', 'La consulta no ha arrojado ningún resultado para los parametros de busqueda ingresados.');
+
+    		return $this->redirect($this->generateUrl('devolucion_search'));
+    	}
+
+
+    	$pdf = $this->get('white_october.tcpdf')->create();
+    	$pdf->setFontSubsetting(true);
+    	$pdf->SetFont('dejavusans', '', 9, '', true);
+
+    	// Header and footer
+    	//$pdf->SetHeaderData('logo.jpg', 20, 'Hospital San Agustin');
+    	$pdf->setFooterData(array(0,64,0), array(0,64,128));
+
+    	// set header and footer fonts
+    	$pdf->setHeaderFont(Array('dejavusans', '', 9));
+    	$pdf->setFooterFont(Array('dejavusans', '', 9));
+
+    	// set margins
+    	$pdf->SetMargins(PDF_MARGIN_LEFT, 30, PDF_MARGIN_RIGHT);
+    	$pdf->SetHeaderMargin(1);
+    	$pdf->SetFooterMargin(10);
+
+    	// set image scale factor
+    	//$pdf->setImageScale(5);
+
+    	$pdf->AddPage();
+
+
+    	$html = $this->renderView('FarmaciaBundle:Devolucion:listado.html.twig',array(
+    			'devfarma'  => $devolucion,
+    			'fechai' =>$fecha_inicio,
+    			'fechaf' =>$fecha_fin
+
+    	));
+
+    	$pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $html,$border = 0, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
+
+    	$response = new Response($pdf->Output('listado.pdf', 'I'));
+    	$response->headers->set('Content-Type', 'application/pdf');
+    }
+
 
 }

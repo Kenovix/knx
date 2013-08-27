@@ -38,7 +38,7 @@
                 	<th>Fecha.</th>
                 	<th>Farmacia</th>
                 	<th>Item</th>
-               	 	<th>Cantidad</th>
+               	 	<th>Cantidad de Movimiento</th>
 	               <th>Tipo de Movimiento</th>
 	            </tr>
 	        </thead>
@@ -54,14 +54,16 @@
 
 	            </tr>
 	        {% endfor %}
+
 	        </tbody>
 	    </table>
 
-
-
+<div class="navigation">
+    		{{ knp_pagination_render(trasfarma) }}
+		</div>
 	    <div class="form-actions">
-				<a href="{{ path('traslado_new') }}" class="btn btn-primary">Nuevo Traslado</a>
-			    <a href="{{ path('traslado_search') }}" class="btn btn-primary">Buscar Traslados</a>
+				<a href="{{ path('almacenimv_search') }}" class="btn btn-primary">Nuevo Traslado</a>
+			    <a href="{{ path('traslado_search') }}" class="btn">Buscar Traslados</a>
 		</div>
 
 	{% else %}

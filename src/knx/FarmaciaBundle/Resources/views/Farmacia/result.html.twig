@@ -6,7 +6,7 @@
 
 {% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
 
-{% block titulo %}Listado de Ingresos{% endblock %}
+{% block titulo %}Resultado Existencia Farmacia {{ farmacia.nombre }}{% endblock %}
 
 {% block msg %}
 	{% if app.session.hasFlash('ok') %}
@@ -28,62 +28,43 @@
 {% endblock %}
 
 {% block cuerpo %}
-	{% if ingreso %}
+
+	    <a href="{{ path('farmacia_list') }}" class="btn">Volver</a>
+
+	{% if farmacia1 %}
+
 	    <table class="table">
 	        <thead>
 	            <tr>
 	                <th>No.</th>
-	                <th>Factura</th>
-	                <th>Fecha</th>
-	                <th>Valor Total</th>
-	                <th>Almacen</th>
-	                <th>Proveedor</th>
-	                <th>Imprmir</th>
+	                <th>Codigo</th>
+	                <th>Nombre</th>
+					<th>cant</th>
+
+
 	            </tr>
 	        </thead>
 	        <tbody>
-	        {% for ingreso in ingreso %}
+	        {% for farmacia1 in farmacia1 %}
 	            <tr>
-	                <td>{{ loop.index }}</td>
-	                <td><a href="{{ path('ingreso_show', {'ingreso':ingreso.id}) }}">{{ ingreso.numFact }}</a></td>
-	                <td>{{ ingreso.fecha | date('d-m-Y')}}</td>
-	                <td> $ {{ ingreso.valorT | number_format(0,',','.')}}</td>
-	              	<td>{{ ingreso.almacen}}</td>
-	                <td>{{ ingreso.proveedor}}</td>
-	                <td><a class="btn btn-mini"  href="{{ path('ingreso_printn', {'ingreso':ingreso.id})}} " target="blank"><i class="icon-print"></i></a></td>
+	                 <td>{{ loop.index }}</td>
+					 <td>{{ farmacia1.imv.codCups }}</td>
+		           	 <td>{{ farmacia1.imv }}</td>
+	             	 <td>{{ farmacia1.cant }}</td>
 
 	            </tr>
+
 
 	        {% endfor %}
 	        </tbody>
 	    </table>
 
 
-
-	  <div class="form-actions">
-				<a href="{{ path('ingreso_new') }}" class="btn btn-primary">Nuevo Ingreso</a>
-			    <a href="{{ path('ingreso_search') }}" class="btn btn-primary">Buscar Ingresos</a>
-
-			</div>
-
-
 	{% else %}
 		<div class="alert alert-success">
 	    	<button data-dismiss="alert" class="close" type="button">×</button>
-	        <span>No existen ingresos creados</span>
+	        <span>No existe existencias creadas</span>
 	    </div>
-	{% endif %}
+ {% endif %}
 
 {% endblock %}
-
-
-
-
-
-
-
-
-
-
-
-

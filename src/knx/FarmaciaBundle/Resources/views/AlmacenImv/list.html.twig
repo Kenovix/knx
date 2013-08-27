@@ -29,7 +29,7 @@
 
 {% block cuerpo %}
 
-<form name="consultaImv" id="consultaImv" class="form-horizontal" method="post" action="{{ path('imv_list') }}" {{ form_enctype(form) }}>
+<form name="consultaAlmacen" id="consultaAlmacen" class="form-horizontal" method="post" action="{{ path('almacenimv_list') }}" {{ form_enctype(form) }}>
 		    <fieldset>
 		    	<legend>Busqueda</legend>
 					{{ form_widget(form) }}
@@ -50,22 +50,19 @@
 	                <th>No.</th>
 	                <th>Nombre</th>
 					<th>cant</th>
-
+					<th>Movimiento</th>
 
 	            </tr>
 	        </thead>
 	        <tbody>
 	        {% for almacenimv in almacenimv %}
 	            <tr>
-	                <td>{{ loop.index }}</td>
-					{% if almacenimv.cant > 0 %}
-		           <td><a href="{{ path('traslado_new', {'imv':almacenimv.imv.id}) }}">{{ almacenimv.imv }}</a></td>
-
-	        		{% endif %}
-
-	             	 <td>{{ almacenimv.cant }}</td>
-
+	               <td>{{ loop.index }}</td>
+		           <td>{{ almacenimv.imv }}</td>
+	               <td>{{ almacenimv.cant }}</td>
+					 <td><a class="btn btn-mini" href="{{ path('traslado_new', {'imv':almacenimv.imv.id , 'almacen':almacenimv.almacen.id})}} "><i class="icon-share-alt"></i>Mover</a></td>
 	            </tr>
+
 	        {% endfor %}
 	        </tbody>
 	    </table>

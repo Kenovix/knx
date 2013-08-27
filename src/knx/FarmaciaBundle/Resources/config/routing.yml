@@ -54,6 +54,14 @@ farmacia_update:
     pattern:  /{farmacia}/update
     defaults: { _controller: FarmaciaBundle:Catfarma:farmaciaUpdate }
     
+farmacia_resultf:
+    pattern:  /{farmacia}/resultf
+    defaults: { _controller: FarmaciaBundle:Catfarma:farmaciaResultf }
+    
+farmacia_print:
+    pattern:  /{farmacia}/print
+    defaults: { _controller: FarmaciaBundle:Catfarma:farmaciaPrint }    
+    
     
 #************** Ingreso ***************#
 
@@ -87,7 +95,11 @@ ingreso_edit:
     
 ingreso_update:
     pattern:  /ingreso/{ingreso}/update
-    defaults: { _controller: FarmaciaBundle:Ingreso:update }    
+    defaults: { _controller: FarmaciaBundle:Ingreso:update } 
+
+ingreso_printn:
+    pattern:  /ingresoprintn/{ingreso}/print
+    defaults: { _controller: FarmaciaBundle:Ingreso:print }       
     
 #************** IMV ***************#    
 
@@ -98,6 +110,10 @@ imv_list:
 imv_search:
     pattern:  /imv/search
     defaults: { _controller: FarmaciaBundle:Imv:search }
+    
+imv_searchimprimir:
+    pattern:  /imv/searchimprimir
+    defaults: { _controller: FarmaciaBundle:Imv:searchimprimir }
     
 imv_new:
     pattern:  /imv/new
@@ -119,7 +135,9 @@ imv_update:
     pattern:  /imv/{imv}/update
     defaults: { _controller: FarmaciaBundle:Imv:update }
     
-
+imv_printi:
+    pattern:  /imv/printi
+    defaults: { _controller: FarmaciaBundle:Imv:print }
 #************** Inventario ***************#
 
 inventario_list:
@@ -149,7 +167,9 @@ inventario_update:
     
 inventario_delete:
     pattern:  /inventario/{ingreso}/{imv}/delete
-    defaults: { _controller: FarmaciaBundle:Inventario:delete }      
+    defaults: { _controller: FarmaciaBundle:Inventario:delete }   
+    
+
 
 #************** Traslado ***************#    
 
@@ -161,16 +181,20 @@ traslado_result:
     pattern:  /traslado/result
     defaults: { _controller: FarmaciaBundle:Traslado:result }
     
+traslado_searchprint:
+    pattern:  /traslado/searchprint
+    defaults: { _controller: FarmaciaBundle:Traslado:searchprint }
+    
 traslado_list:
     pattern:  /traslado/list
     defaults: { _controller: FarmaciaBundle:Traslado:list }
     
 traslado_new:
-    pattern:  /traslado/{imv}/new
+    pattern:  /traslado/{imv}/{almacen}/new
     defaults: { _controller: FarmaciaBundle:Traslado:new }
     
 traslado_save:
-    pattern:  /traslado/{imv}/save
+    pattern:  /traslado/{imv}/{almacen}/save
     defaults: { _controller: FarmaciaBundle:Traslado:save }
 
 traslado_show:
@@ -185,6 +209,10 @@ traslado_update:
     pattern:  /traslado/{traslado}/update
     defaults: { _controller: FarmaciaBundle:Traslado:update }
     
+traslado_printt:
+    pattern:  /imv/printt
+    defaults: { _controller: FarmaciaBundle:Traslado:print }    
+    
     
 #************** Devoluion ***************#   
 
@@ -196,7 +224,9 @@ devolucion_result:
     pattern:  /devolucion/result
     defaults: { _controller: FarmaciaBundle:Devolucion:result }    
 
-
+devolucion_searchprint:
+    pattern:  /devolucion/searchprint
+    defaults: { _controller: FarmaciaBundle:Devolucion:searchprint }
 
 devolucion_list:
     pattern:  /devolucion/list
@@ -213,6 +243,10 @@ devolucion_save:
 devolucion_show:
     pattern:  /devolucion/{devolucion}/show
     defaults: { _controller: FarmaciaBundle:Devolucion:show }
+    
+devolucion_printd:
+    pattern:  /devolucion/printd
+    defaults: { _controller: FarmaciaBundle:Devolucion:print }    
 
     
  #************** ImvPyp ***************#    
@@ -258,3 +292,12 @@ almacenimv_list:
 almacenimv_search:
     pattern:  /almacenimv/search
     defaults: { _controller: FarmaciaBundle:AlmacenImv:search }
+    
+almacenimv_printa:
+    pattern:  /almacenimv/printa
+    defaults: { _controller: FarmaciaBundle:AlmacenImv:print }
+
+almacenimv_searcha:
+    pattern:  /almacenimv/searcha
+    defaults: { _controller: FarmaciaBundle:AlmacenImv:searchprint }    
+    

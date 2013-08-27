@@ -1,0 +1,49 @@
+{% extends "::simple.html.twig" %}
+
+{% block stylesheets %}
+{% endblock %}
+
+{% block head %}
+{% endblock %}
+
+
+{% block body %}
+
+        <p><b>Existencias</b><br/><br/><br/>
+
+
+	       <table class="table" cellpadding="2" cellspacing="2" border="1">
+	        <thead>
+	            <tr>
+	                <th width="40px">No.</th>
+	              	<th width="40px">Codigo</th>
+	                <th width="35px">Tipo</th>
+	                <th width="300px">Nombre</th>
+	                <th width="50px">Cantidad</th>
+	                <th width="50px">Precio Venta</th>
+
+
+
+	            </tr>
+	        </thead>
+	        <tbody>
+	        {% for imv in imv %}
+	            <tr>
+	                 <td width="40px">{{ loop.index }}</td>
+	                 <td width="40px">{{ imv.codCups}}</td>
+	             	 <td width="35px">{{ imv.tipoImv }}</td>
+	             	 <td width="300px">{{ imv.nombre }}</td>
+	             	 <td width="50px">{{ imv.cantT }}</td>
+	             	 <td width="50px">{{ imv.precioVenta }}</td>
+
+
+	            </tr>
+	        {% endfor %}
+	        </tbody>
+	    </table>
+
+{% endblock %}
+
+
+{% block footer %}
+{% endblock %}

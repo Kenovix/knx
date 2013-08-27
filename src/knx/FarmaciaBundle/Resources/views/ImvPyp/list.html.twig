@@ -33,13 +33,13 @@
 	<fieldset>
 		    	<legend>Busqueda</legend>
 					{{ form_widget(form) }}
-		 
+
 
 		   <div class="form-actions">
 				<input class="btn btn-primary" name="Buscar"  type="submit" value="Buscar" />
-				<a href="{{ path('imvpyp_new') }}" class="btn btn-primary">Nueva Stock_Pyp</a>				
+				<a href="{{ path('imvpyp_new') }}" class="btn btn-primary">Nueva Stock_Pyp</a>
 			    <a href="{{ path('imvpyp_search') }}" class="btn">Volver</a>
-				
+
 			</div>
    </fieldset>
 </form>
@@ -48,8 +48,8 @@
 	    <table class="table">
 	        <thead>
 	            <tr>
-	               <th>No.</th>	             
-	                <th>Imv_pyp</th>
+	               <th>No.</th>
+	                <th>Nombre</th>
 	                <th>Categoria</th>
 	                <th>Edad_Inicial(Años)</th>
 	                <th>Edad_Final(Años)</th>
@@ -60,12 +60,12 @@
 	        <tbody>
 	        {% for pimv in pimv %}
 	            <tr>
-	                 <td>{{ loop.index }}</td>	   
-	                 <td><a href="{{ path('imvpyp_show', {'pyp': pimv.pyp.id, 'imv': pimv.imv.id }) }}">{{ pimv.imv }}</td>           
+	                 <td>{{ loop.index }}</td>
+	                 <td><a href="{{ path('imvpyp_show', {'pyp': pimv.pyp.id, 'imv': pimv.imv.id }) }}">{{ pimv.imv }}</td>
 	             	 <td>{{ pimv.pyp }}</td>
 	             	 <td>{{ pimv.edadini }}</td>
 	             	 <td>{{ pimv.edadfin}}</td>
-	             	 <td>{{ pimv.rango}}</td>	             	 
+	             	 <td>{{ pimv.rango}}</td>
 	             	 <td>{{ pimv.sexo}}</td>
 	            </tr>
 	        {% endfor %}
@@ -77,6 +77,6 @@
 	        <span>No existen Stock_Pyp creadas</span>
 	    </div>
 	{% endif %}
-		
-    
+
+
 {% endblock %}

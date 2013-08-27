@@ -11,7 +11,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="imv_farmacia")
  * @ORM\Entity
  */
-
 class ImvFarmacia
 {
     /**
@@ -38,11 +37,23 @@ class ImvFarmacia
      *      max = "10000",
      *      minMessage = "El menor número a ingresar es 1",
      *      maxMessage = "El mayor número a ingresar es 10000"
-     *
+     * )
      */
         private $cant;
 
-     /**
+
+
+
+        /*
+         * Get toString
+        */
+        public function __toString()
+        {
+        	return $this->getPrecioCompra();
+        }
+
+
+    /**
      * Set cant
      *
      * @param integer $cant

@@ -13,17 +13,17 @@ class UpdateInventarioType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-       	  
+
        	    ->add('imv', 			'entity', array('class' => 'knx\\FarmaciaBundle\\Entity\\Imv','required' => true,'disabled' => true,'label' => 'Imv:',
-        		'empty_value' => 'Selecciona un Imv',
+        		'empty_value' => 'Selecciona un Imv','attr'=>array('class'=>'input-xxlarge'),
         		'query_builder' => function(EntityRepository $repositorio) {
         			return $repositorio->createQueryBuilder('s')
         			->orderBy('s.nombre', 'ASC');}
         ))
             ->add('cant',			'integer', array('required' => true, 'label' => 'Cantidad: *', 'attr' => array('placeholder' => 'Cantidad')))
             ->add('precioCompra',	'integer', array('required' => true, 'label' => 'PrecioCompra: *', 'attr' => array('placeholder' => 'PrecioCom')))
-			->add('precioventa','text',array('label'=> 'Precio_Venta:', 'required'=>false, 'property_path' => false,'attr' => array('placeholder' => 'Precio_venta', 'autofocus'=>'autofocus')));            
-                        
+			->add('precioventa','text',array('label'=> 'Precio_Venta:', 'required'=>false, 'property_path' => false,'attr' => array('placeholder' => 'Precio_venta', 'autofocus'=>'autofocus')));
+
         ;
     }
 

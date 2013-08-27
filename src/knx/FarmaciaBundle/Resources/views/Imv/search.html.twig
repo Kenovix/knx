@@ -29,10 +29,10 @@
 
 
 
-	
+
 {% block cuerpo %}
-		    
-	
+
+
 		<form name="consultaImv" id="consultaImv" class="form-horizontal" method="post" action="{{ path('imv_list') }}" {{ form_enctype(form) }}>
 			</fieldset>
 		    	<legend>Busqueda</legend>
@@ -41,8 +41,7 @@
 					<input class="btn btn-primary" name="Buscar" type="submit" value="Buscar" />
 			    	<a href="{{ path('imv_new') }}" class="btn btn-primary">Nueva Existencia</a>
 			  	</div>
-		    </fieldset>			
+		    </fieldset>
 		</form>
 
 {% endblock %}
-	

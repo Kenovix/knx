@@ -9,13 +9,13 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * knx\FarmaciaBundle\Entity\Traslado
- * 
+ *
  * @ORM\Table(name="traslado")
  * @ORM\Entity
  */
 class Traslado
 {
-  
+
     /**
      * @var integer $id
      *
@@ -34,8 +34,8 @@ class Traslado
      *   @ORM\JoinColumn(name="imv_id", referencedColumnName="id")
      * })
      */
-    private $imv;    
-    
+    private $imv;
+
 
      /**
      * @var Farmacia
@@ -45,8 +45,18 @@ class Traslado
      *   @ORM\JoinColumn(name="farmacia_id", referencedColumnName="id")
      * })
      */
-    private $farmacia;    
-       
+    private $farmacia;
+
+    /**
+     * @var Almacen
+     *
+     * @ORM\ManyToOne(targetEntity="knx\ParametrizarBundle\Entity\Almacen")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="almacen_id", referencedColumnName="id")
+     * })
+     */
+    private $almacen;
+
 
     /**
      * @var datetime $fecha
@@ -62,7 +72,7 @@ class Traslado
      * @Assert\Range(min=1)
      */
      private $cant;
-     
+
      /**
       * @var string $tipo
       *
@@ -81,32 +91,32 @@ class Traslado
      {
      	return $this->id;
      }
-         
+
 
     /**
      * Set fecha
      *
      * @param \DateTime $fecha
-     * @return 
+     * @return
      */
     public function setFecha($fecha)
     {
         $this->fecha = $fecha;
-    
+
         return $this;
     }
 
     /**
      * Get fecha
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getFecha()
     {
         return $this->fecha;
     }
 
-    
+
 
     /**
      * Set cant
@@ -117,14 +127,14 @@ class Traslado
     public function setCant($cant)
     {
         $this->cant = $cant;
-    
+
         return $this;
     }
 
     /**
      * Get cant
      *
-     * @return integer 
+     * @return integer
      */
     public function getCant()
     {
@@ -140,10 +150,10 @@ class Traslado
     public function setTipo($tipo)
     {
     	$this->tipo = $tipo;
-    
+
     	return $this;
     }
-    
+
     /**
      * Get tipo
      *
@@ -163,14 +173,14 @@ class Traslado
     public function setImv(\knx\FarmaciaBundle\Entity\Imv $imv = null)
     {
         $this->imv = $imv;
-    
+
         return $this;
     }
 
     /**
      * Get imv
      *
-     * @return \knx\FarmaciaBundle\Entity\Imv 
+     * @return \knx\FarmaciaBundle\Entity\Imv
      */
     public function getImv()
     {
@@ -185,17 +195,42 @@ class Traslado
     public function setFarmacia(\knx\FarmaciaBundle\Entity\Farmacia $farmacia = null)
     {
         $this->farmacia = $farmacia;
-    
+
         return $this;
     }
 
     /**
      * Get farmacia
      *
-     * @return \knx\FarmaciaBundle\Entity\Farmacia 
+     * @return \knx\FarmaciaBundle\Entity\Farmacia
      */
     public function getFarmacia()
     {
         return $this->farmacia;
     }
-}   
+
+
+
+    /**
+     * Set almacen
+     *
+     * @param \knx\ParametrizarBundle\Entity\Almacen $almacen
+     * @return Traslado
+     */
+    public function setAlmacen(\knx\ParametrizarBundle\Entity\Almacen $almacen = null)
+    {
+    	$this->almacen = $almacen;
+
+    	return $this;
+    }
+
+    /**
+     * Get almacen
+     *
+     * @return \knx\ParametrizarBundle\Entity\Almacen
+     */
+    public function getAlmacen()
+    {
+    	return $this->almacen;
+    }
+}

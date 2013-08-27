@@ -6,7 +6,7 @@
 
 {% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
 
-{% block titulo %}Nuevo Traslado{% endblock %}
+{% block titulo %}Farmacia Existencia{% endblock %}
 
 {% block msg %}
 	{% if app.session.hasFlash('ok') %}
@@ -29,18 +29,21 @@
 
 
 
+
 {% block cuerpo %}
 
-	<form action="{{ path('traslado_save', {'imv':imv.id, 'almacen':almacen.id}) }}" onSubmit="return confirm('Verificar antes de realizar el movimiento?');"class="form-horizontal" method="post" {{ form_enctype(form) }}>
-	    <fieldset>
-	    	<legend>Datos del Traslado Desde: {{ almacen.nombre }}</legend>
 
-		   {{ form_widget(form) }}
+		<form name="consultaImv" id="consultaImv" class="form-horizontal" method="post" action="{{ path('imv_printi') }}" {{ form_enctype(form) }}>
+			</fieldset>
+		    	<legend>Busqueda</legend>
+					{{ form_widget(form) }}
+		   		<div class="form-actions">
+					<input class="btn btn-primary" target="blank "name="Imprimir" type="submit" value="Buscar" />
 
-			<div class="form-actions">
-				<input class="btn btn-primary" name="guardar" type="submit" value="Guardar" />
-			    <a href="{{ path('almacenimv_search') }}" class="btn btn-danger">Cancelar</a>
-			</div>
-		</fieldset>
-	</form>
+					<a href="{{ path('imv_search') }}" class="btn">Volver</a>
+
+			  	</div>
+		    </fieldset>
+		</form>
+
 {% endblock %}

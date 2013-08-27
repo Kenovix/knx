@@ -200,17 +200,17 @@ class InventarioController extends Controller
     {
     	$em = $this->getDoctrine()->getEntityManager();
     	$inventario = $em->getRepository('FarmaciaBundle:Inventario')->findOneBy(array("ingreso" => $ingreso, "imv" => $imv));
-    	//$traslado = $em->getRepository('FarmaciaBundle:Traslado')->findBy(array("inventario"=>$inventario->getId()));
-    	//$devolucion = $em->getRepository('FarmaciaBundle:Devolucion')->findBy(array("inventario"=>$inventario->getId()));
+    	$traslado = $em->getRepository('FarmaciaBundle:Traslado')->findOneBy(array("imv" => $imv));
+    	$devolucion = $em->getRepository('FarmaciaBundle:Devolucion')->findOneBy(array("imv" => $imv));
 
     	//die(var_dump($inventario));
     	$imv = $inventario->getImv();
     	$precio_venta = $imv->getprecioVenta();
     	//die(var_dump($precio_venta));
 
-
     	$form   = $this->createForm(new UpdateInventarioType(), $inventario);
     	$precioventa = $form["precioventa"]->setData($precio_venta);
+
 
    	   if (!$inventario) {
     		throw $this->createNotFoundException('El inventario solicitada no esta disponible.');
@@ -224,11 +224,17 @@ class InventarioController extends Controller
 
 
 
+
+
+
+
     	return $this->render('FarmaciaBundle:Inventario:edit.html.twig', array(
     			'inv' => $inventario,
     			'form' => $form->createView(),
     	));
+
     }
+
 
 
     public function updateAction($ingreso,$imv)
@@ -269,6 +275,10 @@ class InventarioController extends Controller
     			$imv = $inventario->getImv();
     			$precioventa = $form->get('precioventa')->getData();
     			//die(var_dump($precioventa));
+
+
+
+
     			if($precioventa<$precio_compra or $precioventa==$precio_compra ){
 
     				$this->get('session')->setFlash('error', 'El precio de venta no puede ser menor o igual a precio de compra.');
@@ -350,7 +360,6 @@ class InventarioController extends Controller
     			return $this->redirect($this->generateUrl('inventario_edit', array("ingreso" => $ingreso->getId(), "imv" => $imv->getId())));
     		}
 
-
     		return $this->render('FarmaciaBundle:Inventario:edit.html.twig', array(
     				'inventario' => $inventario,
     				'form'   => $form->createView()
@@ -367,7 +376,7 @@ class InventarioController extends Controller
        			'inventario' => $inventario,
     			'form' => $form->createView(),
     	));
-    }
+    	}
     }
 
 public function deleteAction($ingreso,$imv)
@@ -376,7 +385,7 @@ public function deleteAction($ingreso,$imv)
     	$em = $this->getDoctrine()->getEntityManager();
 
     	$inventario = $em->getRepository('FarmaciaBundle:Inventario')->findOneBy(array("ingreso" => $ingreso, "imv" => $imv));
-    	//$traslado = $em->getRepository('FarmaciaBundle:Traslado')->findBy(array("inventario"=>$inventario->getId()));
+    	$traslado = $em->getRepository('FarmaciaBundle:Traslado')->findOneBy(array("imv" => $imv));
 
 
     	$imv = $inventario->getImv();
@@ -392,21 +401,21 @@ public function deleteAction($ingreso,$imv)
     	if (!$inventario) {
     		throw $this->createNotFoundException('El Inventario solicitado no existe.');
     	}
-    	//if ($traslado == null){
+    	if ($traslado == null){
 
-    	if ($cantidad_inventario < $cantidad_actual or $cantidad_inventario == $cantidad_actual){
+    		if ($cantidad_inventario < $cantidad_actual or $cantidad_inventario == $cantidad_actual){
 
     		$imv->setCantT($cantidad_actual-$cantidad_inventario);
 
 
 
-    	$em->remove($inventario);
-    	$em->flush();
+    		$em->remove($inventario);
+    		$em->flush();
 
 
-    	$almacenimv = $em->getRepository('FarmaciaBundle:AlmacenImv')->findoneBy(array('almacen'=> $ingreso->getAlmacen(), 'imv' => $inventario->getImv()->getId()));
-    	$cantidad_almacenimv = $almacenimv->getCant();
-    	//die(var_dump($cantidad_almacenimv));
+    		$almacenimv = $em->getRepository('FarmaciaBundle:AlmacenImv')->findoneBy(array('almacen'=> $ingreso->getAlmacen(), 'imv' => $inventario->getImv()->getId()));
+    		$cantidad_almacenimv = $almacenimv->getCant();
+    		//die(var_dump($cantidad_almacenimv));
 
     	if($almacenimv){
 
@@ -425,22 +434,18 @@ public function deleteAction($ingreso,$imv)
     			return $this->redirect($this->generateUrl('ingreso_list'));
 
     		}
-
-
-    	}
-    	}
+    	  }
+    	 }
+       }
     	else {
 
     		$this->get('session')->setFlash('error','El Item no se puede eliminar ya que ha sido trasladado');
     		return $this->redirect($this->generateUrl('ingreso_list'));
-
     	}
-
-
-    	}
-
-
+      }
     }
+
+
 
 
 

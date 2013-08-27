@@ -14,7 +14,7 @@ class DevolucionType extends AbstractType
         $builder
             ->add('imv', 		'entity', array(
             		'class' => 'knx\\FarmaciaBundle\\Entity\\Imv',
-            		'required' => true,
+            		'required' => true,'attr'=>array('class'=>'input-xxlarge'),
             		'empty_value' => 'Selecciona un Imv',
             		'query_builder' => function(EntityRepository $repositorio) {
             			return $repositorio->createQueryBuilder('s')
