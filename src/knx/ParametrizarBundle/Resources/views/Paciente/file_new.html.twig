@@ -40,41 +40,6 @@
     </fieldset>
     <button class="btn btn-primary" type="submit">Subir Archivo</button>
   </form>
-  
-  
- {% if datosTemporales %}
- <div style="display: none;">
- 	{% ui_dialog id="infoTemporal"
-               title="Errores a corregir"
-               widgetVar="myDialog"
-               width="450px"
-               autoOpen=true
-               modal=true
-  %}
-
-   <table class="table table-hover">
-   	<thead>
-   		<tr class="error" >
-   			<th colspan="2">Elimine los siguientes datos del archivo y vuelva a cargar la información</th>
-   		</tr>
-   		<tr>
-   			<th>No.</th>
-   			<th>Identificación</th>
-   		</tr>
-   	</thead>
-   	<tbody>
-   		{% for entity in datosTemporales %}
-            <tr>
-                <td>{{ loop.index }}</td>
-                <td>{{ entity }}</td>                
-            </tr>
-         {% endfor %}
-   	</tbody>
-   </table>    
-  {% end_ui_dialog %} 
-   </div>
- {% endif %}
- 
 {% endblock %}
 
 {% block javascripts %}

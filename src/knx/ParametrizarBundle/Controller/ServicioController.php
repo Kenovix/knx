@@ -5,8 +5,6 @@ namespace knx\ParametrizarBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use knx\ParametrizarBundle\Entity\Servicio;
 use knx\ParametrizarBundle\Form\ServicioType;
-use knx\ParametrizarBundle\Entity\CargoServicio;
-use knx\ParametrizarBundle\Form\CargoServicioType;
 
 class ServicioController extends Controller
 {
@@ -14,7 +12,7 @@ class ServicioController extends Controller
     {   
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
     	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
-    	$breadcrumbs->addItem("Servicio", $this->get("router")->generate("servicio_list"));
+    	$breadcrumbs->addItem("Centro de costo", $this->get("router")->generate("servicio_list"));
     	$breadcrumbs->addItem("Listado");
     	
     	$em = $this->getDoctrine()->getEntityManager();    
@@ -29,7 +27,7 @@ class ServicioController extends Controller
     {
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
     	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
-    	$breadcrumbs->addItem("Servicio", $this->get("router")->generate("servicio_list"));
+    	$breadcrumbs->addItem("Centro de costo", $this->get("router")->generate("servicio_list"));
     	$breadcrumbs->addItem("Nuevo");
     	
     	$servicio = new Servicio();
@@ -47,7 +45,7 @@ class ServicioController extends Controller
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
     	 
     	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
-    	$breadcrumbs->addItem("Servicio", $this->get("router")->generate("servicio_list"));
+    	$breadcrumbs->addItem("Centro de costo", $this->get("router")->generate("servicio_list"));
     	$breadcrumbs->addItem("Nuevo");
     	
     	$request = $this->getRequest();
@@ -89,14 +87,11 @@ class ServicioController extends Controller
     	
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
     	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
-    	$breadcrumbs->addItem("Servicio", $this->get("router")->generate("servicio_list"));
+    	$breadcrumbs->addItem("Centro de costo", $this->get("router")->generate("servicio_list"));
     	$breadcrumbs->addItem($servicio->getNombre());
     	
-    	$cargo_servicio = $em->getRepository('ParametrizarBundle:CargoServicio')->findBy(array('servicio' => $servicio->getId()));
-    	
     	return $this->render('ParametrizarBundle:Servicio:show.html.twig', array(
-    			'servicio'  => $servicio,
-    			'cargo_servicio' => $cargo_servicio
+    			'servicio'  => $servicio
     	));
     }
     
@@ -112,7 +107,7 @@ class ServicioController extends Controller
     	
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
     	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
-    	$breadcrumbs->addItem("Servicio", $this->get("router")->generate("servicio_list"));
+    	$breadcrumbs->addItem("Centro de costo", $this->get("router")->generate("servicio_list"));
     	$breadcrumbs->addItem($servicio->getNombre(), $this->get("router")->generate("servicio_show", array("servicio" => $servicio->getId())));
     	$breadcrumbs->addItem("Modificar ".$servicio->getNombre());
     
@@ -137,7 +132,7 @@ class ServicioController extends Controller
     	
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
     	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
-    	$breadcrumbs->addItem("Servicio", $this->get("router")->generate("servicio_list"));
+    	$breadcrumbs->addItem("Centro de costo", $this->get("router")->generate("servicio_list"));
     	$breadcrumbs->addItem($servicio->getNombre(), $this->get("router")->generate("servicio_show", array("servicio" => $servicio->getId())));
     	$breadcrumbs->addItem("Modificar ".$servicio->getNombre());
     
@@ -162,81 +157,6 @@ class ServicioController extends Controller
     	return $this->render('ParametrizarBundle:Servicio:edit.html.twig', array(
     			'servicio' => $servicio,
     			'form' => $form->createView()
-    	));
-    }
-    
-    
-    public function newCargoServicioAction($servicio)
-    {
-    	$breadcrumbs = $this->get("white_october_breadcrumbs");
-    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
-    	$breadcrumbs->addItem("Servicio", $this->get("router")->generate("servicio_list"));
-    	$breadcrumbs->addItem("Cargo");
-    	
-    	$em = $this->getDoctrine()->getEntityManager();
-    	
-    	$servicio = $em->getRepository('ParametrizarBundle:Servicio')->find($servicio);
-    	
-    	if (!$servicio) {
-    		throw $this->createNotFoundException('La servicio solicitada no existe.');
-    	}
-    	 
-    	$cargo_servicio = new CargoServicio();
-    	$form   = $this->createForm(new CargoServicioType(), $cargo_servicio);
-    
-    	return $this->render('ParametrizarBundle:Servicio:new_cs.html.twig', array(
-    			'servicio' => $servicio,
-    			'form'   => $form->createView()
-    	));
-    }
-    
-    public function saveCargoServicioAction($servicio)
-    {
-    	$breadcrumbs = $this->get("white_october_breadcrumbs");
-    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
-    	$breadcrumbs->addItem("Servicio", $this->get("router")->generate("servicio_list"));
-    	$breadcrumbs->addItem("Cargo");
-    	
-    	$em = $this->getDoctrine()->getEntityManager();
-    	 
-    	$servicio = $em->getRepository('ParametrizarBundle:Servicio')->find($servicio);
-    	 
-    	if (!$servicio) {
-    		throw $this->createNotFoundException('La servicio solicitada no existe.');
-    	}
-    	 
-    	$request = $this->getRequest();
-    	 
-    	$cargo_servicio = new CargoServicio();
-    	$form = $this->createForm(new CargoServicioType(), $cargo_servicio);
-    	 
-    	if ($request->getMethod() == 'POST') {
-    
-    		$form->bind($request);
-    
-    		if ($form->isValid()) {
-    			
-    			$existe_cargo_servicio = $em->getRepository('ParametrizarBundle:CargoServicio')->findBy(array('servicio' => $servicio->getId(), 'cargo' => $cargo_servicio->getCargo()->getId()));
-    			
-    			if(!$existe_cargo_servicio){
-    				$cargo_servicio->setServicio($servicio);
-    				
-    				$em->persist($cargo_servicio);
-    				$em->flush();
-    				
-    				$this->get('session')->setFlash('ok', 'El cargo ha sido asociado éxitosamente.');
-    				
-    				return $this->redirect($this->generateUrl('servicio_show', array("servicio" => $servicio->getId())));
-    			}else{
-    				$this->get('session')->setFlash('info', 'El cargo ya ha sido asociado anteriormente.');
-    				
-    				return $this->redirect($this->generateUrl('servicio_show', array("servicio" => $servicio->getId())));
-    			}
-    		}
-    	}
-    
-    	return $this->render('ParametrizarBundle:Almacen:new.html.twig', array(
-    			'form'   => $form->createView()
     	));
     }
 }

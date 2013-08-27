@@ -32,7 +32,7 @@ class Builder extends ContainerAware
 			$menu['Historia']->addChild('Examenes', array('route' => 'examen_list'));
 			$menu['Historia']->addChild('Medicamentos', array('route' => 'medicamento_list'));
 			$menu['Historia']->addChild('Urgencias', array('route' => 'historia_urgenciaList'));
-			$menu['Historia']->addChild('Busqueda', array('route' => 'historia_search'));						
+			$menu['Historia']->addChild('Busqueda', array('route' => 'paciente_filtro'));						
 
 		return $menu;
 	}

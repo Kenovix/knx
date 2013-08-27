@@ -12,7 +12,9 @@ class TrasladoType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+
              ->add('imv', 		'text',  array('required' => true, 'label' => 'Imv: *','disabled'=> true,'attr'=>array('class'=>'input-xxlarge')))
+
 
         ->add('tipo', 		  'choice', array('empty_value' => 'Selecione tipo','label' => 'Tipo: *',			'choices'   => array('D' => 'Devolucion', 'T' => 'Traslado'),'required'  => true))
         ->add('farmacia', 		'entity', array(

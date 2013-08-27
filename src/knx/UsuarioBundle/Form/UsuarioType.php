@@ -19,6 +19,7 @@ class UsuarioType extends BaseType
     		->add('enabled', 'checkbox', array('label' => 'Estado', 'required' => true))
     		->add('especialidad', 'text', array('label'=>'Especialidad', 'required' => false))
     		->add('rm', 'text', array('label'=>'Registro médico', 'required' => false))
+    		->add('cargo', 'choice', array('choices' => array('medico' => 'Médico', 'auxiliar' => 'Enfermera', 'odontologo' => 'Odontologo', 'facturador' => 'Facturador', 'farmaceuta' => 'Farmaceuta'), 'label'=>'Cargo', 'required' => false))
     	;
     	
     	parent::buildForm($builder, $options);

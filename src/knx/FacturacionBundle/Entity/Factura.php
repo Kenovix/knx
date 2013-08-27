@@ -31,18 +31,11 @@ class Factura {
 	private $fecha;
 
 	/**
-	 * @var string $tipoActividad
+	 * @var integer $pyp
 	 * 
-	 * @ORM\Column(name="tipo_actividad", type="string",  length=80, nullable=false)
+	 * @ORM\Column(name="pyp", type="integer", nullable=true)
 	 */
-	private $tipoActividad;
-
-	/**
-	 * @var string $catPyp
-	
-	 * @ORM\Column(name="catPyp", type="string", length=30, nullable=true)
-	 */
-	private $catPyp;
+	private $pyp;
 
 	/**
 	 * @var string $autorizacion
@@ -64,6 +57,14 @@ class Factura {
 	 * @ORM\Column(name="estado", type="string", length=2, nullable=false)
 	 */
 	private $estado;
+	
+	/**
+	 * @var string tipo
+	 *
+	 * @ORM\Column(name="tipo", type="string", length=2, nullable=false)
+	 */
+	// se establece el tipo de la factura para el tipo de atencion U: urgencias, H: Hospitalizacion, C: consulta, AN: Actividad Normal
+	private $tipo;
 
 	/**
 	 * @var Paciente
@@ -165,45 +166,24 @@ class Factura {
 	}
 
 	/**
-	 * Set tipoActividad
+	 * Set pyp
 	 *
-	 * @param string $tipoActividad
+	 * @param integer $pyp
 	 * @return Factura
 	 */
-	public function setTipoActividad($tipoActividad) {
-		$this->tipoActividad = $tipoActividad;
+	public function setPyp($pyp) {
+		$this->pyp = $pyp;
 
 		return $this;
 	}
 
 	/**
-	 * Get tipoActividad
+	 * Get pyp
 	 *
-	 * @return string 
+	 * @return integer
 	 */
-	public function getTipoActividad() {
-		return $this->tipoActividad;
-	}
-
-	/**
-	 * Set catPyp
-	 *
-	 * @param string $catPyp
-	 * @return Factura
-	 */
-	public function setCatPyp($catPyp) {
-		$this->catPyp = $catPyp;
-
-		return $this;
-	}
-
-	/**
-	 * Get catPyp
-	 *
-	 * @return string 
-	 */
-	public function getCatPyp() {
-		return $this->catPyp;
+	public function getPyp() {
+		return $this->pyp;
 	}
 
 	/**
@@ -256,6 +236,27 @@ class Factura {
 	 */
 	public function setEstado($estado) {
 		$this->estado = $estado;
+	
+		return $this;
+	}
+	
+	/**
+	 * Get tipo
+	 *
+	 * @return string
+	 */
+	public function getTipo() {
+		return $this->tipo;
+	}
+	
+	/**
+	 * Set tipo
+	 *
+	 * @param string $tipo
+	 * @return Factura
+	 */
+	public function setTipo($tipo) {
+		$this->tipo = $tipo;
 	
 		return $this;
 	}

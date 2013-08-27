@@ -67,6 +67,10 @@ class PacienteController extends Controller
 		$form    = $this->createForm(new PacienteType(), $paciente);
 		$form->bindRequest($request);		
 		
+		// Se convierte la fecha de naciemiento en una date se asigna al entity antes de ser validado
+		$fN = date_create_from_format('d/m/Y',$form->get('fN')->getData());		
+		$paciente->setFN($fN);
+		
 		if ($form->isValid()) {
 			
 			// se optinen los objetos mupio y depto para agregar su respectivo id
@@ -74,7 +78,7 @@ class PacienteController extends Controller
 			$mupio = $form->get('mupio')->getData();			
 			
 			$paciente->setMupio($mupio->getId());
-			$paciente->setDepto($depto->getId());
+			$paciente->setDepto($depto->getId());			
 						
 			$em = $this->getDoctrine()->getEntityManager();
 			$em->persist($paciente);
@@ -136,9 +140,11 @@ class PacienteController extends Controller
 		$mupio = $em->getRepository('ParametrizarBundle:Mupio')->find($paciente->getMupio());
 		
 		$paciente->setDepto($depto);				
-		$paciente->setMupio($mupio);
+		$paciente->setMupio($mupio);		
+		
+		$paciente->setFN($paciente->getFN()->format('d/m/Y'));		
 	
-		$editForm = $this->createForm(new PacienteType(), $paciente);	
+		$editForm = $this->createForm(new PacienteType(), $paciente);		
 		
 		$breadcrumbs = $this->get("white_october_breadcrumbs");
 		$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
@@ -165,12 +171,16 @@ class PacienteController extends Controller
 		$request = $this->getRequest();
 		$editForm->bindRequest($request);
 	
+		// Se convierte la fecha de naciemiento en una date se asigna al entity antes de ser validado
+		$fN = date_create_from_format('d/m/Y',$editForm->get('fN')->getData());		
+		$paciente->setFN($fN);
+		
 		if ($editForm->isValid()) {
 			
 			// se optinen los objetos mupio y depto para agregar su respectivo id				
 			$paciente->setMupio($paciente->getMupio()->getId());
 			$paciente->setDepto($paciente->getDepto()->getId());
-	
+				
 			$em->persist($paciente);
 			$em->flush();
 	
@@ -225,13 +235,6 @@ class PacienteController extends Controller
 		}
 	
 		$em = $this->getDoctrine()->getEntityManager();	
-	
-		/*$form->get('tipoid')->setData($tipoid);
-		$form->get('identificacion')->setData($id);
-		$form->get('pri_nombre')->setData($pri_nombre);
-		$form->get('seg_nombre')->setData($seg_nombre);
-		$form->get('pri_apellido')->setData($pri_apellido);
-		$form->get('seg_apellido')->setData($seg_apellido);*/
 	
 		$boolean = 0;
 		$query = "SELECT p FROM ParametrizarBundle:Paciente p WHERE ";
@@ -301,9 +304,7 @@ class PacienteController extends Controller
 		$dql->setParameters($parametros);			
 		$pacientes = $dql->getResult();		
 		$paginator = $this->get('knp_paginator');
-		$pacientes = $paginator->paginate($pacientes, $this->getRequest()->query->get('page', 1),15);
-		
-		
+		$pacientes = $paginator->paginate($pacientes, $this->getRequest()->query->get('page', 1),15);		
 	
 		return $this->render('ParametrizarBundle:Paciente:filtro.html.twig', array(
 				'entities'  => $pacientes,
@@ -355,13 +356,16 @@ class PacienteController extends Controller
 		
 		$this->get('session')->setFlash('info', 'Seleccione el archivo correspondiente para la carga de la informacion "FILE.CSV".');
 		
-		return $this->render('ParametrizarBundle:Paciente:file_new.html.twig', array(
-				'datosTemporales' => null,
-				));
+		return $this->render('ParametrizarBundle:Paciente:file_new.html.twig');
 	}
 	
 	public function uploadCSVAction()
 	{
+		$breadcrumbs = $this->get("white_october_breadcrumbs");
+		$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
+		$breadcrumbs->addItem("Paciente", $this->get("router")->generate("paciente_list", array("char" => 'A')));
+		$breadcrumbs->addItem("Subir Archivo");
+		
 		$request  = $this->getRequest();
 		
 		// Se instancia la ruta en la cual se va a guardar el archivo
@@ -372,9 +376,7 @@ class PacienteController extends Controller
 			if ($_FILES['archivo']["error"] > 0) // se verifica que la carga del archivo no tenga errores				
 			{
 				$this->get('session')->setFlash('error', 'Ah ocurrido un error en el archivo.'.$_FILES['archivo']['error']);
-				return $this->render('ParametrizarBundle:Paciente:file_new.html.twig',array(
-						'datosTemporales' => null,
-						));
+				return $this->render('ParametrizarBundle:Paciente:file_new.html.twig');
 				
 			}else{
 				
@@ -411,43 +413,50 @@ class PacienteController extends Controller
 				$result = $em->getRepository('ParametrizarBundle:Paciente')->validarInformacion($objPacientes, $DatosTemporal);				
 				unlink($archivo);
 				
-				if($result){					
-					$this->get('session')->setFlash('error', 'Ah ocurrido un error en el archivo, hay información que ya existe en el archivo '.$_FILES['archivo']['name']);
-					$fp=fopen($ruta."datos-existentes-archivo.txt","x");
+				if($result)
+				{			
+					$nameFile = "datos-existentes-archivo.txt";			
+					
+					// se crea el archivo.
+					$fp=fopen($ruta.$nameFile,"x");
+					
 					// se itera el array de los datos existentes en la base de datos y se visuaiza al usuario en un archivo plano	
 					foreach ($result as $value)
-						fwrite($fp,$value."\n");	
-					readfile($ruta."datos-existentes-archivo.txt");				
-					fclose($fp);	
-					return $this->render($ruta."datos-existentes-archivo.txt");
+						fwrite($fp,$value."\n");					
+					fclose($fp);
+					
+					// Se envia la respectiva informacion para posteriormente descargarlo.
+					$this->downloadFile($ruta, $nameFile);
+					
+					$this->get('session')->setFlash('error', 'Ah ocurrido un error en el archivo, hay información que ya existe en el archivo '.$_FILES['archivo']['name']);
+					return $this->render('ParametrizarBundle:Paciente:file_new.html.twig');
+					
 				}else{
-					$this->verificarExistenciaDatos($DatosTemporal);	
-											
-					$em->flush();
+					$this->verificarExistenciaDatos($DatosTemporal);											
+					$em->flush();				
+					
+					$nameFile = "arrores-archivo.txt";
+					
+					// Se envia la respectiva informacion para posteriormente descargarlo.
+					$this->downloadFile($ruta, $nameFile);
 					
 					$this->get('session')->setFlash('ok', 'La información del archivo'.$_FILES['archivo']['name'].' se guardo correctamente.');
-					return $this->render('ParametrizarBundle:Paciente:file_new.html.twig',
-							array('datosTemporales' => null,
-							));
-				}				
+					return $this->render('ParametrizarBundle:Paciente:file_new.html.twig');
+				}			
 			}	
-		}			
+		}
+		return $this->render('ParametrizarBundle:Paciente:file_new.html.twig');
 	}	
 	
 	public function verificarExistenciaDatos($insert)
 	{
 		$em = $this->getDoctrine()->getEntityManager();
 		$ruta = $this->container->getParameter('knx.directorio.uploads');
+		// Archivo donde se almacena informacion sobre campos q le hacen falta atributo y camposo q estan vacios y son obligatorios.
 		$fp=fopen($ruta."arrores-archivo.txt","a");
 		
 		foreach ($insert as $key => $value){
-		
-			// se verifica la existencia de cada objeto ocupacion para asignar
-			$ocupacion = $em->getRepository('ParametrizarBundle:Ocupacion')->find($insert[$key][20]);
-		
-			if(!$ocupacion){
-				throw $this->createNotFoundException('La ocupacion no existe no es valida verifique la información en el id '.$insert[$key][1]);
-			}		
+							
 			// se verifica que las columnas estes complestas de cada fila	
 			if(count($value) == 23)
 			{
@@ -463,9 +472,10 @@ class PacienteController extends Controller
 				$zona 			= $em->getRepository('ParametrizarBundle:Paciente')->existZona($insert[$key][12]);
 				$rango 			= $em->getRepository('ParametrizarBundle:Paciente')->existRango($insert[$key][16]);
 				$tipoAfi 		= $em->getRepository('ParametrizarBundle:Paciente')->existTipoAfi($insert[$key][17]);
+				$ocupacion		= $em->getRepository('ParametrizarBundle:Ocupacion')->find($insert[$key][20]);
 				
 				// Campos obligatorios que no pueden ir nulos
-				if($tipoId && $identificacion && $priNombre && $priApellido && $fn && $sexo && $estadoCivil && $depto && $mupio && $zona && $rango && $tipoAfi)
+				if($tipoId && $identificacion && $priNombre && $priApellido && $fn && $sexo && $estadoCivil && $depto && $mupio && $zona && $rango && $tipoAfi && $ocupacion)
 				{
 					// Se instancia el objeto paciente y listo para settiar
 					$paciente = new Paciente();
@@ -496,14 +506,25 @@ class PacienteController extends Controller
 				}
 				else{
 					// hay campos imcompletos en $value  linea $key por favor verifique la informacion y vuelva a cargar				
-					fwrite($fp,$value);				
+					fwrite($fp,implode(',',$value)."\n");				
 				}
 			}else{
-				// faltan valores por ingresar en $value linea $key 
-			}		
-			// Se agrega cada objeto al insert			
+				// faltan valores por ingresar en $value linea $key
+				fwrite($fp,implode(',',$value)."\n");
+			}						
 		}
-		fclose($fp);
-		//die(var_dump($value));
+		fclose($fp);		
 	}	
+	
+	public function downloadFile($ruta, $nameFile)
+	{
+		$downloadFile = $ruta.$nameFile;
+		header("Content-Disposition: attachment; filename=$nameFile");
+		header("Content-Type: application/octet-stream");
+		header("Content-Length: ".filesize($downloadFile));
+		readfile($downloadFile);
+		unlink($downloadFile);	
+
+		return true;
+	}
 }

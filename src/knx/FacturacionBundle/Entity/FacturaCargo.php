@@ -11,6 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="factura_cargo")
  * @ORM\Entity
+ * @ORM\Entity(repositoryClass="knx\FacturacionBundle\Entity\Repository\FacturaCargoRepository")
  */
 class FacturaCargo
 {

@@ -6,7 +6,7 @@
 
 {% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
 
-{% block titulo %}Listado de las notas{% endblock %}
+{% block titulo %}Listado De Las Notas Del Paciente{% endblock %}
 
 {% block msg %}
 	{% if app.session.hasFlash('ok') %}
@@ -27,8 +27,7 @@
 	{% endif %}
 {% endblock %}
 
-{% block cuerpo %}
-
+{% block cuerpo %}	
 	<div id="tableHcPaciente">
 		<table class="table table-bordered">
 			<thead>
@@ -60,6 +59,8 @@
    
 
 	{% if listNotas %}
+	<h2>Notas</h2>
+	
 	    <table class="table table-hover">
 	        <thead>
 	            <tr>
@@ -85,11 +86,6 @@
 	    	<button data-dismiss="alert" class="close" type="button">X</button>
 	        <span>No existen notas creados</span>
 	    </div>
-	{% endif %}
-		
-    
+	{% endif %}    
     <a href="{{ path('nota_new', {'factura': factura.id }) }}" class="btn">Nueva nota</a>
-    {% if usuario.roles == "ROLE_MEDICO" %}
-    	<a href="{{ path('historia_edit', {'factura': factura.id }) }}" class="btn">Editar Historia</a>
-    {% endif %}
 {% endblock %}

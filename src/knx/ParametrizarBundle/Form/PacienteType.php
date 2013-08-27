@@ -53,11 +53,15 @@ class PacienteType extends AbstractType {
 									return $repositorio
 									->createQueryBuilder('o')
 									->orderBy('o.nombre', 'ASC');
-								}))
-										
-				->add('fN', 'date',
-						array('required' => true,
-								'label' => 'Fecha Nacimiento:'))
+								}))	
+
+				->add('fN', 'text',
+						array(	'mapped' => false,
+								'required' => true,
+								'label' => 'Fecha Nacimiento:',
+								'attr' => array(
+										'placeholder' => 'DD/MM/YYYY')))
+				
 				->add('sexo', 'choice',
 						array('label' => 'Sexo:', 'required' => true,
 								'choices' => array('' => 'Sexo',

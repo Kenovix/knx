@@ -9,16 +9,12 @@ historia_update:
     defaults: { _controller: HistoriaBundle:Historia:update }    
 
 historia_search_result:
-    pattern:  /search_result
+    pattern:  /{paciente}/search_result
     defaults: { _controller: HistoriaBundle:Historia:searchResult }
-
-historia_search:
-    pattern:  /search
-    defaults: { _controller: HistoriaBundle:Historia:search }
     
 historia_imprime:
     pattern:  /{factura}/print
-    defaults: { _controller: HistoriaBundle:Historia:print }
+    defaults: { _controller: HistoriaBundle:ImpresionHistoria:print }
     
 #************** Examen ***************#
 
@@ -92,6 +88,10 @@ cie_search:
     
 #************** NOTAS ***************#
 
+nota_validaHcRuta:
+    pattern:  /valida_ruta/{factura}/historia
+    defaults: { _controller: HistoriaBundle:Nota:validaHcRuta }
+
 nota_new:
     pattern:  /nota/{factura}/new
     defaults: { _controller: HistoriaBundle:Nota:new }
@@ -115,6 +115,10 @@ nota_update:
 nota_list:
     pattern:  /nota/{historia}/list
     defaults: { _controller: HistoriaBundle:Nota:list }
+    
+nota_print:
+    pattern:  /nota/{historia}/print
+    defaults: { _controller: HistoriaBundle:Nota:print }
     
 #**************** DIAGNOSTICO HISTORIA ***********************#
 

@@ -1,0 +1,172 @@
+{% extends "::simple.html.twig" %}
+
+{% block body %}
+
+<div>
+	<p>
+		<b>MOTIVO DEL INGRESO</b><br/>
+		~ Motivo De Consulta: {{ historia.motivo }} <br/>
+		~ Enfermedad Actual:  {{ historia.enfermedad }} <br/>
+		~ Tipo Atencion: 	  {{ historia.tipoAtencion }}
+				
+		{% set tipoingreso = factura.tipo%}		
+		{% if tipoingreso == 'U' or tipoingreso == 'H' %}
+		<br/>~ Estado General: {{ historia.estadoGen }}
+		{% endif %}
+	</p>
+	<p>
+		<b>ANTECEDENTES PERSONALES</b><br/>
+		~ Fisico:  			{{ historia.antecedentesGenerales }} <br/>
+		~ Ginecologicos: 	{{ historia.antecedentesGine }} <br/>
+		~ Patologicos:   	{{ historia.antecedentesPatologicos}}<br/>
+		~ Hbitos Nocivos:	{{ historia.habitosNocivos }}<br/>
+		~ Inmunizaciones:	{{ historia.inmunizaciones }}<br/>
+		~ Alergias:			{{ historia.alergias }}<br/>
+		~ Familiares:		{{ historia.antecedentesFami }}<br/>
+		~ Generales:		{{ historia.antecedentesGenerales }}		
+	</p>
+	<p>
+		<b>REVISION POR SISTEMAS</b><br/>
+		~ Organos Sentidos: 		{{ historia.oSentidos }}<br/>
+		~ Aparato Respiratorio: 	{{ historia.aRespiratorio }}<br/>
+		~ Aparato Cardiovascular: 	{{ historia.aCardiovascular }}<br/>
+		~ Aparato Digestivo: 		{{ historia.aDigestivo }}<br/>
+		~ Aparato Hematologico: 	{{ historia.aHematologico }}<br/>
+		~ Aparato Genito Urinario: 	{{ historia.aGenitoUrinario }}<br/>
+		~ Sistema Osteoarticular: 	{{ historia.sOsteoarticular }}<br/>
+		~ Sistema Nervioso: 		{{ historia.sNervioso }}<br/>
+		~ Sistema Endocrino: 		{{ historia.sEndocrino }}
+	</p>
+	<p>
+		<b>VALORACION FISICA</b><br/>		
+		~ Cabeza:		{{ historia.cabeza }}<br/>
+		~ Rostro:		{{ historia.cara }}<br/>
+		~ Ojos:			{{ historia.ojos }}<br/>
+		~ Oidos:		{{ historia.oidos }}<br/>
+		~ Nariz:		{{ historia.nariz }}<br/>
+		~ Boca:			{{ historia.boca }}<br/>
+		~ Cuello:		{{ historia.cuello }}<br/>
+		~ Torax:		{{ historia.torax }}<br/>
+		~ Pulmones: 	{{ historia.pulmones }}<br/>
+		~ Abdomen:		{{ historia.abdomen }}<br/>
+		~ Espalda:		{{ historia.espalda }}<br/>
+		~ Extremidades:	{{ historia.extremidades }}<br/>
+		~ Genitales:	{{ historia.genitales }}<br/>		
+	</p>
+	<p>
+		<b>SIGNOS VITALES</b><br/>	
+		~ F/C: {{ listNota.fC }}  F/R: {{ listNota.fR }}  T/A: {{ listNota.ta }}  
+		  Peso: {{ listNota.peso }}Kg  Estatura: {{ listNota.estatura }}Cm  IMC: {{ listNota.imc }}  
+		  Temp: {{ listNota.temp }}  Pulso: {{ listNota.pulso }}  Glasgow: {{ listNota.glasgow }}  Triage: {{ listNota.triage }}
+	</p>
+	
+	<p>
+		<b>DIAGNOSTICO MEDICO</b><br/>
+		<table class="table table-striped">
+					<thead>
+	            		<tr>
+	            			<th  width="100px" align="left">No.</th>
+	                		<th>NOMBRE</th>
+	                		<th>CODIGO</th>		                		               
+	            		</tr>
+	        		</thead>
+				    <tbody>  
+				    {% for cie in hc_cie %}
+		    		<tr>
+		    			<td  width="100px" align="left">{{ loop.index}}</td>
+			    		<td>{{ cie.nombre }}</td>
+			    		<td>{{ cie.codigo }}</td>
+		    		</tr>
+		    		{% endfor %} 		    
+		    </tbody>
+		</table><br/><br/>
+		~ Diagnostico Salida: {% if historia.dxSalida %} {{ historia.dxSalida.nombre }} {% endif %}<br/> 
+		~ Conducta: {{ historia.conducta }}<br/>				
+	</p>
+	
+	{% if tipoingreso == 'U' or tipoingreso == 'H' %}
+		<p>
+			<b>EVOLUCION</b><br/>
+			~ Evolución: {{ historia.evolucion }}<br/>
+			<table>
+     		 	<thead>
+     		 		<tr>
+     		 			<th colspan="5"><h3>Examenes y Procedimientos Formulados En El Acto</h3></th>
+     		 		</tr>
+     		 		<tr>
+     		 			<th  width="100px" align="left">No.</th>
+	               		<th>NOMBRE</th>		                		
+	               		<th>TIPO</th>
+	               		<th>RESULTADO</th>      		                		
+	            	</tr>
+     		 	</thead>
+     		 	<tbody>					                    
+     		 		{% for examen in hc_exa %}
+     		 			<tr>
+     		 				<td  width="100px" align="left">{{ loop.index}}</td>
+				    		<td>{{ examen.nombre }}</td>
+				    		<td>{{ examen.tipo }}</td>
+				    		<td>{{ examen.resultado }}</td>
+				   		</tr>
+     		 		{% endfor %}
+     		 	</tbody>
+     		 </table>
+     		 	
+     		<table>
+     			<thead>
+     				<tr>
+     					<th colspan="5"><h3>Medicamentos Solicitados</h3></th>
+     				</tr>
+     				<tr>
+     					<th  width="100px" align="left">No.</th>
+	              		<th>NOMBRE</th>		                		
+	              		<th>PRESENTACIÓN</th>
+	               		<th>CONCENTRACIÓN</th>
+	               		<th>POSOLOGIA</th>      		                		
+	           		</tr>
+     			</thead>
+     			<tbody>
+     				{% for medicamento in hc_lab %}
+     					<tr>
+     						<td  width="100px" align="left">{{ loop.index}}</td>
+				    		<td>{{ medicamento.principioActivo }}</td>
+				    		<td>{{ medicamento.presentacion }}</td>
+				    		<td>{{ medicamento.concentracion }}</td>
+				    		<td>{{ medicamento.posologia }}</td>
+				   		</tr>
+     		 		{% endfor %}
+     		 	</tbody>
+     		 </table>
+		</p>	
+	{% endif %}
+	
+	<p>
+		<b>EGRESO</b><br/>				
+		{% if tipoingreso == 'U' or tipoingreso == 'H' %}
+			~ Condición De Salida: {{ historia.condSalida }} <br/>
+			~ Manejo De Salida: {{ historia.manejoSalida }} <br/>
+		{% endif %}		
+		~ Medicamentos: 	{{ historia.medicamentosS }} <br/>
+		~ Procedimientos: 	{{ historia.procedimientosS }} <br/>
+		~ Examenes:			{{ historia.examenesS }} <br/>		
+		~ Incapacidad:		{{ historia.incapacidad }} <br/>
+	</p>
+	
+	{% if historia.destino == 'remision' %}
+		<b>Remision:</b><br/>
+		<p>
+			~ Destino: {{ historia.destinoR}} <br/>
+			~ Especialidad: {{ historia.especialidadR}}<br/>
+			~ Autorizacion: {{ historia.nuAutoR}} <br/>
+			~ Servicio: {{ historia.rServicio}} <br/>
+			~ Descripcion: {{ historia.descripcionR}}
+		</p>
+	{% endif %}	
+	<p>
+		<b>Medico: </b> {{ usuario.nombre }} {{ usuario.apellido }} Especialidad: {{ usuario.especialidad }} <br/>
+		<b>Registro: </b>	<br/>
+		<b>Firma: </b>
+	</p>
+</div>
+	
+{% endblock %}       

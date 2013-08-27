@@ -29,7 +29,7 @@
 
 {% block cuerpo %}
 
-	<form action="#" class="form-inline" method="post" {{ form_enctype(form) }}>
+	<form action="{{ path('facturacion_actividad_save') }}" class="form-inline" method="post" {{ form_enctype(form) }}>
 	    <fieldset>
 	    	<legend>Datos del paciente</legend>
 	    	
@@ -44,7 +44,8 @@
 	    			</select>
 	    			
 	    			<div class="input-append">
-	    				<input class="span6" type="text" name="identificacion" id="identificacion" placeholder="identificación" />
+	    				<!-- <input class="span6" type="text" name="identificacion" id="identificacion" placeholder="identificación" /> -->
+	    				{{ form_widget(form.paciente) }}
     					<button id="buscar_paciente" class="btn" type="button">Buscar</button>    					
     				</div>
     				<span id="msg" class="label"></span>	
@@ -53,11 +54,11 @@
 	    	</div>
 	    	
 	    	<div>
-	    		<div class="span4">Paciente: <span id="datos-paciente"></span></div>
+	    		<div class="span4">Paciente: <span id="datos-paciente" class="label label-success"></span></div>
 	    	</div>
 	    	
 	    	<div>
-	    		<div class="span3">Fecha de nacimiento: <span id="fn"></span></div>
+	    		<div class="span3">Fecha de nacimiento: <span id="fn" class="label label-success"></span></div>
 	    	</div>	    		   			
 	            		    		
 	    	<div>
@@ -65,17 +66,17 @@
 	    	</div>		    			    			
 	            	
 	      	<div>
-	      		<div class="span1">Sexo: <span id="sexo"></span></div>
+	      		<div class="span1">Sexo: <span id="sexo" class="label label-success"></span></div>
 	      	</div>
 	           		    		   			
 			<div>
-				<div class="span1">Rango: <span id="rango"></span></div>
+				<div class="span1">Rango: <span id="rango" class="label label-success"></span></div>
 			</div>
 	    	
 	    	<div>          	
-	       		<div class="span2">Tipo afiliaci&oacute;n: <span id="ta"></span></div>
+	       		<div class="span2">Tipo afiliaci&oacute;n: <span id="ta" class="label label-success"></span></div>
 	       	</div>
-	    	
+
 	    	<div>
 	    		<div class="span4">
 	     		     	 			
@@ -137,12 +138,13 @@
     	<div class="controls controls-row">
     		<div class="span4">
     		
-    			<label for="tipop">Profesional</label>
+    			<label for="tipop">Tipo de profesional</label>
      		     	 			
             	<select required="required" name="tipop" id="tipop">
-    				<option value="M">Médico</option>
-    				<option value="O">Odontologo</option>
-    				<option value="E">Emfermera</option>
+    				<option value="">Seleccione</option>
+    				<option value="medico">Médico</option>
+    				<option value="odontologo">Odontologo</option>
+    				<option value="enfermera">Emfermera</option>
     			</select>
             	 
     		</div>
@@ -163,6 +165,22 @@
             	 
     		</div>
     	</div>
+    	
+    	<br />
+    	
+    	<div class="controls controls-row">
+    		<div class="span4">
+    		
+    			{{ form_errors(form.servicio) }}
+            	{{ form_label(form.servicio) }}
+            	{{ form_widget(form.servicio) }}
+            	 
+    		</div>
+    	
+    		<div class="span4"></div>
+    	
+    		<div class="span4"></div>
+    	</div>
 
 		
 		<div class="form-actions">
@@ -178,7 +196,7 @@
 		$("#buscar_paciente").click(function(){
 				        
 	        var tipoid = $("#tipoid").val();
-	        var identificacion = $("#identificacion").val();
+	        var identificacion = $("#knx_facturacionbundle_facturatype_paciente").val();
 
 	        $("#msg").empty();
 	        
@@ -305,23 +323,38 @@
 
 				var edad = $("#edad").val();
 
+				if(edad == ""){ 
+					alert("Seleccione un paciente");
+					return false;
+				}
+
 				$.post(url,{
 	                edad: edad
 	            },function(data){
 	                if(data.responseCode==200 ){
 
-	                	var select = $('#knx_facturacionbundle_facturatype_cliente');
-	            		if(select.prop) {
-	            		  var options = select.prop('options');
-	            		}
-	            		else {
-	            		  var options = select.attr('options');
-	            		}
+	                	var select = $('#knx_facturacionbundle_facturatype_catPyp');
+                		if(select.prop) {
+                		  var options = select.prop('options');
+                		}
+                		else {
+                		  var options = select.attr('options');
+                		}
+                		$('option', select).remove();
 
-	            		options[options.length] = new Option(data.nombre, data.id);
+                	    if(data.categoria){
+                	    	options[options.length] = new Option('Seleccione categoría', '');
 
-	            		$('#msg_afiliacion').remove();
-	            		$('#dialog_afiliar').prepend('<span id="msg_afiliacion" class="label label-success">Cliente agregado</span>');
+                    	}else{
+                    		options[options.length] = new Option('--', '');
+                        }
+
+                		$.each(data.categoria, function(val, text) {
+                		    options[options.length] = new Option(text, val);
+                		});
+
+                		select.val('');
+                		select.removeAttr('disabled');
 	                 }
 	                 else if(data.responseCode==400){
 	                	 $('#msg_afiliacion').remove();
@@ -331,7 +364,60 @@
 	             	    alert("Ha ocurrido un error en el sistema.");
 	                 }
 	          });
+			}else{
+				$('#knx_facturacionbundle_facturatype_catPyp').attr('disabled', 'disabled');
 			}
+		});
+
+
+		$("#tipop").change(function(){
+
+			var tp = $("#tipop").val();
+
+			if(tp == ""){ 
+				alert("El tipo de profesional seleccionado es invalido.");
+				return false;
+			}			
+
+			var url = "{{ path('usuario_buscar_cargo') }}";
+
+			var select = $('#knx_facturacionbundle_facturatype_profesional');
+
+			$.post(url,{
+                cargo: tp
+            },function(data){
+                if(data.responseCode==200 ){
+
+                	if(select.prop) {
+                	  var options = select.prop('options');
+                	}
+                	else {
+                	  var options = select.attr('options');
+                	}
+                	$('option', select).remove();
+
+                	if(data.usuarios){
+                		options[options.length] = new Option('Seleccione profesional', '');
+                    }else{
+                    	options[options.length] = new Option('--', '');
+                  	}
+
+                	$.each(data.usuarios, function(val, text) {
+                		options[options.length] = new Option(text, val);
+                	});
+
+                	select.val('');
+                	select.removeAttr('disabled');
+				}
+	            else if(data.responseCode==400){
+	            	select.val('');
+		            select.attr('disabled', 'disabled');
+	            	alert("No hay usuarios para el tipo seleccionado.");
+	          	}
+	            else{
+	            	alert("Ha ocurrido un error en el sistema.");
+	      		}
+			});
 		});
 	</script>		
 	

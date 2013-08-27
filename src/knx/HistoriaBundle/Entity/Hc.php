@@ -39,14 +39,7 @@ class Hc {
 	 *
 	 * @ORM\Column(name="fecha_egre", type="datetime", nullable=true)
 	 */
-	private $fechaEgre;
-
-	/**
-	 * @var string $serviIngre
-	 *
-	 * @ORM\Column(name="servi_ingre", type="integer", nullable=false)
-	 */
-	private $serviIngre;
+	private $fechaEgre;	
 
 	/**
 	 * @var string $serviEgre
@@ -59,6 +52,7 @@ class Hc {
 	 * @var text $motivo
 	 *
 	 * @ORM\Column(name="motivo", type="text", nullable=false)
+	 * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
 	 */
 	private $motivo;
 
@@ -73,6 +67,7 @@ class Hc {
 	 * @var text $enfermedad
 	 *
 	 * @ORM\Column(name="enfermedad", type="text", nullable=false)
+	 * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
 	 */
 	private $enfermedad;
 
@@ -260,7 +255,7 @@ class Hc {
 	/**
 	 * @var string $tipoDx
 	 *
-	 * @ORM\Column(name="tipo_dx", type="string", length=20, nullable=false)
+	 * @ORM\Column(name="tipo_dx", type="string", length=20, nullable=true)
 	 * @Assert\Length(max=20)
 	 */
 	private $tipoDx;
@@ -269,6 +264,7 @@ class Hc {
 	 * @var text $conducta
 	 *
 	 * @ORM\Column(name="conducta", type="text", nullable=false)
+	 * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
 	 */
 	private $conducta;
 
@@ -509,27 +505,6 @@ class Hc {
 	 */
 	public function getFechaEgre() {
 		return $this->fechaEgre;
-	}
-
-	/**
-	 * Set serviIngre
-	 *
-	 * @param integer $serviIngre
-	 * @return Hc
-	 */
-	public function setServiIngre($serviIngre) {
-		$this->serviIngre = $serviIngre;
-
-		return $this;
-	}
-
-	/**
-	 * Get serviIngre
-	 *
-	 * @return integer 
-	 */
-	public function getServiIngre() {
-		return $this->serviIngre;
 	}
 
 	/**

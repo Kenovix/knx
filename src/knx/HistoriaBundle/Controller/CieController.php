@@ -15,7 +15,7 @@ class CieController extends Controller {
 		$breadcrumbs = $this->get("white_october_breadcrumbs");
 		$breadcrumbs
 				->addItem("Inicio",
-						$this->get("router")->generate("historia_search"));
+						$this->get("router")->generate("paciente_filtro"));
 		$breadcrumbs
 				->addItem("Cie", $this->get("router")->generate("cie_list"));
 		$breadcrumbs->addItem("Listado");
@@ -44,7 +44,7 @@ class CieController extends Controller {
 		$breadcrumbs = $this->get("white_october_breadcrumbs");
 		$breadcrumbs
 				->addItem("Inicio",
-						$this->get("router")->generate("historia_search"));
+						$this->get("router")->generate("paciente_filtro"));
 		$breadcrumbs
 				->addItem("Cie", $this->get("router")->generate("cie_list"));
 		$breadcrumbs->addItem("Listado");

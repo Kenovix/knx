@@ -19,7 +19,7 @@ class MedicamentoController extends Controller
 		$form = $this->createForm(new MedicamentoType(), $entity);
 
 		$breadcrumbs = $this->get("white_october_breadcrumbs");
-		$breadcrumbs->addItem("Inicio",$this->get("router")->generate("historia_search"));
+		$breadcrumbs->addItem("Inicio",$this->get("router")->generate("paciente_filtro"));
 		$breadcrumbs->addItem("Medicamento",$this->get("router")->generate("medicamento_list"));
 		$breadcrumbs->addItem("Nuevo");
 
@@ -35,7 +35,7 @@ class MedicamentoController extends Controller
 		$form->bindRequest($request);
 
 		$breadcrumbs = $this->get("white_october_breadcrumbs");
-		$breadcrumbs->addItem("Inicio",$this->get("router")->generate("historia_search"));
+		$breadcrumbs->addItem("Inicio",$this->get("router")->generate("paciente_filtro"));
 		$breadcrumbs->addItem("Medicamento",$this->get("router")->generate("medicamento_list"));
 		$breadcrumbs->addItem("Nuevo");
 
@@ -64,7 +64,7 @@ class MedicamentoController extends Controller
 		}
 
 		$breadcrumbs = $this->get("white_october_breadcrumbs");
-		$breadcrumbs->addItem("Inicio",$this->get("router")->generate("historia_search"));
+		$breadcrumbs->addItem("Inicio",$this->get("router")->generate("paciente_filtro"));
 		$breadcrumbs->addItem("Medicamento",$this->get("router")->generate("medicamento_list"));
 		$breadcrumbs->addItem("Detalle de ". $medicamento->getPrincipioActivo());
 
@@ -83,7 +83,7 @@ class MedicamentoController extends Controller
 		$editForm = $this->createForm(new MedicamentoType(), $medicamento);
 
 		$breadcrumbs = $this->get("white_october_breadcrumbs");
-		$breadcrumbs->addItem("Inicio",$this->get("router")->generate("historia_search"));
+		$breadcrumbs->addItem("Inicio",$this->get("router")->generate("paciente_filtro"));
 		$breadcrumbs->addItem("Medicamento",$this->get("router")->generate("medicamento_list"));
 		$breadcrumbs->addItem("Detalle",$this->get("router")->generate("medicamento_show",array("medicamento" => $medicamento->getId())));
 		$breadcrumbs->addItem("Modificar " . $medicamento->getPrincipioActivo());
@@ -116,7 +116,7 @@ class MedicamentoController extends Controller
 		}
 
 		$breadcrumbs = $this->get("white_october_breadcrumbs");
-		$breadcrumbs->addItem("Inicio",$this->get("router")->generate("historia_search"));
+		$breadcrumbs->addItem("Inicio",$this->get("router")->generate("paciente_filtro"));
 		$breadcrumbs->addItem("Medicamento",$this->get("router")->generate("medicamento_list"));
 		$breadcrumbs->addItem("Detalle",$this->get("router")->generate("medicamento_show",array("medicamento" => $medicamento->getId())));
 		$breadcrumbs->addItem("Modificar " . $medicamento->getPrincipioActivo());
@@ -129,7 +129,7 @@ class MedicamentoController extends Controller
 
 	public function listAction() {
 		$breadcrumbs = $this->get("white_october_breadcrumbs");
-		$breadcrumbs->addItem("Inicio",$this->get("router")->generate("historia_search"));
+		$breadcrumbs->addItem("Inicio",$this->get("router")->generate("paciente_filtro"));
 		$breadcrumbs->addItem("Medicamento",$this->get("router")->generate("medicamento_list"));
 		$breadcrumbs->addItem("Listado");
 
@@ -154,7 +154,7 @@ class MedicamentoController extends Controller
 		$medicamento = null;
 
 		$breadcrumbs = $this->get("white_october_breadcrumbs");
-		$breadcrumbs->addItem("Inicio",$this->get("router")->generate("historia_search"));
+		$breadcrumbs->addItem("Inicio",$this->get("router")->generate("paciente_filtro"));
 		$breadcrumbs->addItem("Medicamento",$this->get("router")->generate("medicamento_list"));
 		$breadcrumbs->addItem("Listado");
 

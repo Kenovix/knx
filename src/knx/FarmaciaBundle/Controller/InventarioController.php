@@ -441,6 +441,7 @@ public function deleteAction($ingreso,$imv)
 
     		$this->get('session')->setFlash('error','El Item no se puede eliminar ya que ha sido trasladado');
     		return $this->redirect($this->generateUrl('ingreso_list'));
+
     	}
       }
     }
@@ -448,4 +449,10 @@ public function deleteAction($ingreso,$imv)
 
 
 
+
+
+    	
+    	}     	
+    }   
+} 
 

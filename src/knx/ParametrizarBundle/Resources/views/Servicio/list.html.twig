@@ -6,7 +6,7 @@
 
 {% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
 
-{% block titulo %}Listado de servicios{% endblock %}
+{% block titulo %}Listado de centro de costo{% endblock %}
 
 {% block msg %}
 	{% if app.session.hasFlash('ok') %}
@@ -50,10 +50,10 @@
 	{% else %}
 		<div class="alert alert-success">
 	    	<button data-dismiss="alert" class="close" type="button">×</button>
-	        <span>No existen servicios creados</span>
+	        <span>No existen centros de costo creados</span>
 	    </div>
 	{% endif %}
 		
     
-    <a href="{{ path('servicio_new') }}" class="btn btn-primary">Nuevo servicio</a>
+    <a href="{{ path('servicio_new') }}" class="btn btn-primary">Nuevo centro de costo</a>
 {% endblock %}
