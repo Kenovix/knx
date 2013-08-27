@@ -29,43 +29,45 @@
 
 {% block cuerpo %}
 	{% if devfarma %}
-	
+
 	    <table class="table">
 	        <thead>
 	            <tr>
-	                <th>No Linea.</th>	                
+	                <th>No Linea.</th>
                 	<th>Fecha.</th>
-                	<th>Item</th>               
-                	<th>Proveedor</th>              	               
+                	<th>Item</th>
+                	<th>Proveedor</th>
+                	<th>Almacen</th>
                	 	<th>Cantidad</th>
-	               
+
 	            </tr>
 	        </thead>
 	        <tbody>
 	        {% for devfarma in devfarma %}
 	            <tr>
 	                <td>{{ loop.index }}</td>
-	                <td><a href="{{ path('devolucion_show',{'devolucion': devfarma.id}) }}">{{ devfarma.fecha | date('d-m-Y')}}</a></td>	             	
-            		<td>{{ devfarma.inventario}}</td>
-            		<td>{{ devfarma.proveedor}}</td>           		           	
+	                <td><a href="{{ path('devolucion_show',{'devolucion': devfarma.id}) }}">{{ devfarma.fecha | date('d-m-Y')}}</a></td>
+            		<td>{{ devfarma.imv}}</td>
+            		<td>{{ devfarma.proveedor}}</td>
+            		<td>{{ devfarma.almacen}}</td>
             		<td>{{ devfarma.cant}}</td>
 	            </tr>
 	        {% endfor %}
 	        </tbody>
 	    </table>
-	   
-	    
+
+
 	     <div class="form-actions">
-				<a href="{{ path('devolucion_new') }}" class="btn btn-primary">Nuevo Devolucion</a>				
-			    <a href="{{ path('devolucion_search') }}" class="btn btn-primary">Buscar Devoluciones</a>
-				
-			</div>   
+				<a href="{{ path('devolucion_new') }}" class="btn btn-primary">Nuevo Devolucion</a>
+			    <a href="{{ path('devolucion_search') }}" class="btn">Buscar Devoluciones</a>
+
+			</div>
 	{% else %}
 		<div class="alert alert-success">
 	    	<button data-dismiss="alert" class="close" type="button">×</button>
 	        <span>No existen devolucion creadas</span>
 	    </div>
 	{% endif %}
-		
-    
+
+
 {% endblock %}

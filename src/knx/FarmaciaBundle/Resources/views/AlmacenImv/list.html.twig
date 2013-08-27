@@ -1,0 +1,77 @@
+{% extends "::admin_layout.html.twig" %}
+
+{% block menu %}
+	{{ knp_menu_render('FarmaciaBundle:Builder:farmaciaMenu') }}
+{% endblock %}
+
+{% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
+
+{% block titulo %}Resultado Existencia{% endblock %}
+
+{% block msg %}
+	{% if app.session.hasFlash('ok') %}
+	    <div class="alert alert-success">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('ok') }}</span>
+	    </div>
+	{% elseif app.session.hasFlash('info') %}
+		<div class="alert alert-info">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('info') }}</span>
+	    </div>
+	{% elseif app.session.hasFlash('error') %}
+		<div class="alert alert-error">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('error') }}</span>
+	    </div>
+	{% endif %}
+{% endblock %}
+
+{% block cuerpo %}
+
+<form name="consultaAlmacen" id="consultaAlmacen" class="form-horizontal" method="post" action="{{ path('almacenimv_list') }}" {{ form_enctype(form) }}>
+		    <fieldset>
+		    	<legend>Busqueda</legend>
+					{{ form_widget(form) }}
+		    </fieldset>
+
+		   <div class="form-actions">
+				<input class="btn btn-primary" name="Buscar"  type="submit" value="Buscar" />
+			    <a href="{{ path('almacenimv_search') }}" class="btn">Volver</a>
+
+			</div>
+
+		</form>
+
+	{% if almacenimv %}
+	    <table class="table">
+	        <thead>
+	            <tr>
+	                <th>No.</th>
+	                <th>Nombre</th>
+					<th>cant</th>
+					<th>Movimiento</th>
+
+	            </tr>
+	        </thead>
+	        <tbody>
+	        {% for almacenimv in almacenimv %}
+	            <tr>
+	               <td>{{ loop.index }}</td>
+		           <td>{{ almacenimv.imv }}</td>
+	               <td>{{ almacenimv.cant }}</td>
+					 <td><a class="btn btn-mini" href="{{ path('traslado_new', {'imv':almacenimv.imv.id , 'almacen':almacenimv.almacen.id})}} "><i class="icon-share-alt"></i>Mover</a></td>
+	            </tr>
+
+	        {% endfor %}
+	        </tbody>
+	    </table>
+	{% else %}
+		<div class="alert alert-success">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>No existe existencias creadas</span>
+	    </div>
+	{% endif %}
+
+
+{% endblock %}

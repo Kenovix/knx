@@ -1,0 +1,70 @@
+{% extends "::admin_layout.html.twig" %}
+
+{% block menu %}
+	{{ knp_menu_render('ParametrizarBundle:Builder:superAdminMenu') }}
+{% endblock %}
+
+{% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
+
+{% block titulo %}Generar Reportes De Los Cargos{% endblock %}
+
+{% block msg %}
+	{% if app.session.hasFlash('ok') %}
+	    <div class="alert alert-success">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('ok') }}</span>
+	    </div>
+	{% elseif app.session.hasFlash('info') %}
+		<div class="alert alert-info">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('info') }}</span>
+	    </div>
+	{% elseif app.session.hasFlash('error') %}
+		<div class="alert alert-error">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('error') }}</span>
+	    </div>
+	{% endif %}
+{% endblock %}
+
+{% block cuerpo %}
+
+	<form action="{{ path('reporte_cargo_question') }}" {{ form_enctype(form) }} method="POST" class="form-horizontal">
+			<fieldset>			    	
+					{{ form_widget(form) }}					
+			</fieldset>
+					
+			<div class="form-actions">
+				<input class="btn btn-primary" name="guardar" type="submit" value="Aceptar" />
+			    <a href="#" class="btn btn-danger">Cancelar</a>
+			</div>
+		</form>
+	
+{% endblock %}
+
+{% block javascripts %}
+<script type="text/javascript">
+$(function() {   
+
+    $( "#knx_reportes_dateStart" ).datepicker({
+        defaultDate: "+1w",
+        dateFormat: 'dd/mm/yy',
+        changeMonth: true,
+        numberOfMonths: 3,
+        onClose: function( selectedDate ) {
+          $( "#knx_reportes_dateEnd" ).datepicker( "option", "minDate", selectedDate );
+        }
+      });
+
+    $( "#knx_reportes_dateEnd" ).datepicker({
+        defaultDate: "+1w",
+        dateFormat: 'dd/mm/yy',
+        changeMonth: true,
+        numberOfMonths: 3,
+        onClose: function( selectedDate ) {
+          $( "#knx_reportes_dateStart" ).datepicker( "option", "maxDate", selectedDate );
+        }
+      });
+});
+</script>
+{% endblock %}

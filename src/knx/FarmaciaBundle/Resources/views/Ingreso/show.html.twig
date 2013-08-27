@@ -27,7 +27,7 @@
 	{% endif %}
 {% endblock %}
 
-{% block cuerpo %}	    
+{% block cuerpo %}
 
 	<table class="table">
         <thead>
@@ -39,10 +39,10 @@
                 <td>Fecha</th>
                 <th>Valor Total</th>
                 <th>Valor Neto</th>
-                <th>Valor Iva</th>                
+                <th>Valor Iva</th>
             </tr>
-        </thead>    
-            
+        </thead>
+
         <tbody>
             <tr>
             	<td>{{ ingreso.id }}</td>
@@ -52,20 +52,20 @@
             	<td>{{ ingreso.fecha | date('d-m-Y')}}</td>
             	<td>$ {{ ingreso.valorT| number_format(0,',','.')}}</td>
             	<td>$ {{ ingreso.valorN| number_format(0,',','.')}}</td>
-            	<td> {{ ingreso.valorIva}} %</td>         	
+            	<td>$ {{ ingreso.valorIva}} </td>
         	</tr>
-        </tbody>    
+        </tbody>
     </table>
 
 	<div class="btn-group">
 	    <a href="{{ path('ingreso_edit', {'ingreso':ingreso.id}) }}" class="btn btn-primary">Modificar</a>
 	    <a href="{{ path('ingreso_list') }}" class="btn">Volver</a>
     </div>
-    
-    
+
+
     <hr>
     <h3>Cargos</h3>
-    
+    {% if inventario %}
     <table class="table">
         <thead>
             <tr>
@@ -75,41 +75,46 @@
                 <th>Precio Compra</th>
                 <th>Precio de Venta</th>
                 <th>Precio Total</th>
-                
-                
-               
+
+
+
             </tr>
         </thead>
         <tbody>
-        {% for inventario in inventarios %}
+        {% for inv in inventario %}
             <tr>
                 <td>{{ loop.index }}</td>
-                <td><a href="{{ path('inventario_edit', { 'inventario': inventario.id }) }}">{{ inventario.imv}}</a></td>
-                <td>{{ inventario.cant }} </td>
-                <td>$ {{ inventario.precioCompra | number_format(0,',','.')}} </td> 
-                <td>$ {{ inventario.precioVenta | number_format(0,',','.') }} </td>
-                <td>$ {{ inventario.precioTotal | number_format(0,',','.')}} </td>     
-                
+	    		<td><a href="{{ path('inventario_show', {'ingreso': inv.ingreso.id, 'imv':inv.imv.id}) }}" title="Modificar actividad">{{ inv.imv.nombre }}</a></td>
+                <td>{{ inv.cant }} </td>
+                <td>$ {{ inv.precioCompra | number_format(0,',','.')}} </td>
+                <td>$ {{ inv.imv.precioVenta | number_format(0,',','.')}} </td>
+                <td>$ {{ inv.precioTotal | number_format(0,',','.')}} </td>
+
             </tr>
-         {% else %}
-         	<tr>
-         		<td colspan="5">No tenemos imv definidos.</td>
-         	</tr>
         {% endfor %}
-        </tbody>
-    </table>
+        </table>
+	{% else %}
+		<div class="alert alert-info">
+	        <span>No hay actividades categorizadas</span>
+	    </div>
+	{% endif %}
+
+
+
     <div class="navigation">
-    		{{ knp_pagination_render(inventarios) }}
+    		{{ knp_pagination_render(inventario) }}
 		</div>
-    
+
     <div class="btn-group">
-	    <a href="{{ path('inventario_new', {'ingreso':ingreso.id}) }}" class="btn btn-primary">Nuev IMV</a>
-	  
+	    <a href="{{ path('inventario_new', {'ingreso':ingreso.id}) }}" class="btn btn-primary">Asociar Insumo</a>
+
+    </div>
+
 
 {% endblock %}
-   
 
 
-    
-    
+
+
+
 

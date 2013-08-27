@@ -32,9 +32,11 @@
 	    <table class="table">
 	        <thead>
 	            <tr>
-	                <th>No.</th>	                
+	                <th>No.</th>
 	                <th>Nombre</th>
 	                <th>Observacion</th>
+	                <th>Estado</th>
+
 	            </tr>
 	        </thead>
 	        <tbody>
@@ -43,12 +45,13 @@
 	                <td>{{ loop.index }}</td>
 	                <td><a href="{{ path('farmacia_show', {'farmacia':farmacia.id}) }}">{{ farmacia.nombre }}</a></td>
 	              	<td>{{ farmacia.observacion }}</td>
-	              	
+	              	<td>{{ farmacia.estado }}</td>
+
 	            </tr>
 	        {% endfor %}
 	        </tbody>
 	    </table>
-	    
+
 	      <div class="navigation">
     		{{ knp_pagination_render(farmacia) }}
 		</div>
@@ -58,7 +61,7 @@
 	        <span>No existen farmacias creadas</span>
 	    </div>
 	{% endif %}
-		
-    
+
+
     <a href="{{ path('farmacia_new') }}" class="btn btn-primary">Nueva farmacia</a>
 {% endblock %}

@@ -1,0 +1,47 @@
+{% extends "::simple.html.twig" %}
+
+{% block stylesheets %}
+{% endblock %}
+
+{% block head %}
+{% endblock %}
+
+
+{% block body %}
+
+        <p><b>Devoluciones a Proveedores desde {{ fechai }} hasta {{ fechaf }}</b><br/><br/><br/>
+
+
+	      {% if devfarma %}
+	       <table class="table" cellpadding="2" cellspacing="2" border="1">
+
+	      <thead>
+	            <tr>
+	                <th width="30px"><b>No.</b></th>
+                	<th width="60px"><b>FECHA.</b></th>
+                	<th width="70px"><b>PROVEEDOR</b></th>
+                	<th width="70px"><b>ALMACEN</b></th>
+                	<th width="245px"><b>NOMBRE</b></th>
+               	 	<th width="40px"><b>CANT.</b></th>
+
+	            </tr>
+	        </thead>
+	        <tbody>
+	        {% for devfarma in devfarma %}
+	            <tr>
+	                <td width="30px">{{ loop.index }}</td>
+	                <td width="60px">{{ devfarma.fecha | date('d-m-Y')}}</td>
+	                <td width="70px">{{ devfarma.proveedor}}</td>
+            		<td width="70px">{{ devfarma.almacen}}</td>
+            		<td width="245px">{{ devfarma.imv}}</td>
+            		<td width="40px">{{ devfarma.cant}}</td>
+	            </tr>
+	        {% endfor %}
+	        </tbody>
+	    </table>
+	    {% endif %}
+{% endblock %}
+
+
+{% block footer %}
+{% endblock %}

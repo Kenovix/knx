@@ -27,29 +27,31 @@
 	{% endif %}
 {% endblock %}
 
-{% block cuerpo %}	    
+{% block cuerpo %}
 
 	<table class="table">
         <thead>
 	        <tr>
-                <th>Fecha.</th>   
+                <th>Fecha.</th>
                 <td>Item</th>
-                <td>Proveedor</th>                
+                <td>Proveedor</th>
+                <th>Almacen</th>
                 <th>Cantidad_Existencia</th>
                 <th>Cantidad_Devolucion</th>
-                
+
             </tr>
-        </thead>    
-            
+        </thead>
+
         <tbody>
             <tr>
-            	<td>{{ devfarma.fecha | date('d-m-Y')}}</td>   
-            	<td>{{ devfarma.inventario }}</td>
-            	<td>{{ devfarma.proveedor }}</td>         
-                <td>{{ inventario.cant }}</td>   	
+            	<td>{{ devfarma.fecha | date('d-m-Y')}}</td>
+            	<td>{{ devfarma.imv }}</td>
+            	<td>{{ devfarma.proveedor }}</td>
+            	<td>{{ devfarma.almacen }}</td>
+                <td>{{ imv.cantT }}</td>
             	<td>{{ devfarma.cant}}</td>
         	</tr>
-        </tbody>    
+        </tbody>
     </table>
 
 	<div class="btn-group">

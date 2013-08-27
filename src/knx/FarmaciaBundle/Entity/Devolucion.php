@@ -11,14 +11,14 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * knx\FarmaciaBundle\Entity\Devolucion
- * 
+ *
  * @ORM\Table(name="devolucion")
  * @ORM\Entity
  */
 class Devolucion
 {
-	
-		
+
+
 	/**
      * @var integer $id
      *
@@ -28,19 +28,19 @@ class Devolucion
      */
         private $id;
 
-        
+
      /**
-     * @var Inventario
+     * @var Imv
      *
-     * @ORM\ManyToOne(targetEntity="knx\FarmaciaBundle\Entity\Inventario")
+     * @ORM\ManyToOne(targetEntity="knx\FarmaciaBundle\Entity\Imv")
      * @ORM\JoinColumns({
-     * 	@ORM\JoinColumn(name="inventario_id", referencedColumnName="id")
+     * 	@ORM\JoinColumn(name="imv_id", referencedColumnName="id")
      * })
      */
 
-        private $inventario;
-        
-        
+        private $imv;
+
+
      /**
        * @var Proveedor
        *
@@ -49,12 +49,24 @@ class Devolucion
        * @ORM\JoinColumn(name="proveedor_id", referencedColumnName="id")
        * })
        */
-        
+
         private $proveedor;
-        
-        
-           
-        
+
+
+        /**
+       * @var Almacen
+       *
+       * @ORM\ManyToOne(targetEntity="knx\ParametrizarBundle\Entity\Almacen")
+       * @ORM\JoinColumns({
+       * @ORM\JoinColumn(name="almacen_id", referencedColumnName="id")
+       * })
+       */
+
+        private $almacen;
+
+
+
+
     /**
      * @var datetime $fecha
      *
@@ -62,8 +74,8 @@ class Devolucion
      */
         private $fecha;
 
-    
-        
+
+
      /**
      * @var cant
      *
@@ -71,9 +83,9 @@ class Devolucion
      * @Assert\Range(min=1)
      */
         private $cant;
-        
-         
-        
+
+
+
      /**
      * @var motivo
      *
@@ -81,7 +93,7 @@ class Devolucion
      * @Assert\Length(min=3 , max=255)
      */
         private $motivo;
-        
+
 
      /**
      * @var date $created
@@ -108,7 +120,7 @@ class Devolucion
     {
     	return $this->id;
     }
-   
+
 
     /**
      * Set fecha
@@ -119,21 +131,21 @@ class Devolucion
     public function setFecha($fecha)
     {
         $this->fecha = $fecha;
-    
+
         return $this;
     }
 
     /**
      * Get fecha
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getFecha()
     {
         return $this->fecha;
     }
 
-   
+
 
     /**
      * Set cant
@@ -144,21 +156,21 @@ class Devolucion
     public function setCant($cant)
     {
         $this->cant = $cant;
-    
+
         return $this;
     }
 
     /**
      * Get cant
      *
-     * @return integer 
+     * @return integer
      */
     public function getCant()
     {
         return $this->cant;
     }
 
-    
+
     /**
      * Set motivo
      *
@@ -168,14 +180,14 @@ class Devolucion
     public function setMotivo($motivo)
     {
         $this->motivo = $motivo;
-    
+
         return $this;
     }
 
     /**
      * Get motivo
      *
-     * @return string 
+     * @return string
      */
     public function getMotivo()
     {
@@ -191,14 +203,14 @@ class Devolucion
     public function setCreated($created)
     {
         $this->created = $created;
-    
+
         return $this;
     }
 
     /**
      * Get created
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreated()
     {
@@ -214,45 +226,45 @@ class Devolucion
     public function setUpdated($updated)
     {
         $this->updated = $updated;
-    
+
         return $this;
     }
 
     /**
      * Get updated
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUpdated()
     {
         return $this->updated;
     }
 
-   
+
     /**
-     * Set inventario
+     * Set imv
      *
-     * @param \knx\FarmaciaBundle\Entity\Inventario $inventario
+     * @param \knx\FarmaciaBundle\Entity\Imv $imv
      * @return Devolucion
      */
-    public function setInventario(\knx\FarmaciaBundle\Entity\Inventario $inventario = null)
+    public function setImv(\knx\FarmaciaBundle\Entity\Imv $imv = null)
     {
-        $this->inventario = $inventario;
-    
+        $this->imv = $imv;
+
         return $this;
     }
 
     /**
-     * Get inventario
+     * Get imv
      *
-     * @return \knx\FarmaciaBundle\Entity\Inventario 
+     * @return \knx\FarmaciaBundle\Entity\Imv
      */
-    public function getInventario()
+    public function getImv()
     {
-        return $this->inventario;
+        return $this->imv;
     }
-    
-    
+
+
     /**
      * Set proveedor
      *
@@ -262,10 +274,10 @@ class Devolucion
     public function setProveedor(\knx\ParametrizarBundle\Entity\Proveedor $proveedor = null)
     {
     	$this->proveedor = $proveedor;
-    
+
     	return $this;
     }
-    
+
     /**
      * Get proveedor
      *
@@ -275,6 +287,29 @@ class Devolucion
     {
     	return $this->proveedor;
     }
-    
-       
+
+    /**
+     * Set almacen
+     *
+     * @param \knx\ParametrizarBundle\Entity\Almacen $almacen
+     * @return Devolucion
+     */
+    public function setAlmacen(\knx\ParametrizarBundle\Entity\Almacen $almacen = null)
+    {
+    	$this->almacen = $almacen;
+
+    	return $this;
+    }
+
+    /**
+     * Get almacen
+     *
+     * @return \knx\ParametrizarBundle\Entity\Almacen
+     */
+    public function getAlmacen()
+    {
+    	return $this->almacen;
+    }
+
+
 }

@@ -132,6 +132,14 @@ class Imv
      */
     private $cantT;
     
+    /**
+     * @var precioVenta
+     *
+     * @ORM\Column(name="precio_venta", type="integer", nullable=true)
+     */
+    private $precioVenta;
+    
+    
     /*
      * Get toString
     */
@@ -437,5 +445,29 @@ class Imv
     public function getCantT()
     {
     	return $this->cantT;
+    }
+    
+    
+    /**
+     * Set precioVenta
+     *
+     * @param integer $precioVenta
+     * @return Inventario
+     */
+    public function setPrecioVenta($precioVenta)
+    {
+    	$this->precioVenta = $precioVenta;
+    
+    	return $this;
+    }
+    
+    /**
+     * Get precioVenta
+     *
+     * @return integer
+     */
+    public function getPrecioVenta()
+    {
+    	return $this->precioVenta;
     }
 }

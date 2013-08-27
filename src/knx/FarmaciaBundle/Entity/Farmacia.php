@@ -1,6 +1,6 @@
 <?php
 
-namespace knx\FarmaciaBundle\Entity; 
+namespace knx\FarmaciaBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -25,45 +25,53 @@ class Farmacia
      */
     private $id;
 
-   
+
     /**
      * @var string $nombre
-     * 
+     *
      * @ORM\Column(name="nombre", type="string", length=80, nullable=false,unique=true)
      * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
      * @Assert\Length(min = 3)
      */
     private $nombre;
-    
+
+    /**
+     * @var string $estado
+     *
+     * @ORM\Column(name="estado", type="string", length=1, nullable=true)
+     * @Assert\Length(max=1)
+     */
+    private $estado;
+
     /**
      * @var string $observacion
-     * 
+     *
      * @ORM\Column(name="observacion", type="string", length=10)
      * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
      * @Assert\Length(min=5, max=255)
      */
-    private $observacion; 
-    
-        
+    private $observacion;
+
+
     /*
      * Get toString
      */
     public function __toString()
     {
         return $this->getNombre();
-    } 
+    }
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
         return $this->id;
     }
 
-    
+
     /**
      * Set nombre
      *
@@ -73,14 +81,14 @@ class Farmacia
     public function setNombre($nombre)
     {
         $this->nombre = $nombre;
-    
+
         return $this;
     }
 
     /**
      * Get nombre
      *
-     * @return string 
+     * @return string
      */
     public function getNombre()
     {
@@ -96,19 +104,42 @@ class Farmacia
     public function setObservacion($observacion)
     {
         $this->observacion = $observacion;
-    
+
         return $this;
     }
 
     /**
      * Get observacion
      *
-     * @return string 
+     * @return string
      */
     public function getObservacion()
     {
         return $this->observacion;
     }
 
-    
+    /**
+     * Set estado
+     *
+     * @param string $estado
+     * @return Cliente
+     */
+    public function setEstado($estado)
+    {
+    	$this->estado = $estado;
+
+    	return $this;
+    }
+
+    /**
+     * Get estado
+     *
+     * @return string
+     */
+    public function getEstado()
+    {
+    	return $this->estado;
+    }
+
+
 }

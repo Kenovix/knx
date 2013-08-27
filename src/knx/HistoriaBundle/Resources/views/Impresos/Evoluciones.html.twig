@@ -1,0 +1,13 @@
+{% extends "::simple.html.twig" %}
+
+{% block body %}
+<div>
+	<h1>Evoluciones:</h1>
+	<p>{{ historia.evolucion }}</p>
+	<p>
+		<b>Medico: </b> {{ usuario.nombre }} {{ usuario.apellido }} Especialidad: {{ usuario.especialidad }} <br/>
+		<b>Registro: </b>{{ usuario.rm }}	<br/>
+		<b>Firma: </b>
+	</p>
+</div>
+{% endblock %}

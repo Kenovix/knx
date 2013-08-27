@@ -58,13 +58,13 @@ class ImpresionHistoriaController extends Controller
 		$tipoIngreso = $factura->getTipo();
 		if( $tipoIngreso == 'U' or $tipoIngreso == 'H')
 		{
-			$tipoIngreso = "Historia Clinica Urgencias No.".$historia->getId();
+			$titulo = "Historia Clinica Urgencias No.".$historia->getId();
 		}elseif($tipoIngreso == 'C'){
-			$tipoIngreso = "Historia Clinica Ambulatoria No.".$historia->getId();
+			$titulo = "Historia Clinica Ambulatoria No.".$historia->getId();
 		}
 		
 		// Header and footer
-		$pdf->SetHeaderData('logo.jpg', 20, 'Hospital San Agustin', $tipoIngreso);
+		$pdf->SetHeaderData('logo.jpg', 20, 'Hospital San Agustin', $titulo);
 		$pdf->setFooterData(array(0,64,0), array(0,64,128));
 	
 		// set header and footer fonts
@@ -103,6 +103,21 @@ class ImpresionHistoriaController extends Controller
 		$pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $body, $border = 0, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
 	
 		// Se valida la iformacion que va en formato de media carta tal como la remision, incapacidad, examenes, procedimientos y medicamentos		
+		
+		if( $tipoIngreso == 'U' or $tipoIngreso == 'H')
+		{
+			if($historia->getEvolucion() != '')
+			{
+				$evoluciones = $this->renderView('HistoriaBundle:Impresos:Evoluciones.html.twig',array(
+						'historia' 	 => $historia,
+						'usuario'  	 => $usuario,
+				));
+					
+				$pdf->AddPage('P', 'A4');
+				$pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $header, $border = 0, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
+				$pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $evoluciones, $border = 0, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);				
+			}			
+		}
 		
 		if($historia->getIncapacidad() != '')
 		{

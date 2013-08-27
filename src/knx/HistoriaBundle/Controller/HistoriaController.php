@@ -10,7 +10,6 @@ use knx\HistoriaBundle\Entity\Hc;
 use knx\HistoriaBundle\Form\HcType;
 use knx\HistoriaBundle\Entity\Notas;
 use knx\HistoriaBundle\Form\NotasType;
-use knx\HistoriaBundle\Form\SearchPacienteType;
 
 class HistoriaController extends Controller 
 {
@@ -122,8 +121,8 @@ class HistoriaController extends Controller
 		
 		// rastro de miga
 		$breadcrumbs = $this->get("white_october_breadcrumbs");
-		$breadcrumbs->addItem("Inicio",$this->get("router")->generate("historia_search"));
-		$breadcrumbs->addItem("Historia",$this->get("router")->generate("historia_search"));
+		$breadcrumbs->addItem("Inicio",$this->get("router")->generate("paciente_filtro"));
+		$breadcrumbs->addItem("Historia",$this->get("router")->generate("paciente_filtro"));
 		$breadcrumbs->addItem("Modificar " . $paciente->getPriNombre());
 		
 		// Visualizacion de la plantilla.
@@ -142,67 +141,42 @@ class HistoriaController extends Controller
 		));		
 	}
 
-	public function searchAction() {
-		$form = $this->createForm(new SearchPacienteType());
-
-		$breadcrumbs = $this->get("white_october_breadcrumbs");
-		$breadcrumbs->addItem("Inicio",$this->get("router")->generate("historia_search"));
-		$breadcrumbs->addItem("Busqueda rapida");
-
-		/*
-		 * Se agregan algunos atributos a la vista de tipo null porque esta plantilla la usan
-		 * dos metodos los cuales contienen diferente informacion.
-		 */
-		return $this
-				->render('HistoriaBundle:Historia:search.html.twig',array(
-				'historia' => null,
-				'paciente' => null,
-				'search_form' => $form->createView(),
-			));
-	}
-
-	public function searchResultAction() 
+	public function searchResultAction($paciente) 
 	{
-		$request = $this->getRequest();
-		$form = $this->createForm(new SearchPacienteType());
-		$form->bindRequest($request);
-
-		/* Se intancian algunos atributos de tipo null porque a estos se les asignara su respectiva
-		 * informacion despues de confirmar que el formulario este correcto y que la historia exista.		 
-		 */ 
-		$historia = null;
-		$paciente = null;
+		$em = $this->getDoctrine()->getEntityManager();
+		$paciente = $em->getRepository('ParametrizarBundle:Paciente')->find($paciente);
+		
+		if (!$paciente) {
+			throw $this->createNotFoundException('El paciente solicitado no existe.');
+		}				
+		// se procede a realizar una consulta que trae todo el historial clinico del paciente
+		$historia = $em->getRepository('HistoriaBundle:Hc')->findHistoriasPaciente($paciente);
+		
+		if (!$historia) {
+			$this->get('session')->setFlash('error','El paciente no contiene ningun historial clinico.');
+			return $this->redirect($this->generateUrl('paciente_filtro'));
+		}
+		$usuario = $this->get('security.context')->getToken()->getUser();
 
 		$breadcrumbs = $this->get("white_october_breadcrumbs");
-		$breadcrumbs->addItem("Inicio",$this->get("router")->generate("historia_search"));
-		$breadcrumbs->addItem("Busqueda rapida");
-
-		if ($form->isValid()) {
-			$identifi = $form->get('cedula')->getData();
-			$tipoid = $form->get('tipoid')->getData();
-
-			$em = $this->getDoctrine()->getEntityManager();
-			$historia = $em->getRepository('HistoriaBundle:Hc')->findHistoriasPaciente($identifi, $tipoid);
-
-			if (!$historia) {
-				$this->get('session')->setFlash('error','Busquedad no exítosa, vuelva a intentar.');
-				return $this->redirect($this->generateUrl('historia_search'));
-			}
-
-			/* Si por lo menos una historia clinica existe entonces necesitaremos la informacion del paciente
-			 * pero como la anterior consulta devuelve un array con objetos entonces procedemos a tomar un objeto de 
-			 * esa lista de historias para llamar el objeto de la facutra y con este el objeto del paciente teniendo 
-			 * en cuenta sus respectivas relaciones de historia OneToOne factura y paciente ManyToOne factura.
-			 */
-			$object = $historia[0];
-			$paciente = $object->getFactura()->getPaciente();
-
+		$breadcrumbs->addItem("Inicio",$this->get("router")->generate("paciente_filtro"));
+		$breadcrumbs->addItem("Listado Historial Clinico");
+				
+		$perfil = null;
+		foreach ($usuario->getRoles() as $role)
+		{
+			if($role == 'ROLE_MEDICO')
+			{
+				$perfil = $role;
+			}			
 		}
-
+		
+		
 		return $this->render('HistoriaBundle:Historia:search.html.twig',array(
 				'historia' => $historia,
 				'paciente' => $paciente,
-				'search_form' => $form->createView(),
+				'usuario'  => $usuario,
+				'perfil'   => $perfil,
 			));
 	}
 	
@@ -214,7 +188,7 @@ class HistoriaController extends Controller
 		$urgencias = $paginator->paginate($urgencias,$this->getRequest()->query->get('page', 1), 10);
 		
 		$breadcrumbs = $this->get("white_october_breadcrumbs");
-		$breadcrumbs->addItem("Inicio",$this->get("router")->generate("historia_search"));
+		$breadcrumbs->addItem("Inicio",$this->get("router")->generate("paciente_filtro"));
 		$breadcrumbs->addItem("Urgencias");
 		
 		return $this->render('HistoriaBundle:Historia:urgencias.html.twig',array(

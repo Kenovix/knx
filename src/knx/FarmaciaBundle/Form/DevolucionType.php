@@ -12,17 +12,17 @@ class DevolucionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('inventario', 		'entity', array(
-            		'class' => 'knx\\FarmaciaBundle\\Entity\\Inventario',
-            		'required' => true,
+            ->add('imv', 		'entity', array(
+            		'class' => 'knx\\FarmaciaBundle\\Entity\\Imv',
+            		'required' => true,'attr'=>array('class'=>'input-xxlarge'),
             		'empty_value' => 'Selecciona un Imv',
             		'query_builder' => function(EntityRepository $repositorio) {
             			return $repositorio->createQueryBuilder('s')
-            			->orderBy('s.precioCompra', 'ASC');}
+            			->orderBy('s.nombre', 'ASC');}
             ))
-            
-            
-            
+
+
+
             ->add('proveedor', 		'entity', array(
             		'class' => 'knx\\ParametrizarBundle\\Entity\\Proveedor',
             		'required' => true,
@@ -31,12 +31,19 @@ class DevolucionType extends AbstractType
             			return $repositorio->createQueryBuilder('s')
             			->orderBy('s.nombre', 'ASC');}
             ))
-            
-            
-            
-            
-            ->add('cant',	'integer', 	array('label' => 'Cantidad: *', 'attr' => array('placeholder' => 'Cantidad', 'autofocus'=>'autofocus')))            
-            ->add('motivo',	'text', 	array('label' => 'Motivo: *',   'attr' => array('placeholder' => 'Ingrese un motivo')))           
+
+            ->add('almacen', 		'entity', array(
+            		'class' => 'knx\\ParametrizarBundle\\Entity\\Almacen',
+            		'required' => true,
+            		'empty_value' => 'Selecciona un Almacen',
+            		'query_builder' => function(EntityRepository $repositorio) {
+            			return $repositorio->createQueryBuilder('s')
+            			->orderBy('s.nombre', 'ASC');}
+            ))
+
+
+            ->add('cant',	'integer', 	array('label' => 'Cantidad: *', 'attr' => array('placeholder' => 'Cantidad', 'autofocus'=>'autofocus')))
+            ->add('motivo',	'text', 	array('label' => 'Motivo: *',   'attr' => array('placeholder' => 'Ingrese un motivo')))
         ;
     }
 

@@ -1,0 +1,49 @@
+{% extends "::admin_layout.html.twig" %}
+
+{% block menu %}
+	{{ knp_menu_render('FarmaciaBundle:Builder:farmaciaMenu') }}
+{% endblock %}
+
+{% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
+
+{% block titulo %}Almacen Existencia{% endblock %}
+
+{% block msg %}
+	{% if app.session.hasFlash('ok') %}
+	    <div class="alert alert-success">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('ok') }}</span>
+	    </div>
+	{% elseif app.session.hasFlash('info') %}
+		<div class="alert alert-info">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('info') }}</span>
+	    </div>
+	{% elseif app.session.hasFlash('error') %}
+		<div class="alert alert-error">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('error') }}</span>
+	    </div>
+	{% endif %}
+{% endblock %}
+
+
+
+
+{% block cuerpo %}
+
+
+		<form name="consultaAlmacen" id="consultaAlmacen" class="form-horizontal" method="post" action="{{ path('almacenimv_list') }}" {{ form_enctype(form) }}>
+			</fieldset>
+		    	<legend>Busqueda</legend>
+					{{ form_widget(form) }}
+		   		<div class="form-actions">
+					<input class="btn btn-primary" name="Buscar" type="submit" value="Buscar" />
+					<a href="{{ path('almacenimv_search') }}" class="btn">Volver</a>
+
+			  	</div>
+		    </fieldset>
+		</form>
+
+
+{% endblock %}

@@ -27,7 +27,7 @@
 	{% endif %}
 {% endblock %}
 
-{% block cuerpo %}	    
+{% block cuerpo %}
 
 	<table class="table">
         <tbody>
@@ -43,12 +43,19 @@
                 <td><strong>Observacion</strong></td>
                 <td>{{ farmacia.observacion }}</td>
             </tr>
-            
+
+            <tr>
+                <td><strong>Estado</strong></td>
+                <td>{{ farmacia.estado }}</td>
+            </tr>
+
         </tbody>
     </table>
 
 	<div class="btn-group">
 	    <a href="{{ path('farmacia_edit', {'farmacia':farmacia.id}) }}" class="btn btn-primary">Modificar</a>
+	   	<a href="{{ path('farmacia_resultf', {'farmacia':farmacia.id}) }}" class="btn">Ver Existencias</a>
+	    <a href="{{ path('farmacia_print', {'farmacia':farmacia.id}) }}" target = "blank"class="btn" >Imprimir Existencias</a>
 	    <a href="{{ path('farmacia_list') }}" class="btn">Volver</a>
     </div>
 {% endblock %}

@@ -32,12 +32,13 @@
 	    <table class="table">
 	        <thead>
 	            <tr>
-	                <th>No.</th>	                                
+	                <th>No.</th>
 	                <th>Factura</th>
-	                <th>Fecha</th>		                	                
+	                <th>Fecha</th>
 	                <th>Valor Total</th>
 	                <th>Almacen</th>
-	                <th>Proveedor</th>	                
+	                <th>Proveedor</th>
+	                <th>Imprmir</th>
 	            </tr>
 	        </thead>
 	        <tbody>
@@ -45,42 +46,44 @@
 	            <tr>
 	                <td>{{ loop.index }}</td>
 	                <td><a href="{{ path('ingreso_show', {'ingreso':ingreso.id}) }}">{{ ingreso.numFact }}</a></td>
-	                <td>{{ ingreso.fecha | date('d-m-Y')}}</td>	 
+	                <td>{{ ingreso.fecha | date('d-m-Y')}}</td>
 	                <td> $ {{ ingreso.valorT | number_format(0,',','.')}}</td>
-	              	<td> $ {{ ingreso.almacen}}</td>
-	                <td>{{ ingreso.proveedor}}</td>              	
-	            </tr>                 	
-	             
+	              	<td>{{ ingreso.almacen}}</td>
+	                <td>{{ ingreso.proveedor}}</td>
+	                <td><a class="btn btn-mini"  href="{{ path('ingreso_printn', {'ingreso':ingreso.id})}} " target="blank"><i class="icon-print"></i></a></td>
+
+	            </tr>
+
 	        {% endfor %}
 	        </tbody>
 	    </table>
-	   
-	    
-		
+
+
+
 	  <div class="form-actions">
-				<a href="{{ path('ingreso_new') }}" class="btn btn-primary">Nuevo Ingreso</a>				
+				<a href="{{ path('ingreso_new') }}" class="btn btn-primary">Nuevo Ingreso</a>
 			    <a href="{{ path('ingreso_search') }}" class="btn btn-primary">Buscar Ingresos</a>
-				
-			</div>   
-	    
-	    
+
+			</div>
+
+
 	{% else %}
 		<div class="alert alert-success">
 	    	<button data-dismiss="alert" class="close" type="button">×</button>
 	        <span>No existen ingresos creados</span>
 	    </div>
 	{% endif %}
-	
-{% endblock %}	
-	
-	
-		
-    
-        
-    
-   
-			   
-			    
-			    
-			
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
 
