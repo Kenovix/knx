@@ -446,13 +446,3 @@ public function deleteAction($ingreso,$imv)
       }
     }
 
-
-
-
-
-
-    	
-    	}     	
-    }   
-} 
-
