@@ -1,0 +1,77 @@
+{% extends "::simple.html.twig" %}
+
+{% block stylesheets %}
+{% endblock %}
+
+{% block head %}
+{% endblock %}
+
+
+{% block body %}
+
+        <p><b>INFORME DE INGRESO No. {{ ingreso.id }}</b><br/><br/><br/>
+
+<table class="table" cellpadding="2" cellspacing="2" border="1">
+         <thead>
+	        <tr>
+                <td width="100px"><b>ALMACEN</b></td>
+                <td width="90px"><b>PROVEEDOR</b></td>
+                <td width="60px"><b>FACTURA</b></td>
+                <td width="60px"><b>FECHA</b></td>
+                <td width="70px"><b>V/R TOTAL</b></td>
+                <td width="70px"><b>V/R NETO</b></td>
+                <td width="70px"><b>V/T IVA</b></td>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr>
+            	<td width="100px">{{ ingreso.almacen }}</td>
+            	<td width="90px">{{ ingreso.proveedor }}</td>
+            	<td width="60px">{{ ingreso.numFact }}</td>
+            	<td width="60px">{{ ingreso.fecha | date('d-m-Y')}}</td>
+            	<td width="70px">$ {{ ingreso.valorT| number_format(0,',','.')}}</td>
+            	<td width="70px">$ {{ ingreso.valorN| number_format(0,',','.')}}</td>
+            	<td width="70px"> {{ ingreso.valorIva}} %</td>
+        	</tr>
+        </tbody>
+    </table></b><br/><br/>
+
+    <p><b>CARGOS</b><br/><br/>
+
+     <table class="table" cellpadding="2" cellspacing="2" border="1">
+         <thead>
+	        <tr>
+                <th width="35px"><b>No.</b></th>
+                <th width="245px"><b>NOMBRE</b></th>
+                <th width="40px"><b>CANT.</b></th>
+                <th width="60px"><b>PRECIO COMPRA</b></th>
+                <th width="70px"><b>PRECIO VENTA</b></th>
+                <th width="70px"><b>PRECIO TOTAL</b></th>
+
+            </tr>
+        </thead>
+        <tbody>
+                {% for inventario in inventarios %}
+
+        <tr>
+                <td width="35px">{{ loop.index }}</td>
+	    		<td width="245px">{{ inventario.imv.nombre }}</td>
+	    	    <td width="40px">{{ inventario.cant }}</td>
+                <td width="60px">$ {{ inventario.precioCompra | number_format(0,',','.')}} </td>
+                <td width="70px">$ {{ inventario.imv.precioVenta | number_format(0,',','.')}} </td>
+                <td width="70px">$ {{ inventario.precioTotal | number_format(0,',','.')}} </td>
+
+            </tr>
+       </tbody>
+
+           {% endfor %}
+
+
+    </table>
+
+ {% endblock %}
+
+
+{% block footer %}
+{% endblock %}

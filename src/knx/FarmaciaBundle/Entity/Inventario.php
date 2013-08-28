@@ -14,36 +14,18 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Inventario
 {
     /**
-     * @var integer $id
-     *
-     * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-        private $id;
+     * @ORM\ManyToOne(targetEntity="knx\FarmaciaBundle\Entity\Imv")
+     */     
+    private $imv;
+        
 
      /**
-     * @var Ingreso
-     *
+     * @ORM\Id
      * @ORM\ManyToOne(targetEntity="knx\FarmaciaBundle\Entity\Ingreso")
-     * @ORM\JoinColumns({
-     * @ORM\JoinColumn(name="ingreso_id", referencedColumnName="id")
-     * })
-     */
+     */  
+    private $ingreso;
 
-        private $ingreso;
-
-   
-      /**
-     * @var Imv
-     *
-     * @ORM\ManyToOne(targetEntity="knx\FarmaciaBundle\Entity\Imv")
-     * @ORM\JoinColumns({
-     * @ORM\JoinColumn(name="imv_id", referencedColumnName="id")
-     * })
-     */
-
-        private $imv;
         
 
      /**
@@ -71,17 +53,7 @@ class Inventario
      */
         private $precioCompra;
         
-        
-     /**
-     * @var PrecioVenta
-     *
-     * @ORM\Column(name="precio_venta", type="string", nullable=false)
-     * @Assert\Range(
-     *      min = "1",
-     *      minMessage = "El menor número a ingresar es igual o mayor a 1")
-     */
-        private $precioVenta;
-        
+           
      /**
      * @var PrecioTotal
      *
@@ -97,16 +69,7 @@ class Inventario
         	return $this->getPrecioVenta();
         }
         
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
+    
     /**
      * Set cant
      *
@@ -154,29 +117,7 @@ class Inventario
         return $this->precioCompra;
     }
 
-    /**
-     * Set precioVenta
-     *
-     * @param string $precioVenta
-     * @return Inventario
-     */
-    public function setPrecioVenta($precioVenta)
-    {
-        $this->precioVenta = $precioVenta;
     
-        return $this;
-    }
-
-    /**
-     * Get precioVenta
-     *
-     * @return string 
-     */
-    public function getPrecioVenta()
-    {
-        return $this->precioVenta;
-    }
-
     /**
      * Set precioTotal
      *

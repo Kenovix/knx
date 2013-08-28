@@ -13,6 +13,8 @@ class FarmaciaType extends AbstractType
         $builder
             ->add('nombre',		'text', 	array('label' => 'Nombre: *',		'required' => true, 'attr' => array('placeholder' => 'Ingrese Nombre')))
             ->add('observacion','textarea', array('label' => 'Observacion: *',	'required' => false, 'attr' => array('placeholder' => 'Ingrese alguna observacion')))
+            ->add('estado', 'choice', array('label' => 'Estado:', 'required' => true, 'choices' => array('A' => 'Activo', 'I' => 'Inactivo')))
+
         ;
     }
 

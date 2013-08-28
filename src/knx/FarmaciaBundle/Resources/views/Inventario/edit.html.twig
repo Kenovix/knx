@@ -29,7 +29,7 @@
 
 {% block cuerpo %}
 
-	<form action="{{ path('inventario_update', {'inventario': inventario.id}) }}" class="form-horizontal" method="post" {{ form_enctype(form) }}>
+	<form action="{{ path('inventario_update',  {'ingreso': inv.ingreso.id, 'imv':inv.imv.id}) }}" class="form-horizontal" method="post" {{ form_enctype(form) }}>
 	    <fieldset>
 	    	<legend>Datos del Inventario</legend>
 	    	    
@@ -37,8 +37,8 @@
 		   
 			<div class="form-actions">
 			   <input class="btn btn-primary" name="guardar" type="submit" value="Modificar" />
-	 		   <a href="{{ path('inventario_delete', {'inventario': inventario.id}) }}" onClick="return confirm('Seguro que quieres eliminar el inventario')" class="btn btn-danger">Eliminar</a>				
-			   <a href="{{ path('ingreso_show', {'ingreso': inventario.ingreso.id}) }}" class="btn btn-danger">Cancelar</a>			   
+	 		   <a href="{{ path('inventario_delete',  {'ingreso': inv.ingreso.id, 'imv':inv.imv.id}) }}" onClick="return confirm('Seguro que quieres eliminar el inventario')" class="btn btn-danger">Eliminar</a>				
+			   <a href="{{ path('ingreso_show',  {'ingreso': inv.ingreso.id, 'imv':inv.imv.id}) }}" class="btn btn-danger">Cancelar</a>			   
 			</div>
 		</fieldset>	
 	</form>

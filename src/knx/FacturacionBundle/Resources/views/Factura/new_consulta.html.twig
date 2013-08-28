@@ -22,14 +22,19 @@
 	{% elseif app.session.hasFlash('error') %}
 		<div class="alert alert-error">
 	    	<button data-dismiss="alert" class="close" type="button">×</button>
-	        <span>{{ app.session.flash('error') }}</span>
+	        <span id="jxError">{{ app.session.flash('error') }}</span>
 	    </div>
 	{% endif %}
 {% endblock %}
 
 {% block cuerpo %}
 
-	<form action="{{ path('facturacion_actividad_save') }}" class="form-inline" method="post" {{ form_enctype(form) }}>
+    <div class="alert" id="jxMsg" style="display: none;">
+    	<button type="button" class="close" data-dismiss="alert">&times;</button>
+    	<span></span>
+    </div>
+
+	<form action="{{ path('facturacion_consulta_save') }}" class="form-inline" method="post" {{ form_enctype(form) }}>
 	    <fieldset>
 	    	<legend>Datos del paciente</legend>
 	    	
@@ -44,7 +49,6 @@
 	    			</select>
 	    			
 	    			<div class="input-append">
-	    				<!-- <input class="span6" type="text" name="identificacion" id="identificacion" placeholder="identificación" /> -->
 	    				{{ form_widget(form.paciente) }}
     					<button id="buscar_paciente" class="btn" type="button">Buscar</button>    					
     				</div>
@@ -62,7 +66,7 @@
 	    	</div>	    		   			
 	            		    		
 	    	<div>
-	    		<div class="span2">Edad: <input class="span4" type="text" id="edad" readonly="readonly" /></div>
+	    		<div class="span2">Edad: <span id="edad" class="label label-success"></span></div>
 	    	</div>		    			    			
 	            	
 	      	<div>
@@ -109,18 +113,22 @@
 		
 		<div class="controls controls-row">
     		<div class="span4">
+     		    
+     		    <label for="tipoActividad">Tipo de actividad</label>
      		     	 			
-            	{{ form_errors(form.tipoActividad) }}
-				{{ form_label(form.tipoActividad) }}
-            	{{ form_widget(form.tipoActividad) }}
+            	<select required="required" name="tipoActividad" id="tipoActividad">
+    				<option value="n">Normal</option>
+    				<option value="pyp">PYP</option>
+    			</select>	 			
+            	
             	 
     		</div>
     	
     		<div class="span4">
      		     	 			
-            	{{ form_errors(form.catPyp) }}
-            	{{ form_label(form.catPyp) }}
-            	{{ form_widget(form.catPyp) }}
+            	{{ form_errors(form.pyp) }}
+            	{{ form_label(form.pyp) }}
+            	{{ form_widget(form.pyp) }}
             	 
     		</div>
     	
@@ -217,7 +225,7 @@
 						$("#msg").html("Creado el "+data.creado);
 						$("#datos-paciente").html(data.nombre);
 						$("#fn").html(data.nacimiento);
-						$("#edad").val(data.edad);
+						$("#edad").html(data.edad);
 						$("#sexo").html(data.sexo);
 						$("#rango").html(data.rango);
 						$("#ta").html(data.afiliacion);
@@ -313,27 +321,48 @@
           });
 		}
 
-		$("#knx_facturacionbundle_facturatype_tipoActividad").change(function(){
+		$("#knx_facturacionbundle_facturatype_cliente").change(function(){
 
-			var ta = $("#knx_facturacionbundle_facturatype_tipoActividad").val();
+			$("#tipoActividad").val('n');
+			$("knx_facturacionbundle_facturatype_pyp").val('');
+			$('#knx_facturacionbundle_facturatype_pyp').attr('disabled','disabled');
+
+			$('#jxMsg').css('display', 'none');
+			$('#jxMsg > span').empty();
+		});
+
+		$("#tipoActividad").change(function(){
+
+			var ta = $("#tipoActividad").val();
+			
 			
 			if(ta == "pyp"){
 
+				var cliente = $('#knx_facturacionbundle_facturatype_cliente').val();
+
 				var url = "{{ path('cargo_pyp_buscar') }}";
 
-				var edad = $("#edad").val();
+				var edad = $("#edad").text();
+				var sexo = $("#sexo").text();
 
-				if(edad == ""){ 
+				if(edad == ""){
 					alert("Seleccione un paciente");
 					return false;
 				}
 
+				if(cliente == ""){
+					alert("Seleccione un cliente");
+					return false;
+				}
+
 				$.post(url,{
-	                edad: edad
+	                edad: edad,
+	                sexo: sexo,
+	                cliente: cliente
 	            },function(data){
 	                if(data.responseCode==200 ){
 
-	                	var select = $('#knx_facturacionbundle_facturatype_catPyp');
+	                	var select = $('#knx_facturacionbundle_facturatype_pyp');
                 		if(select.prop) {
                 		  var options = select.prop('options');
                 		}
@@ -357,15 +386,19 @@
                 		select.removeAttr('disabled');
 	                 }
 	                 else if(data.responseCode==400){
-	                	 $('#msg_afiliacion').remove();
-	                	 $('#dialog_afiliar').prepend('<span id="msg_afiliacion" class="label label-important">Cliente NO agregado</span>');
+
+						$('#jxMsg > span').prepend(data.msg);
+	                	$('#jxMsg').css('display', 'block');
 	                 }
 	                 else{
 	             	    alert("Ha ocurrido un error en el sistema.");
 	                 }
 	          });
 			}else{
-				$('#knx_facturacionbundle_facturatype_catPyp').attr('disabled', 'disabled');
+				$('#knx_facturacionbundle_facturatype_pyp').attr('disabled', 'disabled');
+				$('#knx_facturacionbundle_facturatype_pyp').val();
+				$('#jxMsg').css('display', 'none');
+				$('#jxMsg > span').empty();
 			}
 		});
 

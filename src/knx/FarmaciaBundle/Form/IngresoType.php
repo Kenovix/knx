@@ -23,7 +23,7 @@ class IngresoType extends AbstractType
             ->add('numFact','text', array('required' => true, 'label' => 'No Factura: *'))
             ->add('valorT',	'integer', array('required' => true, 'label' => 'Valor Total: *'))
             ->add('valorN',	'integer', array('required' => true, 'label' => 'Valor Neto: *'))
-            ->add('valorIva','integer', array('required' => true, 'label' => 'Valor Iva %: *'))           
+            ->add('valorIva','integer', array('required' => true, 'label' => 'Valor Iva: *'))
         ;
     }
 

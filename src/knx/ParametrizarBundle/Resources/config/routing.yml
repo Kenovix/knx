@@ -162,6 +162,12 @@ contrato_update:
     pattern:  /contrato/{contrato}/update
     defaults: { _controller: ParametrizarBundle:Contrato:update }
     
+contrato_buscar_tarifa:
+    pattern:  /contrato/buscar/tarifa
+    defaults: { _controller: ParametrizarBundle:Contrato:jxBuscarTarifaPyp }
+    requirements:
+        _method:  POST
+    
 #************** Contrato Cargo ***************#
 
 contrato_cargo_new:
@@ -309,8 +315,8 @@ cargo_pyp_update:
     defaults: { _controller: ParametrizarBundle:CargoPyp:update }
     
 cargo_pyp_buscar:
-    pattern:  /cargo/pyp/buscar/edad
-    defaults: { _controller: ParametrizarBundle:CargoPyp:ajaxBuscarCargoPorEdad }
+    pattern:  /cargo/pyp/buscar/
+    defaults: { _controller: ParametrizarBundle:CargoPyp:jxBuscarCargoPyp }
     requirements:
         _method:  POST
     

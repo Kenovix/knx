@@ -1,0 +1,50 @@
+{% extends "::simple.html.twig" %}
+
+{% block stylesheets %}
+{% endblock %}
+
+{% block head %}
+{% endblock %}
+
+
+{% block body %}
+
+        <p><b>Traslados desde {{ fechai }} hasta {{ fechaf }}</b><br/><br/><br/>
+
+
+	      {% if trasfarma %}
+	       <table class="table" cellpadding="2" cellspacing="2" border="1">
+
+	        <thead>
+	            <tr>
+	                <th width="30px"><b>No.</b></th>
+                	<th width="60px"><b>Fecha.</b></th>
+                	<th width="50px"><b>Almacen</b></th>
+                	<th width="55px"><b>Farmacia</b></th>
+                	<th width="245px"><b>Nombre</b></th>
+               	 	<th width="50px"><b>Cant.</b></th>
+	               <th width="30px"><b>Tipo</b></th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	        {% for trasfarma in trasfarma %}
+	            <tr>
+	                <td width="30px">{{ loop.index }}</td>
+	                <td width="60px">{{ trasfarma.fecha | date('d-m-Y')}}</td>
+	                <td width="50px">{{ trasfarma.almacen}}</td>
+	             	<td width="55px">{{ trasfarma.farmacia}}</td>
+            		<td width="245px">{{ trasfarma.imv}}</td>
+            		<td width="50px">{{ trasfarma.cant}}</td>
+            		<td width="30px">{{ trasfarma.tipo}}</td>
+
+	            </tr>
+	        {% endfor %}
+
+	        </tbody>
+	    </table>
+	    {% endif %}
+{% endblock %}
+
+
+{% block footer %}
+{% endblock %}

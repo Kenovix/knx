@@ -36,10 +36,10 @@
 		    </fieldset>
 
 		   <div class="form-actions">
-				<input class="btn btn-primary" name="Buscar"  type="submit" value="Buscar" />
-				<a href="{{ path('imv_new') }}" class="btn btn-primary">Nueva Existencia</a>				
-			    <a href="{{ path('imv_search') }}" class="btn">Volver</a>
-				
+		   				<a href="{{ path('imv_new') }}" class="btn btn-primary">Nueva Existencia</a>
+						<input class="btn btn-primary" name="Buscar"  type="submit" value="Buscar" />
+			   			 <a href="{{ path('imv_search') }}" class="btn">Volver</a>
+
 			</div>
 
 		</form>
@@ -53,19 +53,23 @@
 	                <th>Tipo</th>
 	                <th>Nombre</th>
 	                <th>Cant_Existencia</th>
-	                
-	                
+	                <th>Precio Venta</th>
+
+
+
 	            </tr>
 	        </thead>
 	        <tbody>
 	        {% for imv in imv %}
 	            <tr>
-	                <td>{{ loop.index }}</td>	               
-	                <td><a href="{{ path('imv_show', {'imv':imv.id}) }}">{{ imv.codCups}}</a></td>	                
+	                <td>{{ loop.index }}</td>
+	                <td><a href="{{ path('imv_show', {'imv':imv.id}) }}">{{ imv.codCups}}</a></td>
 	             	 <td>{{ imv.tipoImv }}</td>
-	             	 <td>{{ imv.nombre }}</td>	
-	             	 <td>{{ imv.cantT }}</td>		
-	             	              	
+	             	 <td>{{ imv.nombre }}</td>
+	             	 <td>{{ imv.cantT }}</td>
+	             	 <td>{{ imv.precioVenta }}</td>
+
+
 	            </tr>
 	        {% endfor %}
 	        </tbody>
@@ -76,6 +80,6 @@
 	        <span>No existe existencias creadas</span>
 	    </div>
 	{% endif %}
-		
-    
+
+
 {% endblock %}

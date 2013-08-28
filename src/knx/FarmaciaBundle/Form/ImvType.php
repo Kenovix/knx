@@ -19,9 +19,11 @@ class ImvType extends AbstractType
             ->add('nombre',			  'text', 	array('label' => 'Nombre: *',				'required' => true, 'attr' => array('placeholder' => 'Nombre')))
             ->add('formaFarmaceutica','text', 	array('label' => 'Forma Farmaceutica:',	'required' => false, 'attr' => array('placeholder' => 'FormaFarmaceutica')))
             ->add('concentracion',	  'text', 	array('label' => 'Concentracion:',		'required' => false, 'attr' => array('placeholder' => 'Concentracion')))
-            ->add('uniMedida',		  'text', 	array('label' => 'Unidad Medida:',		'required' => false, 'attr' => array('placeholder' => 'UnidadMedida')))  
+            ->add('uniMedida',		  'text', 	array('label' => 'Unidad Medida:',		'required' => false, 'attr' => array('placeholder' => 'UnidadMedida')))
             ->add('jeringa',	  	  'text', 	array('label' => 'Jeringa:',			    'required' => false,'attr' => array('placeholder' => 'Jeringa')))
             ->add('dosis',		      'text', 	array('label' => 'Dosis:',				'required' => false, 'attr' => array('placeholder' => 'Dosis')))
+            ->add('precioVenta',	  'integer', 	array('label' => 'Precio:',				'required' => false, 'attr' => array('placeholder' => 'Precio Venta')))
+
         ;
     }
 
