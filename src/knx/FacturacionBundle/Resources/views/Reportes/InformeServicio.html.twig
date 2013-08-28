@@ -1,0 +1,33 @@
+{% extends "::simple.html.twig" %}
+
+{% block head %}
+{% endblock %}
+
+{% block body %}
+	<div>
+		<table>
+			<thead>
+				<tr>
+					<th>Servicio</th>		
+					<th>Codigo Cargo</th>
+					<th>Nombre Cargo</th>
+					<th>Cantidad</th>
+					<th>Valor Unitario</th>
+					<th>Costo Total</th>							
+				</tr>
+			</thead>
+			<tbody>
+				{% for entity in facturaCargo %}
+					<tr>
+						<td>{{ entity.servicio }}</td>
+						<td>{{ entity.soat}}</td>
+						<td>{{ entity.cargo}}</td>
+						<td>{{ entity.cantidad }}</td>
+						<td>{{ entity.vrUnitario}}</td>
+						<td>{{ entity.total }}</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+{% endblock %}
