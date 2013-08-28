@@ -57,8 +57,6 @@ class FacturaCargoController extends Controller
 				case 'BC':
 					$this->boletinCierreMes($dateStart,$dateEnd);
 					break;
-				case 'IFP':
-					$this->informeFacturadoPaciente($dateStart,$dateEnd);
 					break;
 				case 'IPS':
 					$this->informePrestacionServicio($dateStart,$dateEnd);
@@ -101,6 +99,24 @@ class FacturaCargoController extends Controller
 		$pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $view, $border = 0, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
 		
 		$response = new Response($pdf->Output('Informe_regimen.pdf', 'I'));
+		$response->headers->set('Content-Type', 'application/pdf');
+	}
+	
+	
+	private function informeActividadRealizada($dateStart,$dateEnd)
+	{
+		$em = $this->getDoctrine()->getEntityManager();
+		$facturaCargo = $em->getRepository('FacturacionBundle:FacturaCargo')->findInformeServicio($dateStart,$dateEnd);
+		$pdf = $this->instanciarImpreso("Informe Por Servicio ");
+		
+		$view = $this->renderView('FacturacionBundle:Reportes:InformeServicio.html.twig',
+				array(
+						'facturaCargo' => $facturaCargo,
+				));
+		
+		$pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $view, $border = 0, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
+		
+		$response = new Response($pdf->Output('Informe_servicio.pdf', 'I'));
 		$response->headers->set('Content-Type', 'application/pdf');
 	}
 	

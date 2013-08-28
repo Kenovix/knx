@@ -50,5 +50,25 @@ class FacturaCargoRepository extends EntityRepository
 		$dql->setParameter('dateEnd', $dateEnd);
 		return $dql->getResult();
 	}
+	
+	public function findInformeServicio($dateStart,$dateEnd)
+	{
+		$em = $this->getEntityManager();
+		$dql = $em->createQuery("SELECT s.nombre AS servicio,
+										ca.soat, ca.nombre AS cargo,
+										COUNT(fc.factura) AS cantidad,
+										fc.vrUnitario, SUM(fc.vrFacturado) AS total
+								 FROM FacturacionBundle:FacturaCargo fc
+									JOIN fc.factura f
+									JOIN fc.cargo ca									
+									JOIN f.servicio s
+								 WHERE fc.created >= :dateStart
+									AND fc.created <= :dateEnd
+								 GROUP BY f.servicio, fc.cargo ORDER BY s.nombre, ca.soat ASC");
+	
+		$dql->setParameter('dateStart', $dateStart);
+		$dql->setParameter('dateEnd', $dateEnd);
+		return $dql->getResult();
+	}
 
 }

@@ -19,8 +19,7 @@ class FacturaCargoType extends AbstractType
 				 	   				'IG'  => 'Informe General',
 				 	   				'IR'  => 'Informe Regimen',
 				 	   				'IAR' => 'Informe Actividad Realizada',
-				 	   				'BC'  => 'Boletin Cierre De Mes',
-				 	   				'IFP' => 'Informe Facturado Paciente',
+				 	   				'BC'  => 'Boletin Cierre De Mes',				 	   				
 				 	   				'IPS' => 'Informe Prestacion Servicios'			 	   		
 				 	   		)
 				 		))
