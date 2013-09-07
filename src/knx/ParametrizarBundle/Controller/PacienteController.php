@@ -31,6 +31,16 @@ class PacienteController extends Controller
 		));
 	}
 	
+	public function jxnewAction()
+	{
+		$entity = new Paciente();
+		$form = $this->createForm(new PacienteType(), $entity);
+	
+		return $this->render('ParametrizarBundle:Paciente:jx_new.html.twig.twig',array(
+				'form' => $form->createView()
+		));
+	}
+	
 	public function listAction($char)
 	{
 		$em = $this->getDoctrine()->getEntityManager();
