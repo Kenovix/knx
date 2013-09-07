@@ -30,8 +30,51 @@
 {% block cuerpo %}
 
 	<form action="{{ path('reporte_cargo_question') }}" {{ form_enctype(form) }} method="POST" class="form-horizontal">
-			<fieldset>			    	
-					{{ form_widget(form) }}					
+			<fieldset>		
+			
+				<div class="control-group">
+						{{ form_label(form.opcion) }}
+	    	    	<div class="controls">
+						{{ form_errors(form.opcion) }}
+						{{ form_widget(form.opcion) }}
+					</div>
+	    	    </div>
+	    	    <div class="control-group"  id="cliente" style="display: none;">
+						{{ form_label(form.cliente) }}
+	    	    	<div class="controls">
+						{{ form_errors(form.cliente) }}
+						{{ form_widget(form.cliente) }}
+					</div>
+	    	    </div>
+	    	    <div class="control-group"  id="servicio" style="display: none;">
+						{{ form_label(form.servicio) }}
+	    	    	<div class="controls">
+						{{ form_errors(form.servicio) }}
+						{{ form_widget(form.servicio) }}
+					</div>
+	    	    </div>
+	    	    <div class="control-group"  id="regimen" style="display: none;">
+						{{ form_label(form.regimen) }}
+	    	    	<div class="controls">
+						{{ form_errors(form.regimen) }}
+						{{ form_widget(form.regimen) }}
+					</div>
+	    	    </div>
+	    	    <div class="control-group">
+						{{ form_label(form.dateStart) }}
+	    	    	<div class="controls">
+						{{ form_errors(form.dateStart) }}
+						{{ form_widget(form.dateStart) }}
+					</div>
+	    	    </div>
+	    	    <div class="control-group">
+						{{ form_label(form.dateEnd) }}
+	    	    	<div class="controls">
+						{{ form_errors(form.dateEnd) }}
+						{{ form_widget(form.dateEnd) }}
+					</div>
+	    	    </div>
+					{{ form_rest(form) }}				
 			</fieldset>
 					
 			<div class="form-actions">
@@ -65,6 +108,34 @@ $(function() {
           $( "#knx_reportes_dateStart" ).datepicker( "option", "maxDate", selectedDate );
         }
       });
+});
+
+
+
+$("#knx_reportes_opcion").change(function(){		
+	
+	var opcion = $("#knx_reportes_opcion").val();
+	
+	if(opcion == 'IG'){
+		$('#cliente').show('slow');
+		$('#servicio').hide('slow');
+		$('#regimen').hide('slow');
+	}
+	else if(opcion == 'IR'){
+		$('#cliente').hide('slow');
+		$('#servicio').hide('slow');
+		$('#regimen').show('slow');
+		}
+	else if(opcion == 'IAR'){
+		$('#cliente').hide('slow');
+		$('#servicio').show('slow');
+		$('#regimen').hide('slow');
+	}
+	else{
+		$('#cliente').hide('slow');
+		$('#servicio').hide('slow');
+		$('#regimen').hide('slow');
+	}
 });
 </script>
 {% endblock %}

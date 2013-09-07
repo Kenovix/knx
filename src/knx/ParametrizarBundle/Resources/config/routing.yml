@@ -366,6 +366,12 @@ afiliacion_delete:
     pattern:  /afiliacion/{paciente}/delete/{cliente}
     defaults: { _controller: ParametrizarBundle:Afiliacion:delete }
     
+afiliacion_tipo_cliente:
+    pattern:  /afiliacion/tipo/cliente
+    defaults: { _controller: ParametrizarBundle:Afiliacion:tipoCliente}
+    requirements:
+        _method:  POST
+    
 afiliacion_ajax_save:
     pattern:  /afiliacion/ajaxsave
     defaults: { _controller: ParametrizarBundle:Afiliacion:ajaxSave }

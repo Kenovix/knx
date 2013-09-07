@@ -45,14 +45,17 @@ class FacturaCargoController extends Controller
 
 			switch ($option)
 			{
-				case 'IG':
-					$this->informeGeneral($dateStart,$dateEnd);
+				case 'IG':					
+					$cliente = $form->get('cliente')->getData();					
+					$this->informeGeneral($dateStart,$dateEnd,$cliente);
 					break;
 				case 'IR':
-					$this->informeRegimen($dateStart,$dateEnd);
+					$regimen = $form->get('regimen')->getData();					
+					$this->informeRegimen($dateStart,$dateEnd,$regimen);
 					break;
 				case 'IAR':
-					$this->informeActividadRealizada($dateStart,$dateEnd);
+					$servicio = $form->get('servicio')->getData();
+					$this->informeActividadRealizada($dateStart,$dateEnd,$servicio);
 					break;
 				case 'BC':
 					$this->boletinCierreMes($dateStart,$dateEnd);
@@ -68,10 +71,16 @@ class FacturaCargoController extends Controller
 		}
 	}
 
-	private function informeGeneral($dateStart,$dateEnd)
+	private function informeGeneral($dateStart,$dateEnd,$cliente)
 	{
 		$em = $this->getDoctrine()->getEntityManager();
-		$facturaCargo = $em->getRepository('FacturacionBundle:FacturaCargo')->findInformeGeneral($dateStart,$dateEnd);
+		
+		if ($cliente){
+			$facturaCargo = $em->getRepository('FacturacionBundle:FacturaCargo')->findInformeGeneralCliente($dateStart,$dateEnd,$cliente->getId());
+		}else{
+			$facturaCargo = $em->getRepository('FacturacionBundle:FacturaCargo')->findInformeGeneral($dateStart,$dateEnd);
+		}		
+		
 		$pdf = $this->instanciarImpreso("Informe General ");
 
 		$view = $this->renderView('FacturacionBundle:Reportes:InformeGeneral.html.twig',
@@ -85,10 +94,16 @@ class FacturaCargoController extends Controller
 		$response->headers->set('Content-Type', 'application/pdf');
 	}
 
-	private function informeRegimen($dateStart,$dateEnd)
+	private function informeRegimen($dateStart,$dateEnd,$regimen)
 	{
 		$em = $this->getDoctrine()->getEntityManager();
-		$facturaCargo = $em->getRepository('FacturacionBundle:FacturaCargo')->findInformeRegimen($dateStart,$dateEnd);
+		
+		if($regimen){
+			$facturaCargo = $em->getRepository('FacturacionBundle:FacturaCargo')->findInformeTipoRegimen($dateStart,$dateEnd,$regimen);
+		}else{
+			$facturaCargo = $em->getRepository('FacturacionBundle:FacturaCargo')->findInformeRegimen($dateStart,$dateEnd);
+		}
+		
 		$pdf = $this->instanciarImpreso("Informe Por Regimen ");
 
 		$view = $this->renderView('FacturacionBundle:Reportes:InformeRegimen.html.twig',
@@ -102,10 +117,16 @@ class FacturaCargoController extends Controller
 		$response->headers->set('Content-Type', 'application/pdf');
 	}	
 	
-	private function informeActividadRealizada($dateStart,$dateEnd)
+	private function informeActividadRealizada($dateStart,$dateEnd,$servicio)
 	{
 		$em = $this->getDoctrine()->getEntityManager();
-		$facturaCargo = $em->getRepository('FacturacionBundle:FacturaCargo')->findInformeServicio($dateStart,$dateEnd);
+		
+		if($servicio){
+			$facturaCargo = $em->getRepository('FacturacionBundle:FacturaCargo')->findInformeTipoServicio($dateStart,$dateEnd,$servicio->getId());
+		}else{
+			$facturaCargo = $em->getRepository('FacturacionBundle:FacturaCargo')->findInformeServicio($dateStart,$dateEnd);
+		}
+		
 		$pdf = $this->instanciarImpreso("Informe Por Servicio ");
 		
 		$view = $this->renderView('FacturacionBundle:Reportes:InformeServicio.html.twig',

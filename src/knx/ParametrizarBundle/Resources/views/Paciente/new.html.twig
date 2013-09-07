@@ -238,7 +238,7 @@ $("#knxPacientetype_depto").change(function(){
 					$('#knxPacientetype_mupio').empty();					
 
 					$.each(data.mupio, function(i, val) {
-						$('#knxPacientetype_mupio').append('<option value="'+val.id+'">'+val.municipio+'</option>')
+						$('#knxPacientetype_mupio').append('<option value="'+val.id+'">'+val.municipio+'</option>');
 					});					
 				}
 				else if(data.responseCode==400){
