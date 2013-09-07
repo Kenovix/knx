@@ -43,7 +43,7 @@
                 <td><strong>Termina</strong></td>
                 <td>{{ contrato.fechaFin | date('d-m-Y') }}</td>
             </tr>
-            
+
             <tr>
                 <td><strong>Procentaje</strong></td>
                 <td>{{ contrato.porcentaje * 100 }}%</td>
@@ -55,7 +55,7 @@
                 <td>{{ contrato.tipo }}</td>
                 <td></td>
                 <td></td>
-            </tr>    
+            </tr>
         </tbody>
     </table>
 
@@ -63,15 +63,15 @@
 	    <a href="{{ path('contrato_edit', {'contrato':contrato.id}) }}" class="btn btn-primary">Modificar</a>
 	    <a href="{{ path('cliente_show', {'cliente': contrato.cliente.id	}) }}" class="btn">Volver</a>
     </div>
-    
+
     {% if contrato.tipo != 'PP' %}
-    
+
 		<hr />
-		    
+
 		<h2>Contratos</h2>
-		    
+
 		{% if contratado and contrato.tipo == 'P' %}
-		    
+
 			<table class="table">
 				<tr>
 			    	<th>Código</th>
@@ -81,8 +81,8 @@
 			    	<th>Creado</th>
 			    	<th>Ultima modificación</th>
 			  	</tr>
-		    
-				{% for pactado in contratado %}    
+
+				{% for pactado in contratado %}
 		    		<tr>
 			    		<td>{{ pactado.cargo.cups }}</td>
 		    			<td><a href="{{ path('contrato_cargo_show', {'contrato': contrato.id, 'cargo': pactado.cargo.id }) }}" title="Modificar actividad">{{ pactado.cargo.nombre }}</a></td>
@@ -102,7 +102,7 @@
 			        	<span>No hay insumos contratadas</span>
 			    	</div>
 				{% endfor %}
-			
+
 			</table>
 		{% else %}
 			<table class="table">
@@ -113,10 +113,10 @@
 			    	<th>Estado</th>
 			    	<th>Observación</th>
 			  	</tr>
-		    
-				{% for pactado in contratado %}    
+
+				{% for pactado in contratado %}
 		    		<tr>
-			    		<td>{{ pactado.imv.cums }}</td>
+			    		<td>{{ pactado.imv.codCups }}</td>
 		    			<td><a href="{{ path('imv_contrato_show', {'contrato': contrato.id, 'imv': pactado.imv.id }) }}" title="Modificar actividad">{{ pactado.imv.nombre }}</a></td>
 		    			<td>
 		    				{% if pactado.precio %}
@@ -124,24 +124,24 @@
 		    				{% endif %}
 		    			</td>
 		    			<td>{{ pactado.estado }}</td>
-		    			<td>{{ pactado.observacion }}</td>		    		
+		    			<td>{{ pactado.observacion }}</td>
 		  			</tr>
 		  		{% else %}
 		  			<div class="alert alert-info">
 			        	<span>No hay insumos contratadas</span>
 			    	</div>
 				{% endfor %}
-			
+
 			</table>
-			
+
 		{% endif %}
-		
+
 		{% if (contrato.tipo == 'P') %}
 			<a href="{{ path('contrato_cargo_new', {'contrato': contrato.id}) }}" class="btn btn-primary">Nueva actividad</a>
 		{% else %}
 			<a href="{{ path('imv_contrato_new', {'contrato': contrato.id}) }}" class="btn btn-primary">Nuevo medicamento</a>
 		{% endif %}
-	
+
 	{% endif %}
 
 {% endblock %}

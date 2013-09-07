@@ -1,6 +1,7 @@
 <?php
 namespace knx\ParametrizarBundle\Entity;
 
+use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -17,34 +18,50 @@ class ImvContrato
      * @ORM\ManyToOne(targetEntity="knx\FarmaciaBundle\Entity\Imv")
      */
     private $imv;
-    
+
     /**
      * @ORM\Id
      * @ORM\ManyToOne(targetEntity="knx\ParametrizarBundle\Entity\Contrato")
      */
     private $contrato;
-    
+
     /**
      * @var integer $precio
      *
      * @ORM\Column(name="precio", type="integer", nullable=true)
      */
     private $precio;
-    
+
     /**
      * @var string $estado
      *
      * @ORM\Column(name="estado", type="string", length=1, nullable=false)
      */
     private $estado;
-          
+
     /**
      * @var string $observacion
-     * 
+     *
      * @ORM\Column(name="observacion", type="string", length=255, nullable=true)
      * @Assert\MaxLength(limit=200, message="El valor ingresado debe tener m�ximo {{ limit }} caracteres.")
      */
     private $observacion;
+
+    /**
+     * @var date $created
+     *
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(name="created", type="date")
+     */
+    private $created;
+
+    /**
+     * @var datetime $updated
+     *
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(name="updated", type="datetime")
+     */
+    private $updated;
 
     /**
      * Set precio
@@ -55,14 +72,14 @@ class ImvContrato
     public function setPrecio($precio)
     {
         $this->precio = $precio;
-    
+
         return $this;
     }
 
     /**
      * Get precio
      *
-     * @return integer 
+     * @return integer
      */
     public function getPrecio()
     {
@@ -78,14 +95,14 @@ class ImvContrato
     public function setEstado($estado)
     {
         $this->estado = $estado;
-    
+
         return $this;
     }
 
     /**
      * Get estado
      *
-     * @return string 
+     * @return string
      */
     public function getEstado()
     {
@@ -101,14 +118,14 @@ class ImvContrato
     public function setObservacion($observacion)
     {
         $this->observacion = $observacion;
-    
+
         return $this;
     }
 
     /**
      * Get observacion
      *
-     * @return string 
+     * @return string
      */
     public function getObservacion()
     {
@@ -124,14 +141,14 @@ class ImvContrato
     public function setImv(\knx\FarmaciaBundle\Entity\Imv $imv)
     {
         $this->imv = $imv;
-    
+
         return $this;
     }
 
     /**
      * Get imv
      *
-     * @return \knx\FarmaciaBundle\Entity\Imv 
+     * @return \knx\FarmaciaBundle\Entity\Imv
      */
     public function getImv()
     {
@@ -147,17 +164,65 @@ class ImvContrato
     public function setContrato(\knx\ParametrizarBundle\Entity\Contrato $contrato)
     {
         $this->contrato = $contrato;
-    
+
         return $this;
     }
 
     /**
      * Get contrato
      *
-     * @return \knx\ParametrizarBundle\Entity\Contrato 
+     * @return \knx\ParametrizarBundle\Entity\Contrato
      */
     public function getContrato()
     {
         return $this->contrato;
     }
+
+
+    /**
+     * Set created
+     *
+     * @param \DateTime $created
+     * @return ContratoCargo
+     */
+    public function setCreated($created)
+    {
+    	$this->created = $created;
+
+    	return $this;
+    }
+
+    /**
+     * Get created
+     *
+     * @return \DateTime
+     */
+    public function getCreated()
+    {
+    	return $this->created;
+    }
+
+    /**
+     * Set updated
+     *
+     * @param \DateTime $updated
+     * @return ContratoCargo
+     */
+    public function setUpdated($updated)
+    {
+    	$this->updated = $updated;
+
+    	return $this;
+    }
+
+    /**
+     * Get updated
+     *
+     * @return \DateTime
+     */
+    public function getUpdated()
+    {
+    	return $this->updated;
+    }
+
 }
