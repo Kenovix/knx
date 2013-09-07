@@ -25,6 +25,8 @@ class AfiliacionController extends Controller
         $request = $this->getRequest();
         $form    = $this->createForm(new AfiliacionType(), $entity);
         $form->bindRequest($request);
+        
+        die(var_dump($form->get('tipoRegist')->getData()));
     
         if ($form->isValid()) {
 
@@ -44,6 +46,13 @@ class AfiliacionController extends Controller
     
             return $this->redirect($this->generateUrl('paciente_show', array("paciente" => $paciente->getId())));    
         }
+        // se intancian se consultas los objetos q se van a visualizar en la plantilla
+        $afiliaciones = $em->getRepository('ParametrizarBundle:Afiliacion')->findByPaciente($paciente);
+        
+        $depto = $em->getRepository('ParametrizarBundle:Depto')->find($paciente->getDepto());
+        $mupio = $em->getRepository('ParametrizarBundle:Mupio')->find($paciente->getMupio());
+        $paciente->setDepto($depto);
+        $paciente->setMupio($mupio);
         
         $breadcrumbs = $this->get("white_october_breadcrumbs");
         $breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
@@ -52,6 +61,7 @@ class AfiliacionController extends Controller
     
         return $this->render('ParametrizarBundle:Paciente:show.html.twig', array(
                 'paciente' => $paciente,
+        		'afiliaciones' => $afiliaciones,
                 'form'   => $form->createView()
         ));    
     }
@@ -114,5 +124,29 @@ class AfiliacionController extends Controller
     	
     	$return=json_encode($response);
     	return new Response($return,200,array('Content-Type'=>'application/json'));
-    }    	 
+    }
+
+    public function tipoClienteAction()
+    {
+    	$request = $this->get('request');
+    	$cliente = $request->request->get('cliente');
+    	
+    	if($cliente){
+    		$em = $this->getDoctrine()->getEntityManager();
+    		$cliente = $em->getRepository('ParametrizarBundle:Cliente')->find($cliente);    		
+    		
+    		if($cliente){
+    			$response=array("responseCode"=>200);    				
+    			$response['id']= $cliente->getId();
+    			$response['regimen']= $cliente->getTipo();
+    		}else{
+    			$response=array("responseCode"=>400, "msg"=>"El cliente no existe.");
+    		}
+    	}else{
+    			$response=array("responseCode"=>400, "msg"=>"El cliente no existe.");
+    		}
+    		
+    	$return=json_encode($response);
+    	return new Response($return,200,array('Content-Type'=>'application/json'));
+    }
 }

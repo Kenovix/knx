@@ -11,6 +11,9 @@ use Doctrine\ORM\EntityRepository;
  */
 class FacturaCargoRepository extends EntityRepository 
 {
+	
+// -------------------------------------------------------------------------------------------------------------------
+	// consulta todos los clientes con su respectivo cargo y atributos a visualizar en el reporte
 	public function findInformeGeneral($dateStart,$dateEnd)
 	{
 		$em = $this->getEntityManager();		
@@ -31,6 +34,31 @@ class FacturaCargoRepository extends EntityRepository
 		return $dql->getResult();	
 	}
 	
+	// consulta todos el cliente que el usuario halla seleccionado con su respectivo cargo y atributos a visualizar en el reporte
+	public function findInformeGeneralCliente($dateStart,$dateEnd,$cliente)
+	{
+		$em = $this->getEntityManager();
+		$dql = $em->createQuery("SELECT c.nombre AS cliente,
+										ca.soat, ca.nombre AS cargo,
+										COUNT(fc.factura) AS cantidad,
+										fc.vrUnitario, SUM(fc.vrFacturado) AS total
+								 FROM FacturacionBundle:FacturaCargo fc
+									JOIN fc.factura f
+									JOIN fc.cargo ca
+									JOIN f.cliente c
+								 WHERE c.id = :cliente 
+									AND fc.created >= :dateStart
+									AND fc.created <= :dateEnd
+								 GROUP BY fc.cargo, f.cliente ORDER BY c.nombre, ca.soat ASC");
+	
+		$dql->setParameter('cliente', $cliente);
+		$dql->setParameter('dateStart', $dateStart);
+		$dql->setParameter('dateEnd', $dateEnd);
+		return $dql->getResult();
+	}
+// -------------------------------------------------------------------------------------------------------------------	
+	
+	// consulta para asociar los clientes dependiendo a su regimen y cargo 
 	public function findInformeRegimen($dateStart,$dateEnd)
 	{
 		$em = $this->getEntityManager();
@@ -51,6 +79,32 @@ class FacturaCargoRepository extends EntityRepository
 		return $dql->getResult();
 	}
 	
+	// consulta para asociar los clientes dependiendo a su regimen seleccionado 
+	public function findInformeTipoRegimen($dateStart,$dateEnd,$regimen)
+	{
+		$em = $this->getEntityManager();
+		$dql = $em->createQuery("SELECT c.nombre AS cliente, c.tipo AS regimen,
+										ca.soat, ca.nombre AS cargo,
+										COUNT(fc.factura) AS cantidad,
+										fc.vrUnitario, SUM(fc.vrFacturado) AS total
+								 FROM FacturacionBundle:FacturaCargo fc
+									JOIN fc.factura f
+									JOIN fc.cargo ca
+									JOIN f.cliente c
+								 WHERE c.tipo = :regimen
+									AND fc.created >= :dateStart
+									AND fc.created <= :dateEnd
+								 GROUP BY fc.cargo, f.cliente ORDER BY c.tipo, ca.soat ASC");
+	
+		$dql->setParameter('regimen', $regimen);
+		$dql->setParameter('dateStart', $dateStart);
+		$dql->setParameter('dateEnd', $dateEnd);
+		return $dql->getResult();
+	}
+	
+// -------------------------------------------------------------------------------------------------------------------	
+	
+	// consulta y asocia por el servicio y el cargo ya q un servicio puede tener diferentes cargos 
 	public function findInformeServicio($dateStart,$dateEnd)
 	{
 		$em = $this->getEntityManager();
@@ -70,5 +124,28 @@ class FacturaCargoRepository extends EntityRepository
 		$dql->setParameter('dateEnd', $dateEnd);
 		return $dql->getResult();
 	}
-
+	
+	// consulta y asocia por el servicio seleccionado y el cargo ya q un servicio puede tener diferentes cargos
+	public function findInformeTipoServicio($dateStart,$dateEnd,$servicio)
+	{
+		$em = $this->getEntityManager();
+		$dql = $em->createQuery("SELECT s.nombre AS servicio,
+										ca.soat, ca.nombre AS cargo,
+										COUNT(fc.factura) AS cantidad,
+										fc.vrUnitario, SUM(fc.vrFacturado) AS total
+								 FROM FacturacionBundle:FacturaCargo fc
+									JOIN fc.factura f
+									JOIN fc.cargo ca
+									JOIN f.servicio s
+								 WHERE s.id = :servicio
+									AND fc.created >= :dateStart
+									AND fc.created <= :dateEnd
+								 GROUP BY f.servicio, fc.cargo ORDER BY s.nombre, ca.soat ASC");
+	
+		$dql->setParameter('servicio', $servicio);
+		$dql->setParameter('dateStart', $dateStart);
+		$dql->setParameter('dateEnd', $dateEnd);
+		return $dql->getResult();
+	}
+// -------------------------------------------------------------------------------------------------------------------
 }
