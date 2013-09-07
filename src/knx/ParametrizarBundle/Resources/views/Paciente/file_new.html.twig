@@ -38,19 +38,103 @@
       		</div>
     	</div>
     </fieldset>
-    <button class="btn btn-primary" type="submit">Subir Archivo</button>
+    <button class="btn btn-primary" type="submit" onclick="alert('Recuerde esperar hasta que el archivo termine de cargar')">Subir Archivo</button>
+    <a href="#" class="btn btn-success" onclick="viewHelp.wijdialog('open');" >Ayuda</a>
+    
   </form>
+  
+  {% ui_dialog id="viewHelp"
+               title="Documentacion para el formato de ayuda"
+               widgetVar="viewHelp"
+               width="1000px"
+               autoOpen=false
+               modal=true
+  %}
+  <div>
+  	<p> Formato para procesar la información del archivo de los pacientes, para que la información se carge correctamente 
+  		se debe diligenciar la información de la siguiente forma:<br/>
+  		1- El archivo debe de estar con extención CSV o TXT<br/>
+  		2- En una hoja de calculo la información debe de lucir como se muestra acontinuación:
+  	</p>
+  	<table class="table table-bordered">
+    	<thead>
+    		<tr>
+    			<th>tipo_id</th>
+    			<th>identificacion</th>
+    			<th>pri_nombre</th>
+    			<th>seg_nombre</th>
+    			<th>pri_apellido</th>
+    			<th>seg_apellido</th>
+    			<th>f_n</th>
+    			<th>sexo</th>
+    			<th>estado_civil</th>
+    			<th>depto</th>
+    			<th>mupio</th>
+    			<th>direccion</th>
+    			<th>zona</th>
+    			<th>telefono</th>
+    			<th>movil</th>
+    			<th>email</th>
+    			<th>rango</th>
+    			<th>tipo_afi</th>
+    			<th>pert_etnica</th>
+    			<th>nivle_edu</th>
+    			<th>created</th>
+    			<th>updated</th>
+    			<th>ocupacion_id</th>
+    			<th>tipo_des</th>
+    		</tr>
+    	</thead>    		
+    	<tbody>
+    		<tr>
+    			<td>CC</td>
+    			<td>12345678901</td>
+    			<td>Pedro</td>
+    			<td>Null</td>
+    			<td>Segura</td>
+    			<td>Null</td>
+    			<td>1986-05-30</td>
+    			<td>M</td>
+    			<td>SOLTERO</td>
+    			<td>24</td>
+    			<td>1010</td>
+    			<td>Null</td>
+    			<td>U</td>
+    			<td>Null</td>
+    			<td>Null</td>
+    			<td>Null</td>
+    			<td>A</td>
+    			<td>C</td>
+    			<td>6</td>
+    			<td>1</td>
+    			<td>2013-06-08</td>
+    			<td>2013-06-08 12:25:37</td>
+    			<td>2</td>
+    			<td>Null</td>
+    		</tr>
+    	</tbody>
+    </table>
+    
+        
+    <p> 3- En el ejemplo anterior se visualiza la forma como debe de estar digitalizada la información para el paciente.<br/>
+    	4- Los campos que aparecen de tipo Null se pueden dejar en blanco si este no contiene información alguna.<br/>
+    	5- Despues de tener la información correctamente ordenada se puede proceder a guardar el archivo desde una hoja de calcul.<br/>
+    	6- Cuando se guarde la información desde una hoja de calculo tener en cuenta la extencion y separar los campos solo por coma.<br/>
+    	7- No concatenar estructura de texto entre comillas SOLO ASIGNAR SEPARAR COLUMNAS POR COMA.<br/>
+    	8- En el siguiente link <a href="#"   >Descargar plantilla</a> se puede descargar la plantilla correspondiente para digilencia la información de los pacientes. 
+    </p>
+  </div>   
+    
+  {% end_ui_dialog %} 
+  
+  
 {% endblock %}
 
 {% block javascripts %}
 <script type="text/javascript">
 
 $(function() {
-	var ext = $('#archivo').val().split('.').pop().toLowerCase();
-
-	if($.inArray(ext, ['csv']) == -1) {
-	alert('El archivo debe de ser CSV');
-	}    
+	alert('La extension del arvhivo debe ser CSV o TXT');	
 });
 </script>
 {% endblock %}

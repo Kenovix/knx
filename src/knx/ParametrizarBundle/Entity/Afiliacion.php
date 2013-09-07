@@ -25,12 +25,20 @@ class Afiliacion
      * @ORM\ManyToOne(targetEntity="knx\ParametrizarBundle\Entity\Cliente")
      */
     private $cliente;    
+    
+    /**
+     * @var string $tipoRegist
+     * 
+     * @ORM\Column(name="nivel_rango", type="string", length=15, nullable=false)
+     * @Assert\Length(max=15)
+     */
+    private $tipoRegist;
           
     /**
      * @var string $observacion
      *
      * @ORM\Column(name="observacion", type="string", length=255, nullable=true)
-     * @Assert\MaxLength(limit=255, message="El valor ingresado debe tener máximo {{ limit }} caracteres.")
+     * @Assert\Length(max=255)
      */
     private $observacion;
     
@@ -155,5 +163,28 @@ class Afiliacion
     public function getUpdated()
     {
         return $this->updated;
+    }
+
+    /**
+     * Set tipoRegist
+     *
+     * @param string $tipoRegist
+     * @return Afiliacion
+     */
+    public function setTipoRegist($tipoRegist)
+    {
+        $this->tipoRegist = $tipoRegist;
+    
+        return $this;
+    }
+
+    /**
+     * Get tipoRegist
+     *
+     * @return string 
+     */
+    public function getTipoRegist()
+    {
+        return $this->tipoRegist;
     }
 }

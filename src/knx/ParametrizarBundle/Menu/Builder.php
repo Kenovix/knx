@@ -10,18 +10,23 @@ class Builder extends ContainerAware
 	public function superAdminMenu(FactoryInterface $factory, array $options)
 	{
 		$security = $this->container->get('security.context');
+		$usuario = $security->getToken()->getUser();
 
 		$menu = $factory->createItem('root');
 		$menu->setChildrenAttributes(array('id' => 'menu'));
 
 		$menu->addChild('Parametrizar', array('uri' => '#'));
-			$menu['Parametrizar']->addChild('Empresa', array('route' => 'empresa_list'));
-			$menu['Parametrizar']->addChild('Centro de costo', array('route' => 'servicio_list'));
 			$menu['Parametrizar']->addChild('Almacen', array('route' => 'almacen_list'));
-			$menu['Parametrizar']->addChild('Cliente', array('route' => 'cliente_list'));
 			$menu['Parametrizar']->addChild('Cargo', array('route' => 'cargo_list'));
-			$menu['Parametrizar']->addChild('Proveedor', array('route' => 'proveedor_list'));
 			$menu['Parametrizar']->addChild('Categoría pyp', array('route' => 'pyp_list'));
+			$menu['Parametrizar']->addChild('Centro de costo', array('route' => 'servicio_list'));
+			$menu['Parametrizar']->addChild('Cliente', array('route' => 'cliente_list'));
+			$menu['Parametrizar']->addChild('Empresa', array('route' => 'empresa_list'));			
+			$menu['Parametrizar']->addChild('Proveedor', array('route' => 'proveedor_list'));
+			$menu['Parametrizar']->addChild('Paciente', array('uri' => '#'));
+				$menu['Parametrizar']['Paciente']->addChild('Listar/Nuevo', array('route' => 'paciente_list', 'routeParameters' => array('char' => 'A')));
+				$menu['Parametrizar']['Paciente']->addChild('Cargar/Archivo', array('route' => 'file_new_csv'));			
+			
 
 		$menu->addChild('farmacia', array('uri' => '#'));
 			$menu['farmacia']->addChild('Nueva', array('uri' => '#'));
@@ -50,6 +55,19 @@ class Builder extends ContainerAware
 				$menu['Facturación']['Facturar']->addChild('Medicamento', array('route' => 'facturacion_consulta_new'));
 
 		$menu->addChild('Historia', array('uri' => '#'));
+
+				$menu['Facturación']['Facturar']->addChild('Reportes', array('route' => 'reporte_cargo_new'));
+
+		if($security->isGranted('ROLE_ADMIN') || $security->isGranted('ROLE_MEDICO'))
+		{
+			$menu->addChild('Historia', array('uri' => '#'));
+			$menu['Historia']->addChild('Diagnosticos', array('route' => 'cie_list'));
+			$menu['Historia']->addChild('Examenes', array('route' => 'examen_list'));
+			$menu['Historia']->addChild('Medicamentos', array('route' => 'medicamento_list'));
+			$menu['Historia']->addChild('Urgencias', array('route' => 'historia_urgenciaList'));
+			$menu['Historia']->addChild('Busqueda', array('route' => 'paciente_filtro'));
+		}		
+
 
 		$menu->addChild('Usuarios', array('uri' => '#'));
 			$menu['Usuarios']->addChild('Listar', array('route' => 'usuario_list'));

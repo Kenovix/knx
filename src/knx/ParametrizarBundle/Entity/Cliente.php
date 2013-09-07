@@ -65,7 +65,7 @@ class Cliente
     /**
      * @var string $tipo
      *
-     * @ORM\Column(name="tipo", type="string", length=2, nullable=true)
+     * @ORM\Column(name="regimen", type="string", length=2, nullable=true)
      * @Assert\Length(max=2)  
      */
     private $tipo;

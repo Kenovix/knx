@@ -126,6 +126,7 @@
     <form action="{{ path('afiliacion_save', { 'paciente': paciente.id }) }}" method="post" {{ form_enctype(form) }} class="form-horizontal">
         <fieldset>
         	<legend>Datos de la aseguradora</legend>
+        	<div id="ajaxMsg"></div>
         	{{ form_widget(form) }}
         </fieldset>        
         <button class="btn btn-primary" type="submit">Crear</button>       
@@ -158,4 +159,78 @@
         {% endfor %}
         </tbody>
     </table>
+{% endblock %}
+
+{% block javascripts %}
+<script type="text/javascript">
+$("#newAfiliacion_cliente").change(function(){
+	
+    var cliente = $("#newAfiliacion_cliente").val(); 
+    var url="{{ path('afiliacion_tipo_cliente') }}";   
+    
+    $.post(url,{
+        cliente: cliente
+ },function(data){
+     if(data.responseCode==200 ){
+
+ 		cargarTipoEps(data.regimen);
+ 		                    
+     }
+     else if(data.responseCode==400){
+     	$('#ajaxMsg').html(data.msg);
+         $('#ajaxMsg').css("color","red");
+     }
+     else{
+ 	    alert("Ha ocurrido un error en el sistema.");
+     }
+ });
+});
+
+function cargarTipoEps(regimen)
+{
+	var contributivo = {
+				'' : '--select--',
+			    'cotizante' : 'Cotizante',
+			    'esposo/esposa' : 'Esposo/Esposa',
+			    'hijo/hija' : 'Hijo/Hija',
+			    'madre' : 'Madre',
+			    'padre' : 'Padre',			    
+			    'adicional' : 'Adicional'
+			};
+	var subsidiado = {
+			'' : '--select--',
+			'cero' : 'Cero',
+			'uno' : 'Uno',
+			'dos' : 'Dos',
+			'tres' : 'Tres'
+			};	
+
+	var select = $('#newAfiliacion_tipoRegist');
+	if(select.prop) {
+		  var options = select.prop('options');
+		}
+		else {
+		  var options = select.attr('options');
+		}
+		$(select).empty();
+
+	if(regimen == 1 || regimen == 3){
+			$.each(contributivo, function(val, text) {
+			    options[options.length] = new Option(text, val);
+			});
+		}
+	else if(regimen == 2){
+			$.each(subsidiado, function(val, text) {
+			    options[options.length] = new Option(text, val);
+			});
+		}
+	else{
+			$('#newAfiliacion_tipoRegist').append(new Option('Particular/otro', 'particular/otro', true, true));
+		}
+		
+	select.val('');
+			
+
+}
+</script >
 {% endblock %}

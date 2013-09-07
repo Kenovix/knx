@@ -60,7 +60,9 @@
 	               <td>{{ loop.index }}</td>
 		           <td>{{ almacenimv.imv }}</td>
 	               <td>{{ almacenimv.cant }}</td>
+	               {% if almacenimv.cant != 0  %}
 					 <td><a class="btn btn-mini" href="{{ path('traslado_new', {'imv':almacenimv.imv.id , 'almacen':almacenimv.almacen.id})}} "><i class="icon-share-alt"></i>Mover</a></td>
+					{%  endif%}
 	            </tr>
 
 	        {% endfor %}

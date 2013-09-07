@@ -364,7 +364,7 @@ class PacienteController extends Controller
 		$breadcrumbs->addItem("Paciente", $this->get("router")->generate("paciente_list", array("char" => 'A')));
 		$breadcrumbs->addItem("Subir Archivo");
 		
-		$this->get('session')->setFlash('info', 'Seleccione el archivo correspondiente para la carga de la informacion "FILE.CSV".');
+		$this->get('session')->setFlash('info', 'Seleccione el archivo correspondiente para la carga de la informacion "FILE.CSV", "FILE.txt".');
 		
 		return $this->render('ParametrizarBundle:Paciente:file_new.html.twig');
 	}
@@ -385,14 +385,16 @@ class PacienteController extends Controller
 		{
 			if ($_FILES['archivo']["error"] > 0) // se verifica que la carga del archivo no tenga errores				
 			{
-				$this->get('session')->setFlash('error', 'Ah ocurrido un error en el archivo.'.$_FILES['archivo']['error']);
+				$this->get('session')->setFlash('error', 'Ah ocurrido un error en el archivo. '.$_FILES['archivo']['error']);
 				return $this->render('ParametrizarBundle:Paciente:file_new.html.twig');
 				
 			}else{
 				
-				if($_FILES['archivo']['type'] != "text/csv")
-				{
-					throw $this->createNotFoundException('Error la extension del archivo no es valida solo se permiten file.csv');
+				// se verifica la existencia del archivo y se arroja una exception si el archivo no es soportado
+				if($_FILES['archivo']['type'] == "text/csv" || $_FILES['archivo']['type'] == "text/txt")
+				{					
+				}else{
+					throw $this->createNotFoundException('Error la extension del archivo no es valida solo se permiten file.csv y file.txt');
 				}				
 				
 				// se genera la ruta y el archivo donde se van a guardar
