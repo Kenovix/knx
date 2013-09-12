@@ -251,12 +251,13 @@
 	    			pago_pte: $("#pago_pct").val(),
 	    			cargo_ips: $("#cargo_ips").val(),
 	    			total: $("#valor_total").val(),
-	    			ambito: ''
+	    			ambito: 'A'
 		         },function(data){
 		             if(data.responseCode==200 ){
 
 			             $("#actividad").attr('disabled', 'disabled');
 			             $("#cobrar_pte").attr('disabled', 'disabled');
+			             $("#agregar").attr('disabled', 'disabled');
 
 			             html += "<tr>";
 			             html += "<td>" + data.codigo + "</td>";
@@ -265,7 +266,7 @@
 			             html += "<td>" + data.unitario + "</td>";
 			             html += "<td>" + data.cobro + "</td>";
 			             html += "<td>" + data.total + "</td>";
-			             html += "<td></td>";
+			             html += "<td><button id='eliminar' type='button' class='btn btn-error' onclick='alert('Borrate')'>Borrar</button></td>";
 			             html += "</tr>";
 	
 		            	 $("#facturado").append(html);

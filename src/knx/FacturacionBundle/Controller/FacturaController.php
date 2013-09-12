@@ -102,7 +102,7 @@ class FacturaController extends Controller
 									 JOIN
 										cp.cargo c
 									 WHERE
-										c.tipoCargo = 'C' AND
+										c.tipoCargo = 'CE' AND
     									cp.pyp = :categoria
 									 ORDER BY
 										c.nombre ASC");
@@ -113,7 +113,25 @@ class FacturaController extends Controller
     		
     	}else{
     		$pyp = "";
-    		$consultas = "";
+    		
+    		$dql = $em->createQuery( "SELECT
+										c.id,
+    									c.nombre
+									 FROM
+										ParametrizarBundle:ContratoCargo cc
+									 JOIN
+										cc.cargo c
+    								 JOIN
+    									cc.contrato ct
+									 WHERE
+										c.tipoCargo = 'CE' AND
+    									ct.id = :cliente
+									 ORDER BY
+										c.nombre ASC");
+    		
+    		$dql->setParameter('cliente', $factura->getCliente()->getId());
+    		
+    		$consultas = $dql->getResult();
     	}
     	
     	if($factura->getProfesional()){
