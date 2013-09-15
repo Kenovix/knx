@@ -23,6 +23,13 @@ class AfiliacionType extends AbstractType
         			->orderBy('c.nombre', 'ASC');
         		}))
         ->add('tipoRegist', 'choice', array('label' => 'tipo registro:', 'required' => true, 'choices' => array('--' => '--')))
+        ->add('rango', 'choice',
+        		array('required' => false,
+        				'choices' => array(
+        						'' => '--Rango--',
+        						'A' => 'A',
+        						'B' => 'B',
+        						'C' => 'C')))
         ->add('observacion', 'text', array('required' => false, 'attr' => array('placeholder' => 'Ingrese alguna observación')))                
         ;
     }
