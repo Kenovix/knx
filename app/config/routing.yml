@@ -1,3 +1,11 @@
+homepage:
+    pattern: /
+    defaults: { _controller: FrameworkBundle:Redirect:redirect, route: login, permanent: true }
+
+login:
+    pattern: /login
+    defaults: { _controller: FOSUserBundle:Security:login }
+
 ParametrizarBundle:
     resource: "@ParametrizarBundle/Resources/config/routing.yml"
     prefix:   /admin

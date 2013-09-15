@@ -59,6 +59,7 @@ class Builder extends ContainerAware
 
 
 
+
 		$menu->addChild('Historia', array('uri' => '#'));
 
 				$menu['Facturación']['Facturar']->addChild('Reportes', array('route' => 'reporte_cargo_new'));
@@ -71,7 +72,11 @@ class Builder extends ContainerAware
 			$menu['Historia']->addChild('Medicamentos', array('route' => 'medicamento_list'));
 			$menu['Historia']->addChild('Urgencias', array('route' => 'historia_urgenciaList'));
 			$menu['Historia']->addChild('Busqueda', array('route' => 'paciente_filtro'));
+
 		}
+
+			
+
 
 
 		$menu->addChild('Usuarios', array('uri' => '#'));
