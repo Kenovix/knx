@@ -28,16 +28,35 @@
 {% endblock %}
 
 {% block cuerpo %}
-  <form action="{{ path('file_upload_csv') }}" method="post"  class="form-horizontal" enctype="multipart/form-data">
+  <form action="{{ path('file_upload_csv') }}" method="post" {{ form_enctype(form) }}  class="form-horizontal" enctype="multipart/form-data">
     <fieldset>
     	<legend>Carga de archivos a la base de datos solo archivos csv</legend>
     	<div class="control-group">
     		<label class="control-label" for="inputEmail">Archivo CSV:</label>
     		<div class="controls">
-      			<input type="file" name="archivo" id="archivo" placeholder="Seleccione el archivo">
+      			<input type="file" name="archivo" id="archivo" class="span4" placeholder="Seleccione el archivo">
       		</div>
     	</div>
+    	
+    	<div class="control-group">
+    		{{ form_label(form.cliente) }}
+    		<div class="controls">
+					{{ form_widget(form.cliente,{ 'attr': {'class': 'span4'} }) }}
+    		</div>
+    	</div>
+    	{{ form_rest(form) }}
     </fieldset>
+    
+    {% if nameFile %}
+	    <div class="control-group error">
+	  		<label class="control-label" for="inputError">Please Download File</label>
+	  		<div class="controls">
+	    		<a href="{{ path('file_download_csv', {'nameFile': nameFile }) }}" class="btn btn-info"  >File.txt</a>
+	    		<span class="help-inline">It Has an Importan Information</span>
+	  		</div>
+		</div>
+	{% endif %}
+
     <button class="btn btn-primary" type="submit" onclick="alert('Recuerde esperar hasta que el archivo termine de cargar')">Subir Archivo</button>
     <a href="#" class="btn btn-success" onclick="viewHelp.wijdialog('open');" >Ayuda</a>
     

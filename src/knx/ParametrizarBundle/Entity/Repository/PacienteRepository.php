@@ -214,4 +214,46 @@ class PacienteRepository extends EntityRepository {
 		}
 		return false;
 	}
+	
+	
+	public function existTipoRegistro($tipoRegistro)
+	{
+		if(strlen($tipoRegistro)>0 && strlen($tipoRegistro) <= 15)
+		{
+			// "MS","PA","CC", "RC", "TI", "CE", "NV", "AS"
+			switch ($tipoRegistro) {
+				case "cotizante":
+					return true;
+					break;
+				case "esposo/esposa":
+					return true;
+					break;
+				case "hijo/hija":
+					return true;
+					break;
+				case "madre":
+					return true;
+					break;
+				case "padre":
+					return true;
+					break;
+				case "adicional":
+					return true;
+					break;
+				case "cero":
+					return true;
+					break;
+				case "uno":
+					return true;
+					break;
+				case "dos":
+					return true;
+					break;
+				case "tres":
+					return true;
+					break;
+			}
+		}
+		return false;
+	}
 }
