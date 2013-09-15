@@ -98,10 +98,10 @@
     			<th>tipo_afi</th>
     			<th>pert_etnica</th>
     			<th>nivle_edu</th>
-    			<th>created</th>
     			<th>updated</th>
     			<th>ocupacion_id</th>
     			<th>tipo_des</th>
+    			<th>Rango_Nivel</th>
     		</tr>
     	</thead>    		
     	<tbody>
@@ -125,11 +125,11 @@
     			<td>A</td>
     			<td>C</td>
     			<td>6</td>
-    			<td>1</td>
-    			<td>2013-06-08</td>
-    			<td>2013-06-08 12:25:37</td>
-    			<td>2</td>
+    			<td>10</td>
     			<td>Null</td>
+    			<td>1</td>
+    			<td>6</td>
+    			<td>cotizante</td>
     		</tr>
     	</tbody>
     </table>
@@ -137,10 +137,10 @@
         
     <p> 3- En el ejemplo anterior se visualiza la forma como debe de estar digitalizada la información para el paciente.<br/>
     	4- Los campos que aparecen de tipo Null se pueden dejar en blanco si este no contiene información alguna.<br/>
-    	5- Despues de tener la información correctamente ordenada se puede proceder a guardar el archivo desde una hoja de calcul.<br/>
+    	5- Despues de tener la información correctamente ordenada se puede proceder a guardar el archivo desde una hoja de calculo.<br/>
     	6- Cuando se guarde la información desde una hoja de calculo tener en cuenta la extencion y separar los campos solo por coma.<br/>
     	7- No concatenar estructura de texto entre comillas SOLO ASIGNAR SEPARAR COLUMNAS POR COMA.<br/>
-    	8- En el siguiente link <a href="#"   >Descargar plantilla</a> se puede descargar la plantilla correspondiente para digilencia la información de los pacientes. 
+    	8- En el siguiente link <a href="{{ path('file_download_csv', {'nameFile': 'plantilla_paciente.csv' }) }}" class="btn btn-info"  >Descargar plantilla</a> se puede descargar la plantilla correspondiente para digilencia la información de los pacientes. 
     </p>
   </div>   
     

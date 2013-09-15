@@ -4,13 +4,14 @@ use Doctrine\ORM\EntityRepository;
 
 class PacienteRepository extends EntityRepository {
 
-	// $em = $this->getEntityManager();
+	// $em = $this->getEntityManager();	
 	
 	public function validarInformacion($objPacientes,$DatosTemporal)
 	{
 		$start = 0;
 		$end = count($objPacientes);
 		$arraySalida = array();
+		$arrayPacientes = array();
 	
 		// se pasan las identificaciones del objPaciente a un array de solo identificaciones de tipo int
 		for($i=0; $i<count($objPacientes); $i++)
@@ -32,6 +33,33 @@ class PacienteRepository extends EntityRepository {
 			}
 		}
 			return $arraySalida;
+	}
+	
+	// verifica que no hallan datos repetidos en el archivo
+	public function fileSearchData($DatosTemporal)
+	{
+		$start = 0;
+		$end = count($DatosTemporal);
+		$arraySalida = array();
+		$arrayPacientes = array();
+		
+		for($i=0; $i<$end; $i++)
+		{
+			$arrayPacientes[] = (int)$DatosTemporal[$i][1];
+		}
+		// se ordena el array
+		$end = count($arrayPacientes);
+		$arrayOrdenado = $this->quicksort($arrayPacientes, $start, $end-1);		
+		
+		// se pasan las identificaciones del archivo temporal a un array de solo identificaciones de tipo int
+		for($i=0; $i<($end-1); $i++)
+		{
+			if($arrayOrdenado[$i] == $arrayOrdenado[$i+1])
+			{
+				$arraySalida[] = $arrayOrdenado[$i];
+			}
+		}
+		return $arraySalida;
 	}
 	
 	// Algoritmo de busqueda binaria para las identificaciones
@@ -59,30 +87,45 @@ class PacienteRepository extends EntityRepository {
 	
 	
 	// algoritmo de ordenamiento QUICKSORT para mayor eficiencia de su ordenamiento el array debe estar no ordenado
-	public function quicksort($A, $izq, $der )
+	public function quicksort($A, $izq, $der)
 	{
+		// definimos los índices y calculamos el pivote = centro = x
 		$i = $izq;
 		$j = $der;
-		$x = $A[ ($izq + $der) /2 ];
+		$x = $A[($izq + $der)/2];
+		
+		// iteramos hasta que i no sea menor que j
 		do{
+			// iteramos mientras que el valor de A[i] sea menor que x y j sea menor q la der
 			while(($A[$i]<$x)&&($j<=$der)){
-				$i++;
+				$i++; // Incrementamos el índice
 			}
+			// iteramos mientras que el valor de A[j] sea mayor que x y j sea mayor que izq
 			while(($x<$A[$j])&&($j>$izq)){
-				$j--;
+				$j--; // decrementamos el índice
 			}
+			// si i es menor o igual que j significa que los índices se han cruzado
 			if($i<=$j){
-				$aux = $A[$i]; $A[$i] = $A[$j]; $A[$j] = $aux;
+				// creamos una variable temporal para guardar el valor de A[j]
+				$aux = $A[$i]; 
+				// intercambiamos los valores de A[i] y A[j]
+				$A[$i] = $A[$j]; 
+				$A[$j] = $aux;
+				// incrementamos y decrementamos i y j respectivamente
 				$i++;  $j--;
 			}
 		}while($i<=$j);
 	
-		if( $izq < $j )
-			$this->quicksort( $A, $izq, $j );
-		if( $i < $der )
-			$this->quicksort( $A, $i, $der );
-	
-			return $A;
+		// si first es menor que j mantenemos la recursividad
+		if( $izq < $j ){
+			$A= $this->quicksort( $A, $izq, $j );
+		}			
+		// si last es mayor que i mantenemos la recursividad
+		if( $i < $der ){
+			$A= $this->quicksort( $A, $i, $der );
+		}		
+	  // devolvemos la lista ordenada
+	  return $A;					
 	}
 	
 	public function existTipoId($tipoId)

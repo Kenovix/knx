@@ -438,8 +438,12 @@ class PacienteController extends Controller
 				$dql = $em->createQuery("SELECT p.identificacion FROM ParametrizarBundle:Paciente p ORDER BY p.identificacion DESC");
 				$objPacientes = $dql->getArrayResult();
 				
-				// se verifica q la informacion ingresada de los pacientes este correcta.
+				// se verifica que los pacientes ingresados no existan en la base de datos.
 				$result = $em->getRepository('ParametrizarBundle:Paciente')->validarInformacion($objPacientes, $DatosTemporal);				
+				
+				// se verifica que el archivo no contenga informacion redundante.
+				$redundancia = $em->getRepository('ParametrizarBundle:Paciente')->fileSearchData($DatosTemporal);
+				
 				unlink($archivo);
 				
 				if($result)
@@ -461,7 +465,25 @@ class PacienteController extends Controller
 							'form' => $form->createView()
 							));
 					
-				}else{
+				}elseif ($redundancia){
+					$nameFile = "datos-existentes-archivo.txt";
+						
+					// se crea el archivo.
+					$fp=fopen($ruta.$nameFile,"x");
+					fwrite($fp,"Este Archivo Contiene Informacion Redundante, Eliminela De Su Archivo Original y Vuelva a Cargar.\n");
+					// se itera el array de los datos existentes en la base de datos y se visuaiza al usuario en un archivo plano
+					foreach ($redundancia as $value)
+						fwrite($fp,$value."\n");
+					fclose($fp);
+						
+					// Se envia la respectiva informacion para posteriormente descargarlo.
+					$this->get('session')->setFlash('error', 'Ah ocurrido un error en el archivo, hay información redundante en el archivo '.$_FILES['archivo']['name']);
+					return $this->render('ParametrizarBundle:Paciente:file_new.html.twig',array(
+							'nameFile' => $nameFile,
+							'form' => $form->createView()
+					));
+				}
+				else{
 					$cliente = $form->get('cliente')->getData();					
 					$afiliacion = $this->verificarExistenciaDatos($DatosTemporal, $cliente);
 
