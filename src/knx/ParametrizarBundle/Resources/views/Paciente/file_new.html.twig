@@ -59,9 +59,9 @@
 
     <button class="btn btn-primary" type="submit" onclick="alert('Recuerde esperar hasta que el archivo termine de cargar')">Subir Archivo</button>
     <a href="#" class="btn btn-success" onclick="viewHelp.wijdialog('open');" >Ayuda</a>
-    
+
   </form>
-  
+
   {% ui_dialog id="viewHelp"
                title="Documentacion para el formato de ayuda"
                widgetVar="viewHelp"
@@ -70,9 +70,9 @@
                modal=true
   %}
   <div>
-  	<p> Formato para procesar la información del archivo de los pacientes, para que la información se carge correctamente 
+  	<p> Formato para procesar la información del archivo de los pacientes, para que la información se cargue correctamente
   		se debe diligenciar la información de la siguiente forma:<br/>
-  		1- El archivo debe de estar con extención CSV o TXT<br/>
+  		1- El archivo debe de estar con extensión CSV o TXT<br/>
   		2- En una hoja de calculo la información debe de lucir como se muestra acontinuación:
   	</p>
   	<table class="table table-bordered">
@@ -103,7 +103,7 @@
     			<th>tipo_des</th>
     			<th>Rango_Nivel</th>
     		</tr>
-    	</thead>    		
+    	</thead>
     	<tbody>
     		<tr>
     			<td>CC</td>
@@ -133,8 +133,8 @@
     		</tr>
     	</tbody>
     </table>
-    
-        
+
+
     <p> 3- En el ejemplo anterior se visualiza la forma como debe de estar digitalizada la información para el paciente.<br/>
     	4- Los campos que aparecen de tipo Null se pueden dejar en blanco si este no contiene información alguna.<br/>
     	5- Despues de tener la información correctamente ordenada se puede proceder a guardar el archivo desde una hoja de calculo.<br/>
@@ -142,18 +142,18 @@
     	7- No concatenar estructura de texto entre comillas SOLO ASIGNAR SEPARAR COLUMNAS POR COMA.<br/>
     	8- En el siguiente link <a href="{{ path('file_download_csv', {'nameFile': 'plantilla_paciente.csv' }) }}" class="btn btn-info"  >Descargar plantilla</a> se puede descargar la plantilla correspondiente para digilencia la información de los pacientes. 
     </p>
-  </div>   
-    
-  {% end_ui_dialog %} 
-  
-  
+  </div>
+
+  {% end_ui_dialog %}
+
+
 {% endblock %}
 
 {% block javascripts %}
 <script type="text/javascript">
 
 $(function() {
-	alert('La extension del arvhivo debe ser CSV o TXT');	
+	alert('La extension del arvhivo debe ser CSV o TXT');
 });
 </script>
 {% endblock %}
