@@ -50,9 +50,12 @@
 	    			
 	    			<div class="input-append">
 	    				{{ form_widget(form.paciente) }}
-    					<button id="buscar_paciente" class="btn" type="button">Buscar</button>    					
+    					<button id="buscar_paciente" class="btn" type="button">Buscar</button>
+    					<button id="btnIframe" href="{{ path('paciente_jx_new') }}" class="fancybox.iframe btn btn-success" type="link" disabled="disabled">Crear</button>
     				</div>
-    				<span id="msg" class="label"></span>	
+    				<span id="msg" class="label"></span>
+					
+					{% ui_box for="#btnIframe" id="frame-fijo" %}
 	   
 	    		</div>
 	    	</div>
@@ -255,6 +258,8 @@
 
                 		$('#new_afiliacion').removeAttr('disabled');
                 		$('#new_afiliacion').removeClass('ui-state-disabled');
+
+                		$("#btnIframe").attr('disabled', 'disabled');
                 		
 		             }
 		             else if(data.responseCode==400){
@@ -269,6 +274,8 @@
 						$("#rango").empty();
 						$("#ta").empty();
 						$('#knx_facturacionbundle_facturatype_cliente').attr('disabled','disabled');
+
+						$("#btnIframe").removeAttr('disabled');
 
 
 						$('#new_afiliacion').attr('disabled', 'disabled');
@@ -290,7 +297,7 @@
 			var url = "{{ path('afiliacion_ajax_save') }}";
 
 			var cliente = $("#newAfiliacion_cliente").val();
-			var paciente = $("#identificacion").val();
+			var paciente = $("#knx_facturacionbundle_facturatype_paciente").val();
 
 			$.post(url,{
                 cliente: cliente,
@@ -452,6 +459,6 @@
 	      		}
 			});
 		});
-	</script>		
+	</script>
 	
 {% endblock %}

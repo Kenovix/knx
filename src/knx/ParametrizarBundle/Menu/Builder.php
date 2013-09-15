@@ -50,10 +50,12 @@ class Builder extends ContainerAware
 
 		$menu->addChild('Facturación', array('uri' => '#'));
 			$menu['Facturación']->addChild('Facturar', array('uri' => '#'));
-
 				$menu['Facturación']['Facturar']->addChild('Consulta', array('route' => 'facturacion_consulta_new'));
 				$menu['Facturación']['Facturar']->addChild('Procedimiento', array('route' => 'facturacion_consulta_new'));
 				$menu['Facturación']['Facturar']->addChild('Medicamento', array('route' => 'facturacion_consulta_new'));
+
+		$menu->addChild('Historia', array('uri' => '#'));
+
 				$menu['Facturación']['Facturar']->addChild('Reportes', array('route' => 'reporte_cargo_new'));
 
 		if($security->isGranted('ROLE_ADMIN') || $security->isGranted('ROLE_MEDICO'))
@@ -65,6 +67,7 @@ class Builder extends ContainerAware
 			$menu['Historia']->addChild('Urgencias', array('route' => 'historia_urgenciaList'));
 			$menu['Historia']->addChild('Busqueda', array('route' => 'paciente_filtro'));
 		}		
+
 
 		$menu->addChild('Usuarios', array('uri' => '#'));
 			$menu['Usuarios']->addChild('Listar', array('route' => 'usuario_list'));

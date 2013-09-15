@@ -215,8 +215,7 @@ class CargoPypController extends Controller
     	$contrato = $dql->getResult();
     	
     	if ($contrato) {
-    		
-    	    	
+
 	    	if(is_numeric($edad)){
 	    		
 	    		$where = "";
@@ -244,7 +243,7 @@ class CargoPypController extends Controller
 	    			$where .= "OR cp.rango = :rango";
 	    		}
 	    		
-	    		$parametros['rango'] = $rango;
+	    		//$parametros['rango'] = $rango;
 	    		$parametros['edad'] = $edad;
 	    		$parametros['sexo'] = $sexo;
 	    		

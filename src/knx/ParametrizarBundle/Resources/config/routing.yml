@@ -326,6 +326,10 @@ paciente_new:
     pattern:  /paciente/new
     defaults: { _controller: ParametrizarBundle:Paciente:new }
     
+paciente_jx_new:
+    pattern:  /paciente/jx/new
+    defaults: { _controller: ParametrizarBundle:Paciente:jxnew }
+    
 paciente_save:
     pattern:  /paciente/save
     defaults: { _controller: ParametrizarBundle:Paciente:save }

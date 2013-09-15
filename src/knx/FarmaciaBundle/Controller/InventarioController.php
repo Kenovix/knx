@@ -98,14 +98,14 @@ class InventarioController extends Controller
 	    		$cantidad_actual = $imv->getCantT();
 	    		$cantidad_ingresada = $inventario->getCant();
 	    		$precio_compra = $inventario->getPrecioCompra();
-	    		$precioventa = $form->get('precioventa')->getData();
+	    		$precioventa = $imv->getPrecioVenta();
 
 
 //die (var_dump($almacenid));
 
-	    		if($precioventa<$precio_compra){
+	    		if($precioventa<=$precio_compra){
 
-	    			$this->get('session')->setFlash('error', 'El precio de venta no puede ser menor a precio de compra.');
+	    			$this->get('session')->setFlash('error', 'El precio de venta no puede ser menor o igual a precio de compra. Precio Venta='.$precioventa);
 
 	    			return $this->redirect($this->generateUrl('inventario_new', array("ingreso" => $ingreso->getId())));
 

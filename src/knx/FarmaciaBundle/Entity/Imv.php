@@ -11,10 +11,9 @@ use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
  *
  * @ORM\Table(name="imv")
  * @DoctrineAssert\UniqueEntity("codCups")
- * @DoctrineAssert\UniqueEntity("codAdmin")
  * @DoctrineAssert\UniqueEntity("nombre")
  * @ORM\Entity
- * 
+ *
  */
 class Imv
 {
@@ -26,35 +25,35 @@ class Imv
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
-    
+
     /**
      * @var string $codCups
-     * 
+     *
      * @ORM\Column(name="cod_cups", type="string", length=100, nullable=false, unique=true)
      * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
-     * @Assert\Range(min=1,max=999999)     
+     * @Assert\Range(min=1,max=999999)
      */
     private $codCups;
-    
+
     /**
      * @var string $codAdmin
-     * 
-     * @ORM\Column(name="cod_admin", type="string", length=100, nullable=true, unique=true)
-     * 
+     *
+     * @ORM\Column(name="cod_admin", type="string", length=100, nullable=true)
+     *
      */
     private $codAdmin;
-    
+
     /**
      * @var string $cums
-     * 
+     *
      * @ORM\Column(name="cums", type="string", length=100, nullable=true)
-     * 
+     *
      */
     private $cums;
 
     /**
      * @var string $nombre
-     * 
+     *
 
      * @ORM\Column(name="nombre", type="string", length=150, nullable=false, unique=true)
      * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
@@ -68,49 +67,49 @@ class Imv
      * @ORM\Column(name="tipo_med", type="string", length=100, nullable=true)
      */
     private $tipoMedicamento;
-    
-    
-    
+
+
+
     /**
      * @var string $tipoImv
-     * 
+     *
      * @ORM\Column(name="tipo_imv", type="string", length=100, nullable=true)
      */
     private $tipoImv;
-    
+
     /**
      * @var string $formaFarmaceutica
-     * 
-     * @ORM\Column(name="forma_farmaceutica", type="string",  length=40, nullable=true)     
-     * 
+     *
+     * @ORM\Column(name="forma_farmaceutica", type="string",  length=40, nullable=true)
+     *
      * @Assert\Length(min=3,max=10)
      */
     private $formaFarmaceutica;
 
     /**
      * @var string $concentracion
-     * 
-     * @ORM\Column(name="concentracion", type="string", length=30, nullable=true)     
-     * 
+     *
+     * @ORM\Column(name="concentracion", type="string", length=30, nullable=true)
+     *
      * @Assert\Length(min=3,max=12)
      */
     private $concentracion;
 
     /**
      * @var integer $uniMedida
-     * 
-     * @ORM\Column(name="uni_medida", type="string", length=100, nullable=true)     
-     * 
+     *
+     * @ORM\Column(name="uni_medida", type="string", length=100, nullable=true)
+     *
      * @Assert\Length(min=1,max=20)
-     * 
+     *
      */
     private $uniMedida;
 
     /**
      * @var string $jeringa
      *
-     * @ORM\Column(name="jeringa", type="string", length=10, nullable=true)  
-     *  
+     * @ORM\Column(name="jeringa", type="string", length=10, nullable=true)
+     *
      * @Assert\Length(min=2,max=12)
      */
     private $jeringa;
@@ -118,28 +117,28 @@ class Imv
     /**
      * @var string $dosis
      *
-     * @ORM\Column(name="dosis", type="string", length=10, nullable=true)  
-     *  
+     * @ORM\Column(name="dosis", type="string", length=10, nullable=true)
+     *
      * @Assert\Length(min=1,max=1)
      *
      */
     private $dosis;
-    
+
     /**
      * @var CantT
      *
      * @ORM\Column(name="cant_total", type="integer", nullable=true)
      */
     private $cantT;
-    
+
     /**
      * @var precioVenta
      *
      * @ORM\Column(name="precio_venta", type="integer", nullable=true)
      */
     private $precioVenta;
-    
-    
+
+
     /*
      * Get toString
     */
@@ -147,7 +146,7 @@ class Imv
     {
     	return $this->getNombre();
     }
-    
+
     /**
      * Get id
      *
@@ -157,7 +156,7 @@ class Imv
     {
     	return $this->id;
     }
-    
+
     /**
      * Set codCups
      *
@@ -167,10 +166,10 @@ class Imv
     public function setCodCups($codCups)
     {
     	$this->codCups = $codCups;
-    
+
     	return $this;
     }
-    
+
     /**
      * Get codCups
      *
@@ -180,9 +179,9 @@ class Imv
     {
     	return $this->codCups;
     }
-    
-    
-    
+
+
+
     /**
      * Set codAdmin
      *
@@ -192,10 +191,10 @@ class Imv
     public function setCodAdmin($codAdmin)
     {
     	$this->codAdmin = $codAdmin;
-    
+
     	return $this;
     }
-    
+
     /**
      * Get codAdmin
      *
@@ -205,8 +204,8 @@ class Imv
     {
     	return $this->codAdmin;
     }
-    
-    
+
+
     /**
      * Set cums
      *
@@ -216,10 +215,10 @@ class Imv
     public function setCums($cums)
     {
     	$this->cums = $cums;
-    
+
     	return $this;
     }
-    
+
     /**
      * Get cums
      *
@@ -229,8 +228,8 @@ class Imv
     {
     	return $this->cums;
     }
-    
-        
+
+
     /**
      * Set nombre
      *
@@ -240,10 +239,10 @@ class Imv
     public function setNombre($nombre)
     {
     	$this->nombre = $nombre;
-    
+
     	return $this;
     }
-    
+
     /**
      * Get nombre
      *
@@ -253,8 +252,8 @@ class Imv
     {
     	return $this->nombre;
     }
-    
-    
+
+
     /**
      * Set tipoImv
      *
@@ -264,10 +263,10 @@ class Imv
     public function setTipoImv($tipoImv)
     {
     	$this->tipoImv = $tipoImv;
-    
+
     	return $this;
     }
-    
+
     /**
      * Get tipoImv
      *
@@ -277,8 +276,8 @@ class Imv
     {
     	return $this->tipoImv;
     }
-    
-    
+
+
     /**
      * Set tipoMedicamento
      *
@@ -288,10 +287,10 @@ class Imv
     public function setTipoMedicamento($tipoMedicamento)
     {
     	$this->tipoMedicamento = $tipoMedicamento;
-    
+
     	return $this;
     }
-    
+
     /**
      * Get tipoMedicamento
      *
@@ -301,9 +300,9 @@ class Imv
     {
     	return $this->tipoMedicamento;
     }
-    
-      
-        
+
+
+
     /**
      * Set formaFarmaceutica
      *
@@ -313,10 +312,10 @@ class Imv
     public function setFormaFarmaceutica($formaFarmaceutica)
     {
     	$this->formaFarmaceutica = $formaFarmaceutica;
-    
+
     	return $this;
     }
-    
+
     /**
      * Get formaFarmaceutica
      *
@@ -326,9 +325,9 @@ class Imv
     {
     	return $this->formaFarmaceutica;
     }
-    
-    
-    
+
+
+
     /**
      * Set concentracion
      *
@@ -338,10 +337,10 @@ class Imv
     public function setConcentracion($concentracion)
     {
     	$this->concentracion = $concentracion;
-    
+
     	return $this;
     }
-    
+
     /**
      * Get concentracion
      *
@@ -351,8 +350,8 @@ class Imv
     {
     	return $this->concentracion;
     }
-    
-    
+
+
     /**
      * Set uniMedida
      *
@@ -362,10 +361,10 @@ class Imv
     public function setUniMedida($uniMedida)
     {
     	$this->uniMedida = $uniMedida;
-    
+
     	return $this;
     }
-    
+
     /**
      * Get uniMedida
      *
@@ -375,8 +374,8 @@ class Imv
     {
     	return $this->uniMedida;
     }
-    
-    
+
+
     /**
      * Set jeringa
      *
@@ -386,10 +385,10 @@ class Imv
     public function setJeringa($jeringa)
     {
     	$this->jeringa = $jeringa;
-    
+
     	return $this;
     }
-    
+
     /**
      * Get jeringa
      *
@@ -399,8 +398,8 @@ class Imv
     {
     	return $this->jeringa;
     }
-    
-    
+
+
     /**
      * Set dosis
      *
@@ -410,10 +409,10 @@ class Imv
     public function setDosis($dosis)
     {
     	$this->dosis = $dosis;
-    
+
     	return $this;
     }
-    
+
     /**
      * Get dosis
      *
@@ -423,7 +422,7 @@ class Imv
     {
     	return $this->dosis;
     }
-    
+
     /**
     * Set cantT
     *
@@ -433,10 +432,10 @@ class Imv
     public function setCantT($cantT)
     {
     	$this->cantT = $cantT;
-    
+
     	return $this;
     }
-    
+
     /**
      * Get cantT
      *
@@ -446,8 +445,8 @@ class Imv
     {
     	return $this->cantT;
     }
-    
-    
+
+
     /**
      * Set precioVenta
      *
@@ -457,10 +456,10 @@ class Imv
     public function setPrecioVenta($precioVenta)
     {
     	$this->precioVenta = $precioVenta;
-    
+
     	return $this;
     }
-    
+
     /**
      * Get precioVenta
      *
