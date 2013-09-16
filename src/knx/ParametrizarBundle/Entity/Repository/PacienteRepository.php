@@ -4,37 +4,37 @@ use Doctrine\ORM\EntityRepository;
 
 class PacienteRepository extends EntityRepository {
 
-	// $em = $this->getEntityManager();	
-	
+	// $em = $this->getEntityManager();
+
 	public function validarInformacion($objPacientes,$DatosTemporal)
 	{
 		$start = 0;
 		$end = count($objPacientes);
 		$arraySalida = array();
 		$arrayPacientes = array();
-	
+
 		// se pasan las identificaciones del objPaciente a un array de solo identificaciones de tipo int
 		for($i=0; $i<count($objPacientes); $i++)
 		{
 			$arrayPacientes[] = (int)$objPacientes[$i]['identificacion'];
 		}
-	
+
 		// se ordena el array
 		$arrayOrdenado = $this->quicksort($arrayPacientes, $start, $end-1);
-	
+
 		// se pasan las identificaciones del archivo temporal a un array de solo identificaciones de tipo int
 		for($i=0; $i<count($DatosTemporal); $i++)
 		{
 			// se verifica si el dato existe en el array
 			$salida = $this->binarySearch((int)$DatosTemporal[$i][1], $arrayOrdenado, $start, $end-1);
-				
+
 			if($salida){
 				$arraySalida[] = $DatosTemporal[$i][1];
 			}
 		}
 			return $arraySalida;
 	}
-	
+
 	// verifica que no hallan datos repetidos en el archivo
 	public function fileSearchData($DatosTemporal)
 	{
@@ -42,15 +42,15 @@ class PacienteRepository extends EntityRepository {
 		$end = count($DatosTemporal);
 		$arraySalida = array();
 		$arrayPacientes = array();
-		
+
 		for($i=0; $i<$end; $i++)
 		{
 			$arrayPacientes[] = (int)$DatosTemporal[$i][1];
 		}
 		// se ordena el array
 		$end = count($arrayPacientes);
-		$arrayOrdenado = $this->quicksort($arrayPacientes, $start, $end-1);		
-		
+		$arrayOrdenado = $this->quicksort($arrayPacientes, $start, $end-1);
+
 		// se pasan las identificaciones del archivo temporal a un array de solo identificaciones de tipo int
 		for($i=0; $i<($end-1); $i++)
 		{
@@ -61,13 +61,13 @@ class PacienteRepository extends EntityRepository {
 		}
 		return $arraySalida;
 	}
-	
+
 	// Algoritmo de busqueda binaria para las identificaciones
 	public function binarySearch($key, $collection, $start, $end)
 	{
 	 $valorCentral=0;
 	 $central=0;
-	
+
 		while($start<=$end)
 		{
 			$central = (int)(($start+$end)/2);
@@ -84,8 +84,8 @@ class PacienteRepository extends EntityRepository {
 		}
 		return false;
 	}
-	
-	
+
+
 	// algoritmo de ordenamiento QUICKSORT para mayor eficiencia de su ordenamiento el array debe estar no ordenado
 	public function quicksort($A, $izq, $der)
 	{
@@ -93,7 +93,7 @@ class PacienteRepository extends EntityRepository {
 		$i = $izq;
 		$j = $der;
 		$x = $A[($izq + $der)/2];
-		
+
 		// iteramos hasta que i no sea menor que j
 		do{
 			// iteramos mientras que el valor de A[i] sea menor que x y j sea menor q la der
@@ -107,27 +107,27 @@ class PacienteRepository extends EntityRepository {
 			// si i es menor o igual que j significa que los índices se han cruzado
 			if($i<=$j){
 				// creamos una variable temporal para guardar el valor de A[j]
-				$aux = $A[$i]; 
+				$aux = $A[$i];
 				// intercambiamos los valores de A[i] y A[j]
-				$A[$i] = $A[$j]; 
+				$A[$i] = $A[$j];
 				$A[$j] = $aux;
 				// incrementamos y decrementamos i y j respectivamente
 				$i++;  $j--;
 			}
 		}while($i<=$j);
-	
+
 		// si first es menor que j mantenemos la recursividad
 		if( $izq < $j ){
 			$A= $this->quicksort( $A, $izq, $j );
-		}			
+		}
 		// si last es mayor que i mantenemos la recursividad
 		if( $i < $der ){
 			$A= $this->quicksort( $A, $i, $der );
-		}		
+		}
 	  // devolvemos la lista ordenada
-	  return $A;					
+	  return $A;
 	}
-	
+
 	public function existTipoId($tipoId)
 	{
 		// "MS","PA","CC", "RC", "TI", "CE", "NV", "AS"
@@ -163,7 +163,7 @@ class PacienteRepository extends EntityRepository {
 	{
 		// min = "10000",
 		// max = "9999999999999",
-		
+
 		if(is_numeric($identificacion))
 			if($identificacion > 10000 && $identificacion < 9999999999999)
 				return true;
@@ -257,8 +257,8 @@ class PacienteRepository extends EntityRepository {
 		}
 		return false;
 	}
-	
-	
+
+
 	public function existTipoRegistro($tipoRegistro)
 	{
 		if(strlen($tipoRegistro)>0 && strlen($tipoRegistro) <= 15)
