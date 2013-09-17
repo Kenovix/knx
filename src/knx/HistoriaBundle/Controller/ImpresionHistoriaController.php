@@ -19,6 +19,8 @@ class ImpresionHistoriaController extends Controller
 		$usuario = $this->get('security.context')->getToken()->getUser();
 		$historia = $factura->getHc();
 		$paciente = $factura->getPaciente();
+		$cliente = $factura->getCliente();
+		$afiliacion = $em->getRepository('ParametrizarBundle:Afiliacion')->findOneBy(array('cliente' => $cliente->getId(), 'paciente' => $paciente->getId()));
 		$hc_cie = $em->getRepository('HistoriaBundle:Hc')->findHcDx($historia->getId());
 		$hc_exa = $em->getRepository('HistoriaBundle:Hc')->findHcExamen($historia->getId());
 		$hc_lab = $em->getRepository('HistoriaBundle:Hc')->findHcLabora($historia->getId());
@@ -46,6 +48,10 @@ class ImpresionHistoriaController extends Controller
 		if($listNotas)
 		{
 			$listNotas = $listNotas[0];
+		}else{
+			throw $this->createNotFoundException('Error!! Usted aun no ah tomado los signos,
+					 recuerde primero guardar la información de la historia y posteriormente proceda a generar el impreso,
+					 si no toma, guarda, o verifica los signos no podra generar el impreso.');
 		}
 
 		// se instancia el objeto del tcpdf
@@ -83,6 +89,7 @@ class ImpresionHistoriaController extends Controller
 
 		$header = $this->renderView('HistoriaBundle:Impresos:header.html.twig',array(
 				'factura'  	 => $factura,
+				'afiliacion' => $afiliacion,
 				'paciente' 	 => $paciente,
 				'historia' 	 => $historia,
 				'depto'		 => $depto,

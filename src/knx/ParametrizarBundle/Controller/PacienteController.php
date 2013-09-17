@@ -120,6 +120,11 @@ class PacienteController extends Controller
 		$mupio = $em->getRepository('ParametrizarBundle:Mupio')->find($paciente->getMupio());		
 		$paciente->setDepto($depto);
 		$paciente->setMupio($mupio);
+		
+		// optengo de los metodos el valor de los campos
+		$paciente->setPertEtnica($paciente->getPE($paciente->getPertEtnica()));
+		$paciente->setNivelEdu($paciente->getNE($paciente->getNivelEdu()));
+		$paciente->setTipoDes($paciente->getTD($paciente->getTipoDes()));
 	
 		$afiliaciones = $em->getRepository('ParametrizarBundle:Afiliacion')->findByPaciente($paciente);
 			
@@ -154,6 +159,13 @@ class PacienteController extends Controller
 		$paciente->setDepto($depto);				
 		$paciente->setMupio($mupio);		
 		
+		//---------------------------------
+		if(!$paciente->getMovil())		// estas condicionales se usan para evitar posible problemas 
+			$paciente->setMovil(NULL);	// entre la DB y la aplicacion ya q si se ah cargado info 
+		if(!$paciente->getTelefono())	// con datos en vacios posiblemnte intentara convertir numeros q no existen 
+			$paciente->setTelefono(NULL);
+		//----------------------------------
+		
 		$paciente->setFN($paciente->getFN()->format('d/m/Y'));		
 	
 		//die(var_dump($paciente));
@@ -179,6 +191,13 @@ class PacienteController extends Controller
 		if (!$paciente) {
 			throw $this->createNotFoundException('El paciente solicitado no existe.');
 		}
+		
+		//---------------------------------
+		if(!$paciente->getMovil())		// estas condicionales se usan para evitar posible problemas 
+			$paciente->setMovil(NULL);	// entre la DB y la aplicacion ya q si se ah cargado info 
+		if(!$paciente->getTelefono())	// con datos en vacios posiblemnte intentara convertir numeros q no existen 
+			$paciente->setTelefono(NULL);
+		//----------------------------------
 	
 		$editForm   = $this->createForm(new PacienteType(), $paciente);
 		$request = $this->getRequest();

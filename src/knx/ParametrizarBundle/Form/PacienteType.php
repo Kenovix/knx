@@ -110,7 +110,7 @@ class PacienteType extends AbstractType {
 						array('required' => false, 'label' => 'Teléfono',
 								'attr' => array(
 										'placeholder' => 'Número teléfonico')))
-				->add('movil', 'text',
+				->add('movil', 'integer',
 						array('required' => false, 'label' => 'Movil',
 								'attr' => array('placeholder' => 'Número Movil')))
 				->add('email', 'email',

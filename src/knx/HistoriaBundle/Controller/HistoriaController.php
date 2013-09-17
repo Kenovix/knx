@@ -62,6 +62,12 @@ class HistoriaController extends Controller
 		$form_historia = $this->createForm(new HcType(), $historia);
 		$request = $this->getRequest();
 		$form_historia->bindRequest($request);
+		
+		// si el paciente no posee signos no dejara guardar ya que los signos son obligatorios para una hitoria
+		$listNotas = $em->getRepository('HistoriaBundle:Notas')->findByHc($historia, array('fecha' => 'DESC'));
+		if(!$listNotas){
+			return $this->validarHistoria($factura, $historia, $form_historia);
+		}
 
 		if($form_historia->isValid()) 
 		{
@@ -99,6 +105,11 @@ class HistoriaController extends Controller
 		/* Se consultan los respectivos objetos q se trabajan en la historia todo por medio de la relacion
 		 * OneToOne que tiene la hisotia y la factura.		*/
 		$paciente = $factura->getPaciente();
+		$paciente->setPertEtnica($paciente->getPE($paciente->getPertEtnica()));
+		
+		// consulto la afiliacion ya que esta contiene el nivel y el rango del paciente con su cliente
+		$cliente = $factura->getCliente();
+		$afiliacion = $em->getRepository('ParametrizarBundle:Afiliacion')->findOneBy(array('cliente' => $cliente->getId(), 'paciente' => $paciente->getId()));
 		
 		// Se realizan las respectivas consultas a sus respectivos repositorios para traer
 		// la informacion correspondiente que se visualizara en la historia
@@ -119,15 +130,20 @@ class HistoriaController extends Controller
 		$notas->setFecha(new \DateTime('now'));//-----------------
 		$form_nota = $this->createForm(new NotasType(), $notas);
 		
+		
 		// rastro de miga
 		$breadcrumbs = $this->get("white_october_breadcrumbs");
 		$breadcrumbs->addItem("Inicio",$this->get("router")->generate("paciente_filtro"));
 		$breadcrumbs->addItem("Historia",$this->get("router")->generate("paciente_filtro"));
 		$breadcrumbs->addItem("Modificar " . $paciente->getPriNombre());
 		
+		$this->get('session')->setFlash('info','Los campos * son obligatorios, los signos son obligatorios, valide que su información sea correcta para poder guardar.');
+		
 		// Visualizacion de la plantilla.
 		return $this->render('HistoriaBundle:Historia:edit.html.twig',array(
 				'factura'  	 => $factura,
+				'afiliacion' => $afiliacion,
+				'today'		 => new \DateTime('now'),  // fecha para el ingreso en algunos campos del formulario
 				'paciente' 	 => $paciente,
 				'usuario'  	 => $usuario,
 				'historia' 	 => $historia,
