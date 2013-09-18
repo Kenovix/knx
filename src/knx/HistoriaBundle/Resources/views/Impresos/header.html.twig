@@ -2,29 +2,28 @@
 
 {% block head %}
 	<table>
-		<tr>			
+		<tr>
 		  	<td width="1000px" align="left"><b>Paciente: {{ paciente.priNombre|capitalize }} {{ paciente.segNombre|capitalize }} {{ paciente.priApellido|capitalize }} {{ paciente.segApellido|capitalize }}</b></td>
 		  	<td width="400px" align="left"><b>{{ paciente.tipoid }} : {{ paciente.identificacion }}</b></td>
-		  	<td width="580px" align="left"><b>Fnaciem: {{ paciente.fN | date('d/m/Y') }}</b></td>		  			  	
+		  	<td width="580px" align="left"><b>Fnaciem: {{ paciente.fN | date('d/m/Y') }}</b></td>
 		  	<td width="400px" align="left"><b>Edad: {{ date('now') | date('Y-m-d') - paciente.fn | date('Y-m-d') }} A</b></td>
-		  	<td width="300px" align="left"><b>Sexo: {{ paciente.sexo }}</b></td>		  	
+		  	<td width="300px" align="left"><b>Sexo: {{ paciente.sexo }}</b></td>
 	 	</tr>
-	 	<tr>			
+	 	<tr>
 		  	<td align="left">Estado Civil: {{ paciente.estaCivil }}</td>
-		  	<td align="left">Tipo: {{ paciente.tipoAfi }}</td>
 		  	<td align="left">Entidad: {{ factura.cliente.nombre }}</td>
-		  	<td align="left" colspan="2">Ocupacion: {{ paciente.ocupacion.nombre }}</td>		  			  	
+		  	<td align="left" colspan="2">Ocupacion: {{ paciente.ocupacion.nombre }}</td>
 	 	</tr>
-	 	<tr>			
+	 	<tr>
 		  	<td width="850px" align="left">Direccion: {{ paciente.direccion }}</td>
 		  	<td width="700px" align="left" colspan="2">Info: {{ paciente.telefono }} - {{ paciente.movil }}</td>
-		  	<td align="left" colspan="2">Municipio: {{ mupio.municipio }} [ {{ depto.nombre }} ]</td>		  	
-	 	</tr>	
-	 	<tr>			
+		  	<td align="left" colspan="2">Municipio: {{ mupio.municipio }} [ {{ depto.nombre }} ]</td>
+	 	</tr>
+	 	<tr>
 		  	<td width="750px" align="left">Servi Ingreso: {{ factura.servicio.nombre }}</td>
 		  	<td width="800px" align="left">F/H Ingreso: {{ historia.created | date('d/m/Y H:i') }}</td>
 		  	<td width="750px" align="left">Servi Egreso: {{ historia.serviEgre.nombre }}</td>
-		  	<td align="left">F/ Egreso: {{ historia.updated | date('d/m/Y') }}</td>		  			  	
-	 	</tr> 	
-	 </table> 
+		  	<td align="left">F/ Egreso: {{ historia.updated | date('d/m/Y') }}</td>
+	 	</tr>
+	 </table>
 {% endblock %}

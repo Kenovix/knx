@@ -82,21 +82,7 @@
             <tr>
                 <th>Email</th>
                 <td>{{ paciente.email }}</td>
-            </tr>
-            <tr>
-                <th>Rango</th>
-                <td>{{ paciente.rango }}</td>
-            </tr>
-            <tr>
-                <th>Tipo afiliado</th>
-                <td>
-                    {% if(paciente.tipoAfi == "C") %}
-                        Cotizante
-                    {% else %}
-                        Beneficiario
-                    {% endif %}
-                </td>
-            </tr>
+            </tr>            
             <tr>
                 <th>Pertenencia Etnica</th>
                 <td>{{ paciente.pertEtnica }}</td>
@@ -127,7 +113,40 @@
         <fieldset>
         	<legend>Datos de la aseguradora</legend>
         	<div id="ajaxMsg"></div>
-        	{{ form_widget(form) }}
+        	
+        	<div class="control-group">
+	    		{{ form_label(form.cliente) }}
+	    		<div class="controls">
+	    			{{ form_errors(form.cliente) }}	
+					{{ form_widget(form.cliente,{ 'attr': {'class': 'span4'} }) }}
+	    		</div>
+    		</div>
+    		
+    		<div class="control-group">
+	    		{{ form_label(form.tipoRegist) }}
+	    		<div class="controls">
+	    			{{ form_errors(form.tipoRegist) }}	
+					{{ form_widget(form.tipoRegist,{ 'attr': {'class': 'span4'} }) }}
+	    		</div>
+    		</div>
+    		
+    		<div id="rango" class="control-group" style="display: none;">
+	    		{{ form_label(form.rango) }}
+	    		<div class="controls">
+	    			{{ form_errors(form.rango) }}	
+					{{ form_widget(form.rango,{ 'attr': {'class': 'span4'} }) }}
+	    		</div>
+    		</div>
+    		
+    		<div class="control-group">
+	    		{{ form_label(form.observacion) }}
+	    		<div class="controls">
+	    			{{ form_errors(form.observacion) }}	
+					{{ form_widget(form.observacion,{ 'attr': {'class': 'span4'} }) }}
+	    		</div>
+    		</div>
+        	
+        	{{ form_rest(form) }}
         </fieldset>        
         <button class="btn btn-primary" type="submit">Crear</button>       
     </form>
@@ -218,14 +237,17 @@ function cargarTipoEps(regimen)
 			$.each(contributivo, function(val, text) {
 			    options[options.length] = new Option(text, val);
 			});
+			$('#rango').show('slow');
 		}
 	else if(regimen == 2){
 			$.each(subsidiado, function(val, text) {
 			    options[options.length] = new Option(text, val);
 			});
+			$('#rango').hide('slow');
 		}
 	else{
 			$('#newAfiliacion_tipoRegist').append(new Option('Particular/otro', 'particular/otro', true, true));
+			$('#rango').hide('slow');
 		}
 		
 	select.val('');

@@ -92,7 +92,12 @@ class PacienteRepository extends EntityRepository {
 		// definimos los índices y calculamos el pivote = centro = x
 		$i = $izq;
 		$j = $der;
+
 		$x = $A[($izq + $der)/2];
+
+
+		$x = $A[ ($izq + $der) /2 ]; // ($A[$i]+$A[$j])/2;
+		
 
 		// iteramos hasta que i no sea menor que j
 		do{
