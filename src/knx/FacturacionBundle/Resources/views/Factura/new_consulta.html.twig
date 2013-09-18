@@ -90,7 +90,7 @@
 	            	{{ form_errors(form.cliente) }}
 	            	{{ form_widget(form.cliente) }}
 	            	
-	            	{% ui_button onclick="myDialog.wijdialog('open');" id="new_afiliacion" value="Agregar" disabled="true" %}
+	            	{% ui_button onclick="myDialog.wijdialog('open');" id="new_afiliacion" value="Agregar" disabled="false" %}
 	            	 
 	    		</div>
 	    	</div>
@@ -245,13 +245,13 @@
                 	    if(data.cliente){
                 	    	options[options.length] = new Option('Seleccione cliente', '');
 
+                	    	$.each(data.cliente, function(val, text) {
+                    		    options[options.length] = new Option(text, val);
+                    		});
+
                     	}else{
                     		options[options.length] = new Option('--', '');
                         }
-
-                		$.each(data.cliente, function(val, text) {
-                		    options[options.length] = new Option(text, val);
-                		});
 
                 		select.val('');
                 		select.removeAttr('disabled');

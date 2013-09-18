@@ -109,7 +109,7 @@
     
 		<form class="form-inline">
 			
-			<select name="actividad" id="actividad" class="input-xxlarge" >
+			<select name="actividad" id="actividad" class="input-xxlarge" {% if factura.estado == 'C' %} disabled="disabled" {% endif %}>
 				<option value="">Seleccione una actividad</option>
 				{% for consulta in consultas %}
 					<option value="{{ consulta.id }}">{{ consulta.nombre }}</option>
@@ -148,7 +148,7 @@
 			<label>Valor total</label>
 				<input type="text" class="input-small" id="valor_total" readonly="readonly" />
 				
-			<button id="agregar" type="button" class="btn btn-success">Agregar</button>
+			<button id="agregar" type="button" class="btn btn-success" {% if factura.estado == 'C' %} disabled="disabled" {% endif %}>Agregar</button>
 	
 		</form>
 	
@@ -266,7 +266,7 @@
 			             html += "<td>" + data.unitario + "</td>";
 			             html += "<td>" + data.cobro + "</td>";
 			             html += "<td>" + data.total + "</td>";
-			             html += "<td><button id='eliminar' type='button' class='btn btn-error' onclick='alert(" + "'Borrate'" + ")'>Borrar</button></td>";
+			             html += "<td></td>";
 			             html += "</tr>";
 	
 		            	 $("#facturado").append(html);

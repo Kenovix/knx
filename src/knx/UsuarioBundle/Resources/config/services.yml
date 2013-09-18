@@ -7,4 +7,3 @@ services:
         arguments: [%fos_user.model.user.class%]
         tags:
             - { name: form.type, alias: mi_user_registration }
-

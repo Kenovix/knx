@@ -6,7 +6,7 @@
 
 {% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
 
-{% block titulo %}Urgencias listado de las Historias{% endblock %}
+{% block titulo %}Listado de consultas en urgencias{% endblock %}
 
 {% block msg %}
 	{% if app.session.hasFlash('ok') %}
@@ -33,23 +33,23 @@
 	    <table class="table table-hover">
 	        <thead>
 	            <tr>
-	                <th>Ultima Actulaización</th>
-	                <th>Paciente</th>
-	                <th>Cedula</th>
+	                <th>C&eacute;dula</th>
+	                <th>Nombre</th>
 	                <th>Entidad</th>
-	                <th>Servicio ingre</th>
-	                <th>Destino</th>
+	                <th>Fecha</th>
+	                <th>Observación</th>
+	                <th>Opciones</th>
 	            </tr>
 	        </thead>
 	        <tbody>
 	        {% for hc in urgencias_hc%}
 	            <tr>
-	                <td>{{ hc.updated | date('H:m d/m/Y')}}</td>
-	                <td>{{ hc.factura.paciente.priNombre }} {{ hc.factura.paciente.priApellido }}</td>
-	                <td><a href="{{ path('historia_edit', {'factura':hc.factura.id}) }}">{{ hc.factura.paciente.identificacion }}</a></td>
-	                <td>{{ hc.factura.cliente.nombre}}</td>
-	                <td>{{ hc.factura.servicio.nombre}}</td>
-	                <td>{{ hc.destino}}</td>
+	                <td>{{ hc.factura.paciente.identificacion }}</td>
+	                <td>{{ hc.factura.paciente.priNombre | capitalize }} {{ hc.factura.paciente.segNombre | capitalize }} {{ hc.factura.paciente.priApellido | capitalize }} {{ hc.factura.paciente.segApellido | capitalize }}</td>
+	                <td>{{ hc.factura.cliente.nombre | capitalize }}</td>
+	                <td>{{ hc.factura.fecha | date('d-m-Y H:i') }}</td>
+	                <td>{{ hc.factura.observacion }}</td>
+	                <td><a class="btn" href="{{ path('nota_validaHcRuta', {'factura':hc.factura.id}) }}"><i class="icon-edit"></i></a></td>
 	            </tr>
 	        {% endfor %}
 	        </tbody>

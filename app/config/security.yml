@@ -34,5 +34,5 @@ security:
         - { path: ^/admin/, role: ROLE_SUPER_ADMIN }
         - { path: ^/farmacia/, role: ROLE_SUPER_ADMIN }
         - { path: ^/usuario/, role: ROLE_SUPER_ADMIN }
-        - { path: ^/historia/, role: ROLE_SUPER_ADMIN }
+        - { path: ^/historia/, role: ROLE_MEDICO }
         - { path: ^/facturacion/, role: ROLE_SUPER_ADMIN }
