@@ -42,12 +42,14 @@
 				<tr>
 					<th>Nombres</th>
 					<th>Apellidos</th>
-					<th>Identificación</th>
-					<th>GrupoEtnico</th>
-					<th>Edad</th>
-					<th>EstadoCivil</th>
+					<th>Identificación</th>				
+					<th>Grupo Etnico</th>
+					<th>Edad</th>					
+					<th>Estado Civil</th>					
 					<th>Aseguradora</th>
-					<th>Afiliación</th>
+					<th>Nivel</th>
+					<th>Afiliación</th>								
+
 				</tr>
 			</thead>
 	        <tbody>
@@ -60,7 +62,13 @@
 	                <td>{{ paciente.estaCivil }}</td>
 	                <td>{{ factura.cliente.nombre }}</td>
 
+
 	            </tr>
+
+	                <td>{{ afiliacion.tipoRegist }}</td>
+	                <td>{{ afiliacion.rango }}</td>                                           
+	            </tr>            
+
 	        </tbody>
 	    </table>
    </div>
@@ -232,6 +240,7 @@
   		{% ui_header label="Anamnesis" %}
 		    {% ui_content style="height:400px" %}
 	      <div id="Anamnesis" style="padding:2px">
+
 	      	<div>
 	      		{{ form_label(edit_form.tipoAtencion) }}
 				{{ form_errors(edit_form.tipoAtencion) }}
@@ -257,12 +266,54 @@
 				{{ form_errors(edit_form.estadoGen) }}
 				{{ form_widget(edit_form.estadoGen) }}
     		</div>
+
+	      	<div class="control-group">
+					{{ form_label(edit_form.tipoAtencion) }}
+				<div class="controls">
+					{{ form_errors(edit_form.tipoAtencion) }}
+					{{ form_widget(edit_form.tipoAtencion) }}
+				</div>
+			</div>
+			<div class="control-group">
+					{{ form_label(edit_form.causaExt) }}
+				<div class="controls">
+					{{ form_errors(edit_form.causaExt) }}
+					{{ form_widget(edit_form.causaExt) }}
+				</div>
+			</div>
+			<div class="control-group">
+					{{ form_label(edit_form.motivo) }}
+				<div class="controls">
+					{{ form_errors(edit_form.motivo) }}
+					{{ form_widget(edit_form.motivo) }}
+				</div>
+			</div>
+			
+			<div class="control-group">
+					{{ form_label(edit_form.enfermedad) }}
+				<div class="controls">
+					{{ form_errors(edit_form.enfermedad) }}
+					{{ form_widget(edit_form.enfermedad) }}
+				</div>
+			</div>  
+    	{% if boolean %}
+    	
+    		<div class="control-group">
+ 					{{ form_label(edit_form.estadoGen) }}
+				<div class="controls">
+					{{ form_errors(edit_form.estadoGen) }}
+					{{ form_widget(edit_form.estadoGen) }}
+				</div>
+			</div>
+    	{% endif %}			    	
+
 	       </div>
       {%  end_ui_content %}
      {% end_ui_expander %}
 
       {% ui_expander expanded=false %}
   		{% ui_header label="Antecedentes" %}
+
 		    {% ui_content style="height:900px" %}
 	      <div id="Antecedentes">
 		      <div>
@@ -306,6 +357,68 @@
 				{{ form_widget(edit_form.alergias) }}
 		      </div>
 	    	</div>
+
+		    {% ui_content style="height:800px" %}      
+	      <div id="Antecedentes">
+	      
+	      	<div class="control-group">
+	      			{{ form_label(edit_form.antecedentesGenerales) }}
+				<div class="controls">				
+					 {{ form_errors(edit_form.antecedentesGenerales) }}
+					 {{ form_widget(edit_form.antecedentesGenerales) }}					
+				</div>
+			</div>
+			<div class="control-group">
+					{{ form_label(edit_form.antecedentesFisio) }}
+				<div class="controls">
+					 {{ form_errors(edit_form.antecedentesFisio) }}
+					 {{ form_widget(edit_form.antecedentesFisio) }}
+				</div>
+			</div>
+			<div class="control-group">
+					{{ form_label(edit_form.antecedentesGine) }}
+				<div class="controls">	
+					{{ form_errors(edit_form.antecedentesGine) }}
+					{{ form_widget(edit_form.antecedentesGine) }}
+				</div>
+			</div>
+			<div class="control-group">
+					{{ form_label(edit_form.antecedentesPatologicos) }}
+				<div class="controls">
+					{{ form_errors(edit_form.antecedentesPatologicos) }}
+					{{ form_widget(edit_form.antecedentesPatologicos) }}
+				</div>
+			</div>
+			<div class="control-group">
+					{{ form_label(edit_form.antecedentesFami) }}
+				<div class="controls">
+					{{ form_errors(edit_form.antecedentesFami) }}
+					{{ form_widget(edit_form.antecedentesFami) }}
+				</div>
+			</div>
+			<div class="control-group">
+					{{ form_label(edit_form.habitosNocivos) }}
+				<div class="controls">
+					{{ form_errors(edit_form.habitosNocivos) }}
+					{{ form_widget(edit_form.habitosNocivos) }}
+				</div>
+			</div>
+			<div class="control-group">
+					{{ form_label(edit_form.inmunizaciones) }}
+				<div class="controls">
+					{{ form_errors(edit_form.inmunizaciones) }}
+					{{ form_widget(edit_form.inmunizaciones) }}
+				</div>
+			</div>
+			<div class="control-group">
+					{{ form_label(edit_form.alergias) }}
+				<div class="controls">
+					{{ form_errors(edit_form.alergias) }}
+					{{ form_widget(edit_form.alergias) }}
+				</div>
+			</div>				
+	    </div>
+
       {%  end_ui_content %}
      {% end_ui_expander %}
 
@@ -313,6 +426,7 @@
   		{% ui_header label="Examen Fisico rostro" %}
 		    {% ui_content style="height:600px" %}
 	      <div id="ExamenFisico">
+
 	      	<div>
 	    		{{ form_label(edit_form.cabeza) }}
 				{{ form_errors(edit_form.cabeza) }}
@@ -342,6 +456,50 @@
 				{{ form_label(edit_form.boca) }}
 				{{ form_errors(edit_form.boca) }}
 				{{ form_widget(edit_form.boca) }}
+
+	      
+	      	<div class="control-group">
+					{{ form_label(edit_form.cabeza) }}
+				<div class="controls">
+					{{ form_errors(edit_form.cabeza) }}
+					{{ form_widget(edit_form.cabeza) }}
+				</div>
+			</div>
+			<div class="control-group">
+					{{ form_label(edit_form.cara) }}
+				<div class="controls">
+					{{ form_errors(edit_form.cara) }}
+					{{ form_widget(edit_form.cara) }}
+				</div>
+			</div>	
+			<div class="control-group">
+					{{ form_label(edit_form.ojos) }}
+				<div class="controls">
+					{{ form_errors(edit_form.ojos) }}
+					{{ form_widget(edit_form.ojos) }}
+				</div>
+			</div>	
+			<div class="control-group">
+					{{ form_label(edit_form.oidos) }}
+				<div class="controls">
+					{{ form_errors(edit_form.oidos) }}
+					{{ form_widget(edit_form.oidos) }}
+				</div>
+			</div>	
+			<div class="control-group">
+					{{ form_label(edit_form.nariz) }}
+				<div class="controls">
+					{{ form_errors(edit_form.nariz) }}
+					{{ form_widget(edit_form.nariz) }}
+				</div>
+			</div>	
+			<div class="control-group">
+					{{ form_label(edit_form.boca) }}
+				<div class="controls">
+					{{ form_errors(edit_form.boca) }}
+					{{ form_widget(edit_form.boca) }}
+				</div>
+
 			</div>
 		</div>
 	   {% end_ui_content %}
@@ -352,6 +510,7 @@
 		    {% ui_content style="height:700px" %}
 
 	    <div>
+
 			<div>
 				{{ form_label(edit_form.cuello) }}
 				{{ form_errors(edit_form.cuello) }}
@@ -388,6 +547,58 @@
 				{{ form_widget(edit_form.genitales) }}
 			</div>
 	    </div>
+
+	    	<div class="control-group">
+					{{ form_label(edit_form.cuello) }}
+				<div class="controls">
+					{{ form_errors(edit_form.cuello) }}
+					{{ form_widget(edit_form.cuello) }}
+				</div>
+			</div>
+			<div class="control-group">
+					{{ form_label(edit_form.torax) }}
+				<div class="controls">
+					{{ form_errors(edit_form.torax) }}
+					{{ form_widget(edit_form.torax) }}
+				</div>
+			</div>
+			<div class="control-group">
+					{{ form_label(edit_form.pulmones) }}
+				<div class="controls">
+					{{ form_errors(edit_form.pulmones) }}
+					{{ form_widget(edit_form.pulmones) }}
+				</div>
+			</div>
+			<div class="control-group">
+					{{ form_label(edit_form.abdomen) }}
+				<div class="controls">
+					{{ form_errors(edit_form.abdomen) }}
+					{{ form_widget(edit_form.abdomen) }}
+				</div>
+			</div>
+			<div class="control-group">
+					{{ form_label(edit_form.espalda) }}
+				<div class="controls">
+					{{ form_errors(edit_form.espalda) }}
+					{{ form_widget(edit_form.espalda) }}
+				</div>
+			</div>
+			<div class="control-group">
+					{{ form_label(edit_form.extremidades) }}
+				<div class="controls">
+					{{ form_errors(edit_form.extremidades) }}
+					{{ form_widget(edit_form.extremidades) }}
+				</div>
+			</div>
+			<div class="control-group">
+					{{ form_label(edit_form.genitales) }}
+				<div class="controls">
+					{{ form_errors(edit_form.genitales) }}
+					{{ form_widget(edit_form.genitales) }}
+				</div>
+			</div>
+	    </div>       
+
        {%  end_ui_content %}
       {% end_ui_expander %}
 
@@ -475,12 +686,23 @@
   {% if tipoingreso == 'U' or tipoingreso == 'H' %}
       {% ui_accordion %}
       {% ui_tab label="Parte Medica Diagnostica" %}
+
      		 <div id="ParteMedica">
 	     		 <div>
 	     		 	{{ form_label(edit_form.dxPrin) }}
 					{{ form_errors(edit_form.dxPrin) }}
 					{{ form_widget(edit_form.dxPrin) }}
 	     		 </div>
+
+     		 <div id="ParteMedica">     		 
+	     		 <div class="control-group">
+						{{ form_label(edit_form.dxPrin) }}
+	    	    	<div class="controls">
+						{{ form_errors(edit_form.dxPrin) }}
+						{{ form_widget(edit_form.dxPrin) }} 
+					</div>
+	    	    </div>
+
 	     		 <div id="dxSolicitados">
 	     		 	<div id="ajaxMsgCie"></div>
 		     		<table id="CieSolicitado" class="table table-striped">
@@ -505,6 +727,7 @@
 					    </tbody>
 					</table>
 	     		 </div>
+
 	     		 <div>
 	     		 	{{ form_label(edit_form.tipoDx) }}
 					{{ form_errors(edit_form.tipoDx) }}
@@ -521,6 +744,31 @@
 					{{ form_errors(edit_form.evolucion) }}
 					{{ form_widget(edit_form.evolucion) }}
 	     		 </div>
+
+
+	     		 
+	     		 <div class="control-group">
+						{{ form_label(edit_form.tipoDx) }}
+	    	    	<div class="controls">
+						{{ form_errors(edit_form.tipoDx) }}
+						{{ form_widget(edit_form.tipoDx) }}
+					</div>
+	    	    </div>
+	    	    
+	    	    <div class="control-group">
+						{{ form_label(edit_form.conducta) }}
+	    	    	<div class="controls">
+						{{ form_errors(edit_form.conducta) }}
+						{{ form_widget(edit_form.conducta) }}
+					</div>
+	    	    </div>
+	    	    <div class="control-group">
+						{{ form_label(edit_form.evolucion) }}
+	    	    	<div class="controls">
+						{{ form_errors(edit_form.evolucion) }}
+						{{ form_widget(edit_form.evolucion) }}
+					</div>
+	    	    </div>	     		
 
     		 </div>
       {%  end_ui_tab %}
@@ -655,11 +903,21 @@
 	 {% ui_accordion %}
       {% ui_tab label="Parte Medica Diagnostica" %}
      		 <div id="ParteMedica">
+
 	     		 <div>
 	     		 	{{ form_label(edit_form.dxPrin) }}
 					{{ form_errors(edit_form.dxPrin) }}
 					{{ form_widget(edit_form.dxPrin) }}
 	     		 </div>
+
+	     		 <div class="control-group">
+						{{ form_label(edit_form.dxPrin) }}
+	    	    	<div class="controls">
+						{{ form_errors(edit_form.dxPrin) }}
+						{{ form_widget(edit_form.dxPrin) }} 
+					</div>
+	    	    </div>
+
 	     		 <div id="dxSolicitados">
 	     		 	<div id="ajaxMsgCie"></div>
 		     		<table id="CieSolicitado" class="table table-striped">
@@ -684,6 +942,7 @@
 					    </tbody>
 					</table>
 	     		 </div>
+
 	     		 <div>
 	     		 	{{ form_label(edit_form.tipoDx) }}
 					{{ form_errors(edit_form.tipoDx) }}
@@ -694,6 +953,23 @@
 					{{ form_errors(edit_form.conducta) }}
 					{{ form_widget(edit_form.conducta) }}
 	     		 </div>
+
+	     		<div class="control-group">
+						{{ form_label(edit_form.tipoDx) }}
+	    	    	<div class="controls">
+						{{ form_errors(edit_form.tipoDx) }}
+						{{ form_widget(edit_form.tipoDx) }}
+					</div>
+	    	    </div>
+	    	    
+	    	    <div class="control-group">
+						{{ form_label(edit_form.conducta) }}
+	    	    	<div class="controls">
+						{{ form_errors(edit_form.conducta) }}
+						{{ form_widget(edit_form.conducta) }}
+					</div>
+	    	    </div>     		
+
     		 </div>
       {%  end_ui_tab %}
      {% end_ui_accordion %}
@@ -1082,10 +1358,16 @@
 
 	// funcion para que el medico cada vez que presione la evolucion se asigne la fecha.
 	$('#newHcType_evolucion').click(function()
+
 	{
 		var today = new Date();
 		var usuario = "{{ usuario.nombre }} {{ usuario.apellido }}";
 		var date = today.getDay()+"/"+(today.getMonth()+1)+"/"+today.getFullYear()+"  "+today.getHours()+":"+today.getMinutes()+":"+today.getSeconds();
+
+	{			
+		var usuario = "{{ usuario.nombre }} {{ usuario.apellido }}";
+		var date = "{{ today | date("d/m/Y H:i") }}";			 
+
 			$('#newHcType_evolucion').append("\nEvolución["+date+"], Dr[ "+usuario+"]: ");
 			return false;
 		});

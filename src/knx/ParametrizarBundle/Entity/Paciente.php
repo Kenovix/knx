@@ -795,4 +795,50 @@ class Paciente
     {
         return $this->tipoDes;
     }
+    
+    // optine la pertenencia etnica para ser visualizada en las plantillas 
+    public function getPE($i)
+    {
+    	$pe = array(
+					'' => 'NO ASIGNADO',
+					'1' => 'Indígena',
+					'2' => 'ROM (gitano)',
+					'3' => 'Raizal (archipiélago de San Andrés y Providencia)',
+					'4' => 'Palanquero de San  Basilio',
+					'5' => 'Negro(a), Mulato(a),Afrocolombiano(a) o Afrodescendiente',
+					'6' => 'Ninguno de los anteriores',
+					);
+    	return $pe[$i];
+    }
+    // nivel educativo
+    public function getNE($i)
+    {
+    	$ne = array('' => 'NO ASIGNADO',
+					'1' => 'No Definido',
+					'2' => 'Preescolar',
+					'3' => 'Basica Primaria',
+					'4' => 'Basica Secundaria(Bachillerato Basico)',
+					'5' => 'Media Academica o Clásica (Bachillerato Basico)',
+					'6' => 'Media Tecnica (Bachillerato Tecnico)',
+					'7' => 'Normalista',
+					'8' => 'Tecnica Profesional',
+					'9' => 'Tecnologica',
+					'10' => 'Profesional',
+					'11' => 'Especializacion',
+					'12' => 'Maestria',
+					'13' => 'Doctorado', 
+					);
+    	return $ne[$i];    	
+    }
+    // tipo desplazado
+    public function getTD($i)
+    {
+    	$td = array('' => 'NO ASIGNADO',
+ 					'6' => 'Des.Contributivo',
+ 					'7' => 'Des.Subsidiado',
+ 					'8' => 'Des.Vinculado',
+ 				);
+    	
+    	return $td[$i];
+    }
 }
