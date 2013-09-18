@@ -159,22 +159,12 @@
     		<div>
     			<label class="control-label" for="tipoid">
     				<p>Numero Movil:
-    					<span style='display:inline; white-space:pre; padding-right: 5em;'>	</span>
-    				Rango(*):
-    					<span style='display:inline; white-space:pre; padding-right: 7em;'>	</span>
-    				Tipo Afiliado(*):
     				</p>
     			</label>
     			<div class="controls controls-row">
 	    	    	
 					{{ form_errors(edit_form.movil) }}
-					{{ form_widget(edit_form.movil,{ 'attr': {'class': 'span2'} }) }}
-					
-					{{ form_errors(edit_form.rango) }}
-					{{ form_widget(edit_form.rango,{ 'attr': {'class': 'span2'} }) }}
-					
-					{{ form_errors(edit_form.tipoAfi) }}
-					{{ form_widget(edit_form.tipoAfi,{ 'attr': {'class': 'span2'} }) }}				
+					{{ form_widget(edit_form.movil,{ 'attr': {'class': 'span2'} }) }}			
 				</div>
     		</div>		
     		

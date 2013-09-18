@@ -110,26 +110,13 @@ class PacienteType extends AbstractType {
 						array('required' => false, 'label' => 'Teléfono',
 								'attr' => array(
 										'placeholder' => 'Número teléfonico')))
-				->add('movil', 'text',
+				->add('movil', 'integer',
 						array('required' => false, 'label' => 'Movil',
 								'attr' => array('placeholder' => 'Número Movil')))
 				->add('email', 'email',
 						array('required' => false, 'label' => 'Email',
 								'attr' => array(
-										'placeholder' => 'Ejemplo@ejemplo.com')))
-				->add('rango', 'choice',
-						array('required' => true,
-								'choices' => array(
-										'' => '--Rango--',
-										'A' => 'A',
-										'B' => 'B',
-										'C' => 'C')))
-				->add('tipoAfi', 'choice',
-						array('required' => true, 'label' => 'Tipo afiliado',
-								'choices' => array(
-										'' => '--Tipo Afiliado--',
-										'C' => 'Cotizante',
-										'B' => 'Beneficiario')))
+										'placeholder' => 'Ejemplo@ejemplo.com')))				
 										
 				->add('pertEtnica', 'choice',
 						array('label' => 'Pertenencia Etnica:', 'required' => false,

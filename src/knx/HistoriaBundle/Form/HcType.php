@@ -229,11 +229,11 @@ class HcType extends AbstractType {
 			 // opciones para cuando el usuario selecciona la opcion de remision y contraremision
 								
 				->add('destino_r', 'text',
-						array('label' => 'destino R:','required' => false,
+						array('label' => 'Destino remision:','required' => false,
 								'attr' => array('placeholder' => 'destino de remisión')))
 								
 				->add('especialidad_r', 'text',
-						array('label' => 'especialidad R:','required' => false,
+						array('label' => 'Especialidad remision:','required' => false,
 								'attr' => array('placeholder' => 'Manejo de Salida')))
 												
 				->add('nuAuto_r', 'text',
@@ -241,11 +241,11 @@ class HcType extends AbstractType {
 								'attr' => array('placeholder' => 'numero de autorizacion para la remisión')))
 																
 				->add('descripcion_r', 'textarea',
-						array('label' => 'descripcion R:','required' => false,
+						array('label' => 'Descripcion remision:','required' => false,
 								'attr' => array('placeholder' => 'descripcion de la remisión')))
 								
 				->add('rServicio', 'choice',
-						array('label' => 'servicio R:', 'required' => false,
+						array('label' => 'Servicio remision:', 'required' => false,
 								'choices' => array('' => '--seleccione--',
 										'urgencia' => 'Urgencias',
 										'ambulatorio' => 'Ambulatoria',),

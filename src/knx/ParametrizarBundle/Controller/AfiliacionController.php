@@ -24,11 +24,11 @@ class AfiliacionController extends Controller
         $entity  = new Afiliacion();
         $request = $this->getRequest();
         $form    = $this->createForm(new AfiliacionType(), $entity);
+        $registro = $request->get($form->getName());        
         $form->bindRequest($request);
-        
-        die(var_dump($form->get('tipoRegist')->getData()));
+               
     
-        if ($form->isValid()) {
+        if ($registro['tipoRegist'] && $form->get('cliente')->getData()) {
 
             $afiliacion = $em->getRepository('ParametrizarBundle:Afiliacion')->findBy(array('cliente' => $entity->getCliente()->getId(), 'paciente' => $paciente->getId()));
             
@@ -39,6 +39,7 @@ class AfiliacionController extends Controller
             }
             
             $entity->setPaciente($paciente);
+            $entity->setTipoRegist($registro['tipoRegist']);
             $em->persist($entity);
             $em->flush();
     

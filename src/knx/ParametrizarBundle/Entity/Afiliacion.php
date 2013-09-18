@@ -33,6 +33,15 @@ class Afiliacion
      * @Assert\Length(max=15)
      */
     private $tipoRegist;
+    
+    /**
+     * @var string $rango
+     *
+     * @ORM\Column(name="rango", type="string", length=1, nullable=true)
+     * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
+     * @Assert\Choice(choices = {"A", "B", "C"}, message = "Selecciona una opción valida.")
+     */
+    private $rango;
           
     /**
      * @var string $observacion
@@ -186,5 +195,28 @@ class Afiliacion
     public function getTipoRegist()
     {
         return $this->tipoRegist;
+    }
+    
+    /**
+     * Set rango
+     *
+     * @param string $rango
+     * @return Paciente
+     */
+    public function setRango($rango)
+    {
+    	$this->rango = $rango;
+    
+    	return $this;
+    }
+    
+    /**
+     * Get rango
+     *
+     * @return string
+     */
+    public function getRango()
+    {
+    	return $this->rango;
     }
 }

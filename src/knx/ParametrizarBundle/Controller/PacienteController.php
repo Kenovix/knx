@@ -1,6 +1,8 @@
 <?php
 namespace knx\ParametrizarBundle\Controller;
 
+use knx\ParametrizarBundle\Form\UploadFileType;
+
 use knx\ParametrizarBundle\Form\PacienteType;
 use knx\ParametrizarBundle\Entity\Paciente;
 use knx\ParametrizarBundle\Form\AfiliacionType;
@@ -118,6 +120,11 @@ class PacienteController extends Controller
 		$mupio = $em->getRepository('ParametrizarBundle:Mupio')->find($paciente->getMupio());		
 		$paciente->setDepto($depto);
 		$paciente->setMupio($mupio);
+		
+		// optengo de los metodos el valor de los campos
+		$paciente->setPertEtnica($paciente->getPE($paciente->getPertEtnica()));
+		$paciente->setNivelEdu($paciente->getNE($paciente->getNivelEdu()));
+		$paciente->setTipoDes($paciente->getTD($paciente->getTipoDes()));
 	
 		$afiliaciones = $em->getRepository('ParametrizarBundle:Afiliacion')->findByPaciente($paciente);
 			
@@ -152,8 +159,16 @@ class PacienteController extends Controller
 		$paciente->setDepto($depto);				
 		$paciente->setMupio($mupio);		
 		
+		//---------------------------------
+		if(!$paciente->getMovil())		// estas condicionales se usan para evitar posible problemas 
+			$paciente->setMovil(NULL);	// entre la DB y la aplicacion ya q si se ah cargado info 
+		if(!$paciente->getTelefono())	// con datos en vacios posiblemnte intentara convertir numeros q no existen 
+			$paciente->setTelefono(NULL);
+		//----------------------------------
+		
 		$paciente->setFN($paciente->getFN()->format('d/m/Y'));		
 	
+		//die(var_dump($paciente));
 		$editForm = $this->createForm(new PacienteType(), $paciente);		
 		
 		$breadcrumbs = $this->get("white_october_breadcrumbs");
@@ -176,6 +191,13 @@ class PacienteController extends Controller
 		if (!$paciente) {
 			throw $this->createNotFoundException('El paciente solicitado no existe.');
 		}
+		
+		//---------------------------------
+		if(!$paciente->getMovil())		// estas condicionales se usan para evitar posible problemas 
+			$paciente->setMovil(NULL);	// entre la DB y la aplicacion ya q si se ah cargado info 
+		if(!$paciente->getTelefono())	// con datos en vacios posiblemnte intentara convertir numeros q no existen 
+			$paciente->setTelefono(NULL);
+		//----------------------------------
 	
 		$editForm   = $this->createForm(new PacienteType(), $paciente);
 		$request = $this->getRequest();
@@ -364,9 +386,14 @@ class PacienteController extends Controller
 		$breadcrumbs->addItem("Paciente", $this->get("router")->generate("paciente_list", array("char" => 'A')));
 		$breadcrumbs->addItem("Subir Archivo");
 		
+		$form = $this->createForm(new UploadFileType());
+		
 		$this->get('session')->setFlash('info', 'Seleccione el archivo correspondiente para la carga de la informacion "FILE.CSV", "FILE.txt".');
 		
-		return $this->render('ParametrizarBundle:Paciente:file_new.html.twig');
+		return $this->render('ParametrizarBundle:Paciente:file_new.html.twig',array(
+							'nameFile' => null,
+							'form' => $form->createView()
+							));
 	}
 	
 	public function uploadCSVAction()
@@ -377,16 +404,26 @@ class PacienteController extends Controller
 		$breadcrumbs->addItem("Subir Archivo");
 		
 		$request  = $this->getRequest();
+		$form = $this->createForm(new UploadFileType());
+		$form->bindRequest($request);
 		
 		// Se instancia la ruta en la cual se va a guardar el archivo
 		$ruta = $this->container->getParameter('knx.directorio.uploads');		
+
+		if(file_exists($ruta."datos-existentes-archivo.txt"))
+			unlink($ruta."datos-existentes-archivo.txt");
+		if(file_exists($ruta."errores-archivo.txt"))
+			unlink($ruta."errores-archivo.txt");
 		
 		if($request->getMethod() == 'POST')
 		{
 			if ($_FILES['archivo']["error"] > 0) // se verifica que la carga del archivo no tenga errores				
 			{
 				$this->get('session')->setFlash('error', 'Ah ocurrido un error en el archivo. '.$_FILES['archivo']['error']);
-				return $this->render('ParametrizarBundle:Paciente:file_new.html.twig');
+				return $this->render('ParametrizarBundle:Paciente:file_new.html.twig',array(
+							'nameFile' => null,
+							'form' => $form->createView()
+							));
 				
 			}else{
 				
@@ -421,8 +458,12 @@ class PacienteController extends Controller
 				$dql = $em->createQuery("SELECT p.identificacion FROM ParametrizarBundle:Paciente p ORDER BY p.identificacion DESC");
 				$objPacientes = $dql->getArrayResult();
 				
-				// se verifica q la informacion ingresada de los pacientes este correcta.
+				// se verifica que los pacientes ingresados no existan en la base de datos.
 				$result = $em->getRepository('ParametrizarBundle:Paciente')->validarInformacion($objPacientes, $DatosTemporal);				
+				
+				// se verifica que el archivo no contenga informacion redundante.
+				$redundancia = $em->getRepository('ParametrizarBundle:Paciente')->fileSearchData($DatosTemporal);
+				
 				unlink($archivo);
 				
 				if($result)
@@ -431,47 +472,85 @@ class PacienteController extends Controller
 					
 					// se crea el archivo.
 					$fp=fopen($ruta.$nameFile,"x");
-					
+					fwrite($fp,"Este Archivo Contiene Informacion Existente en la Base de Datos, Eliminela De Su Archivo Original y Vuelva a Cargar.\n");
 					// se itera el array de los datos existentes en la base de datos y se visuaiza al usuario en un archivo plano	
 					foreach ($result as $value)
 						fwrite($fp,$value."\n");					
 					fclose($fp);
 					
-					// Se envia la respectiva informacion para posteriormente descargarlo.
-					$this->downloadFile($ruta, $nameFile);
-					
+					// Se envia la respectiva informacion para posteriormente descargarlo.					
 					$this->get('session')->setFlash('error', 'Ah ocurrido un error en el archivo, hay información que ya existe en el archivo '.$_FILES['archivo']['name']);
-					return $this->render('ParametrizarBundle:Paciente:file_new.html.twig');
+					return $this->render('ParametrizarBundle:Paciente:file_new.html.twig',array(
+							'nameFile' => $nameFile,
+							'form' => $form->createView()
+							));
 					
-				}else{
-					$this->verificarExistenciaDatos($DatosTemporal);											
-					$em->flush();				
-					
-					$nameFile = "arrores-archivo.txt";
+				}elseif ($redundancia){
+					$nameFile = "datos-existentes-archivo.txt";
+						
+					// se crea el archivo.
+					$fp=fopen($ruta.$nameFile,"x");
+					fwrite($fp,"Este Archivo Contiene Informacion Redundante, Eliminela De Su Archivo Original y Vuelva a Cargar.\n");
+					// se itera el array de los datos existentes en la base de datos y se visuaiza al usuario en un archivo plano
+					foreach ($redundancia as $value)
+						fwrite($fp,$value."\n");
+					fclose($fp);
+						
+					// Se envia la respectiva informacion para posteriormente descargarlo.
+					$this->get('session')->setFlash('error', 'Ah ocurrido un error en el archivo, hay información redundante en el archivo '.$_FILES['archivo']['name']);
+					return $this->render('ParametrizarBundle:Paciente:file_new.html.twig',array(
+							'nameFile' => $nameFile,
+							'form' => $form->createView()
+					));
+				}
+				else{
+					$cliente = $form->get('cliente')->getData();					
+					$afiliacion = $this->verificarExistenciaDatos($DatosTemporal, $cliente);
+					$nameFile = "errores-archivo.txt";
+
+					if($afiliacion)
+					{
+						$em->flush();
+						
+						foreach ($afiliacion as $key => $value){
+							$em->persist($afiliacion[$key]);
+						}
+						$em->flush();					
+							
+						// Se envia la respectiva informacion para posteriormente descargarlo.
+						$this->get('session')->setFlash('ok', 'La información del archivo'.$_FILES['archivo']['name'].' se guardo correctamente.');
+						return $this->render('ParametrizarBundle:Paciente:file_new.html.twig',array(
+								'nameFile' => $nameFile,
+								'form' => $form->createView()
+						));
+					}
 					
 					// Se envia la respectiva informacion para posteriormente descargarlo.
-					$this->downloadFile($ruta, $nameFile);
-					
-					$this->get('session')->setFlash('ok', 'La información del archivo'.$_FILES['archivo']['name'].' se guardo correctamente.');
-					return $this->render('ParametrizarBundle:Paciente:file_new.html.twig');
+					$this->get('session')->setFlash('error', 'La información del archivo'.$_FILES['archivo']['name'].' contiene informacion no congruente, compare con su plantilla y vuelva a intentar.');
+					return $this->render('ParametrizarBundle:Paciente:file_new.html.twig',array(
+							'nameFile' => $nameFile,
+							'form' => $form->createView()
+							));
 				}			
 			}	
 		}
-		return $this->render('ParametrizarBundle:Paciente:file_new.html.twig');
+		return $this->render('ParametrizarBundle:Paciente:file_new.html.twig',array('form' => $form->createView()));
 	}	
 	
-	public function verificarExistenciaDatos($insert)
+	public function verificarExistenciaDatos($insert, $cliente)
 	{
 		$em = $this->getDoctrine()->getEntityManager();
 		$ruta = $this->container->getParameter('knx.directorio.uploads');
 		// Archivo donde se almacena informacion sobre campos q le hacen falta atributo y camposo q estan vacios y son obligatorios.
-		$fp=fopen($ruta."arrores-archivo.txt","a");
+		$fp=fopen($ruta."errores-archivo.txt","a");
+		fwrite($fp,"Este Archivo Contiene Una Lista Con Informacion Incorrecta En Su Archivo Original, Modifique De Su Archivo Original y Vuelva a Cargar.\n");
+		$arrayAfilia = array(); // array donde se guardan las afiliaciones
 		
 		foreach ($insert as $key => $value){
-							
+			
 			// se verifica que las columnas estes complestas de cada fila	
-			if(count($value) == 23)
-			{
+			if(count($value) == 22)
+			{				
 				$tipoId 		= $em->getRepository('ParametrizarBundle:Paciente')->existTipoId($insert[$key][0]);
 				$identificacion = $em->getRepository('ParametrizarBundle:Paciente')->existIdentificacion((int)$insert[$key][1]);
 				$priNombre 		= $em->getRepository('ParametrizarBundle:Paciente')->existPriNombre($insert[$key][2]);
@@ -482,13 +561,16 @@ class PacienteController extends Controller
 				$depto 			= $em->getRepository('ParametrizarBundle:Depto')->find($insert[$key][9]);
 				$mupio 			= $em->getRepository('ParametrizarBundle:Mupio')->find($insert[$key][10]);
 				$zona 			= $em->getRepository('ParametrizarBundle:Paciente')->existZona($insert[$key][12]);
-				$rango 			= $em->getRepository('ParametrizarBundle:Paciente')->existRango($insert[$key][16]);
-				$tipoAfi 		= $em->getRepository('ParametrizarBundle:Paciente')->existTipoAfi($insert[$key][17]);
-				$ocupacion		= $em->getRepository('ParametrizarBundle:Ocupacion')->find($insert[$key][20]);
+				$ocupacion		= $em->getRepository('ParametrizarBundle:Ocupacion')->find($insert[$key][19]);				
+				// tipo de resgistro del cliente q tiene el paciente
+				$tipoRegistro 		= $em->getRepository('ParametrizarBundle:Paciente')->existTipoRegistro($insert[$key][21]);
+				
 				
 				// Campos obligatorios que no pueden ir nulos
-				if($tipoId && $identificacion && $priNombre && $priApellido && $fn && $sexo && $estadoCivil && $depto && $mupio && $zona && $rango && $tipoAfi && $ocupacion)
-				{
+				if($tipoId && $identificacion && $priNombre && $priApellido && $fn && $sexo && $estadoCivil && $depto && $mupio && $zona && $ocupacion && $tipoRegistro)
+				{					
+					$fn = date_create_from_format('Y-m-d',$insert[$key][6]);					
+					
 					// Se instancia el objeto paciente y listo para settiar
 					$paciente = new Paciente();
 					$paciente->setTipoId($insert[$key][0]);
@@ -497,7 +579,7 @@ class PacienteController extends Controller
 					$paciente->setSegNombre($insert[$key][3]);
 					$paciente->setPriApellido($insert[$key][4]);
 					$paciente->setSegApellido($insert[$key][5]);
-					$paciente->setFN($insert[$key][6]);
+					$paciente->setFN($fn);
 					$paciente->setSexo($insert[$key][7]);
 					$paciente->setEstaCivil($insert[$key][8]);
 					$paciente->setDepto($insert[$key][9]);
@@ -507,14 +589,19 @@ class PacienteController extends Controller
 					$paciente->setTelefono($insert[$key][13]);
 					$paciente->setMovil($insert[$key][14]);
 					$paciente->setEmail($insert[$key][15]);
-					$paciente->setRango($insert[$key][16]);
-					$paciente->setTipoAfi($insert[$key][17]);
-					$paciente->setPertEtnica($insert[$key][18]);
-					$paciente->setNivelEdu($insert[$key][19]);
+					$paciente->setPertEtnica($insert[$key][16]);
+					$paciente->setNivelEdu($insert[$key][17]);
 					$paciente->setOcupacion($ocupacion);
-					$paciente->setTipoDes($insert[$key][21]);
+					$paciente->setTipoDes($insert[$key][20]);
 					
+					$afiliacion = new Afiliacion();
+					$afiliacion->setPaciente($paciente);
+					$afiliacion->setCliente($cliente);
+					$afiliacion->setTipoRegist($insert[$key][21]);
+					
+					$arrayAfilia[] = $afiliacion;					
 					$em->persist($paciente);
+					
 				}
 				else{
 					// hay campos imcompletos en $value  linea $key por favor verifique la informacion y vuelva a cargar				
@@ -525,18 +612,37 @@ class PacienteController extends Controller
 				fwrite($fp,implode(',',$value)."\n");
 			}						
 		}
-		fclose($fp);		
+		fclose($fp);	
+		return $arrayAfilia;	
 	}	
 	
-	public function downloadFile($ruta, $nameFile)
+	public function downloadFileAction($nameFile)
 	{
+		$ruta = $this->container->getParameter('knx.directorio.uploads');
 		$downloadFile = $ruta.$nameFile;
-		header("Content-Disposition: attachment; filename=$nameFile");
-		header("Content-Type: application/octet-stream");
-		header("Content-Length: ".filesize($downloadFile));
-		readfile($downloadFile);
-		unlink($downloadFile);	
-
-		return true;
+		
+		if(file_exists($downloadFile))
+		{
+			header("Pragma: public");
+			header("Expires: 0");
+			header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+			header("Cache-Control: private",false);
+			header("Content-Type: text/plain");
+			header("Content-Disposition: attachment; filename=$nameFile");
+			header("Content-Transfer-Encoding: binary");
+			header("Content-Length: ".filesize($downloadFile));			
+			ob_clean();
+			flush();
+			readfile($downloadFile);			
+		}else{
+			$form = $this->createForm(new UploadFileType());
+			
+			$this->get('session')->setFlash('error', 'Ah ocurrido un error, el archivo que desea descargar no existe. ');
+			return $this->render('ParametrizarBundle:Paciente:file_new.html.twig',array(
+					'nameFile' => null,
+					'form' => $form->createView()
+			));
+		}
+		
 	}
 }

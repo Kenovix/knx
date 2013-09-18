@@ -390,3 +390,7 @@ file_new_csv:
 file_upload_csv:
     pattern:  /paciente/file/upload/csv
     defaults: { _controller: ParametrizarBundle:Paciente:uploadCSV }
+
+file_download_csv:
+    pattern:  /paciente/{nameFile}/download/csv_txt
+    defaults: { _controller: ParametrizarBundle:Paciente:downloadFile }

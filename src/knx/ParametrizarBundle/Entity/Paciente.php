@@ -184,28 +184,7 @@ class Paciente
      * @ORM\Column(name="email", type="string", length=200, nullable=true)
      * @Assert\Email(message = "El email '{{ value }}' no es valido.", checkMX = true)
      */
-    private $email;
-
-
-
-    /**
-     * @var string $rango
-     * 
-     * @ORM\Column(name="rango", type="string", length=1, nullable=false)
-     * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
-     * @Assert\Choice(choices = {"A", "B", "C"}, message = "Selecciona una opción valida.")
-     */
-    private $rango;
-
-    /**
-     * @var string $tipoAfi
-     * 
-     * @ORM\Column(name="tipo_afi", type="string", length=1, nullable=false)
-     * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
-     * @Assert\Choice(choices = {"B", "C"}, message = "Selecciona una opción valida.")
-     *
-     */
-    private $tipoAfi;
+    private $email;      
     
      /**
      * @var string $tipoDes
@@ -677,53 +656,7 @@ class Paciente
     public function getEmail()
     {
         return $this->email;
-    }
-
-    /**
-     * Set rango
-     *
-     * @param string $rango
-     * @return Paciente
-     */
-    public function setRango($rango)
-    {
-        $this->rango = $rango;
-    
-        return $this;
-    }
-
-    /**
-     * Get rango
-     *
-     * @return string 
-     */
-    public function getRango()
-    {
-        return $this->rango;
-    }
-
-    /**
-     * Set tipoAfi
-     *
-     * @param string $tipoAfi
-     * @return Paciente
-     */
-    public function setTipoAfi($tipoAfi)
-    {
-        $this->tipoAfi = $tipoAfi;
-    
-        return $this;
-    }
-
-    /**
-     * Get tipoAfi
-     *
-     * @return string 
-     */
-    public function getTipoAfi()
-    {
-        return $this->tipoAfi;
-    }
+    } 
 
     /**
      * Set pertEtnica
@@ -861,5 +794,51 @@ class Paciente
     public function getTipoDes()
     {
         return $this->tipoDes;
+    }
+    
+    // optine la pertenencia etnica para ser visualizada en las plantillas 
+    public function getPE($i)
+    {
+    	$pe = array(
+					'' => 'NO ASIGNADO',
+					'1' => 'Indígena',
+					'2' => 'ROM (gitano)',
+					'3' => 'Raizal (archipiélago de San Andrés y Providencia)',
+					'4' => 'Palanquero de San  Basilio',
+					'5' => 'Negro(a), Mulato(a),Afrocolombiano(a) o Afrodescendiente',
+					'6' => 'Ninguno de los anteriores',
+					);
+    	return $pe[$i];
+    }
+    // nivel educativo
+    public function getNE($i)
+    {
+    	$ne = array('' => 'NO ASIGNADO',
+					'1' => 'No Definido',
+					'2' => 'Preescolar',
+					'3' => 'Basica Primaria',
+					'4' => 'Basica Secundaria(Bachillerato Basico)',
+					'5' => 'Media Academica o Clásica (Bachillerato Basico)',
+					'6' => 'Media Tecnica (Bachillerato Tecnico)',
+					'7' => 'Normalista',
+					'8' => 'Tecnica Profesional',
+					'9' => 'Tecnologica',
+					'10' => 'Profesional',
+					'11' => 'Especializacion',
+					'12' => 'Maestria',
+					'13' => 'Doctorado', 
+					);
+    	return $ne[$i];    	
+    }
+    // tipo desplazado
+    public function getTD($i)
+    {
+    	$td = array('' => 'NO ASIGNADO',
+ 					'6' => 'Des.Contributivo',
+ 					'7' => 'Des.Subsidiado',
+ 					'8' => 'Des.Vinculado',
+ 				);
+    	
+    	return $td[$i];
     }
 }
