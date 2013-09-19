@@ -38,7 +38,12 @@ class PacienteController extends Controller
 		$entity = new Paciente();
 		$form = $this->createForm(new PacienteType(), $entity);
 
+
 		return $this->render('ParametrizarBundle:Paciente:jx_new.html.twig.twig',array(
+
+	
+		return $this->render('ParametrizarBundle:Paciente:jx_new.html.twig',array(
+
 				'form' => $form->createView()
 		));
 	}

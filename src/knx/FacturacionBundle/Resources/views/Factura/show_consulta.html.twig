@@ -109,7 +109,7 @@
     
 		<form class="form-inline">
 			
-			<select name="actividad" id="actividad" class="input-xxlarge" >
+			<select name="actividad" id="actividad" class="input-xxlarge" {% if factura.estado == 'C' %} disabled="disabled" {% endif %}>
 				<option value="">Seleccione una actividad</option>
 				{% for consulta in consultas %}
 					<option value="{{ consulta.id }}">{{ consulta.nombre }}</option>
@@ -148,7 +148,7 @@
 			<label>Valor total</label>
 				<input type="text" class="input-small" id="valor_total" readonly="readonly" />
 				
-			<button id="agregar" type="button" class="btn btn-success">Agregar</button>
+			<button id="agregar" type="button" class="btn btn-success" {% if factura.estado == 'C' %} disabled="disabled" {% endif %}>Agregar</button>
 	
 		</form>
 	
@@ -251,12 +251,13 @@
 	    			pago_pte: $("#pago_pct").val(),
 	    			cargo_ips: $("#cargo_ips").val(),
 	    			total: $("#valor_total").val(),
-	    			ambito: ''
+	    			ambito: 'A'
 		         },function(data){
 		             if(data.responseCode==200 ){
 
 			             $("#actividad").attr('disabled', 'disabled');
 			             $("#cobrar_pte").attr('disabled', 'disabled');
+			             $("#agregar").attr('disabled', 'disabled');
 
 			             html += "<tr>";
 			             html += "<td>" + data.codigo + "</td>";

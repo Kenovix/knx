@@ -67,8 +67,12 @@ class FacturaController extends Controller
 		$factura->setProfesional($entity['profesional']);
 		$factura->setPyp($pyp);
 		$factura->setEstado('A');
-		$factura->setTipo('A');
 		
+		if($servicio->getNombre == 'CONSULTA EXTERNA'){
+			$factura->setTipo('C');
+		}else{
+			$factura->setTipo('U');
+		}		
     	  
     	$em->persist($factura);
     	$em->flush();
@@ -102,7 +106,7 @@ class FacturaController extends Controller
 									 JOIN
 										cp.cargo c
 									 WHERE
-										c.tipoCargo = 'C' AND
+										c.tipoCargo = 'CE' AND
     									cp.pyp = :categoria
 									 ORDER BY
 										c.nombre ASC");
@@ -113,7 +117,34 @@ class FacturaController extends Controller
     		
     	}else{
     		$pyp = "";
-    		$consultas = "";
+    		
+    		if ($factura->getTipo() == 'C') {
+    			$tipo_cargo = 'CE';
+    		}else{
+    			$tipo_cargo = 'CU';
+    		}    		
+    		
+    		$dql = $em->createQuery( "SELECT
+										c.id,
+    									c.nombre
+									 FROM
+										ParametrizarBundle:ContratoCargo cc
+									 JOIN
+										cc.cargo c
+    								 JOIN
+    									cc.contrato ct
+    								 JOIN
+    									ct.cliente cli
+									 WHERE
+										c.tipoCargo = :tipoCargo AND
+    									cli.id = :cliente
+									 ORDER BY
+										c.nombre ASC");
+    		    		    		
+    		$dql->setParameter('tipoCargo', $tipo_cargo);
+    		$dql->setParameter('cliente', $factura->getCliente()->getId());
+    		
+    		$consultas = $dql->getResult();
     	}
     	
     	if($factura->getProfesional()){
