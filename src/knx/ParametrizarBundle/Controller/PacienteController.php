@@ -123,12 +123,12 @@ class PacienteController extends Controller
 
 
 
-		
+
 		// optengo de los metodos el valor de los campos
 		$paciente->setPertEtnica($paciente->getPE($paciente->getPertEtnica()));
 		$paciente->setNivelEdu($paciente->getNE($paciente->getNivelEdu()));
 		$paciente->setTipoDes($paciente->getTD($paciente->getTipoDes()));
-	
+
 
 		$afiliaciones = $em->getRepository('ParametrizarBundle:Afiliacion')->findByPaciente($paciente);
 
@@ -169,19 +169,19 @@ class PacienteController extends Controller
 		$paciente->setFN($paciente->getFN()->format('d/m/Y'));
 
 
-		
-		$paciente->setDepto($depto);				
-		$paciente->setMupio($mupio);		
-		
+
+		$paciente->setDepto($depto);
+		$paciente->setMupio($mupio);
+
 		//---------------------------------
-		if(!$paciente->getMovil())		// estas condicionales se usan para evitar posible problemas 
-			$paciente->setMovil(NULL);	// entre la DB y la aplicacion ya q si se ah cargado info 
-		if(!$paciente->getTelefono())	// con datos en vacios posiblemnte intentara convertir numeros q no existen 
+		if(!$paciente->getMovil())		// estas condicionales se usan para evitar posible problemas
+			$paciente->setMovil(NULL);	// entre la DB y la aplicacion ya q si se ah cargado info
+		if(!$paciente->getTelefono())	// con datos en vacios posiblemnte intentara convertir numeros q no existen
 			$paciente->setTelefono(NULL);
 		//----------------------------------
-		
-		$paciente->setFN($paciente->getFN()->format('d/m/Y'));		
-	
+
+		//$paciente->setFN($paciente->getFN()->format('d/m/Y'));
+
 
 		//die(var_dump($paciente));
 		$editForm = $this->createForm(new PacienteType(), $paciente);
@@ -209,14 +209,14 @@ class PacienteController extends Controller
 
 
 
-		
+
 		//---------------------------------
-		if(!$paciente->getMovil())		// estas condicionales se usan para evitar posible problemas 
-			$paciente->setMovil(NULL);	// entre la DB y la aplicacion ya q si se ah cargado info 
-		if(!$paciente->getTelefono())	// con datos en vacios posiblemnte intentara convertir numeros q no existen 
+		if(!$paciente->getMovil())		// estas condicionales se usan para evitar posible problemas
+			$paciente->setMovil(NULL);	// entre la DB y la aplicacion ya q si se ah cargado info
+		if(!$paciente->getTelefono())	// con datos en vacios posiblemnte intentara convertir numeros q no existen
 			$paciente->setTelefono(NULL);
 		//----------------------------------
-	
+
 
 		$editForm   = $this->createForm(new PacienteType(), $paciente);
 		$request = $this->getRequest();

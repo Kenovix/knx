@@ -42,13 +42,13 @@
 				<tr>
 					<th>Nombres</th>
 					<th>Apellidos</th>
-					<th>Identificación</th>				
+					<th>Identificación</th>
 					<th>Grupo Etnico</th>
-					<th>Edad</th>					
-					<th>Estado Civil</th>					
+					<th>Edad</th>
+					<th>Estado Civil</th>
 					<th>Aseguradora</th>
 					<th>Nivel</th>
-					<th>Afiliación</th>								
+					<th>Afiliación</th>
 
 				</tr>
 			</thead>
@@ -66,8 +66,8 @@
 	            </tr>
 
 	                <td>{{ afiliacion.tipoRegist }}</td>
-	                <td>{{ afiliacion.rango }}</td>                                           
-	            </tr>            
+	                <td>{{ afiliacion.rango }}</td>
+	            </tr>
 
 	        </tbody>
 	    </table>
@@ -288,16 +288,16 @@
 					{{ form_widget(edit_form.motivo) }}
 				</div>
 			</div>
-			
+
 			<div class="control-group">
 					{{ form_label(edit_form.enfermedad) }}
 				<div class="controls">
 					{{ form_errors(edit_form.enfermedad) }}
 					{{ form_widget(edit_form.enfermedad) }}
 				</div>
-			</div>  
+			</div>
     	{% if boolean %}
-    	
+
     		<div class="control-group">
  					{{ form_label(edit_form.estadoGen) }}
 				<div class="controls">
@@ -305,7 +305,7 @@
 					{{ form_widget(edit_form.estadoGen) }}
 				</div>
 			</div>
-    	{% endif %}			    	
+    	{% endif %}
 
 	       </div>
       {%  end_ui_content %}
@@ -358,14 +358,14 @@
 		      </div>
 	    	</div>
 
-		    {% ui_content style="height:800px" %}      
+		    {% ui_content style="height:800px" %}
 	      <div id="Antecedentes">
-	      
+
 	      	<div class="control-group">
 	      			{{ form_label(edit_form.antecedentesGenerales) }}
-				<div class="controls">				
+				<div class="controls">
 					 {{ form_errors(edit_form.antecedentesGenerales) }}
-					 {{ form_widget(edit_form.antecedentesGenerales) }}					
+					 {{ form_widget(edit_form.antecedentesGenerales) }}
 				</div>
 			</div>
 			<div class="control-group">
@@ -377,7 +377,7 @@
 			</div>
 			<div class="control-group">
 					{{ form_label(edit_form.antecedentesGine) }}
-				<div class="controls">	
+				<div class="controls">
 					{{ form_errors(edit_form.antecedentesGine) }}
 					{{ form_widget(edit_form.antecedentesGine) }}
 				</div>
@@ -416,11 +416,10 @@
 					{{ form_errors(edit_form.alergias) }}
 					{{ form_widget(edit_form.alergias) }}
 				</div>
-			</div>				
+			</div>
 	    </div>
 
       {%  end_ui_content %}
-     {% end_ui_expander %}
 
       {% ui_expander expanded=false %}
   		{% ui_header label="Examen Fisico rostro" %}
@@ -457,7 +456,7 @@
 				{{ form_errors(edit_form.boca) }}
 				{{ form_widget(edit_form.boca) }}
 
-	      
+
 	      	<div class="control-group">
 					{{ form_label(edit_form.cabeza) }}
 				<div class="controls">
@@ -471,28 +470,28 @@
 					{{ form_errors(edit_form.cara) }}
 					{{ form_widget(edit_form.cara) }}
 				</div>
-			</div>	
+			</div>
 			<div class="control-group">
 					{{ form_label(edit_form.ojos) }}
 				<div class="controls">
 					{{ form_errors(edit_form.ojos) }}
 					{{ form_widget(edit_form.ojos) }}
 				</div>
-			</div>	
+			</div>
 			<div class="control-group">
 					{{ form_label(edit_form.oidos) }}
 				<div class="controls">
 					{{ form_errors(edit_form.oidos) }}
 					{{ form_widget(edit_form.oidos) }}
 				</div>
-			</div>	
+			</div>
 			<div class="control-group">
 					{{ form_label(edit_form.nariz) }}
 				<div class="controls">
 					{{ form_errors(edit_form.nariz) }}
 					{{ form_widget(edit_form.nariz) }}
 				</div>
-			</div>	
+			</div>
 			<div class="control-group">
 					{{ form_label(edit_form.boca) }}
 				<div class="controls">
@@ -597,7 +596,7 @@
 					{{ form_widget(edit_form.genitales) }}
 				</div>
 			</div>
-	    </div>       
+	    </div>
 
        {%  end_ui_content %}
       {% end_ui_expander %}
@@ -694,12 +693,12 @@
 					{{ form_widget(edit_form.dxPrin) }}
 	     		 </div>
 
-     		 <div id="ParteMedica">     		 
+     		 <div id="ParteMedica">
 	     		 <div class="control-group">
 						{{ form_label(edit_form.dxPrin) }}
 	    	    	<div class="controls">
 						{{ form_errors(edit_form.dxPrin) }}
-						{{ form_widget(edit_form.dxPrin) }} 
+						{{ form_widget(edit_form.dxPrin) }}
 					</div>
 	    	    </div>
 
@@ -746,7 +745,7 @@
 	     		 </div>
 
 
-	     		 
+
 	     		 <div class="control-group">
 						{{ form_label(edit_form.tipoDx) }}
 	    	    	<div class="controls">
@@ -754,7 +753,7 @@
 						{{ form_widget(edit_form.tipoDx) }}
 					</div>
 	    	    </div>
-	    	    
+
 	    	    <div class="control-group">
 						{{ form_label(edit_form.conducta) }}
 	    	    	<div class="controls">
@@ -768,7 +767,7 @@
 						{{ form_errors(edit_form.evolucion) }}
 						{{ form_widget(edit_form.evolucion) }}
 					</div>
-	    	    </div>	     		
+	    	    </div>
 
     		 </div>
       {%  end_ui_tab %}
@@ -914,7 +913,7 @@
 						{{ form_label(edit_form.dxPrin) }}
 	    	    	<div class="controls">
 						{{ form_errors(edit_form.dxPrin) }}
-						{{ form_widget(edit_form.dxPrin) }} 
+						{{ form_widget(edit_form.dxPrin) }}
 					</div>
 	    	    </div>
 
@@ -961,14 +960,14 @@
 						{{ form_widget(edit_form.tipoDx) }}
 					</div>
 	    	    </div>
-	    	    
+
 	    	    <div class="control-group">
 						{{ form_label(edit_form.conducta) }}
 	    	    	<div class="controls">
 						{{ form_errors(edit_form.conducta) }}
 						{{ form_widget(edit_form.conducta) }}
 					</div>
-	    	    </div>     		
+	    	    </div>
 
     		 </div>
       {%  end_ui_tab %}
@@ -1364,9 +1363,9 @@
 		var usuario = "{{ usuario.nombre }} {{ usuario.apellido }}";
 		var date = today.getDay()+"/"+(today.getMonth()+1)+"/"+today.getFullYear()+"  "+today.getHours()+":"+today.getMinutes()+":"+today.getSeconds();
 
-	{			
+	{
 		var usuario = "{{ usuario.nombre }} {{ usuario.apellido }}";
-		var date = "{{ today | date("d/m/Y H:i") }}";			 
+		var date = "{{ today | date("d/m/Y H:i") }}";
 
 			$('#newHcType_evolucion').append("\nEvolución["+date+"], Dr[ "+usuario+"]: ");
 			return false;
