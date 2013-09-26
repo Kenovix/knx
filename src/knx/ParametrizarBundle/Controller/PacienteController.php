@@ -41,8 +41,7 @@ class PacienteController extends Controller
 
 		return $this->render('ParametrizarBundle:Paciente:jx_new.html.twig.twig',array(
 
-	
-		return $this->render('ParametrizarBundle:Paciente:jx_new.html.twig',array(
+
 
 				'form' => $form->createView()
 		));

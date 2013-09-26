@@ -17,14 +17,14 @@ class CargoPyp
     /**
      * @ORM\Id
      * @ORM\ManyToOne(targetEntity="knx\ParametrizarBundle\Entity\Cargo")
-     */     
+     */
     private $cargo;
-        
+
 
      /**
      * @ORM\Id
      * @ORM\ManyToOne(targetEntity="knx\ParametrizarBundle\Entity\Pyp")
-     */  
+     */
     private $pyp;
 
      /**
@@ -57,6 +57,23 @@ class CargoPyp
      */
         private $sexo;
 
+
+        /**
+         * @var string $tipoCons
+         *
+         * @ORM\Column(name="tipo_cons", type="string", length=2, nullable=true)
+         */
+
+        private $tipoCons;
+
+        /**
+         * @var integer $tipoProc
+         *
+         * @ORM\Column(name="tipoProc", type="integer", length=1, nullable=true)
+         */
+
+        private $tipoProc;
+
     /**
      * Set edadIni
      *
@@ -66,14 +83,14 @@ class CargoPyp
     public function setEdadIni($edadIni)
     {
         $this->edadIni = $edadIni;
-    
+
         return $this;
     }
 
     /**
      * Get edadIni
      *
-     * @return integer 
+     * @return integer
      */
     public function getEdadIni()
     {
@@ -89,14 +106,14 @@ class CargoPyp
     public function setEdadFin($edadFin)
     {
         $this->edadFin = $edadFin;
-    
+
         return $this;
     }
 
     /**
      * Get edadFin
      *
-     * @return integer 
+     * @return integer
      */
     public function getEdadFin()
     {
@@ -112,14 +129,14 @@ class CargoPyp
     public function setRango($rango)
     {
         $this->rango = $rango;
-    
+
         return $this;
     }
 
     /**
      * Get rango
      *
-     * @return string 
+     * @return string
      */
     public function getRango()
     {
@@ -135,14 +152,14 @@ class CargoPyp
     public function setSexo($sexo)
     {
         $this->sexo = $sexo;
-    
+
         return $this;
     }
 
     /**
      * Get sexo
      *
-     * @return string 
+     * @return string
      */
     public function getSexo()
     {
@@ -158,14 +175,14 @@ class CargoPyp
     public function setCargo(\knx\ParametrizarBundle\Entity\Cargo $cargo)
     {
         $this->cargo = $cargo;
-    
+
         return $this;
     }
 
     /**
      * Get cargo
      *
-     * @return \knx\ParametrizarBundle\Entity\Cargo 
+     * @return \knx\ParametrizarBundle\Entity\Cargo
      */
     public function getCargo()
     {
@@ -181,17 +198,64 @@ class CargoPyp
     public function setPyp(\knx\ParametrizarBundle\Entity\Pyp $pyp)
     {
         $this->pyp = $pyp;
-    
+
         return $this;
     }
 
     /**
      * Get pyp
      *
-     * @return \knx\ParametrizarBundle\Entity\Pyp 
+     * @return \knx\ParametrizarBundle\Entity\Pyp
      */
     public function getPyp()
     {
         return $this->pyp;
     }
+
+    /**
+     * Set tipoCons
+     *
+     * @param string $tipoCons
+     * @return Cargo
+     */
+    public function setTipoCons($tipoCons)
+    {
+    	$this->tipoCons = $tipoCons;
+
+    	return $this;
+    }
+
+    /**
+     * Get tipoCons
+     *
+     * @return string
+     */
+    public function getTipoCons()
+    {
+    	return $this->tipoCons;
+    }
+
+    /**
+     * Set tipoProc
+     *
+     * @param integer $tipoProc
+     * @return Cargo
+     */
+    public function setTipoProc($tipoProc)
+    {
+    	$this->tipoProc = $tipoProc;
+
+    	return $this;
+    }
+
+    /**
+     * Get tipoProc
+     *
+     * @return integer
+     */
+    public function getTipoProc()
+    {
+    	return $this->tipoProc;
+    }
+
 }

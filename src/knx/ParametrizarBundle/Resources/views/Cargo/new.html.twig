@@ -32,9 +32,9 @@
 	<form action="{{ path('cargo_save') }}" class="form-horizontal" method="post" {{ form_enctype(form) }}>
 	    <fieldset>
 	    	<legend>Datos del cargo</legend>
-	    	    
+
 			{{ form_widget(form) }}
-		   
+
 			<div class="form-actions">
 				<input class="btn btn-primary" name="guardar" type="submit" value="Guardar" />
 			    <a href="{{ path('cargo_list') }}" class="btn btn-danger">Cancelar</a>
@@ -48,13 +48,13 @@
 			$('#gstCargo_tipoProc').attr('disabled', 'disabled');
 			$('#gstCargo_tipoSer').attr('disabled', 'disabled');
 			$('#gstCargo_tipo_cons').attr('disabled', 'disabled');
-			
+
 		});
-		
+
 		$('#gstCargo_rips').change(function() {
 
 			var opcion = $('#gstCargo_rips').val();
-			
+
 			if(opcion == 'AC'){
 
 				$('#gstCargo_tipo_cons').removeAttr('disabled');
@@ -66,7 +66,7 @@
 				$('#gstCargo_tipoProc').removeAttr('disabled');
 				$('#gstCargo_tipo_cons').attr('disabled', 'disabled');
 				$('#gstCargo_tipoSer').attr('disabled', 'disabled');
-				
+
 			}else{
 
 				$('#gstCargo_tipoSer').removeAttr('disabled');
