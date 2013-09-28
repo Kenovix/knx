@@ -8,8 +8,8 @@
 		~ Motivo De Consulta: {{ historia.motivo }} <br/>
 		~ Enfermedad Actual:  {{ historia.enfermedad }} <br/>
 		~ Tipo Atencion: 	  {{ historia.tipoAtencion }}
-				
-		{% set tipoingreso = factura.tipo%}		
+
+		{% set tipoingreso = factura.tipo%}
 		{% if tipoingreso == 'U' or tipoingreso == 'H' %}
 		<br/>~ Estado General: {{ historia.estadoGen }}
 		{% endif %}
@@ -23,7 +23,7 @@
 		~ Inmunizaciones:	{{ historia.inmunizaciones }}<br/>
 		~ Alergias:			{{ historia.alergias }}<br/>
 		~ Familiares:		{{ historia.antecedentesFami }}<br/>
-		~ Generales:		{{ historia.antecedentesGenerales }}		
+		~ Generales:		{{ historia.antecedentesGenerales }}
 	</p>
 	<p>
 		<b>REVISION POR SISTEMAS</b><br/>
@@ -38,7 +38,7 @@
 		~ Sistema Endocrino: 		{{ historia.sEndocrino }}
 	</p>
 	<p>
-		<b>VALORACION FISICA</b><br/>		
+		<b>VALORACION FISICA</b><br/>
 		~ Cabeza:		{{ historia.cabeza }}<br/>
 		~ Rostro:		{{ historia.cara }}<br/>
 		~ Ojos:			{{ historia.ojos }}<br/>
@@ -51,15 +51,15 @@
 		~ Abdomen:		{{ historia.abdomen }}<br/>
 		~ Espalda:		{{ historia.espalda }}<br/>
 		~ Extremidades:	{{ historia.extremidades }}<br/>
-		~ Genitales:	{{ historia.genitales }}<br/>		
+		~ Genitales:	{{ historia.genitales }}<br/>
 	</p>
 	<p>
-		<b>SIGNOS VITALES</b><br/>	
-		~ F/C: {{ listNota.fC }}  F/R: {{ listNota.fR }}  T/A: {{ listNota.ta }}  
-		  Peso: {{ listNota.peso }}Kg  Estatura: {{ listNota.estatura }}Cm  IMC: {{ listNota.imc }}  
+		<b>SIGNOS VITALES</b><br/>
+		~ F/C: {{ listNota.fC }}  F/R: {{ listNota.fR }}  T/A: {{ listNota.ta }}
+		  Peso: {{ listNota.peso }}Kg  Estatura: {{ listNota.estatura }}Cm  IMC: {{ listNota.imc }}
 		  Temp: {{ listNota.temp }}  Pulso: {{ listNota.pulso }}  Glasgow: {{ listNota.glasgow }}  Triage: {{ listNota.triage }}
 	</p>
-	
+
 	<p>
 		<b>DIAGNOSTICO MEDICO</b><br/>
 		<table class="table table-striped">
@@ -67,23 +67,23 @@
 	            		<tr>
 	            			<th  width="100px" align="left">No.</th>
 	                		<th>NOMBRE</th>
-	                		<th>CODIGO</th>		                		               
+	                		<th>CODIGO</th>
 	            		</tr>
 	        		</thead>
-				    <tbody>  
+				    <tbody>
 				    {% for cie in hc_cie %}
 		    		<tr>
 		    			<td  width="100px" align="left">{{ loop.index}}</td>
 			    		<td>{{ cie.nombre }}</td>
 			    		<td>{{ cie.codigo }}</td>
 		    		</tr>
-		    		{% endfor %} 		    
+		    		{% endfor %}
 		    </tbody>
 		</table><br/><br/>
-		~ Diagnostico Salida: {% if historia.dxSalida %} {{ historia.dxSalida.nombre }} {% endif %}<br/> 
-		~ Conducta: {{ historia.conducta }}<br/>				
+		~ Diagnostico Salida: {% if historia.dxSalida %} {{ historia.dxSalida.nombre }} {% endif %}<br/>
+		~ Conducta: {{ historia.conducta }}<br/>
 	</p>
-	
+
 	{% if tipoingreso == 'U' or tipoingreso == 'H' %}
 		<p>
 			<b>EVOLUCION</b><br/>
@@ -95,12 +95,12 @@
      		 		</tr>
      		 		<tr>
      		 			<th  width="100px" align="left">No.</th>
-	               		<th>NOMBRE</th>		                		
+	               		<th>NOMBRE</th>
 	               		<th>TIPO</th>
-	               		<th>RESULTADO</th>      		                		
+	               		<th>RESULTADO</th>
 	            	</tr>
      		 	</thead>
-     		 	<tbody>					                    
+     		 	<tbody>
      		 		{% for examen in hc_exa %}
      		 			<tr>
      		 				<td  width="100px" align="left">{{ loop.index}}</td>
@@ -111,7 +111,7 @@
      		 		{% endfor %}
      		 	</tbody>
      		 </table>
-     		 	
+
      		<table>
      			<thead>
      				<tr>
@@ -119,10 +119,10 @@
      				</tr>
      				<tr>
      					<th  width="100px" align="left">No.</th>
-	              		<th>NOMBRE</th>		                		
+	              		<th>NOMBRE</th>
 	              		<th>PRESENTACIÓN</th>
 	               		<th>CONCENTRACIÓN</th>
-	               		<th>POSOLOGIA</th>      		                		
+	               		<th>POSOLOGIA</th>
 	           		</tr>
      			</thead>
      			<tbody>
@@ -137,21 +137,21 @@
      		 		{% endfor %}
      		 	</tbody>
      		 </table>
-		</p>	
+		</p>
 	{% endif %}
-	
+
 	<p>
-		<b>EGRESO</b><br/>				
+		<b>EGRESO</b><br/>
 		{% if tipoingreso == 'U' or tipoingreso == 'H' %}
 			~ Condición De Salida: {{ historia.condSalida }} <br/>
 			~ Manejo De Salida: {{ historia.manejoSalida }} <br/>
-		{% endif %}		
+		{% endif %}
 		~ Medicamentos: 	{{ historia.medicamentosS }} <br/>
 		~ Procedimientos: 	{{ historia.procedimientosS }} <br/>
-		~ Examenes:			{{ historia.examenesS }} <br/>		
+		~ Examenes:			{{ historia.examenesS }} <br/>
 		~ Incapacidad:		{{ historia.incapacidad }} <br/>
 	</p>
-	
+
 	{% if historia.destino == 'remision' %}
 		<b>Remision:</b><br/>
 		<p>
@@ -161,12 +161,12 @@
 			~ Servicio: {{ historia.rServicio}} <br/>
 			~ Descripcion: {{ historia.descripcionR}}
 		</p>
-	{% endif %}	
+	{% endif %}
 	<p>
 		<b>Medico: </b> {{ usuario.nombre }} {{ usuario.apellido }} Especialidad: {{ usuario.especialidad }} <br/>
 		<b>Registro: </b>	<br/>
 		<b>Firma: </b>
 	</p>
 </div>
-	
-{% endblock %}       
+
+{% endblock %}

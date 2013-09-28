@@ -32,12 +32,41 @@
 	<form action="{{ path('cargo_pyp_save', {'pyp': pyp.id}) }}" class="form-horizontal" method="post" {{ form_enctype(form) }}>
 	    <fieldset>
 	    	<legend>Datos del cargo</legend>
-	    	    
+
 			{{ form_widget(form) }}
-		   
+
 			<div class="form-actions">
 				<input class="btn btn-primary" name="guardar" type="submit" value="Guardar" />
 			    <a href="{{ path('pyp_show', {'pyp': pyp.id } ) }}" class="btn btn-danger">Cancelar</a>
 			</div>
 	</form>
+{% endblock %}
+
+	{% block javascripts %}
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('#gstCargoPyp_tipo_cons').attr('disabled', true);
+			$('#gstCargoPyp_tipoProc').attr('disabled', true);
+
+
+		});
+
+		$('#gstCargoPyp_tipo').change(function() {
+
+			var opcion = $('#gstCargoPyp_tipo').val();
+
+			if(opcion == 'AC'){
+
+				$('#gstCargoPyp_tipo_cons').removeAttr('disabled');
+				$('#gstCargoPyp_tipoProc').attr('disabled', true);
+
+
+			}else{
+
+				$('#gstCargoPyp_tipoProc').removeAttr('disabled');
+				$('#gstCargoPyp_tipo_cons').attr('disabled', true);
+
+			}
+		});
+	</script>
 {% endblock %}
