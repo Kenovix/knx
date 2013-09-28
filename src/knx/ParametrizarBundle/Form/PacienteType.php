@@ -106,13 +106,13 @@ class PacienteType extends AbstractType {
 										'U' => 'Urbana',
 										'R' => 'Rural',),
 								'multiple' => false,))
-				->add('telefono', 'integer',
+				->add('telefono', 'text',
 						array('required' => false, 'label' => 'Teléfono',
 								'attr' => array(
 										'placeholder' => 'Número teléfonico')))
-				->add('movil', 'integer',
+				->add('movil', 'text',
 						array('required' => false, 'label' => 'Movil',
-								'attr' => array('placeholder' => 'Número Movil')))
+								'attr' => array('placeholder' => 'Número móvil')))
 				->add('email', 'email',
 						array('required' => false, 'label' => 'Email',
 								'attr' => array(

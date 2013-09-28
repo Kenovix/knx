@@ -49,6 +49,7 @@ class FacturaController extends Controller
 		$paciente = $em->getRepository("ParametrizarBundle:Paciente")->findOneBy(array("identificacion" => $entity['paciente']));
 		$cliente = $em->getRepository("ParametrizarBundle:Cliente")->find($entity['cliente']);
 		$servicio = $em->getRepository("ParametrizarBundle:Servicio")->find($entity['servicio']);
+
 		$usuario = $this->get('security.context')->getToken()->getUser();
 		
 		if (array_key_exists('pyp', $entity)){
@@ -59,7 +60,7 @@ class FacturaController extends Controller
 		
 		$factura->setPaciente($paciente);
 		$factura->setCliente($cliente);
-		$factura->setservicio($servicio);
+		$factura->setServicio($servicio);
 		$factura->setUsuario($usuario);
 		$factura->setFecha(new \DateTime());
 		$factura->setAutorizacion($entity['autorizacion']);
@@ -68,7 +69,7 @@ class FacturaController extends Controller
 		$factura->setPyp($pyp);
 		$factura->setEstado('A');
 		
-		if($servicio->getNombre == 'CONSULTA EXTERNA'){
+		if($factura->getServicio() == 'CONSULTA EXTERNA'){
 			$factura->setTipo('C');
 		}else{
 			$factura->setTipo('U');
@@ -140,6 +141,8 @@ class FacturaController extends Controller
     									cli.id = :cliente
 									 ORDER BY
 										c.nombre ASC");
+    		
+    		
     		    		    		
     		$dql->setParameter('tipoCargo', $tipo_cargo);
     		$dql->setParameter('cliente', $factura->getCliente()->getId());
@@ -214,8 +217,6 @@ class FacturaController extends Controller
     					"nacimiento" => $paciente->getFN()->format('d-m-Y'),
     					"edad" => $paciente->getEdad(),
     					"sexo" => $paciente->getSexo(),
-    					"rango" => $paciente->getRango(),
-    					"afiliacion" => $paciente->getTipoAfi(),
     					"creado" => $paciente->getCreated()->format('d-m-Y'));
     	
     			foreach($cliente as $value)

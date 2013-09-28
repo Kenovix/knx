@@ -50,13 +50,9 @@
             </tr>
             <tr>
                 <td><strong>Rango</strong></td>
-                <td>{{ factura.paciente.rango }}</td>
+                <td></td>
                 <td><strong>Tipo de afiliación</strong></td>
-                <td>{% if(factura.paciente.tipoAfi == "C") %}
-                        Cotizante
-                    {% else %}
-                        Beneficiario
-                    {% endif %}</td>
+                <td></td>
                 <td><strong>Asegurador</strong></td>
                 <td colspan="5">{{ factura.cliente.nombre }}</td>
             </tr>  

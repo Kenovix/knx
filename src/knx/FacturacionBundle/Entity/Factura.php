@@ -405,7 +405,7 @@ class Factura {
 	 * @param \knx\ParametrizarBundle\Entity\Servicio $servicio
 	 * @return Factura
 	 */
-	public function setservicio(
+	public function setServicio(
 			\knx\ParametrizarBundle\Entity\Servicio $servicio) {
 		$this->servicio = $servicio;
 

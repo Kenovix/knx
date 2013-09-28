@@ -154,13 +154,6 @@ class Paciente
      * @var string $telefono      
      * 
      * @ORM\Column(name="telefono", type="string", length=7, nullable=true)
-     * @Assert\Range(
-     *      min = "1000000",
-     *      max = "9999999",
-     *      minMessage = "El menor número a ingresar es 1000000",
-     *      maxMessage = "El mayor número a ingresar es 9999999"
-     * )
-	 *
      */
     private $telefono;
 
@@ -168,13 +161,6 @@ class Paciente
      * @var string $movil
      * 
      * @ORM\Column(name="movil", type="string", length=10, nullable=true)
-     * @Assert\Range(
-     *      min = "3000000000",
-     *      max = "9999999999",
-     *      minMessage = "El menor número a ingresar es 3000000000",
-     *      maxMessage = "El mayor número a ingresar es 9999999999"
-     * )
-     *
      */
     private $movil;
 
@@ -182,7 +168,7 @@ class Paciente
      * @var string $email
      * 
      * @ORM\Column(name="email", type="string", length=200, nullable=true)
-     * @Assert\Email(message = "El email '{{ value }}' no es valido.", checkMX = true)
+     * @Assert\Email(message = "El email '{{ value }}' no es valido.", checkMX = false)
      */
     private $email;      
     
