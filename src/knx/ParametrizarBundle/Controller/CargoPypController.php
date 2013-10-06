@@ -222,28 +222,41 @@ class CargoPypController extends Controller
 	    		$parametros = array();
 	    		
 	    		if(in_array($edad, array(4, 14, 16, 45))){
+	    			
 	    			$rango = 1;
-	    		}elseif(in_array($edad, array(55, 65, 70, 75, 80))){
+	    			
+	    			if(in_array($edad, array(45, 50 ,55, 60, 65, 70, 75, 80))){
+	    				$rangoa = 3;
+	    			}
+	    		}
+	    			
+	    		if(in_array($edad, array(55, 65, 70, 75, 80))){
 	    			$rango = 2;
-	    		}elseif(in_array($edad, array(45, 50 ,55, 60, 65, 70, 75, 80))){
-	    			$rango = 3;
-	    		}else{
-	    			$rango = 0;
+	    			
+	    			if(in_array($edad, array(45, 50 ,55, 60, 65, 70, 75, 80))){
+	    				$rangoa = 3;
+	    			}
+ 					
 	    		}
 	    		
-	    		if($rango == 1){
+	    		if(in_array($edad, array(45, 50 ,55, 60, 65, 70, 75, 80))){
+	    			if ($rango != 3 && $rangoa != 3) {
+	    				$rango = 3;
+	    			}
+	    		}
+	    		
+	    		if($rango == 1 || $rango == 2 || $rango == 3){
 	    			$where .= "OR cp.rango = :rango";
+	    			
+	    			$parametros['rango'] = $rango;
 	    		}
-	
-	    		if($rango == 2){
-	    			$where .= "OR cp.rango >= :rango";
+
+	    		if($rangoa){
+	    			$where .= " OR cp.rango = :rangoa";
+	    		
+	    			$parametros['rangoa'] = $rangoa;
 	    		}
 	    		
-	    		if($rango == 3){
-	    			$where .= "OR cp.rango = :rango";
-	    		}
-	    		
-	    		//$parametros['rango'] = $rango;
 	    		$parametros['edad'] = $edad;
 	    		$parametros['sexo'] = $sexo;
 	    		
@@ -256,6 +269,8 @@ class CargoPypController extends Controller
 	    										knx\ParametrizarBundle\Entity\CargoPyp cp
 	    									JOIN
 	    										cp.pyp p
+	    									JOIN
+	    										cp.cargo c
 	    									WHERE 
 	    									(cp.sexo = 'A' OR
 	    									 cp.sexo = :sexo ) AND	
@@ -266,10 +281,11 @@ class CargoPypController extends Controller
 	    									cp.edadIni <= :edad OR
 	    									cp.edadFin >= :edad ) OR
 	    									(cp.edadIni <= :edad AND
-	    									cp.edadFin = '') ".$where);
-	    		
+	    									cp.edadFin = '') AND
+	    									c.tipoCargo = 'CE' ".$where);
+
 	    		$query->setParameters($parametros);
-	    		
+
 	    		$cargos = $query->getResult();
 	    	
 	    		if($cargos){

@@ -172,6 +172,8 @@
 			</tr>
 		{% endfor %}
 	</table>
+	
+	<a href="#" class="btn" {% if factura.estado == 'C' %} style="display:none" {% endif %}><i class="icon-print"></i> Imprimir</a>
 
 {% endblock %}
 

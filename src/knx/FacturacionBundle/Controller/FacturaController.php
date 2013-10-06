@@ -124,7 +124,7 @@ class FacturaController extends Controller
     		}else{
     			$tipo_cargo = 'CU';
     		}    		
-    		
+
     		$dql = $em->createQuery( "SELECT
 										c.id,
     									c.nombre
@@ -141,9 +141,7 @@ class FacturaController extends Controller
     									cli.id = :cliente
 									 ORDER BY
 										c.nombre ASC");
-    		
-    		
-    		    		    		
+
     		$dql->setParameter('tipoCargo', $tipo_cargo);
     		$dql->setParameter('cliente', $factura->getCliente()->getId());
     		

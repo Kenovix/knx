@@ -247,8 +247,8 @@ class PacienteController extends Controller
 
 
 
-		$paciente->setDepto($depto);
-		$paciente->setMupio($mupio);
+		//$paciente->setDepto($depto);
+		//$paciente->setMupio($mupio);
 
 		//---------------------------------
 		if(!$paciente->getMovil())		// estas condicionales se usan para evitar posible problemas 
@@ -257,7 +257,7 @@ class PacienteController extends Controller
 			$paciente->setTelefono(NULL);
 		//----------------------------------
 		
-		$paciente->setFN($paciente->getFN()->format('d/m/Y'));		
+		//$paciente->setFN($paciente->getFN()->format('d/m/Y'));		
 	
 		//die(var_dump($paciente));
 		$editForm = $this->createForm(new PacienteType(), $paciente);
