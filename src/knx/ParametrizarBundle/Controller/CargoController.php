@@ -16,7 +16,17 @@ class CargoController extends Controller
     	$breadcrumbs->addItem("Listado");
     	
     	$em = $this->getDoctrine()->getEntityManager();    
-        $cargo = $em->getRepository('ParametrizarBundle:Cargo')->findAll();
+        
+    	$dql = $em->createQuery( "SELECT
+										c
+									 FROM
+										ParametrizarBundle:Cargo c
+									 ORDER BY
+										c.nombre ASC");
+    	
+    	$cargo = $dql->getResult();
+    	
+    	
         
         return $this->render('ParametrizarBundle:Cargo:list.html.twig', array(
                 'cargos'  => $cargo
