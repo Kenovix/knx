@@ -32,6 +32,14 @@ class HistoriaController extends Controller
 			$serviEgre = "";
 		}
 
+		if($historia->getPFechaN())
+		{
+			$historia->setPFechaN($historia->getPFechaN()->format('d/m/Y H:i'));
+		}
+		if($historia->getPFechaM())
+		{
+			$historia->setPFechaM($historia->getPFechaM()->format('d/m/Y H:i'));
+		}
 
 		if($historia->getDxSalida())
 		{
@@ -68,7 +76,37 @@ class HistoriaController extends Controller
 		if(!$listNotas){
 			return $this->validarHistoria($factura, $historia, $form_historia);
 		}
-
+		
+		// validacion del formulario del parto
+		$dateTomorrow = new \DateTime('tomorrow');
+		$dateYesterday = new \DateTime('yesterday');		
+		
+		// se valida que las fechas de nacimiento o de muerte no sean mayor o menor a 24 horas
+		$pFechaN = date_create_from_format('d/m/Y H:i',$form_historia->get('pFechaN')->getData());
+		if($pFechaN){
+			if($pFechaN>$dateYesterday && $pFechaN<$dateTomorrow)
+			{
+				$historia->setPFechaN($pFechaN);
+				if(!$form_historia->get('pEdadG')->getData() ||	!$form_historia->get('pControlP')->getData() || !$form_historia->get('pSexo')->getData() ||	!$form_historia->get('pPeso')->getData() || !$form_historia->get('pDx')->getData())
+				{
+					return $this->validarHistoria($factura, $historia, $form_historia);
+				}
+			}else{
+				return $this->validarHistoria($factura, $historia, $form_historia);
+			}								
+		}		
+		$pFechaM = date_create_from_format('d/m/Y H:i',$form_historia->get('pFechaM')->getData());
+		if($pFechaM){
+			if($pFechaM>$dateYesterday && $pFechaM<$dateTomorrow)
+			{
+				$historia->setPFechaM($pFechaM);
+				if(!$form_historia->get('pCausaM')->getData())
+				{
+					return $this->validarHistoria($factura, $historia, $form_historia);
+				}				
+			}			
+		}
+		
 		if($form_historia->isValid()) 
 		{
 			

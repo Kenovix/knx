@@ -405,7 +405,15 @@ class PacienteController extends Controller
 		
 		$request  = $this->getRequest();
 		$form = $this->createForm(new UploadFileType());
+		$registro = $request->get($form->getName());
 		$form->bindRequest($request);
+
+		// se consulta que las asociaciones sean correctas
+		if (!$registro['tipoRegist'] || !$form->get('cliente')->getData()){
+			throw $this->createNotFoundException('El paciente tiene que tener sus respectivas relaciones con el cliente tipo registro o regimen.');
+		}
+		// se asigna la variable del tipo de registro para enviarla y persistirla
+		$tipoRegistro = $registro['tipoRegist'];
 		
 		// Se instancia la ruta en la cual se va a guardar el archivo
 		$ruta = $this->container->getParameter('knx.directorio.uploads');		
@@ -505,7 +513,7 @@ class PacienteController extends Controller
 				}
 				else{
 					$cliente = $form->get('cliente')->getData();					
-					$afiliacion = $this->verificarExistenciaDatos($DatosTemporal, $cliente);
+					$afiliacion = $this->verificarExistenciaDatos($DatosTemporal, $cliente, $tipoRegistro);
 					$nameFile = "errores-archivo.txt";
 
 					if($afiliacion)
@@ -537,7 +545,7 @@ class PacienteController extends Controller
 		return $this->render('ParametrizarBundle:Paciente:file_new.html.twig',array('form' => $form->createView()));
 	}	
 	
-	public function verificarExistenciaDatos($insert, $cliente)
+	public function verificarExistenciaDatos($insert, $cliente, $tipoRegistro)
 	{
 		$em = $this->getDoctrine()->getEntityManager();
 		$ruta = $this->container->getParameter('knx.directorio.uploads');
@@ -549,7 +557,7 @@ class PacienteController extends Controller
 		foreach ($insert as $key => $value){
 			
 			// se verifica que las columnas estes complestas de cada fila	
-			if(count($value) == 22)
+			if(count($value) == 21)
 			{				
 				$tipoId 		= $em->getRepository('ParametrizarBundle:Paciente')->existTipoId($insert[$key][0]);
 				$identificacion = $em->getRepository('ParametrizarBundle:Paciente')->existIdentificacion((int)$insert[$key][1]);
@@ -562,12 +570,10 @@ class PacienteController extends Controller
 				$mupio 			= $em->getRepository('ParametrizarBundle:Mupio')->find($insert[$key][10]);
 				$zona 			= $em->getRepository('ParametrizarBundle:Paciente')->existZona($insert[$key][12]);
 				$ocupacion		= $em->getRepository('ParametrizarBundle:Ocupacion')->find($insert[$key][19]);				
-				// tipo de resgistro del cliente q tiene el paciente
-				$tipoRegistro 		= $em->getRepository('ParametrizarBundle:Paciente')->existTipoRegistro($insert[$key][21]);
-				
+								
 				
 				// Campos obligatorios que no pueden ir nulos
-				if($tipoId && $identificacion && $priNombre && $priApellido && $fn && $sexo && $estadoCivil && $depto && $mupio && $zona && $ocupacion && $tipoRegistro)
+				if($tipoId && $identificacion && $priNombre && $priApellido && $fn && $sexo && $estadoCivil && $depto && $mupio && $zona && $ocupacion)
 				{					
 					$fn = date_create_from_format('Y-m-d',$insert[$key][6]);					
 					
@@ -597,7 +603,7 @@ class PacienteController extends Controller
 					$afiliacion = new Afiliacion();
 					$afiliacion->setPaciente($paciente);
 					$afiliacion->setCliente($cliente);
-					$afiliacion->setTipoRegist($insert[$key][21]);
+					$afiliacion->setTipoRegist($tipoRegistro);
 					
 					$arrayAfilia[] = $afiliacion;					
 					$em->persist($paciente);

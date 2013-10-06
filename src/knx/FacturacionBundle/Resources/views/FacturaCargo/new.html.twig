@@ -46,6 +46,13 @@
 						{{ form_widget(form.cliente) }}
 					</div>
 	    	    </div>
+	    	    <div class="control-group"  id="usuarios" style="display: none;">
+						{{ form_label(form.usuarios) }}
+	    	    	<div class="controls">
+						{{ form_errors(form.usuarios) }}
+						{{ form_widget(form.usuarios) }}
+					</div>
+	    	    </div>
 	    	    <div class="control-group"  id="servicio" style="display: none;">
 						{{ form_label(form.servicio) }}
 	    	    	<div class="controls">
@@ -116,20 +123,29 @@ $("#knx_reportes_opcion").change(function(){
 	
 	var opcion = $("#knx_reportes_opcion").val();
 	
-	if(opcion == 'IG'){
-		$('#cliente').show('slow');
+	if(opcion == 'IG'){		
 		$('#servicio').hide('slow');
 		$('#regimen').hide('slow');
+		$('#usuarios').hide('slow');
+		$('#cliente').show('slow');
 	}
 	else if(opcion == 'IR'){
 		$('#cliente').hide('slow');
 		$('#servicio').hide('slow');
+		$('#usuarios').hide('slow');
 		$('#regimen').show('slow');
 		}
 	else if(opcion == 'IAR'){
-		$('#cliente').hide('slow');
-		$('#servicio').show('slow');
+		$('#cliente').hide('slow');		
 		$('#regimen').hide('slow');
+		$('#usuarios').hide('slow');
+		$('#servicio').show('slow');
+	}
+	else if(opcion == 'ICRM'){
+		$('#cliente').hide('slow');		
+		$('#regimen').hide('slow');
+		$('#servicio').hide('slow');
+		$('#usuarios').show('slow');
 	}
 	else{
 		$('#cliente').hide('slow');

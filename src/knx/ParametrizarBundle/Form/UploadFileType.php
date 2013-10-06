@@ -21,7 +21,10 @@ class UploadFileType extends AbstractType
 					return $repositorio
 					->createQueryBuilder('c')
 					->orderBy('c.nombre', 'ASC');
-				}));
+				}))
+		->add('tipoRegist', 'choice', array('label' => 'tipo registro:', 'required' => true, 'choices' => array('--' => '--')))
+		
+		;
 	}
 	
 	public function getName()

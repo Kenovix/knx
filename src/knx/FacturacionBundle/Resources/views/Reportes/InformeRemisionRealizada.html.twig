@@ -1,0 +1,33 @@
+{% extends "::simple.html.twig" %}
+
+{% block head %}
+{% endblock %}
+
+{% block body %}
+{% set total = 0 %}
+	<div>
+		<p><b>Desde:</b> {{ dateStart | date('d-M-Y') }} <b>Hasta:</b> {{ dateEnd | date('d-M-Y') }} </p><br/>
+		<table>			
+			<thead>
+				<tr>
+					<th>Destino Remision</th>		
+					<th>Especialidad Remision</th>
+					<th>Numero Autorizacion</th>
+					<th>Descripcion Remision</th>											
+				</tr>					
+			</thead>
+			<tbody>
+				{% for entity in facturaCargo %}
+					<tr>
+						<td>{{ entity.destino_r }}</td>
+						<td>{{ entity.especialidad_r }}</td>
+						<td>{{ entity.nuAuto_r }}</td>
+						<td>{{ entity.descripcion_r }}</td>						
+						{% set total = entity.cantidad %}
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		<p><b>Total Remisiones: </b>{{ total }}</p>
+	</div>
+{% endblock %}
