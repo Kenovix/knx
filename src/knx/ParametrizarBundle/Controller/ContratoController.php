@@ -211,7 +211,7 @@ class ContratoController extends Controller
     								c.cliente = :cliente AND
     								c.fechaInicio <= :fecha AND
     								c.fechaFin >= :fecha AND
-    								c.tipo = 'PP' AND
+    								c.tipo = 'P' AND
     								c.estado = 'A'");
     	
     	$hoy = new \DateTime('now');

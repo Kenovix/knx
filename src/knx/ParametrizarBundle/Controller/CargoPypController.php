@@ -264,7 +264,9 @@ class CargoPypController extends Controller
 	    										cp.edadFin >= :edad 
 	    									) AND ( 
 	    									cp.edadIni <= :edad OR
-	    									cp.edadFin >= :edad ) ".$where);
+	    									cp.edadFin >= :edad ) OR
+	    									(cp.edadIni <= :edad AND
+	    									cp.edadFin = '') ".$where);
 	    		
 	    		$query->setParameters($parametros);
 	    		

@@ -90,7 +90,7 @@
 	            	{{ form_errors(form.cliente) }}
 	            	{{ form_widget(form.cliente) }}
 	            	
-	            	{% ui_button onclick="myDialog.wijdialog('open');" id="new_afiliacion" value="Agregar" disabled="true" %}
+	            	{% ui_button onclick="myDialog.wijdialog('open');" id="new_afiliacion" value="Agregar" disabled="false" %}
 	            	 
 	    		</div>
 	    	</div>
@@ -245,13 +245,13 @@
                 	    if(data.cliente){
                 	    	options[options.length] = new Option('Seleccione cliente', '');
 
+                	    	$.each(data.cliente, function(val, text) {
+                    		    options[options.length] = new Option(text, val);
+                    		});
+
                     	}else{
                     		options[options.length] = new Option('--', '');
                         }
-
-                		$.each(data.cliente, function(val, text) {
-                		    options[options.length] = new Option(text, val);
-                		});
 
                 		select.val('');
                 		select.removeAttr('disabled');
@@ -298,10 +298,14 @@
 
 			var cliente = $("#newAfiliacion_cliente").val();
 			var paciente = $("#knx_facturacionbundle_facturatype_paciente").val();
+			var tipoRegist = $("#newAfiliacion_tipoRegist").val();
+			var rango = $("#newAfiliacion_rango").val();
 
 			$.post(url,{
                 cliente: cliente,
-                paciente: paciente
+                paciente: paciente,
+                tipoRegist: tipoRegist,
+                rango: rango
             },function(data){
                 if(data.responseCode==200 ){
 
@@ -459,6 +463,79 @@
 	      		}
 			});
 		});
+
+		$("#newAfiliacion_cliente").change(function(){
+			
+		    var cliente = $("#newAfiliacion_cliente").val(); 
+		    var url="{{ path('afiliacion_tipo_cliente') }}";   
+		    
+		    $.post(url,{
+		        cliente: cliente
+		 },function(data){
+		     if(data.responseCode==200 ){
+
+		 		cargarTipoEps(data.regimen);
+		 		                    
+		     }
+		     else if(data.responseCode==400){
+		     	$('#ajaxMsg').html(data.msg);
+		         $('#ajaxMsg').css("color","red");
+		     }
+		     else{
+		 	    alert("Ha ocurrido un error en el sistema.");
+		     }
+		 });
+		});
+
+		function cargarTipoEps(regimen)
+		{
+			var contributivo = {
+						'' : '--select--',
+					    'cotizante' : 'Cotizante',
+					    'esposo/esposa' : 'Esposo/Esposa',
+					    'hijo/hija' : 'Hijo/Hija',
+					    'madre' : 'Madre',
+					    'padre' : 'Padre',			    
+					    'adicional' : 'Adicional'
+					};
+			var subsidiado = {
+					'' : '--select--',
+					'cero' : 'Cero',
+					'uno' : 'Uno',
+					'dos' : 'Dos',
+					'tres' : 'Tres'
+					};	
+
+			var select = $('#newAfiliacion_tipoRegist');
+			if(select.prop) {
+				  var options = select.prop('options');
+				}
+				else {
+				  var options = select.attr('options');
+				}
+				$(select).empty();
+
+			if(regimen == 1 || regimen == 3){
+					$.each(contributivo, function(val, text) {
+					    options[options.length] = new Option(text, val);
+					});
+					$('#newAfiliacion_rango').show('slow');
+				}
+			else if(regimen == 2){
+					$.each(subsidiado, function(val, text) {
+					    options[options.length] = new Option(text, val);
+					});
+					$('#newAfiliacion_rango').hide('slow');
+				}
+			else{
+					$('#newAfiliacion_tipoRegist').append(new Option('Particular/otro', 'particular/otro', true, true));
+					$('#newAfiliacion_rango').hide('slow');
+				}
+				
+			select.val('');
+					
+
+		}
 	</script>
 	
 {% endblock %}

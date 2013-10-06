@@ -92,6 +92,8 @@ class AfiliacionController extends Controller
     	
     	$paciente = $request->request->get('paciente');
     	$cliente = $request->request->get('cliente');
+    	$tipoRegist = $request->request->get('tipoRegist');
+    	$rango = $request->request->get('rango');
 
     	if($paciente && $cliente){
     		$em = $this->getDoctrine()->getEntityManager();
@@ -110,6 +112,8 @@ class AfiliacionController extends Controller
     				 
     				$entity->setPaciente($paciente);
     				$entity->setCliente($cliente);
+    				$entity->setTipoRegist($tipoRegist);
+    				$entity->setRango($rango);
     				$em->persist($entity);
     				$em->flush();
     				 

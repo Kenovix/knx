@@ -1,0 +1,255 @@
+{% extends "::admin_layout.html.twig" %}
+
+{% block menu %}{% endblock %}
+
+{% block rastro %}{% endblock %}
+
+{% block titulo %}Detalles del paciente{% endblock %}
+
+{% block msg %}
+	{% if app.session.hasFlash('ok') %}
+	    <div class="alert alert-success">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('ok') }}</span>
+	    </div>
+	{% elseif app.session.hasFlash('info') %}
+		<div class="alert alert-info">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('info') }}</span>
+	    </div>
+	{% elseif app.session.hasFlash('error') %}
+		<div class="alert alert-error">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('error') }}</span>
+	    </div>
+	{% endif %}
+{% endblock %} 
+
+{% block cuerpo %}
+
+    <table  class="table table-hover">
+        <tbody>
+            <tr>
+                <th>Tipo de identificación</th>
+                <td>{{ paciente.tipoId }}</td>
+            </tr>
+            <tr>
+                <th>Identificación</th>
+                <td>{{ paciente.identificacion }}</td>
+            </tr>
+            <tr>
+                <th>Nombre</th>
+                <td>{{ paciente.priNombre }} {{ paciente.segNombre }} {{ paciente.priApellido }} {{ paciente.segApellido }}</td>
+            </tr>
+            <tr>
+                <th>Fecha de nacimiento</th>
+                <td>{{ paciente.fN | date('d/m/Y')}}</td>
+            </tr>
+            <tr>
+                <th>Sexo</th>
+                <td>{{ paciente.sexo }}</td>
+            </tr>
+            <tr>
+                <th>Estado Civil</th>
+                <td>{{ paciente.estaCivil }}</td>
+            </tr>
+            <tr>
+                <th>Departamento</th>
+                <td>{{ paciente.depto.nombre }}</td>
+            </tr>
+            <tr>
+                <th>Ciudad</th>
+                <td>{{ paciente.mupio.municipio }}</td>
+            </tr>
+            <tr>
+                <th>Dirección</th>
+                <td>{{ paciente.direccion }}</td>
+            </tr>
+            <tr>
+                <th>Zona</th>
+                <td>{{ paciente.zona }}</td>
+            </tr>
+            <tr>
+                <th>Teléfono</th>
+                <td>{{ paciente.telefono }}</td>
+            </tr>
+            <tr>
+                <th>Movil</th>
+                <td>{{ paciente.movil }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ paciente.email }}</td>
+            </tr>            
+            <tr>
+                <th>Pertenencia Etnica</th>
+                <td>{{ paciente.pertEtnica }}</td>
+            </tr>
+            <tr>
+                <th>Nivel Educativo</th>
+                <td>{{ paciente.nivelEdu }}</td>
+            </tr>
+            <tr>
+                <th>Ocupación</th>
+                <td>{{ paciente.ocupacion.nombre }}</td>
+            </tr>
+            <tr>
+                <th>Tipo Desplazado</th>
+                <td>{{ paciente.tipoDes }}</td>
+            </tr>
+        </tbody>
+    </table>
+    
+    
+    <a href="{{ path('paciente_jx_edit', { 'paciente': paciente.id }) }}" class="btn">Modificar paciente</a>
+    
+    <br /><br /><br /><br />
+    <h2>Aseguradoras asociadas</h2>
+    
+    <form action="{{ path('afiliacion_save', { 'paciente': paciente.id }) }}" method="post" {{ form_enctype(form) }} class="form-horizontal">
+        <fieldset>
+        	<legend>Datos de la aseguradora</legend>
+        	<div id="ajaxMsg"></div>
+        	
+        	<div class="control-group">
+	    		{{ form_label(form.cliente) }}
+	    		<div class="controls">
+	    			{{ form_errors(form.cliente) }}	
+					{{ form_widget(form.cliente,{ 'attr': {'class': 'span4'} }) }}
+	    		</div>
+    		</div>
+    		
+    		<div class="control-group">
+	    		{{ form_label(form.tipoRegist) }}
+	    		<div class="controls">
+	    			{{ form_errors(form.tipoRegist) }}	
+					{{ form_widget(form.tipoRegist,{ 'attr': {'class': 'span4'} }) }}
+	    		</div>
+    		</div>
+    		
+    		<div id="rango" class="control-group" style="display: none;">
+	    		{{ form_label(form.rango) }}
+	    		<div class="controls">
+	    			{{ form_errors(form.rango) }}	
+					{{ form_widget(form.rango,{ 'attr': {'class': 'span4'} }) }}
+	    		</div>
+    		</div>
+    		
+    		<div class="control-group">
+	    		{{ form_label(form.observacion) }}
+	    		<div class="controls">
+	    			{{ form_errors(form.observacion) }}	
+					{{ form_widget(form.observacion,{ 'attr': {'class': 'span4'} }) }}
+	    		</div>
+    		</div>
+        	
+        	{{ form_rest(form) }}
+        </fieldset>        
+        <button class="btn btn-primary" type="submit">Crear</button>       
+    </form>
+    
+    <br /><br /><br /><br />  
+    
+    <table class="table table-hover">
+        <caption><h2>Registro de aseguradoras asociadas</h2></caption>
+        <thead>
+            <tr>
+                <th>No.</th>
+                <th>Nit</th>
+                <th>Nombre</th>
+                <th>Opciones</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for afiliacion in afiliaciones %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ afiliacion.cliente.nit }}</td>
+                <td>{{ afiliacion.cliente.nombre }}</td>                
+                <td><a class="btn" href="{{ path('afiliacion_delete', { 'paciente': afiliacion.paciente.id, 'cliente': afiliacion.cliente.id}) }}" title='Eliminar'><i class='icon-remove'></i></a></td>
+            </tr>
+         {% else %}
+         	<tr>
+         		<td colspan="4">No tenemos asociaciones creadas.</td>
+         	</tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block javascripts %}
+<script type="text/javascript">
+$("#newAfiliacion_cliente").change(function(){
+	
+    var cliente = $("#newAfiliacion_cliente").val(); 
+    var url="{{ path('afiliacion_tipo_cliente') }}";   
+    
+    $.post(url,{
+        cliente: cliente
+ },function(data){
+     if(data.responseCode==200 ){
+
+ 		cargarTipoEps(data.regimen);
+ 		                    
+     }
+     else if(data.responseCode==400){
+     	$('#ajaxMsg').html(data.msg);
+         $('#ajaxMsg').css("color","red");
+     }
+     else{
+ 	    alert("Ha ocurrido un error en el sistema.");
+     }
+ });
+});
+
+function cargarTipoEps(regimen)
+{
+	var contributivo = {
+				'' : '--select--',
+			    'cotizante' : 'Cotizante',
+			    'esposo/esposa' : 'Esposo/Esposa',
+			    'hijo/hija' : 'Hijo/Hija',
+			    'madre' : 'Madre',
+			    'padre' : 'Padre',			    
+			    'adicional' : 'Adicional'
+			};
+	var subsidiado = {
+			'' : '--select--',
+			'cero' : 'Cero',
+			'uno' : 'Uno',
+			'dos' : 'Dos',
+			'tres' : 'Tres'
+			};	
+
+	var select = $('#newAfiliacion_tipoRegist');
+	if(select.prop) {
+		  var options = select.prop('options');
+		}
+		else {
+		  var options = select.attr('options');
+		}
+		$(select).empty();
+
+	if(regimen == 1 || regimen == 3){
+			$.each(contributivo, function(val, text) {
+			    options[options.length] = new Option(text, val);
+			});
+			$('#rango').show('slow');
+		}
+	else if(regimen == 2){
+			$.each(subsidiado, function(val, text) {
+			    options[options.length] = new Option(text, val);
+			});
+			$('#rango').hide('slow');
+		}
+	else{
+			$('#newAfiliacion_tipoRegist').append(new Option('Particular/otro', 'particular/otro', true, true));
+			$('#rango').hide('slow');
+		}
+		
+	select.val('');
+			
+
+}
+</script >
+{% endblock %}

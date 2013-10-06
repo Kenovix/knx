@@ -88,7 +88,7 @@ class Contrato
      * @var string $email
      *
      * @ORM\Column(name="email", type="string", length=200, nullable=true)
-     * @Assert\Email(message = "El email '{{ value }}' no es valido.", checkMX = true)
+     * @Assert\Email(message = "El email '{{ value }}' no es valido.", checkMX = false)
      */
     private $email;
     

@@ -1,3 +1,7 @@
+historia_index:
+    pattern:  /inicio
+    defaults: { _controller: HistoriaBundle:Default:inicio }
+
 #************** Historia ***************#
    
 historia_edit:
@@ -172,6 +176,14 @@ historia_delLaboratorioHc:
 historia_urgenciaList:
     pattern:  /urgencias/list
     defaults: { _controller: HistoriaBundle:Historia:listUrgencias }
+    
+historia_externas_list:
+    pattern:  /externas/list
+    defaults: { _controller: HistoriaBundle:Historia:listExternas }
+    
+historia_urgencias_list:
+    pattern:  /urgencias/pendientes/list
+    defaults: { _controller: HistoriaBundle:Historia:listUrgenciasPendientes }
         
 #**************** RUTAS PARA EL SMARTWIG ***********************#
 

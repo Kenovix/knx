@@ -913,7 +913,6 @@
 	    	    		<div class="controls">
 							{{ form_errors(edit_form.pEdadG) }}
 							{{ form_widget(edit_form.pEdadG) }}
-							<span class="add-on">Semanas</span>
 						</div>
 	    	   		 </div> 
 	    	   		 
@@ -922,7 +921,7 @@
 		    			
 	    	    		<div class="controls">
 							{{ form_errors(edit_form.pControlP) }}
-							{{ form_widget(edit_form.pControlP) }}							 
+							{{ form_widget(edit_form.pControlP) }}
 						</div>
 	    	   		 </div>  
 	    	   		 
@@ -931,7 +930,7 @@
 		    			
 	    	    		<div class="controls">
 							{{ form_errors(edit_form.pSexo) }}
-							{{ form_widget(edit_form.pSexo) }}							
+							{{ form_widget(edit_form.pSexo) }}
 						</div>
 	    	   		 </div> 	
 	    	   		 
@@ -941,18 +940,8 @@
 	    	    		<div class="controls">
 							{{ form_errors(edit_form.pPeso) }}
 							{{ form_widget(edit_form.pPeso) }}
-							<span class="add-on">g</span>
 						</div>
 	    	   		 </div>  
-	    	   		 
-	    	   		 <div class="control-group">
-		    			{{ form_label(edit_form.pDx) }}
-		    			
-	    	    		<div class="controls">
-							{{ form_errors(edit_form.pDx) }}
-							{{ form_widget(edit_form.pDx) }}
-						</div>
-	    	   		 </div>
 	    	   		 
 	    	   		 <div class="control-group">
 		    			{{ form_label(edit_form.pCausaM) }}
@@ -970,7 +959,16 @@
 							{{ form_errors(edit_form.pFechaM) }}
 							{{ form_widget(edit_form.pFechaM) }}
 						</div>
-	    	   		 </div>	    	   		 
+	    	   		 </div>
+	    	   		 
+	    	   		 <div class="control-group">
+		    			{{ form_label(edit_form.pDx) }}
+		    			
+	    	    		<div class="controls">
+							{{ form_errors(edit_form.pDx) }}
+							{{ form_widget(edit_form.pDx) }}
+						</div>
+	    	   		 </div>
 	    	 	</div>
 		    {% end_ui_content %}
 		{% end_ui_expander %}  <br/> 
@@ -982,10 +980,7 @@
 						{{ form_errors(edit_form.serviEgre) }}
 						{{ form_widget(edit_form.serviEgre) }}
 					</div>
-    	   		 </div>			
-    	   		 
-    	   		 
-    	 
+    	   		 </div>		   	 
     	   		 
     	   		 
   		<div id="remision" style="display: none;" >	

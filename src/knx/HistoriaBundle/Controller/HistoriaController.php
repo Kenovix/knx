@@ -247,6 +247,44 @@ class HistoriaController extends Controller
 		
 		return $this->render('HistoriaBundle:Historia:urgencias.html.twig',array(
 				'urgencias_hc' => $urgencias,
-		));		
-	}	
+		));
+	}
+
+	public function listExternasAction()
+	{
+		$paginator = $this->get('knp_paginator');
+		
+		$profesional = $this->container->get('security.context')->getToken()->getUser();
+		
+		$em = $this->getDoctrine()->getEntityManager();
+		$externas = $em->getRepository('HistoriaBundle:Hc')->listHcExternasPendientes($profesional->getId());
+		
+		$externas = $paginator->paginate($externas,$this->getRequest()->query->get('page', 1), 10);
+	
+		$breadcrumbs = $this->get("white_october_breadcrumbs");
+		$breadcrumbs->addItem("Inicio",$this->get("router")->generate("paciente_filtro"));
+		$breadcrumbs->addItem("Consultas externas");
+	
+		return $this->render('HistoriaBundle:Historia:externas.html.twig',array(
+				'externas_hc' => $externas,
+		));
+	}
+	
+	public function listUrgenciasPendientesAction()
+	{
+		$paginator = $this->get('knp_paginator');
+	
+		$em = $this->getDoctrine()->getEntityManager();
+		$urgencias = $em->getRepository('HistoriaBundle:Hc')->listHcUrgenciasPendientes();
+	
+		$urgencias = $paginator->paginate($urgencias,$this->getRequest()->query->get('page', 1), 10);
+	
+		$breadcrumbs = $this->get("white_october_breadcrumbs");
+		$breadcrumbs->addItem("Inicio",$this->get("router")->generate("paciente_filtro"));
+		$breadcrumbs->addItem("Consultas en urgencias");
+	
+		return $this->render('HistoriaBundle:Historia:urgencias_pendientes.html.twig',array(
+				'urgencias_hc' => $urgencias,
+		));
+	}
 }

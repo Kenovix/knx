@@ -49,6 +49,7 @@ class FacturaController extends Controller
 		$paciente = $em->getRepository("ParametrizarBundle:Paciente")->findOneBy(array("identificacion" => $entity['paciente']));
 		$cliente = $em->getRepository("ParametrizarBundle:Cliente")->find($entity['cliente']);
 		$servicio = $em->getRepository("ParametrizarBundle:Servicio")->find($entity['servicio']);
+
 		$usuario = $this->get('security.context')->getToken()->getUser();
 		
 		if (array_key_exists('pyp', $entity)){
@@ -59,7 +60,7 @@ class FacturaController extends Controller
 		
 		$factura->setPaciente($paciente);
 		$factura->setCliente($cliente);
-		$factura->setservicio($servicio);
+		$factura->setServicio($servicio);
 		$factura->setUsuario($usuario);
 		$factura->setFecha(new \DateTime());
 		$factura->setAutorizacion($entity['autorizacion']);
@@ -67,8 +68,12 @@ class FacturaController extends Controller
 		$factura->setProfesional($entity['profesional']);
 		$factura->setPyp($pyp);
 		$factura->setEstado('A');
-		$factura->setTipo('A');
 		
+		if($factura->getServicio() == 'CONSULTA EXTERNA'){
+			$factura->setTipo('C');
+		}else{
+			$factura->setTipo('U');
+		}		
     	  
     	$em->persist($factura);
     	$em->flush();
@@ -102,7 +107,7 @@ class FacturaController extends Controller
 									 JOIN
 										cp.cargo c
 									 WHERE
-										c.tipoCargo = 'C' AND
+										c.tipoCargo = 'CE' AND
     									cp.pyp = :categoria
 									 ORDER BY
 										c.nombre ASC");
@@ -113,7 +118,36 @@ class FacturaController extends Controller
     		
     	}else{
     		$pyp = "";
-    		$consultas = "";
+    		
+    		if ($factura->getTipo() == 'C') {
+    			$tipo_cargo = 'CE';
+    		}else{
+    			$tipo_cargo = 'CU';
+    		}    		
+    		
+    		$dql = $em->createQuery( "SELECT
+										c.id,
+    									c.nombre
+									 FROM
+										ParametrizarBundle:ContratoCargo cc
+									 JOIN
+										cc.cargo c
+    								 JOIN
+    									cc.contrato ct
+    								 JOIN
+    									ct.cliente cli
+									 WHERE
+										c.tipoCargo = :tipoCargo AND
+    									cli.id = :cliente
+									 ORDER BY
+										c.nombre ASC");
+    		
+    		
+    		    		    		
+    		$dql->setParameter('tipoCargo', $tipo_cargo);
+    		$dql->setParameter('cliente', $factura->getCliente()->getId());
+    		
+    		$consultas = $dql->getResult();
     	}
     	
     	if($factura->getProfesional()){
@@ -183,8 +217,6 @@ class FacturaController extends Controller
     					"nacimiento" => $paciente->getFN()->format('d-m-Y'),
     					"edad" => $paciente->getEdad(),
     					"sexo" => $paciente->getSexo(),
-    					"rango" => $paciente->getRango(),
-    					"afiliacion" => $paciente->getTipoAfi(),
     					"creado" => $paciente->getCreated()->format('d-m-Y'));
     	
     			foreach($cliente as $value)

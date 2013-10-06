@@ -32,13 +32,43 @@
 	<form action="{{ path('cargo_pyp_update', {'pyp': cp.pyp.id, 'cargo': cp.cargo.id }) }}" class="form-horizontal" method="post" {{ form_enctype(form) }}>
 	    <fieldset>
 	    	<legend>Datos de la actividad</legend>
-	    	    
+
 		   {{ form_widget(form) }}
-		
+
 			<div class="form-actions">
 				<input class="btn btn-primary" name="guardar" type="submit" value="Modificar" />
 			    <a href="{{ path('cargo_pyp_show', {'pyp': cp.pyp.id, 'cargo': cp.cargo.id }) }}" class="btn btn-danger">Cancelar</a>
 			</div>
 		</fieldset>
 	</form>
+{% endblock %}
+
+
+{% block javascripts %}
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('#gstCargoPyp_tipo_cons').attr('disabled', true);
+			$('#gstCargoPyp_tipoProc').attr('disabled', true);
+
+
+		});
+
+		$('#gstCargoPyp_tipo').change(function() {
+
+			var opcion = $('#gstCargoPyp_tipo').val();
+
+			if(opcion == 'AC'){
+
+				$('#gstCargoPyp_tipo_cons').removeAttr('disabled');
+				$('#gstCargoPyp_tipoProc').attr('disabled', true);
+
+
+			}else{
+
+				$('#gstCargoPyp_tipoProc').removeAttr('disabled');
+				$('#gstCargoPyp_tipo_cons').attr('disabled', true);
+
+			}
+		});
+	</script>
 {% endblock %}

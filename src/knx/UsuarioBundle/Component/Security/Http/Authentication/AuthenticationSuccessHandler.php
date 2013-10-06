@@ -27,7 +27,13 @@ class AuthenticationSuccessHandler implements AuthenticationSuccessHandlerInterf
 	public function onAuthenticationSuccess(Request $request, TokenInterface $token) 
 	{
 		if ($this->security->isGranted('ROLE_SUPER_ADMIN')) {
+			
 			$response = new RedirectResponse($this->router->generate('parametrizar_index'));
+		
+		}elseif ($this->security->isGranted('ROLE_MEDICO')){
+			
+			$response = new RedirectResponse($this->router->generate('historia_index'));
+		
 		}
 		
 		return $response;

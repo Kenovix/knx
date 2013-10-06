@@ -334,17 +334,33 @@ paciente_save:
     pattern:  /paciente/save
     defaults: { _controller: ParametrizarBundle:Paciente:save }
     
+paciente_jx_save:
+    pattern:  /paciente/jx/save
+    defaults: { _controller: ParametrizarBundle:Paciente:jxsave }
+    
 paciente_show:
     pattern:  /paciente/{paciente}/show
     defaults: { _controller: ParametrizarBundle:Paciente:show }
     
+paciente_jx_show:
+    pattern:  /paciente/jx/{paciente}/show
+    defaults: { _controller: ParametrizarBundle:Paciente:jxshow }
+    
 paciente_edit:
     pattern:  /paciente/{paciente}/edit
     defaults: { _controller: ParametrizarBundle:Paciente:edit }
+    
+paciente_jx_edit:
+    pattern:  /paciente/jx/{paciente}/edit
+    defaults: { _controller: ParametrizarBundle:Paciente:jxedit }
 
 paciente_update:
     pattern:  /paciente/{paciente}/update
     defaults: { _controller: ParametrizarBundle:Paciente:update }
+    
+paciente_jx_update:
+    pattern:  /paciente/jx/{paciente}/update
+    defaults: { _controller: ParametrizarBundle:Paciente:jxupdate }
     
 paciente_list:
     pattern:  /paciente/{char}/list

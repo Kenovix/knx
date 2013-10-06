@@ -29,7 +29,7 @@
 
 {% block cuerpo %}
 	{% block fos_user_content %}
-		<form action="{{ path('usuario_update', { 'usuario': usuario.id }) }}" {{ form_enctype(form) }} method="POST" class="form-horizontal">
+		<form action="{{ path('usuario_update', {'usuario': usuario.id}) }}" {{ form_enctype(form) }} method="POST" class="form-horizontal">
 			<fieldset>
 	    		<legend>Datos del usuario</legend>
 		    	

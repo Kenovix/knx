@@ -9,23 +9,24 @@ class Builder extends ContainerAware
 {
 	public function farmaciaMenu(FactoryInterface $factory, array $options)
 	{
-		$security =  $this->container->get('security.context');
-
+		$security = $this->container->get('security.context');
 		$usuario = $security->getToken()->getUser();
 
 		$menu = $factory->createItem('root');
 		$menu->setChildrenAttributes(array('id' => 'menu'));
 
-		if($security->isGranted('ROLE_ADMIN')){
-			$menu->addChild('Parametrizar', array('uri' => '#'));
-				$menu['Parametrizar']->addChild('Empresa', array('route' => 'empresa_list'));
-			$menu['Parametrizar']->addChild('Servicio', array('route' => 'servicio_list'));
+		$menu->addChild('Parametrizar', array('uri' => '#'));
 			$menu['Parametrizar']->addChild('Almacen', array('route' => 'almacen_list'));
-			$menu['Parametrizar']->addChild('Cliente', array('route' => 'cliente_list'));
 			$menu['Parametrizar']->addChild('Cargo', array('route' => 'cargo_list'));
-			$menu['Parametrizar']->addChild('Proveedor', array('route' => 'proveedor_list'));
 			$menu['Parametrizar']->addChild('Categoría pyp', array('route' => 'pyp_list'));
-		}
+			$menu['Parametrizar']->addChild('Centro de costo', array('route' => 'servicio_list'));
+			$menu['Parametrizar']->addChild('Cliente', array('route' => 'cliente_list'));
+			$menu['Parametrizar']->addChild('Empresa', array('route' => 'empresa_list'));
+			$menu['Parametrizar']->addChild('Proveedor', array('route' => 'proveedor_list'));
+			$menu['Parametrizar']->addChild('Paciente', array('uri' => '#'));
+				$menu['Parametrizar']['Paciente']->addChild('Listar/Nuevo', array('route' => 'paciente_list', 'routeParameters' => array('char' => 'A')));
+				$menu['Parametrizar']['Paciente']->addChild('Cargar/Archivo', array('route' => 'file_new_csv'));
+
 
 		$menu->addChild('farmacia', array('uri' => '#'));
 			$menu['farmacia']->addChild('Nueva', array('uri' => '#'));
@@ -47,28 +48,48 @@ class Builder extends ContainerAware
 				$menu['farmacia']['Almacen']->addChild('Consultar', array('route' => 'almacenimv_search'));
 				$menu['farmacia']['Almacen']->addChild('Imprimir', array('route' => 'almacenimv_searcha'));
 
+		$menu->addChild('Facturación', array('uri' => '#'));
+			$menu['Facturación']->addChild('Facturar', array('uri' => '#'));
 
-			//$menu['Parametrizar']->addChild('Usuarios', array('route' => 'usuario_list'));
-
-				$menu->addChild('Facturación', array('uri' => '#'));
-				$menu['Facturación']->addChild('Facturar', array('uri' => '#'));
 				$menu['Facturación']['Facturar']->addChild('Consulta', array('route' => 'facturacion_consulta_new'));
 				$menu['Facturación']['Facturar']->addChild('Procedimiento', array('route' => 'facturacion_consulta_new'));
 				$menu['Facturación']['Facturar']->addChild('Medicamento', array('route' => 'facturacion_consulta_new'));
 
-				$menu->addChild('Historia', array('uri' => '#'));
 
-				$menu->addChild('Usuarios', array('uri' => '#'));
-				$menu['Usuarios']->addChild('Listar', array('route' => 'usuario_list'));
-				$menu['Usuarios']->addChild('Crear', array('route' => 'fos_user_registration_register'));
 
-				$usuario = $security->getToken()->getUser();
 
-				$menu->addChild($usuario->getUsername(), array('uri' => '#'));
-				$menu[$usuario->getUsername()]->addChild('Perfil', array('route' => 'fos_user_profile_show'));
-				$menu[$usuario->getUsername()]->addChild('Salir', array('route' => 'logout'));
-				;
+
+
+		$menu->addChild('Historia', array('uri' => '#'));
+
+				$menu['Facturación']['Facturar']->addChild('Reportes', array('route' => 'reporte_cargo_new'));
+
+		if($security->isGranted('ROLE_ADMIN') || $security->isGranted('ROLE_MEDICO'))
+		{
+			$menu->addChild('Historia', array('uri' => '#'));
+			$menu['Historia']->addChild('Consultas pendientes', array('uri' => '#'));
+			$menu['Historia']['Consultas pendientes']->addChild('Externas', array('route' => 'historia_externas_list'));
+			$menu['Historia']['Consultas pendientes']->addChild('Urgencias', array('route' => 'historia_urgenciaList'));
+
+			$menu['Historia']->addChild('Diagnosticos', array('route' => 'cie_list'));
+			$menu['Historia']->addChild('Examenes', array('route' => 'examen_list'));
+			$menu['Historia']->addChild('Medicamentos', array('route' => 'medicamento_list'));
+
+			$menu['Historia']->addChild('Busqueda', array('route' => 'paciente_filtro'));
+
+		}
+
+
+		$menu->addChild('Usuarios', array('uri' => '#'));
+			$menu['Usuarios']->addChild('Listar', array('route' => 'usuario_list'));
+			$menu['Usuarios']->addChild('Crear', array('route' => 'fos_user_registration_register'));
+
+		$usuario = $security->getToken()->getUser();
+
+		$menu->addChild($usuario->getUsername(), array('uri' => '#'));
+		$menu[$usuario->getUsername()]->addChild('Cambiar contraseña', array('route' => 'fos_user_change_password'));
+		$menu[$usuario->getUsername()]->addChild('Salir', array('route' => 'logout'));
 
 		return $menu;
-	}
+			}
 }

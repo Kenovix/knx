@@ -32,6 +32,7 @@ class ImvPypType extends AbstractType
             ->add('edadfin',	'integer', array('required' => false, 'label' => 'Edad Final', 'attr' => array('placeholder' => 'Fin')))
             ->add('rango',		'text', array('required' => false, 'label' => 'Rango', 'attr' => array('placeholder' => 'Numero')))
             ->add('sexo',		'choice',  array('choices'  => array('empty_value' => 'Selecciona Sexo','M' => 'Masculino', 'F' => 'Femenino','A' => 'Ambos'), 'label'=>'Sexo','required'  => true))
+            ->add('tipoProc', 'choice', array('label' => 'Finalidad procedimiento:',  'choices' => array( '3' => 'protección especifica')))
 
 
         ;

@@ -4,7 +4,6 @@ namespace knx\UsuarioBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use knx\UsuarioBundle\Entity\Usuario;
-use knx\UsuarioBundle\Form\UsuarioBasicType;
 use knx\UsuarioBundle\Form\UsuarioType;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -24,6 +23,85 @@ class UsuarioController extends Controller
         return $this->render('UsuarioBundle:Usuario:list.html.twig', array(
                 'usuarios'  => $usuario
         ));
+    }
+    
+    
+    public function showAction($usuario)
+    {
+    	$em = $this->getDoctrine()->getEntityManager();
+    
+    	$usuario = $em->getRepository('UsuarioBundle:Usuario')->find($usuario);
+    
+    	if (!$usuario) {
+    		throw $this->createNotFoundException('El usuario solicitado no esta disponible.');
+    	}   	
+    
+    	$breadcrumbs = $this->get("white_october_breadcrumbs");
+    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
+    	$breadcrumbs->addItem("Usuario", $this->get("router")->generate("usuario_list"));
+    	$breadcrumbs->addItem($usuario->getUsername());
+    
+    	return $this->render('UsuarioBundle:Usuario:show.html.twig', array(
+    			'usuario'  => $usuario
+    	));
+    }
+    
+    
+    /**
+     * Edit the user
+     */
+    public function editAction($usuario)
+    {
+    	$userManager = $this->container->get('fos_user.user_manager');
+		$usuario = $userManager->findUserByUsername($usuario);
+    	 
+    	$breadcrumbs = $this->get("white_october_breadcrumbs");
+    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
+    	$breadcrumbs->addItem("Usuario", $this->get("router")->generate("usuario_list"));
+    	$breadcrumbs->addItem("Editar ".$usuario->getUsername());
+    	    			
+		$form = $this->createForm(new UsuarioType('knx\UsuarioBundle\Entity\Usuario'), $usuario);
+		
+		return $this->render('UsuarioBundle:Usuario:edit.html.twig', array(
+				'usuario'  => $usuario,
+				'form' => $form->createView()
+		));
+    }
+
+    /**
+     * Update the user
+     */
+    public function updateAction($usuario)
+    {
+    	$userManager = $this->container->get('fos_user.user_manager');
+    	$usuario = $userManager->findUserBy(array('id' => $usuario));
+    
+    	$breadcrumbs = $this->get("white_october_breadcrumbs");
+    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
+    	$breadcrumbs->addItem("Usuario", $this->get("router")->generate("usuario_list"));
+    	$breadcrumbs->addItem("Editar ".$usuario->getUsername());
+    
+    	$form = $this->createForm(new UsuarioType('knx\UsuarioBundle\Entity\Usuario'), $usuario);
+    	
+    	$request = $this->getRequest();
+    
+    	if ($request->getMethod() == 'POST') {
+    	
+    		$form->bind($request);
+    	
+    		if ($form->isValid()) {
+
+    	 		$userManager->updateUser($usuario);
+    
+    			return $this->redirect($this->generateUrl('usuario_edit',
+    								array('usuario' => $usuario)));
+    		}
+    	}
+    
+    	return $this->render('UsuarioBundle:Usuario:edit.html.twig', array(
+    			'usuario'  => $usuario,
+    			'form' => $form->createView()
+    	));
     }
     
     /**

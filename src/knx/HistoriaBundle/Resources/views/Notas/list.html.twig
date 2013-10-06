@@ -1,7 +1,7 @@
 {% extends "::admin_layout.html.twig" %}
 
 {% block menu %}
-	{{ knp_menu_render('ParametrizarBundle:Builder:superAdminMenu') }}
+	{{ knp_menu_render('ParametrizarBundle:Builder:HistoriaMenu') }}
 {% endblock %}
 
 {% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
@@ -27,40 +27,39 @@
 	{% endif %}
 {% endblock %}
 
-{% block cuerpo %}	
+{% block cuerpo %}
 	<div id="tableHcPaciente">
 		<table class="table table-bordered">
 			<thead>
 				<tr>
 					<th>Nombres</th>
 					<th>Apellidos</th>
-					<th>Identificación</th>				
+					<th>Identificación</th>
 					<th>GrupoEtnico</th>
-					<th>Edad</th>					
-					<th>EstadoCivil</th>					
+					<th>Edad</th>
+					<th>EstadoCivil</th>
 					<th>Aseguradora</th>
-					<th>Afiliación</th>								
+					<th>Afiliación</th>
 				</tr>
 			</thead>
 	        <tbody>
-	            <tr>                
-	                <td>{{ paciente.priNombre | capitalize }} {{ paciente.segNombre | capitalize }}</td>                
+	            <tr>
+	                <td>{{ paciente.priNombre | capitalize }} {{ paciente.segNombre | capitalize }}</td>
 	                <td>{{ paciente.priApellido | capitalize }} {{ paciente.segApellido | capitalize }}</td>
 	                <td>{{ paciente.identificacion }}</td>
 	                <td>{{ paciente.pertEtnica }}</td>
-	                <td>{{ date('now') | date('Y-m-d') - paciente.fn | date('Y-m-d') }} Años</td>	                
-	                <td>{{ paciente.estaCivil }}</td>	                        
+	                <td>{{ date('now') | date('Y-m-d') - paciente.fn | date('Y-m-d') }} Años</td>
+	                <td>{{ paciente.estaCivil }}</td>
 	                <td>{{ factura.cliente.nombre }}</td>
-	                <td>{{ paciente.tipoAfi }}</td>                                           
-	            </tr>            
+	            </tr>
 	        </tbody>
 	    </table>
    </div>
-   
+
 
 	{% if listNotas %}
 	<h2>Notas</h2>
-	
+
 	    <table class="table table-hover">
 	        <thead>
 	            <tr>
@@ -72,20 +71,20 @@
 	        {% for entity in listNotas%}
 	            <tr>
 	                <td>{{ loop.index }}</td>
-	                <td><a href="{{ path('nota_show', {'nota': entity.id}) }}">{{ entity.fecha|date('d-m-Y H:i')}}</a></td>	                
+	                <td><a href="{{ path('nota_show', {'nota': entity.id}) }}">{{ entity.fecha|date('d-m-Y H:i')}}</a></td>
 		        </tr>
 	        {% endfor %}
 	        </tbody>
 	    </table>
-	    
-	    <div class="navigation">	    
-    		{{ knp_pagination_render(listNotas) }}    	
+
+	    <div class="navigation">
+    		{{ knp_pagination_render(listNotas) }}
 		</div>
 	{% else %}
 		<div class="alert alert-success">
 	    	<button data-dismiss="alert" class="close" type="button">X</button>
 	        <span>No existen notas creados</span>
 	    </div>
-	{% endif %}    
+	{% endif %}
     <a href="{{ path('nota_new', {'factura': factura.id }) }}" class="btn">Nueva nota</a>
 {% endblock %}
