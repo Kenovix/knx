@@ -275,7 +275,11 @@ class FacturaController extends Controller
     		$factura_cargo->setEstado('C');
     		$factura_cargo->setAmbito($ambito);
     		
-    		$factura->setEstado('C');
+    		if($factura->getTipo() == 'U'){
+    			$factura->setEstado('A');
+    		}else{
+    			$factura->setEstado('C');
+    		}
     		
     		$em->persist($factura_cargo);
     		$em->persist($factura);
