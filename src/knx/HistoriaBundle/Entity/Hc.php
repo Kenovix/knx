@@ -255,8 +255,8 @@ class Hc {
 	/**
 	 * @var string $tipoDx
 	 *
-	 * @ORM\Column(name="tipo_dx", type="string", length=20, nullable=true)
-	 * @Assert\Length(max=20)
+	 * @ORM\Column(name="tipo_dx", type="string", length=1, nullable=true)
+	 * @Assert\Length(max=1)
 	 */
 	private $tipoDx;
 
@@ -428,6 +428,76 @@ class Hc {
 	 * @ORM\Column(name="incapacidad", type="text", nullable=true)
 	 */
 	private $incapacidad;
+	
+	/**
+	 * @var datetime $pFechaN
+	 *
+	 * @ORM\Column(name="p_fecha_n", type="datetime", nullable=true)
+	 */
+	private $pFechaN;//parto_fecha_nacimiento
+	
+	/**
+	 * @var integer $pEdadG
+	 *
+	 * @ORM\Column(name="p_edad_g", type="integer", nullable=true)
+	 * @Assert\Range(
+     *      min = "1",
+     *      max = "36",
+     *      minMessage = "El menor número a ingresar es 1",
+     *      maxMessage = "El mayor número a ingresar es 36"
+     * ))
+	 */
+	private $pEdadG;//parto_edad_gestacional
+	
+	/**
+	 * @var string $pControlP
+	 *
+	 * @ORM\Column(name="p_control_p", type="string", length=2, nullable=true)	 
+	 * @Assert\Choice(choices = {"SI","NO"}, message = "Selecciona una opción valida.")	 
+	 */
+	private $pControlP; //parto_control_prenatal
+	
+	/**
+	 * @var string $pSexo
+	 *
+	 * @ORM\Column(name="p_sexo", type="string", length=1, nullable=true)	 
+	 * @Assert\Choice(choices = {"M", "F"}, message = "Selecciona una opción valida.")
+	 */
+	private $pSexo;//parto_sexo
+	
+	/**
+	 * @var integer $pPeso
+	 *
+	 * @ORM\Column(name="p_peso", type="integer", nullable=true)
+	 * @Assert\Range(
+     *      min = "10",
+     *      max = "16000",
+     *      minMessage = "El menor número a ingresar es 10",
+     *      maxMessage = "El mayor número a ingresar es 16000"
+     * ))
+	 */
+	private $pPeso;//parto_peso
+	
+	/**
+	 * @var text $pCausaM
+	 *
+	 * @ORM\Column(name="p_causa_m", type="text", nullable=true)
+	 */
+	private $pCausaM;//parto_causa_muerte
+	
+	/**
+	 * @var datetime $pFechaM
+	 *
+	 * @ORM\Column(name="p_fecha_m", type="datetime", nullable=true)
+	 */
+	private $pFechaM;//parto_fecha_muerte
+	
+	/**
+	 * @var text $pDx
+	 *
+	 * @ORM\Column(name="p_diagnostico", type="integer", nullable=true)
+	 */
+	private $pDx;//parto_diagnostico
 	
 	
 	
@@ -1699,5 +1769,189 @@ class Hc {
     public function getRServicio()
     {
         return $this->rServicio;
+    }
+
+    /**
+     * Set pFechaN
+     *
+     * @param \DateTime $pFechaN
+     * @return Hc
+     */
+    public function setPFechaN($pFechaN)
+    {
+        $this->pFechaN = $pFechaN;
+    
+        return $this;
+    }
+
+    /**
+     * Get pFechaN
+     *
+     * @return \DateTime 
+     */
+    public function getPFechaN()
+    {
+        return $this->pFechaN;
+    }
+
+    /**
+     * Set pEdadG
+     *
+     * @param integer $pEdadG
+     * @return Hc
+     */
+    public function setPEdadG($pEdadG)
+    {
+        $this->pEdadG = $pEdadG;
+    
+        return $this;
+    }
+
+    /**
+     * Get pEdadG
+     *
+     * @return integer 
+     */
+    public function getPEdadG()
+    {
+        return $this->pEdadG;
+    }
+
+    /**
+     * Set pControlP
+     *
+     * @param string $pControlP
+     * @return Hc
+     */
+    public function setPControlP($pControlP)
+    {
+        $this->pControlP = $pControlP;
+    
+        return $this;
+    }
+
+    /**
+     * Get pControlP
+     *
+     * @return string 
+     */
+    public function getPControlP()
+    {
+        return $this->pControlP;
+    }
+
+    /**
+     * Set pSexo
+     *
+     * @param string $pSexo
+     * @return Hc
+     */
+    public function setPSexo($pSexo)
+    {
+        $this->pSexo = $pSexo;
+    
+        return $this;
+    }
+
+    /**
+     * Get pSexo
+     *
+     * @return string 
+     */
+    public function getPSexo()
+    {
+        return $this->pSexo;
+    }
+
+    /**
+     * Set pPeso
+     *
+     * @param integer $pPeso
+     * @return Hc
+     */
+    public function setPPeso($pPeso)
+    {
+        $this->pPeso = $pPeso;
+    
+        return $this;
+    }
+
+    /**
+     * Get pPeso
+     *
+     * @return integer 
+     */
+    public function getPPeso()
+    {
+        return $this->pPeso;
+    }
+
+    /**
+     * Set pCausaM
+     *
+     * @param string $pCausaM
+     * @return Hc
+     */
+    public function setPCausaM($pCausaM)
+    {
+        $this->pCausaM = $pCausaM;
+    
+        return $this;
+    }
+
+    /**
+     * Get pCausaM
+     *
+     * @return string 
+     */
+    public function getPCausaM()
+    {
+        return $this->pCausaM;
+    }
+
+    /**
+     * Set pFechaM
+     *
+     * @param \DateTime $pFechaM
+     * @return Hc
+     */
+    public function setPFechaM($pFechaM)
+    {
+        $this->pFechaM = $pFechaM;
+    
+        return $this;
+    }
+
+    /**
+     * Get pFechaM
+     *
+     * @return \DateTime 
+     */
+    public function getPFechaM()
+    {
+        return $this->pFechaM;
+    }
+
+    /**
+     * Set pDx
+     *
+     * @param integer $pDx
+     * @return Hc
+     */
+    public function setPDx($pDx)
+    {
+        $this->pDx = $pDx;
+    
+        return $this;
+    }
+
+    /**
+     * Get pDx
+     *
+     * @return integer 
+     */
+    public function getPDx()
+    {
+        return $this->pDx;
     }
 }

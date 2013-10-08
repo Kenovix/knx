@@ -31,6 +31,8 @@
   <form action="{{ path('file_upload_csv') }}" method="post" {{ form_enctype(form) }}  class="form-horizontal" enctype="multipart/form-data">
     <fieldset>
     	<legend>Carga de archivos a la base de datos solo archivos csv</legend>
+    	<div id="ajaxMsg"></div>
+    	
     	<div class="control-group">
     		<label class="control-label" for="inputEmail">Archivo CSV:</label>
     		<div class="controls">
@@ -44,6 +46,13 @@
 					{{ form_widget(form.cliente,{ 'attr': {'class': 'span4'} }) }}
     		</div>
     	</div>
+    	<div class="control-group">
+	    		{{ form_label(form.tipoRegist) }}
+	    		<div class="controls">
+	    			{{ form_errors(form.tipoRegist) }}	
+					{{ form_widget(form.tipoRegist,{ 'attr': {'class': 'span4'} }) }}
+	    		</div>
+    		</div>
     	{{ form_rest(form) }}
     </fieldset>
     
@@ -98,25 +107,24 @@
     			<th>nivle_edu</th>
     			<th>updated</th>
     			<th>ocupacion_id</th>
-    			<th>tipo_des</th>
-    			<th>Rango_Nivel</th>
+    			<th>tipo_des</th>    			
     		</tr>
     	</thead>
     	<tbody>
     		<tr>
-    			<td>CC</td>
+    			<td>CC, MS, PA, RC, TI, CE, NV, AS</td>
     			<td>12345678901</td>
     			<td>Pedro</td>
     			<td>Null</td>
     			<td>Segura</td>
     			<td>Null</td>
     			<td>1986-05-30</td>
-    			<td>M</td>
-    			<td>SOLTERO</td>
+    			<td>M, F</td>
+    			<td>SOLTERO, CASADO, UNION_LIBRE</td>
     			<td>24</td>
     			<td>1010</td>
     			<td>Null</td>
-    			<td>U</td>
+    			<td>U, R</td>
     			<td>0</td>
     			<td>0</td>
     			<td>Null</td>
@@ -124,8 +132,7 @@
     			<td>10</td>
     			<td>Null</td>
     			<td>1</td>
-    			<td>6</td>
-    			<td>cotizante</td>
+    			<td>6</td>    			
     		</tr>
     	</tbody>
     </table>
@@ -151,5 +158,78 @@
 $(function() {
 	alert('La extension del arvhivo debe ser CSV o TXT');
 });
+
+$("#uploadFile_cliente").change(function(){
+	
+    var cliente = $("#uploadFile_cliente").val(); 
+    var url="{{ path('afiliacion_tipo_cliente') }}";   
+    
+    $.post(url,{
+        cliente: cliente
+ },function(data){
+     if(data.responseCode==200 ){
+
+ 		cargarTipoEps(data.regimen);
+ 		                    
+     }
+     else if(data.responseCode==400){
+     	$('#ajaxMsg').html(data.msg);
+         $('#ajaxMsg').css("color","red");
+     }
+     else{
+ 	    alert("Ha ocurrido un error en el sistema.");
+     }
+ });
+});
+
+function cargarTipoEps(regimen)
+{
+	var contributivo = {
+				'' : '--select--',
+			    'cotizante' : 'Cotizante',
+			    'esposo/esposa' : 'Esposo/Esposa',
+			    'hijo/hija' : 'Hijo/Hija',
+			    'madre' : 'Madre',
+			    'padre' : 'Padre',			    
+			    'adicional' : 'Adicional'
+			};
+	var subsidiado = {
+			'' : '--select--',
+			'0' : 'Cero',
+			'1' : 'Uno',
+			'2' : 'Dos',
+			'3' : 'Tres'
+			};	
+
+	var select = $('#uploadFile_tipoRegist');
+	if(select.prop) {
+		  var options = select.prop('options');
+		}
+		else {
+		  var options = select.attr('options');
+		}
+		$(select).empty();
+
+	if(regimen == 1 || regimen == 3){
+			$.each(contributivo, function(val, text) {
+			    options[options.length] = new Option(text, val);
+			});
+			$('#uploadFile_tipoRegist').hide('slow');
+			$('#uploadFile_tipoRegist').show('slow');
+		}
+	else if(regimen == 2){
+			$.each(subsidiado, function(val, text) {
+			    options[options.length] = new Option(text, val);
+			});
+			$('#uploadFile_tipoRegist').hide('slow');
+			$('#uploadFile_tipoRegist').show('slow');
+		}
+	else{
+			$('#uploadFile_tipoRegist').append(new Option('Particular/otro', 'particular/otro', true, true));
+			
+		}
+		
+	select.val('');
+}
 </script>
 {% endblock %}

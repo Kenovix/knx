@@ -148,4 +148,69 @@ class FacturaCargoRepository extends EntityRepository
 		return $dql->getResult();
 	}
 // -------------------------------------------------------------------------------------------------------------------
+
+	
+//------------- informes por consultas realizadas por los diferentes medicos excluyendo quizas algunas facturas realizadas a un usuario sin role medico
+	public function findInformeConsultasMedicos($dateStart,$dateEnd)
+	{
+		$em = $this->getEntityManager();
+		$dql = $em->createQuery("SELECT s.nombre AS servicio,
+										COUNT(f.servicio) AS cantidad,
+										u.nombre, u.apellido, u.especialidad
+								 FROM FacturacionBundle:Factura f									
+									JOIN f.servicio s, UsuarioBundle:Usuario u
+								 WHERE									
+									f.created >= :dateStart
+									AND f.created <= :dateEnd									
+									AND f.profesional = u.id
+									AND u.roles LIKE :roles
+								 GROUP BY f.profesional, f.servicio ORDER BY f.profesional, s.nombre ASC");
+		
+		$dql->setParameter('roles', '%ROLE_MEDICO%');
+		$dql->setParameter('dateStart', $dateStart);
+		$dql->setParameter('dateEnd', $dateEnd);
+		return $dql->getResult();
+	}
+	
+	public function findInformeConsultaMedico($dateStart,$dateEnd,$usuario)
+	{
+		$em = $this->getEntityManager();
+		$dql = $em->createQuery("SELECT s.nombre AS servicio,								
+										u.nombre, u.apellido, u.especialidad,		
+										COUNT(f.servicio) AS cantidad
+								 FROM FacturacionBundle:Factura f 									
+									JOIN f.servicio s, UsuarioBundle:Usuario u
+								 WHERE
+									f.profesional = :usuario
+									AND f.created >= :dateStart
+									AND f.created <= :dateEnd
+									AND u.id = :usuario
+								 GROUP BY f.servicio ORDER BY s.nombre ASC");
+		
+		$dql->setParameter('usuario', $usuario);
+		$dql->setParameter('dateStart', $dateStart);
+		$dql->setParameter('dateEnd', $dateEnd);
+		return $dql->getResult();
+	}
+// -------------------------------------------------------------------------------------------------------------------
+
+// -----consultas a la historia para generar informes por remision---------------------------
+	public function findInformeRemisionRealizada($dateStart,$dateEnd)
+	{
+		$em = $this->getEntityManager();
+		$dql = $em->createQuery("SELECT h.destino_r, h.especialidad_r, h.nuAuto_r, h.descripcion_r,
+										COUNT(f.id) AS cantidad
+								 FROM HistoriaBundle:Hc h
+									JOIN h.factura f
+								 WHERE
+									h.destino = :remision
+									AND f.created >= :dateStart
+									AND f.created <= :dateEnd	
+								 ORDER BY f.created DESC");
+
+		$dql->setParameter('remision', 'remision');
+		$dql->setParameter('dateStart', $dateStart);
+		$dql->setParameter('dateEnd', $dateEnd);
+		return $dql->getResult();
+	}
 }

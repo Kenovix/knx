@@ -57,6 +57,16 @@ class FacturaCargoController extends Controller
 					$servicio = $form->get('servicio')->getData();
 					$this->informeActividadRealizada($dateStart,$dateEnd,$servicio);
 					break;
+				case 'ICRM':
+					$usuario = $form->get('usuarios')->getData();
+					$this->informeConsultaMedicos($dateStart,$dateEnd,$usuario);
+					break;
+				case 'IRR':					
+					$this->informeRemisionRealizada($dateStart,$dateEnd);
+					break;
+				case 'IM':					
+					$this->informeMorbilida($dateStart,$dateEnd,$usuario);
+					break;
 				case 'BC':
 					$this->boletinCierreMes($dateStart,$dateEnd);
 					break;
@@ -82,7 +92,6 @@ class FacturaCargoController extends Controller
 		}		
 		
 		$pdf = $this->instanciarImpreso("Informe General ");
-
 		$view = $this->renderView('FacturacionBundle:Reportes:InformeGeneral.html.twig',
 				array(
 						'facturaCargo' => $facturaCargo,
@@ -105,7 +114,6 @@ class FacturaCargoController extends Controller
 		}
 		
 		$pdf = $this->instanciarImpreso("Informe Por Regimen ");
-
 		$view = $this->renderView('FacturacionBundle:Reportes:InformeRegimen.html.twig',
 				array(
 						'facturaCargo' => $facturaCargo,
@@ -127,8 +135,7 @@ class FacturaCargoController extends Controller
 			$facturaCargo = $em->getRepository('FacturacionBundle:FacturaCargo')->findInformeServicio($dateStart,$dateEnd);
 		}
 		
-		$pdf = $this->instanciarImpreso("Informe Por Servicio ");
-		
+		$pdf = $this->instanciarImpreso("Informe Por Servicio ");		
 		$view = $this->renderView('FacturacionBundle:Reportes:InformeServicio.html.twig',
 				array(
 						'facturaCargo' => $facturaCargo,
@@ -136,6 +143,51 @@ class FacturaCargoController extends Controller
 		
 		$pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $view, $border = 0, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
 		
+		$response = new Response($pdf->Output('Informe_servicio.pdf', 'I'));
+		$response->headers->set('Content-Type', 'application/pdf');
+	}
+	
+	private function informeConsultaMedicos($dateStart,$dateEnd,$usuario)
+	{
+		$em = $this->getDoctrine()->getEntityManager();
+		
+		if($usuario){
+			$facturaCargo = $em->getRepository('FacturacionBundle:FacturaCargo')->findInformeConsultaMedico($dateStart,$dateEnd,$usuario->getId());
+		}else{
+			$facturaCargo = $em->getRepository('FacturacionBundle:FacturaCargo')->findInformeConsultasMedicos($dateStart,$dateEnd);
+		}
+		
+		$pdf = $this->instanciarImpreso("Informe Constultas Medicas ");		
+		$view = $this->renderView('FacturacionBundle:Reportes:InformeConsultaMedico.html.twig',
+				array(
+						'dateStart' => $dateStart,
+						'dateEnd' => $dateEnd,
+						'facturaCargo' => $facturaCargo,
+				));
+		
+		$pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $view, $border = 0, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
+		
+		$response = new Response($pdf->Output('Informe_servicio.pdf', 'I'));
+		$response->headers->set('Content-Type', 'application/pdf');
+	}
+	
+	
+	
+	private function informeRemisionRealizada($dateStart,$dateEnd)
+	{
+		$em = $this->getDoctrine()->getEntityManager();		
+		$facturaCargo = $em->getRepository('FacturacionBundle:FacturaCargo')->findInformeRemisionRealizada($dateStart,$dateEnd);		
+	
+		$pdf = $this->instanciarImpreso("Informe Constultas Medicas ");
+		$view = $this->renderView('FacturacionBundle:Reportes:InformeRemisionRealizada.html.twig',
+				array(
+						'dateStart' => $dateStart,
+						'dateEnd' => $dateEnd,
+						'facturaCargo' => $facturaCargo,
+				));
+	
+		$pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $view, $border = 0, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
+	
 		$response = new Response($pdf->Output('Informe_servicio.pdf', 'I'));
 		$response->headers->set('Content-Type', 'application/pdf');
 	}

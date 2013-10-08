@@ -1,11 +1,7 @@
 {% extends "::admin_layout.html.twig" %}
 
 {% block menu %}
-
-	{{ knp_menu_render('ParametrizarBundle:Builder:superAdminMenu') }}
-
-	{{ knp_menu_render('ParametrizarBundle:Builder:HistoriaMenu') }}	
-
+	{{ knp_menu_render('ParametrizarBundle:Builder:superAdminMenu') }}	
 {% endblock %}
 
 {% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
@@ -34,7 +30,7 @@
 {% block cuerpo %}
 
 {% set tipoingreso = factura.tipo %}
-
+	
 {% set boolean = '' %}
 {% if tipoingreso == 'U' or tipoingreso == 'H' %}
 	{% set boolean = 'salida' %}
@@ -46,37 +42,31 @@
 				<tr>
 					<th>Nombres</th>
 					<th>Apellidos</th>
-					<th>Identificación</th>
+					<th>Identificación</th>				
 					<th>Grupo Etnico</th>
-					<th>Edad</th>
-					<th>Estado Civil</th>
+					<th>Edad</th>					
+					<th>Estado Civil</th>					
 					<th>Aseguradora</th>
 					<th>Nivel</th>
-					<th>Afiliación</th>
-
+					<th>Afiliación</th>								
 				</tr>
 			</thead>
 	        <tbody>
-	            <tr>
-	                <td>{{ paciente.priNombre | capitalize }} {{ paciente.segNombre | capitalize }}</td>
+	            <tr>                
+	                <td>{{ paciente.priNombre | capitalize }} {{ paciente.segNombre | capitalize }}</td>                
 	                <td>{{ paciente.priApellido | capitalize }} {{ paciente.segApellido | capitalize }}</td>
 	                <td>{{ paciente.identificacion }}</td>
 	                <td>{{ paciente.pertEtnica }}</td>
-	                <td>{{ date('now') | date('Y-m-d') - paciente.fn | date('Y-m-d') }} Años</td>
-	                <td>{{ paciente.estaCivil }}</td>
+	                <td>{{ date('now') | date('Y-m-d') - paciente.fn | date('Y-m-d') }} Años</td>	                
+	                <td>{{ paciente.estaCivil }}</td>	                        
 	                <td>{{ factura.cliente.nombre }}</td>
-
-
-	            </tr>
-
 	                <td>{{ afiliacion.tipoRegist }}</td>
-	                <td>{{ afiliacion.rango }}</td>
-	            </tr>
-
+	                <td>{{ afiliacion.rango }}</td>                                           
+	            </tr>            
 	        </tbody>
 	    </table>
-   </div>
-
+   </div>           
+   
    		   <div id="crearNewSignos">
    		   {% ui_dialog id="newNotas"
 			               title="Crear nuevos signos vitales"
@@ -84,84 +74,84 @@
 			               width="1200px"
 			               autoOpen=false
 			               modal=true
-						   buttons={
+						   buttons={						                 
 				                 	'Cerrar' : js_function("$(this).wijdialog('close')"),
-						          }
+						          } 
   				%}
 					  {% ajax_form action=path('smart_signos_save',{'factura':factura.id})
 					   class= "form-inline"
 		               method="POST"
 		               update='#successTarget' %}
-
+		               
 		              <fieldset>
 		               <div  class="control-group error">
 		               	<label id="successTarget" class="control-label" for="inputError"></label>
 		               </div>
-
-					    <div>
+		               
+					    <div>			
 							{{ form_label(form_nota.fC) }}
 							{{ form_errors(form_nota.fC) }}
 							{{ form_widget(form_nota.fC,{ 'attr': {'class': 'input-mini'} }) }}
-
+							
 							{{ form_label(form_nota.fR) }}
 							{{ form_errors(form_nota.fR) }}
-							{{ form_widget(form_nota.fR,{ 'attr': {'class': 'input-mini'} }) }}
-
+							{{ form_widget(form_nota.fR,{ 'attr': {'class': 'input-mini'} }) }}							
+														
 							{{ form_label(form_nota.ta) }}
-							{{ form_errors(form_nota.ta) }}
-							{{ form_widget(form_nota.ta,{ 'attr': {'class': 'input-mini'} }) }}
-
+							{{ form_errors(form_nota.ta) }}								
+							{{ form_widget(form_nota.ta,{ 'attr': {'class': 'input-mini'} }) }}	
+							
 							{{ form_label(form_nota.temp) }}
 							{{ form_errors(form_nota.temp) }}
 							{{ form_widget(form_nota.temp,{ 'attr': {'class': 'input-mini'} }) }}
-
+							
 							{{ form_label(form_nota.pulso) }}
 							{{ form_errors(form_nota.pulso) }}
 							{{ form_widget(form_nota.pulso,{ 'attr': {'class': 'input-mini'} }) }}
-
+								
 							{{ form_label(form_nota.peso) }}
 							{{ form_errors(form_nota.peso) }}
 							{{ form_widget(form_nota.peso,{ 'attr': {'class': 'input-mini'} }) }}
-
+							
 							{{ form_label(form_nota.estatura) }}
 							{{ form_errors(form_nota.estatura) }}
 							{{ form_widget(form_nota.estatura,{ 'attr': {'class': 'input-mini'} }) }}
-
+							
 							{{ form_label(form_nota.imc) }}
 							{{ form_errors(form_nota.imc) }}
-							{{ form_widget(form_nota.imc,{ 'attr': {'class': 'input-mini'} }) }}
-
+							{{ form_widget(form_nota.imc,{ 'attr': {'class': 'input-mini'} }) }}							
+								
 							{{ form_label(form_nota.glasgow) }}
 							{{ form_errors(form_nota.glasgow) }}
-							{{ form_widget(form_nota.glasgow,{ 'attr': {'class': 'input-mini'} }) }}
-
+							{{ form_widget(form_nota.glasgow,{ 'attr': {'class': 'input-mini'} }) }}						
+										
 				    	</div>
-
+				    	
 						 	{{ form_label(form_nota.triage) }}
 							{{ form_errors(form_nota.triage) }}
-							{{ form_widget(form_nota.triage,{ 'attr': {'class': 'input-mini'} }) }}
-
+							{{ form_widget(form_nota.triage,{ 'attr': {'class': 'input-mini'} }) }}						
+				    	
 				    	{{ form_rest(form_nota) }}
 				     </fieldset>
-					    <hr/>
-					    <input id="button757" type="submit" value="Guardar" class="btn btn-primary" role="button" aria-disabled="false">
-
+					    <hr/>					    
+					    <input id="button757" type="submit" value="Guardar" class="btn btn-primary" role="button" aria-disabled="false">				    
+					    
 					  {% end_ajax_form %}
 				{% end_ui_dialog %}
 			</div>
-
+    
 	<form action="{{ path('historia_update', {'factura':factura.id}) }}" class="form-horizontal" method="post" {{ form_enctype(edit_form) }}>
 	    <fieldset>
 	    	<legend>Información de la historia</legend>
-
+	    	
     	<div class="control-group">
     		<label class="control-label" for="signos">Signos:</label>
-    		<div class="controls">
+    		<div class="controls">				
 				<a class='btn' onclick="new_notas.wijdialog('open');"  href='#' title='new'><i class='icon-pencil'></i>Nuevo</a>
 				<a class='btn' onclick="list_notas.wijdialog('open');" href='#' title='list'><i class='icon-list'></i>Listar</a>
 			</div>
-
-
+			
+			
 			<div id="listarSignosDeEstaHistoria">
 				{% ui_dialog id="listNotas"
 			               title="Listado de los ultimos diez signos"
@@ -169,9 +159,9 @@
 			               width="1200px"
 			               autoOpen=false
 			               modal=true
-						   buttons={
+						   buttons={						                 
 				                 	'Cerrar' : js_function("$(this).wijdialog('close')"),
-						          }
+						          } 
   				%}
   					{% if listNotas %}
   					<table class="table table-hover">
@@ -192,7 +182,7 @@
   							</tr>
   						</thead>
   						<tbody>
-  							{% for nota in listNotas %}
+  							{% for nota in listNotas %}  							
 	  							<tr>
 	  								<td>{{ nota.fecha | date("H:m d/m/Y")}}</td>
 	  								<td>{{ nota.responsable.nombre}} {{ nota.responsable.apellido}}</td>
@@ -206,23 +196,23 @@
 		                			<td>{{ nota.imc }}</td>
 		                			<td>{{ nota.glasgow }}</td>
 		                			<td>{{ nota.resumenNota }}</td>
-	                			</tr>
+	                			</tr> 
   							{% endfor %}
   						</tbody>
   					</table>
   					{% else %}
   						<h3>Esta historia no tiene asignado sus respectivos signos.</h3>
   					{% endif %}
-  				{% end_ui_dialog %}
-			</div>
-
-
+  				{% end_ui_dialog %}  
+			</div>		
+			
+			
     	</div>
-
-
+    	
+    
 		<div class="control-group">
 			<label class="control-label" for="fechaIngre">Fecha Ingreso:</label>
-			<div class="controls">
+			<div class="controls">				
 				<span class="input-xlarge uneditable-input">{{ historia.fechaIngre|date('Y-m-d H:m:i') }}</span>
 			</div>
 		</div>
@@ -231,46 +221,19 @@
 			<div class="controls">
 				<span class="input-xlarge uneditable-input">{{ historia.fechaEgre|date('Y-m-d H:m:i') }}</span>
 			</div>
-		</div>
+		</div>			
 		<div class="control-group">
 			<label class="control-label"  for="fechaEgre">Servicio Ingreso: *</label>
 			<div class="controls">
 				<span class="input-xlarge uneditable-input">{{ factura.servicio.nombre }}</span>
 			</div>
-		</div>
-
-
+		</div>    	
+    	    		
+	
 	  {% ui_expander expanded=false  %}
   		{% ui_header label="Anamnesis" %}
-		    {% ui_content style="height:400px" %}
+		    {% ui_content style="height:400px" %}      
 	      <div id="Anamnesis" style="padding:2px">
-
-	      	<div>
-	      		{{ form_label(edit_form.tipoAtencion) }}
-				{{ form_errors(edit_form.tipoAtencion) }}
-				{{ form_widget(edit_form.tipoAtencion) }}
-    		</div>
-    		<div>
-	      		{{ form_label(edit_form.causaExt) }}
-				{{ form_errors(edit_form.causaExt) }}
-				{{ form_widget(edit_form.causaExt) }}
-    		</div>
-    		<div>
-	      		{{ form_label(edit_form.motivo) }}
-				{{ form_errors(edit_form.motivo) }}
-				{{ form_widget(edit_form.motivo) }}
-    		</div>
-    		<div>
-	      		{{ form_label(edit_form.enfermedad) }}
-				{{ form_errors(edit_form.enfermedad) }}
-				{{ form_widget(edit_form.enfermedad) }}
-    		</div>
-    		<div>
-	     	 	{{ form_label(edit_form.estadoGen) }}
-				{{ form_errors(edit_form.estadoGen) }}
-				{{ form_widget(edit_form.estadoGen) }}
-    		</div>
-
 	      	<div class="control-group">
 					{{ form_label(edit_form.tipoAtencion) }}
 				<div class="controls">
@@ -292,16 +255,16 @@
 					{{ form_widget(edit_form.motivo) }}
 				</div>
 			</div>
-
+			
 			<div class="control-group">
 					{{ form_label(edit_form.enfermedad) }}
 				<div class="controls">
 					{{ form_errors(edit_form.enfermedad) }}
 					{{ form_widget(edit_form.enfermedad) }}
 				</div>
-			</div>
+			</div>  
     	{% if boolean %}
-
+    	
     		<div class="control-group">
  					{{ form_label(edit_form.estadoGen) }}
 				<div class="controls">
@@ -309,67 +272,21 @@
 					{{ form_widget(edit_form.estadoGen) }}
 				</div>
 			</div>
-    	{% endif %}
-
+    	{% endif %}			    	
 	       </div>
       {%  end_ui_content %}
      {% end_ui_expander %}
-
+      
       {% ui_expander expanded=false %}
   		{% ui_header label="Antecedentes" %}
-
-		    {% ui_content style="height:900px" %}
+		    {% ui_content style="height:800px" %}      
 	      <div id="Antecedentes">
-		      <div>
-		     	 {{ form_label(edit_form.antecedentesGenerales) }}
-				 {{ form_errors(edit_form.antecedentesGenerales) }}
-				 {{ form_widget(edit_form.antecedentesGenerales) }}
-		      </div>
-		      <div>
-		     	 {{ form_label(edit_form.antecedentesFisio) }}
-				 {{ form_errors(edit_form.antecedentesFisio) }}
-				 {{ form_widget(edit_form.antecedentesFisio) }}
-		      </div>
-		      <div>
-		      	{{ form_label(edit_form.antecedentesGine) }}
-				{{ form_errors(edit_form.antecedentesGine) }}
-				{{ form_widget(edit_form.antecedentesGine) }}
-		      </div>
-		      <div>
-		      	{{ form_label(edit_form.antecedentesPatologicos) }}
-				{{ form_errors(edit_form.antecedentesPatologicos) }}
-				{{ form_widget(edit_form.antecedentesPatologicos) }}
-		      </div>
-		      <div>
-		      	{{ form_label(edit_form.antecedentesFami) }}
-				{{ form_errors(edit_form.antecedentesFami) }}
-				{{ form_widget(edit_form.antecedentesFami) }}
-		      </div>
-		      <div>
-		      	{{ form_label(edit_form.habitosNocivos) }}
-				{{ form_errors(edit_form.habitosNocivos) }}
-				{{ form_widget(edit_form.habitosNocivos) }}
-		      </div>
-		      <div>
-		      	{{ form_label(edit_form.inmunizaciones) }}
-				{{ form_errors(edit_form.inmunizaciones) }}
-				{{ form_widget(edit_form.inmunizaciones) }}
-		      </div>
-		      <div>
-		      	{{ form_label(edit_form.alergias) }}
-				{{ form_errors(edit_form.alergias) }}
-				{{ form_widget(edit_form.alergias) }}
-		      </div>
-	    	</div>
-
-		    {% ui_content style="height:800px" %}
-	      <div id="Antecedentes">
-
+	      
 	      	<div class="control-group">
 	      			{{ form_label(edit_form.antecedentesGenerales) }}
-				<div class="controls">
+				<div class="controls">				
 					 {{ form_errors(edit_form.antecedentesGenerales) }}
-					 {{ form_widget(edit_form.antecedentesGenerales) }}
+					 {{ form_widget(edit_form.antecedentesGenerales) }}					
 				</div>
 			</div>
 			<div class="control-group">
@@ -381,7 +298,7 @@
 			</div>
 			<div class="control-group">
 					{{ form_label(edit_form.antecedentesGine) }}
-				<div class="controls">
+				<div class="controls">	
 					{{ form_errors(edit_form.antecedentesGine) }}
 					{{ form_widget(edit_form.antecedentesGine) }}
 				</div>
@@ -420,47 +337,16 @@
 					{{ form_errors(edit_form.alergias) }}
 					{{ form_widget(edit_form.alergias) }}
 				</div>
-			</div>
+			</div>				
 	    </div>
-
       {%  end_ui_content %}
-
+     {% end_ui_expander %}
+      
       {% ui_expander expanded=false %}
   		{% ui_header label="Examen Fisico rostro" %}
-		    {% ui_content style="height:600px" %}
+		    {% ui_content style="height:600px" %}     
 	      <div id="ExamenFisico">
-
-	      	<div>
-	    		{{ form_label(edit_form.cabeza) }}
-				{{ form_errors(edit_form.cabeza) }}
-				{{ form_widget(edit_form.cabeza) }}
-			</div>
-			<div>
-				{{ form_label(edit_form.cara) }}
-				{{ form_errors(edit_form.cara) }}
-				{{ form_widget(edit_form.cara) }}
-			</div>
-			<div>
-				{{ form_label(edit_form.ojos) }}
-				{{ form_errors(edit_form.ojos) }}
-				{{ form_widget(edit_form.ojos) }}
-			</div>
-			<div>
-				{{ form_label(edit_form.oidos) }}
-				{{ form_errors(edit_form.oidos) }}
-				{{ form_widget(edit_form.oidos) }}
-			</div>
-			<div>
-				{{ form_label(edit_form.nariz) }}
-				{{ form_errors(edit_form.nariz) }}
-				{{ form_widget(edit_form.nariz) }}
-			</div>
-			<div>
-				{{ form_label(edit_form.boca) }}
-				{{ form_errors(edit_form.boca) }}
-				{{ form_widget(edit_form.boca) }}
-
-
+	      
 	      	<div class="control-group">
 					{{ form_label(edit_form.cabeza) }}
 				<div class="controls">
@@ -474,83 +360,44 @@
 					{{ form_errors(edit_form.cara) }}
 					{{ form_widget(edit_form.cara) }}
 				</div>
-			</div>
+			</div>	
 			<div class="control-group">
 					{{ form_label(edit_form.ojos) }}
 				<div class="controls">
 					{{ form_errors(edit_form.ojos) }}
 					{{ form_widget(edit_form.ojos) }}
 				</div>
-			</div>
+			</div>	
 			<div class="control-group">
 					{{ form_label(edit_form.oidos) }}
 				<div class="controls">
 					{{ form_errors(edit_form.oidos) }}
 					{{ form_widget(edit_form.oidos) }}
 				</div>
-			</div>
+			</div>	
 			<div class="control-group">
 					{{ form_label(edit_form.nariz) }}
 				<div class="controls">
 					{{ form_errors(edit_form.nariz) }}
 					{{ form_widget(edit_form.nariz) }}
 				</div>
-			</div>
+			</div>	
 			<div class="control-group">
 					{{ form_label(edit_form.boca) }}
 				<div class="controls">
 					{{ form_errors(edit_form.boca) }}
 					{{ form_widget(edit_form.boca) }}
 				</div>
-
 			</div>
 		</div>
 	   {% end_ui_content %}
 	  {% end_ui_expander %}
-
+	   
 	   {% ui_expander expanded=false %}
   		{% ui_header label="Examen Fisico Cuerpo" %}
-		    {% ui_content style="height:700px" %}
-
+		    {% ui_content style="height:700px" %} 	
+	   
 	    <div>
-
-			<div>
-				{{ form_label(edit_form.cuello) }}
-				{{ form_errors(edit_form.cuello) }}
-				{{ form_widget(edit_form.cuello) }}
-			</div>
-			<div>
-				{{ form_label(edit_form.torax) }}
-				{{ form_errors(edit_form.torax) }}
-				{{ form_widget(edit_form.torax) }}
-			</div>
-			<div>
-				{{ form_label(edit_form.pulmones) }}
-				{{ form_errors(edit_form.pulmones) }}
-				{{ form_widget(edit_form.pulmones) }}
-			</div>
-			<div>
-				{{ form_label(edit_form.abdomen) }}
-				{{ form_errors(edit_form.abdomen) }}
-				{{ form_widget(edit_form.abdomen) }}
-			</div>
-			<div>
-				{{ form_label(edit_form.espalda) }}
-				{{ form_errors(edit_form.espalda) }}
-				{{ form_widget(edit_form.espalda) }}
-			</div>
-			<div>
-				{{ form_label(edit_form.extremidades) }}
-				{{ form_errors(edit_form.extremidades) }}
-				{{ form_widget(edit_form.extremidades) }}
-			</div>
-			<div>
-				{{ form_label(edit_form.genitales) }}
-				{{ form_errors(edit_form.genitales) }}
-				{{ form_widget(edit_form.genitales) }}
-			</div>
-	    </div>
-
 	    	<div class="control-group">
 					{{ form_label(edit_form.cuello) }}
 				<div class="controls">
@@ -600,17 +447,16 @@
 					{{ form_widget(edit_form.genitales) }}
 				</div>
 			</div>
-	    </div>
-
+	    </div>       
        {%  end_ui_content %}
-      {% end_ui_expander %}
-
-
+      {% end_ui_expander %}     
+      
+      
        {% ui_expander expanded=false %}
   		{% ui_header label="Revision por sistemas" %}
-		    {% ui_content style="height:500px" %}
+		    {% ui_content style="height:500px" %}	   
 	    <div>
-
+	    
 	    	<div class="control-group">
 				{{ form_label(edit_form.o_sentidos) }}
     	    	<div class="controls">
@@ -618,7 +464,7 @@
 				{{ form_widget(edit_form.o_sentidos,{ 'attr': {'class': 'input-xxlarge'} }) }}
 				</div>
     	    </div>
-
+    	    
     	    <div class="control-group">
 				{{ form_label(edit_form.a_respiratorio) }}
     	    	<div class="controls">
@@ -626,7 +472,7 @@
 				{{ form_widget(edit_form.a_respiratorio,{ 'attr': {'class': 'input-xxlarge'} }) }}
 				</div>
     	    </div>
-
+    	    
     	    <div class="control-group">
 				{{ form_label(edit_form.a_cardiovascular) }}
     	    	<div class="controls">
@@ -634,7 +480,7 @@
 				{{ form_widget(edit_form.a_cardiovascular,{ 'attr': {'class': 'input-xxlarge'} }) }}
 				</div>
     	    </div>
-
+    	    
     	    <div class="control-group">
 				{{ form_label(edit_form.a_digestivo) }}
     	    	<div class="controls">
@@ -642,7 +488,7 @@
 				{{ form_widget(edit_form.a_digestivo,{ 'attr': {'class': 'input-xxlarge'} }) }}
 				</div>
     	    </div>
-
+    	    
     	    <div class="control-group">
 				{{ form_label(edit_form.a_genitoUrinario) }}
     	    	<div class="controls">
@@ -650,7 +496,7 @@
 				{{ form_widget(edit_form.a_genitoUrinario,{ 'attr': {'class': 'input-xxlarge'} }) }}
 				</div>
     	    </div>
-
+			
 			<div class="control-group">
 				{{ form_label(edit_form.s_nervioso) }}
     	    	<div class="controls">
@@ -658,15 +504,15 @@
 				{{ form_widget(edit_form.s_nervioso,{ 'attr': {'class': 'input-xxlarge'} }) }}
 				</div>
     	    </div>
-
+    	    
     	    <div class="control-group">
-				{{ form_label(edit_form.a_hematologico) }}
+				{{ form_label(edit_form.a_hematologico) }}	
     	    	<div class="controls">
 				{{ form_errors(edit_form.a_hematologico) }}
 				{{ form_widget(edit_form.a_hematologico,{ 'attr': {'class': 'input-xxlarge'} }) }}
 				</div>
     	    </div>
-
+				
 			<div class="control-group">
 				{{ form_label(edit_form.s_osteoarticular) }}
     	    	<div class="controls">
@@ -674,38 +520,29 @@
 				{{ form_widget(edit_form.s_osteoarticular,{ 'attr': {'class': 'input-xxlarge'} }) }}
 				</div>
     	    </div>
-
+    	    
 			<div class="control-group">
 				{{ form_label(edit_form.s_endocrino) }}
     	    	<div class="controls">
 					{{ form_errors(edit_form.s_endocrino) }}
 					{{ form_widget(edit_form.s_endocrino,{ 'attr': {'class': 'input-xxlarge'} }) }}
 				</div>
-    	    </div>
-	    </div>
+    	    </div>	
+	    </div>       
        {%  end_ui_content %}
-      {% end_ui_expander %}
-
-  {% if tipoingreso == 'U' or tipoingreso == 'H' %}
+      {% end_ui_expander %}      
+      
+  {% if tipoingreso == 'U' or tipoingreso == 'H' %}    
       {% ui_accordion %}
       {% ui_tab label="Parte Medica Diagnostica" %}
-
-     		 <div id="ParteMedica">
-	     		 <div>
-	     		 	{{ form_label(edit_form.dxPrin) }}
-					{{ form_errors(edit_form.dxPrin) }}
-					{{ form_widget(edit_form.dxPrin) }}
-	     		 </div>
-
-     		 <div id="ParteMedica">
+     		 <div id="ParteMedica">     		 
 	     		 <div class="control-group">
 						{{ form_label(edit_form.dxPrin) }}
 	    	    	<div class="controls">
 						{{ form_errors(edit_form.dxPrin) }}
-						{{ form_widget(edit_form.dxPrin) }}
+						{{ form_widget(edit_form.dxPrin) }} 
 					</div>
 	    	    </div>
-
 	     		 <div id="dxSolicitados">
 	     		 	<div id="ajaxMsgCie"></div>
 		     		<table id="CieSolicitado" class="table table-striped">
@@ -713,43 +550,24 @@
 		            		<tr>
 		                		<th>NOMBRE</th>
 		                		<th>CODIGO</th>
-		                		<th>OPCIÓN</th>
+		                		<th>OPCIÓN</th>                
 		            		</tr>
 		        		</thead>
-					    <tbody>
+					    <tbody>  
 					    	{% for cie in hc_cie %}
 					    		<tr id="dx{{ cie.id }}">
 						    		<td>{{ cie.nombre }}</td>
-						    		<td>{{ cie.codigo }}</td>
+						    		<td>{{ cie.codigo }}</td>  
 						    		<td id="delCieBtn{{ cie.id }}">
 						    			<a class='btn' onClick='delCie({{ cie.id }}); return false;' href='#' title='Eliminar'><i class='icon-remove'></i></a>
 						    		</td>
 					    		</tr>
-					    	{% endfor %}
-
+					    	{% endfor %} 
+					    
 					    </tbody>
-					</table>
+					</table> 
 	     		 </div>
-
-	     		 <div>
-	     		 	{{ form_label(edit_form.tipoDx) }}
-					{{ form_errors(edit_form.tipoDx) }}
-					{{ form_widget(edit_form.tipoDx) }}
-				 </div>
-	     		 <div>
-		     		{{ form_label(edit_form.conducta) }}
-					{{ form_errors(edit_form.conducta) }}
-					{{ form_widget(edit_form.conducta) }}
-	     		 </div>
-
-	     		 <div>
-		     		{{ form_label(edit_form.evolucion) }}
-					{{ form_errors(edit_form.evolucion) }}
-					{{ form_widget(edit_form.evolucion) }}
-	     		 </div>
-
-
-
+	     		 
 	     		 <div class="control-group">
 						{{ form_label(edit_form.tipoDx) }}
 	    	    	<div class="controls">
@@ -757,7 +575,7 @@
 						{{ form_widget(edit_form.tipoDx) }}
 					</div>
 	    	    </div>
-
+	    	    
 	    	    <div class="control-group">
 						{{ form_label(edit_form.conducta) }}
 	    	    	<div class="controls">
@@ -771,50 +589,49 @@
 						{{ form_errors(edit_form.evolucion) }}
 						{{ form_widget(edit_form.evolucion) }}
 					</div>
-	    	    </div>
-
+	    	    </div>	     		
     		 </div>
       {%  end_ui_tab %}
-
-      {% ui_tab label="Parte Medica Examen" %}
-
+	
+      {% ui_tab label="Parte Medica Examen" %}     	       
+      
       			 <div class="control-group">
-		     		{{ form_label(edit_form.examenes) }}
+		     		{{ form_label(edit_form.examenes) }}		     		
 					{{ form_errors(edit_form.examenes) }}
-					<div class="controls">
+					<div class="controls">					
 					{{ form_widget(edit_form.examenes) }}
 					<a class='btn' onClick="myAllListExa.wijdialog('open'); return false;" href='#' title='leer'><i class='icon-list'></i>Listar Examenes</a>
-					</div>
-	     		 </div>
-
-
-	     		 		{% ui_dialog id="listAllExaHc"
+					</div>				
+	     		 </div>	
+                    
+	     		 
+	     		 		{% ui_dialog id="listAllExaHc"						    						   
 					                 title= "Listar todos los examenes"
-					                 width="1100px"
-					                 widgetVar="myAllListExa"
+					                 width="1100px"			                 
+					                 widgetVar="myAllListExa"									                 
 					                 autoOpen=false
 					                 modal=true
-									 buttons={
+									 buttons={						                 
 						                 'Cerrar' : js_function("$(this).wijdialog('close')"),
-						               }
-			 			 %}
+						               } 
+			 			 %}							 
 							 	<table class="table table-striped">
 				     		 		<thead>
 				     		 			<tr>
 				     		 				<th colspan="4"><h3>Ultimos diez examenes de todo su historial clinico</h3></th>
 				     		 			</tr>
 				     		 			<tr>
-					                		<th>NOMBRE</th>
+					                		<th>NOMBRE</th>		                		
 					                		<th>TIPO</th>
-					                		<th>RESULTADO</th>
+					                		<th>RESULTADO</th>				                		 		                		
 					            		</tr>
 				     		 		</thead>
-				     		 		<tbody>
+				     		 		<tbody>					                    
 									{% for list_exam in hc_exa_all%}
 			     		 				<tr>
 								    		<td>{{ list_exam.nombre }}</td>
 								    		<td>{{ list_exam.tipo }}</td>
-								    		<td>{{ list_exam.resultado }}</td>
+								    		<td>{{ list_exam.resultado }}</td>							    		
 							    		</tr>
 							    		{% else %}
 							    		<tr>
@@ -823,25 +640,25 @@
 									 {% endfor %}
 									 </tbody>
 	     		 				</table>
-						 {% end_ui_dialog %}
-
-
+						 {% end_ui_dialog %} 	     		 
+	     		 
+	     		 
 	     		 <div id="ajaxMsgExa"></div>
-	     		 <div id="exaSoli">
+	     		 <div id="exaSoli">	     		 	
 	     		 	<table id="examenSolicitado" class="table table-striped">
 	     		 		<thead>
 	     		 			<tr>
 	     		 				<th colspan="4"><h3>Examenes y procedimientos solicitados </h3></th>
 	     		 			</tr>
 	     		 			<tr>
-		                		<th>NOMBRE</th>
+		                		<th>NOMBRE</th>		                		
 		                		<th>TIPO</th>
 		                		<th>RESULTADO</th>
 		                		<th>Leer</th>
-		                		<th>OPCIÓN</th>
+		                		<th>OPCIÓN</th>       		                		
 		            		</tr>
 	     		 		</thead>
-	     		 		<tbody>
+	     		 		<tbody>					                    
 	     		 			{% for examen in hc_exa %}
 	     		 				<tr id="exa{{ examen.id }}">
 						    		<td>{{ examen.nombre }}</td>
@@ -849,9 +666,9 @@
 						    		<td id="div{{ examen.id }}">
 						    			<div id="resultado{{ examen.id }}">{{ examen.resultado }}</div>
 						    		</td>
-						    		<td id="opcion{{ examen.id }}">
-						    			<a onClick='readExamen({{ examen.id }});return false;' class='btn'  href='#' title='leer'><i class='icon-edit'></i></a>
-						    		</td>
+						    		<td id="opcion{{ examen.id }}">					    			
+						    			<a onClick='readExamen({{ examen.id }});return false;' class='btn'  href='#' title='leer'><i class='icon-edit'></i></a>		
+						    		</td>    
 						    		<td id="delExaBtn{{ examen.id }}">
 						    			<a class='btn' onClick='delExa({{ examen.id }}); return false;' href='#' title='Eliminar'><i class='icon-remove'></i></a>
 						    		</td>
@@ -859,30 +676,30 @@
 	     		 			{% endfor %}
 	     		 		</tbody>
 	     		 	</table>
-	     		 </div>
-      {%  end_ui_tab %}
-
-	  {% ui_tab label="Parte Medica medicamento" %}
-
+	     		 </div>	     
+      {%  end_ui_tab %}       
+      
+	  {% ui_tab label="Parte Medica medicamento" %}	  	
+	  		  
 		    	<div>
 		     		{{ form_label(edit_form.laboratorio) }}
 					{{ form_errors(edit_form.laboratorio) }}
 					{{ form_widget(edit_form.laboratorio) }}
-	     		 </div>
-
+	     		 </div>	
+	     		 
 	     		  <div id="ajaxMsgLab"></div>
-	     		 <div id="labSoli">
+	     		 <div id="labSoli">	     		 	
 	     		 	<table id="laboraSolicitado" class="table table-striped">
 	     		 		<thead>
 	     		 			<tr>
 	     		 				<th colspan="4"><h3>Medicamentos Solicitados</h3></th>
 	     		 			</tr>
 	     		 			<tr>
-		                		<th>NOMBRE</th>
+		                		<th>NOMBRE</th>		                		
 		                		<th>PRESENTACIÓN</th>
 		                		<th>CONCENTRACIÓN</th>
 		                		<th>POSOLOGIA</th>
-		                		<th>OPCIÓN</th>
+		                		<th>OPCIÓN</th>       		                		
 		            		</tr>
 	     		 		</thead>
 	     		 		<tbody>
@@ -891,7 +708,7 @@
 						    		<td>{{ medicamento.principioActivo }}</td>
 						    		<td>{{ medicamento.presentacion }}</td>
 						    		<td>{{ medicamento.concentracion }}</td>
-						    		<td>{{ medicamento.posologia }}</td>
+						    		<td>{{ medicamento.posologia }}</td>  
 						    		<td id="delLabBtn{{ medicamento.id }}">
 						    			<a class='btn' onClick='delLab({{ medicamento.id }}); return false;' href='#' title='Eliminar'><i class='icon-remove'></i></a>
 						    		</td>
@@ -899,28 +716,20 @@
 	     		 			{% endfor %}
 	     		 		</tbody>
 	     		 	</table>
-	     		 </div>
-		{%  end_ui_tab %}
+	     		 </div>	     	
+		{%  end_ui_tab %}	
 		{% end_ui_accordion %}
 	{% else %}
 	 {% ui_accordion %}
       {% ui_tab label="Parte Medica Diagnostica" %}
      		 <div id="ParteMedica">
-
-	     		 <div>
-	     		 	{{ form_label(edit_form.dxPrin) }}
-					{{ form_errors(edit_form.dxPrin) }}
-					{{ form_widget(edit_form.dxPrin) }}
-	     		 </div>
-
 	     		 <div class="control-group">
 						{{ form_label(edit_form.dxPrin) }}
 	    	    	<div class="controls">
 						{{ form_errors(edit_form.dxPrin) }}
-						{{ form_widget(edit_form.dxPrin) }}
+						{{ form_widget(edit_form.dxPrin) }} 
 					</div>
 	    	    </div>
-
 	     		 <div id="dxSolicitados">
 	     		 	<div id="ajaxMsgCie"></div>
 		     		<table id="CieSolicitado" class="table table-striped">
@@ -928,35 +737,23 @@
 		            		<tr>
 		                		<th>NOMBRE</th>
 		                		<th>CODIGO</th>
-		                		<th>OPCIÓN</th>
+		                		<th>OPCIÓN</th>                
 		            		</tr>
 		        		</thead>
-					    <tbody>
+					    <tbody>  
 					    	{% for cie in hc_cie %}
 					    		<tr id="dx{{ cie.id }}">
 						    		<td>{{ cie.nombre }}</td>
-						    		<td>{{ cie.codigo }}</td>
+						    		<td>{{ cie.codigo }}</td>  
 						    		<td id="delCieBtn{{ cie.id }}">
 						    			<a class='btn' onClick='delCie({{ cie.id }}); return false;' href='#' title='Eliminar'><i class='icon-remove'></i></a>
 						    		</td>
 					    		</tr>
-					    	{% endfor %}
-
+					    	{% endfor %} 
+					    
 					    </tbody>
-					</table>
+					</table> 
 	     		 </div>
-
-	     		 <div>
-	     		 	{{ form_label(edit_form.tipoDx) }}
-					{{ form_errors(edit_form.tipoDx) }}
-					{{ form_widget(edit_form.tipoDx) }}
-				 </div>
-	     		 <div>
-		     		{{ form_label(edit_form.conducta) }}
-					{{ form_errors(edit_form.conducta) }}
-					{{ form_widget(edit_form.conducta) }}
-	     		 </div>
-
 	     		<div class="control-group">
 						{{ form_label(edit_form.tipoDx) }}
 	    	    	<div class="controls">
@@ -964,127 +761,126 @@
 						{{ form_widget(edit_form.tipoDx) }}
 					</div>
 	    	    </div>
-
+	    	    
 	    	    <div class="control-group">
 						{{ form_label(edit_form.conducta) }}
 	    	    	<div class="controls">
 						{{ form_errors(edit_form.conducta) }}
 						{{ form_widget(edit_form.conducta) }}
 					</div>
-	    	    </div>
-
+	    	    </div>     		
     		 </div>
       {%  end_ui_tab %}
      {% end_ui_accordion %}
   {% endif %}
-
+  		
   		{% ui_expander expanded=false %}
   		{% ui_header label="Egreso" %}
-		    {% ui_content style="height:1200px" %}
+		    {% ui_content style="height:1200px" %} 		    	
 		    	<div id="Egreso">
 		    	 <div>
 		    	    {{ form_label(edit_form.dxSalida) }}
 					{{ form_errors(edit_form.dxSalida) }}
 					{{ form_widget(edit_form.dxSalida,{ 'attr': {'class': 'input-xxlarge'} }) }}
 				 </div>
-				 <div>
+				 <div>	
 					{{ form_label(edit_form.condSalida) }}
 					{{ form_errors(edit_form.condSalida) }}
 					{{ form_widget(edit_form.condSalida) }}
 				 </div>
-
+				 
 				 <br/>
 				 <div>
 				 	{{ form_label(edit_form.medicamentos_s) }}
-					 <div>
+					 <div>						
 						{{ form_errors(edit_form.sal_medicamentos) }}
 						{{ form_widget(edit_form.sal_medicamentos) }}
-					</div>
+					</div>						
 						{{ form_errors(edit_form.medicamentos_s) }}
 						{{ form_widget(edit_form.medicamentos_s) }}
-				 </div>
-
-
+				 </div>	
+				 
+				
 				<br/>
 				<div>
 					{{ form_label(edit_form.procedimientos_s) }}
-					<div>
+					<div>						
 						{{ form_errors(edit_form.sal_procedimientos) }}
 						{{ form_widget(edit_form.sal_procedimientos) }}
-					</div>
+					</div>					
 					{{ form_errors(edit_form.procedimientos_s) }}
-					{{ form_widget(edit_form.procedimientos_s) }}
+					{{ form_widget(edit_form.procedimientos_s) }}				
 				</div>
-
+				
 				<br/>
 				<div>
 					{{ form_label(edit_form.examenes_s) }}
-					<div>
+					<div>						
 						{{ form_errors(edit_form.sal_examenes) }}
-						{{ form_widget(edit_form.sal_examenes) }}
+						{{ form_widget(edit_form.sal_examenes) }}	
 					</div>
 					{{ form_errors(edit_form.examenes_s) }}
-					{{ form_widget(edit_form.examenes_s) }}
-
-				</div>
-
+					{{ form_widget(edit_form.examenes_s) }}					
+								
+				</div>				 
+				 
 				 <div>
-				 	{{ form_label(edit_form.manejoSalida) }}
+				 	{{ form_label(edit_form.manejoSalida) }}						
 					{{ form_errors(edit_form.manejoSalida) }}
 					{{ form_widget(edit_form.manejoSalida) }}
 				 </div>
-
-				 <div>
+				 
+				 <div>	
 					{{ form_label(edit_form.incapacidad) }}
 					{{ form_errors(edit_form.incapacidad) }}
 					{{ form_widget(edit_form.incapacidad) }}
-				  </div>
-
+				  </div>	
+				  
 				  <div class="control-group">
-					{{ form_label(edit_form.destino) }}
+					{{ form_label(edit_form.destino) }}	
     	    		<div class="controls">
 					{{ form_errors(edit_form.destino) }}
 					{{ form_widget(edit_form.destino) }}
 					</div>
-    	   		 </div>
-
-		    	</div>
-
-
-		    	<div id="remision" style="display: none;" >
-
+    	   		 </div>				  
+				  			
+		    	</div>     
+		    	
+		    	
+		    	<div id="remision" style="display: none;" >	
+		    	
 		    	<div class="control-group">
-					{{ form_label(edit_form.destino_r) }}
+					{{ form_label(edit_form.destino_r) }}	
     	    		<div class="controls">
 					{{ form_errors(edit_form.destino_r) }}
 					{{ form_widget(edit_form.destino_r,{ 'attr': {'class': 'input-xxlarge'} }) }}
 					</div>
-    	   		 </div>
-
+    	   		 </div>	
+    	   		 
     	   		 <div class="control-group">
 					{{ form_label(edit_form.especialidad_r) }}
     	    		<div class="controls">
 					{{ form_errors(edit_form.especialidad_r) }}
 					{{ form_widget(edit_form.especialidad_r,{ 'attr': {'class': 'input-xxlarge'} }) }}
 					</div>
-    	   		 </div>
-
+    	   		 </div>	
+    	   		 
     	   		 <div class="control-group">
 					{{ form_label(edit_form.nuAuto_r) }}
     	    		<div class="controls">
 					{{ form_errors(edit_form.nuAuto_r) }}
 					{{ form_widget(edit_form.nuAuto_r,{ 'attr': {'class': 'input-small'} }) }}
 					</div>
-    	   		 </div>
+    	   		 </div>	    	   		 				   
 				 <div class="control-group">
 					{{ form_label(edit_form.rServicio) }}
     	    		<div class="controls">
 					{{ form_errors(edit_form.rServicio) }}
 					{{ form_widget(edit_form.rServicio,{ 'attr': {'class': 'input-xlarge'} }) }}
 					</div>
-    	   		 </div>
-				</div>
-
+    	   		 </div>	    	   						
+				</div>	
+				
 				<div id="remision2" style="display: none;" >
 				 <div class="control-group">
 					{{ form_label(edit_form.descripcion_r) }}
@@ -1092,27 +888,109 @@
 					{{ form_errors(edit_form.descripcion_r) }}
 					{{ form_widget(edit_form.descripcion_r) }}
 					</div>
-    	   		 </div>
-				</div>
+    	   		 </div>	
+				</div>					
 		    {% end_ui_content %}
-		{% end_ui_expander %}  <br/>
-
+		{% end_ui_expander %}
+		 
+		
+		{% ui_expander expanded=false %}
+  		{% ui_header label="Fromulario Parto" %}
+		    {% ui_content style="height:400px" %}
+			    <div id="hcParto" >
+	    	 		<div class="control-group">
+		    			{{ form_label(edit_form.pFechaN) }}
+		    			
+	    	    		<div class="controls">
+							{{ form_errors(edit_form.pFechaN) }}
+							{{ form_widget(edit_form.pFechaN) }}
+						</div>
+	    	   		 </div>	 
+	    	   		 
+	    	   		 <div class="control-group">
+		    			{{ form_label(edit_form.pEdadG) }}
+		    			
+	    	    		<div class="controls">
+							{{ form_errors(edit_form.pEdadG) }}
+							{{ form_widget(edit_form.pEdadG) }}
+						</div>
+	    	   		 </div> 
+	    	   		 
+	    	   		 <div class="control-group">
+		    			{{ form_label(edit_form.pControlP) }}
+		    			
+	    	    		<div class="controls">
+							{{ form_errors(edit_form.pControlP) }}
+							{{ form_widget(edit_form.pControlP) }}
+						</div>
+	    	   		 </div>  
+	    	   		 
+	    	   		 <div class="control-group">
+		    			{{ form_label(edit_form.pSexo) }}
+		    			
+	    	    		<div class="controls">
+							{{ form_errors(edit_form.pSexo) }}
+							{{ form_widget(edit_form.pSexo) }}
+						</div>
+	    	   		 </div> 	
+	    	   		 
+	    	   		 <div class="control-group">
+		    			{{ form_label(edit_form.pPeso) }}
+		    			
+	    	    		<div class="controls">
+							{{ form_errors(edit_form.pPeso) }}
+							{{ form_widget(edit_form.pPeso) }}
+						</div>
+	    	   		 </div>  
+	    	   		 
+	    	   		 <div class="control-group">
+		    			{{ form_label(edit_form.pCausaM) }}
+		    			
+	    	    		<div class="controls">
+							{{ form_errors(edit_form.pCausaM) }}
+							{{ form_widget(edit_form.pCausaM) }}
+						</div>
+	    	   		 </div>
+	    	   		 
+	    	   		 <div class="control-group">
+		    			{{ form_label(edit_form.pFechaM) }}
+		    			
+	    	    		<div class="controls">
+							{{ form_errors(edit_form.pFechaM) }}
+							{{ form_widget(edit_form.pFechaM) }}
+						</div>
+	    	   		 </div>
+	    	   		 
+	    	   		 <div class="control-group">
+		    			{{ form_label(edit_form.pDx) }}
+		    			
+	    	    		<div class="controls">
+							{{ form_errors(edit_form.pDx) }}
+							{{ form_widget(edit_form.pDx) }}
+						</div>
+	    	   		 </div>
+	    	 	</div>
+		    {% end_ui_content %}
+		{% end_ui_expander %}  <br/> 
+		
 				<div class="control-group">
 	    			{{ form_label(edit_form.serviEgre) }}
-
+	    			
     	    		<div class="controls">
 						{{ form_errors(edit_form.serviEgre) }}
 						{{ form_widget(edit_form.serviEgre) }}
 					</div>
-    	   		 </div>
-  		<div id="remision" style="display: none;" >
+    	   		 </div>		   	 
+    	   		 
+    	   		 
+  		<div id="remision" style="display: none;" >	
 		   {{ form_rest(edit_form) }}
 		 </div>
        </fieldset>
-
+       
 			<div class="form-actions">
 				<input class="btn btn-primary" name="guardar" type="submit" value="Modificar" />
-			    <a href="{{ path('paciente_filtro') }}" class="btn btn-danger">Cancelar</a>
+			    <a href="{{ path('paciente_filtro') }}" class="btn btn-danger">Cancelar</a>			    
 			   {% if historia.serviEgre %} <a href="{{ path('historia_imprime', {'factura': factura.id}) }}" target='blank' class="btn" >Imprimir</a>{% endif %}
 			</div>
 	</form>
@@ -1123,13 +1001,13 @@
 	<script type="text/javascript">
 		$("#newNotasType_peso,#newNotasType_estatura").focusout(function() {
 			var imc = 0;
-
+			
 			peso = $("#newNotasType_peso").val();
 			talla = $("#newNotasType_estatura").val();
-
+		
 			if(peso && talla){
-				imc = (peso/(Math.pow((talla/100),2)));
-
+				imc = (peso/(Math.pow((talla/100),2)));		
+				
 				$("#newNotasType_imc").val(imc.toFixed(0));
 			}else{
 				$("#newNotasType_imc").val('');
@@ -1138,8 +1016,8 @@
 
 
 		// funcion para visualizar los campos q se deben de llenar para una remision y una contraremision.
-		$("#newHcType_destino").change(function(){
-
+		$("#newHcType_destino").change(function(){		
+			
 			var opcion = $("#newHcType_destino").val();
 
 			if(opcion == 'remision' || opcion == 'contraRemision'){
@@ -1151,79 +1029,79 @@
 			}
 
 			if(opcion == 'muerte'){
-				$("label[for='newHcType_descripcion_r']").text('Descrip, hora y fecha de la muerte');
-				$('#remision2').show('slow');
+				$("label[for='newHcType_descripcion_r']").text('Descrip, hora y fecha de la muerte');				
+				$('#remision2').show('slow');				
 			}
-		});
+		});		
 	</script>
-
-
-
+	
+	
+	
 <script type="text/javascript">
 
 
 	//	funcion para el leer el examen solicitado por el medico
-
+	
 	/* Esta funcion se encarga de creear un area de texto y de cambiar la funcion del boton edit una funcion de guardar
-	   despues de dar click en la opcion de guardar se dirige a la funcion saveResultadoExamen que es la que se encarga
+	   despues de dar click en la opcion de guardar se dirige a la funcion saveResultadoExamen que es la que se encarga 
 	   de trabajar con el ajax para guardar la informacion.
 	*/
 
-	function readExamen(examen){
+	function readExamen(examen){        	
 
-	       var examenId = examen;
+	       var examenId = examen;	       
 	       var resultado = $('#resultado'+examenId).html();
 
 	       var div ="<div id='resultado"+examenId+"'><textarea id='textarea"+examenId+"' style='width:300px; height:75px;' rows='2'>"+resultado+"</textarea></div>";
 	       var a = "<a onClick='saveResultadoExamen("+examenId+"); return false;' class='btn' href='#' title='guardar'><i class='icon-hdd'></i></a>"
-
+	    	  
 
 	       $('#opcion'+examenId).empty();
 	       $('#div'+examenId).empty();
-	       $("#div"+examenId).append(div);
+	       $("#div"+examenId).append(div);	       
 	       $("#opcion"+examenId).append(a);
 	}
 
 	function saveResultadoExamen(examen){
 
-		$('#opcion'+examen).empty();// se deshabilita el boton para que no se ejecute multiples veces la funcion.
-
+		$('#opcion'+examen).empty();// se deshabilita el boton para que no se ejecute multiples veces la funcion. 
+		
 		var url="{{ path('historia_saveResultadoExamen') }}";
 		var examenId = examen;
 		var hcId = {{ historia.id }};
-		var resultado = $("#textarea"+examenId).val();
+		var resultado = $("#textarea"+examenId).val();		
 
 		if(resultado != "")
 		{
 			$.post(url,{
-
+				
 				hcId: hcId,
 				examenId : examenId,
 				result: resultado
-
+				
 				},function(data){
 					if(data.responseCode==200){
 
 					   $('#ajaxMsgExa').empty();
 
 					   var div ="<div id='resultado"+examenId+"'>"+resultado+"</div>";
-				       var a = "<a onClick='readExamen("+examenId+"); return false;' class='btn' href='#' title='leer'><i class='icon-edit'></i></a>"
+				       var a = "<a onClick='readExamen("+examenId+"); return false;' class='btn' href='#' title='leer'><i class='icon-edit'></i></a>"					    	  
 
 				       $('#opcion'+examenId).empty();
 				       $('#div'+examenId).empty();
-				       $("#div"+examenId).append(div);
+				       $("#div"+examenId).append(div);	       
 				       $("#opcion"+examenId).append(a);
-					}
+					}					       
 					else if(data.responseCode==400){
 		             	$('#ajaxMsgExa').html(data.msg);
 		                $('#ajaxMsgExa').css("color","red");
 
 		                var div ="<div id='resultado"+examenId+"'>"+resultado+"</div>";
 		 		        var a = "<a onClick='readExamen("+examenId+"); return false;' class='btn' href='#' title='leer'><i class='icon-edit'></i></a>"
-
+	
 		 		        $('#opcion'+examenId).empty();
 		 		        $('#div'+examenId).empty();
-		 		        $("#div"+examenId).append(div);
+		 		        $("#div"+examenId).append(div);	       
 		 		        $("#opcion"+examenId).append(a);
 		             }
 		             else{
@@ -1236,15 +1114,15 @@
 
 		       $('#opcion'+examenId).empty();
 		       $('#div'+examenId).empty();
-		       $("#div"+examenId).append(div);
+		       $("#div"+examenId).append(div);	       
 		       $("#opcion"+examenId).append(a);
 			}
 	}
 
 	// funcion del onchange para el diagnostico
-
+	
 	$("#newHcType_dxPrin").change(function(){
-
+		
 		var url="{{ path('historia_dxHc') }}";
 		var cieId = $("#newHcType_dxPrin").val();
 		var hcId = {{ historia.id }};
@@ -1259,11 +1137,11 @@
 				},function(data){
 					if(data.responseCode==200){
 
-						$('#ajaxMsgCie').empty();
+						$('#ajaxMsgCie').empty();					
 						var tr = "";
 						tr += "<tr id='dx"+data.cie.id+"'>";
 						tr += "<td>"+data.cie.nombre+"</td>";
-						tr += "<td>"+data.cie.codigo+"</td>";
+						tr += "<td>"+data.cie.codigo+"</td>";						
 						tr += "<td><a class='btn' onClick='delCie("+data.cie.id+"); return false;' href='#' title='Eliminar'><i class='icon-remove'></i></a></td>";
 						tr += "</tr>";
 
@@ -1281,7 +1159,7 @@
 
 	// funcion del onchange para el examen
 	$("#newHcType_examenes").change(function(){
-
+		
 		var url="{{ path('historia_examenHc') }}";
 		var exaId = $("#newHcType_examenes").val();
 		var hcId = {{ historia.id }};
@@ -1296,13 +1174,13 @@
 				},function(data){
 					if(data.responseCode==200){
 
-						$('#ajaxMsgExa').empty();
+						$('#ajaxMsgExa').empty();					
 						var tr = "";
 						tr += "<tr id='exa"+data.examen.id+"'>";
 						tr += "<td>"+data.examen.nombre+"</td>";
 						tr += "<td>"+data.examen.tipo+"</td>";
-						tr += "<td id='div"+data.examen.id+"'><div id='resultado"+data.examen.id+"'></div></td>";
-						tr += "<td id='opcion"+data.examen.id+"'><a class='btn' onClick='readExamen("+data.examen.id+"); return false;' href='#' title='leer'><i class='icon-edit'></i></a></td>"
+						tr += "<td id='div"+data.examen.id+"'><div id='resultado"+data.examen.id+"'></div></td>";			
+						tr += "<td id='opcion"+data.examen.id+"'><a class='btn' onClick='readExamen("+data.examen.id+"); return false;' href='#' title='leer'><i class='icon-edit'></i></a></td>"			
 						tr += "<td id='delExaBtn"+data.examen.id+"'><a class='btn' onClick='delExa("+data.examen.id+"); return false;' href='#' title='Eliminar'><i class='icon-remove'></i></a></td>";
 						tr += "</tr>";
 
@@ -1317,11 +1195,11 @@
 		             }
 		        })
 	 });
-
+	
 	// funcion del onchange para el medicamento nikname (laboratorio)
-
+	
 	$("#newHcType_laboratorio").change(function(){
-
+		
 		var url="{{ path('historia_laboratorioHc') }}";
 		var labId = $("#newHcType_laboratorio").val();
 		var hcId = {{ historia.id }};
@@ -1336,13 +1214,13 @@
 				},function(data){
 					if(data.responseCode==200){
 
-						$('#ajaxMsgLab').empty();
+						$('#ajaxMsgLab').empty();					
 						var tr = "";
 						tr += "<tr id='lab"+data.medicamento.id+"'>";
 						tr += "<td>"+data.medicamento.principioActivo+"</td>";
 						tr += "<td>"+data.medicamento.presentacion+"</td>";
 						tr += "<td>"+data.medicamento.concentracion+"</td>";
-						tr += "<td>"+data.medicamento.posologia+"</td>";
+						tr += "<td>"+data.medicamento.posologia+"</td>";						
 						tr += "<td><a class='btn' onClick='delLab("+data.medicamento.id+"); return false;' href='#' title='Eliminar'><i class='icon-remove'></i></a></td>";
 						tr += "</tr>";
 
@@ -1358,23 +1236,16 @@
 		        })
 	 });
 
-
-	// funcion para que el medico cada vez que presione la evolucion se asigne la fecha.
+	
+	// funcion para que el medico cada vez que presione la evolucion se asigne la fecha.	
 	$('#newHcType_evolucion').click(function()
-
-	{
-		var today = new Date();
+	{			
 		var usuario = "{{ usuario.nombre }} {{ usuario.apellido }}";
-		var date = today.getDay()+"/"+(today.getMonth()+1)+"/"+today.getFullYear()+"  "+today.getHours()+":"+today.getMinutes()+":"+today.getSeconds();
-
-	{
-		var usuario = "{{ usuario.nombre }} {{ usuario.apellido }}";
-		var date = "{{ today | date("d/m/Y H:i") }}";
-
+		var date = "{{ today | date("d/m/Y H:i") }}";			 
 			$('#newHcType_evolucion').append("\nEvolución["+date+"], Dr[ "+usuario+"]: ");
-			return false;
+			return false; 
 		});
-
+	  
 
 	// funcion para eliminar la relacion del medicamento "laboratorio" con la historia clinica
 	  function delLab(id){
@@ -1382,18 +1253,18 @@
 		if(confirm("Esta seguro de eliminar el laboratorio¿?"))
 		{
 			 $('#delLabBtn'+id).empty();
-
+			 
 			 var url = "{{ path('historia_delLaboratorioHc') }}";
-			 var hc = {{ historia.id }};
+			 var hc = {{ historia.id }};		 
 
 			 $.post(url,{
 				 laboId: id,
-	             hc : hc
+	             hc : hc             
 		      },function(data){
 		          if(data.responseCode==200 ){
-
+		              
 					  $("#lab"+id).empty();
-					  $("#newHcType_laboratorio"+id).empty();
+					  $("#newHcType_laboratorio"+id).empty();				  
 
 		        	  $('#ajaxMsgLab').html(data.msg);
 			          $('#ajaxMsgLab').css("color","green");
@@ -1406,7 +1277,7 @@
 		      	    alert("Ha ocurrido un error en el sistema.");
 		          }
 		     })
-		}
+		}			 
 	}
 
 	// cuncion para eliminar la relacion del examen con la historia clinica
@@ -1416,16 +1287,16 @@
 		 {
 			 $('#delExaBtn'+id).empty();
 			 var url = "{{ path('historia_delExamenHc') }}";
-			 var hc = {{ historia.id }};
+			 var hc = {{ historia.id }};		 
 
 			 $.post(url,{
 				 exaId: id,
-	             hc : hc
+	             hc : hc             
 		      },function(data){
 		          if(data.responseCode==200 ){
-
+		              
 					  $("#exa"+id).empty();
-					  $("#newHcType_examenes"+id).empty();
+					  $("#newHcType_examenes"+id).empty();				  
 
 		        	  $('#ajaxMsgExa').html(data.msg);
 			          $('#ajaxMsgExa').css("color","green");
@@ -1438,9 +1309,9 @@
 		      	    alert("Ha ocurrido un error en el sistema.");
 		          }
 		     })
-		  }
-	 }
-
+		  }		 
+	 } 
+		      
 	// cuncion para eliminar la relacion del diagnostico con la historia clinica
   function delCie(id){
 
@@ -1449,16 +1320,16 @@
 			 $('#delCieBtn'+id).empty(); // se deshabilita el boton para evitar multiples acciones
 
 			 var url = "{{ path('historia_delDxHc') }}";
-			 var hc = {{ historia.id }};
+			 var hc = {{ historia.id }};		 
 
 			 $.post(url,{
 	             cie: id, // atributos que se pasaran por medio del post
-	             hc : hc
+	             hc : hc             
 		      },function(data){
-		          if(data.responseCode==200 ){ // respuesta del RESPONSE
-
+		          if(data.responseCode==200 ){ // respuesta del RESPONSE 
+		              
 					  $("#dx"+id).empty();
-					  $("#newHcType_dxPrin"+id).empty();
+					  $("#newHcType_dxPrin"+id).empty();				  
 
 		        	  $('#ajaxMsgCie').html(data.msg);
 			          $('#ajaxMsgCie').css("color","green");
@@ -1476,33 +1347,38 @@
 
 
 	 // opciones para el manejo de la salida que se asignes los respectivos medicamentos laboratorios y examenes en su respetivo campo
-
-	 $("#newHcType_sal_medicamentos").change(function(){
-
+	 
+	 $("#newHcType_sal_medicamentos").change(function(){		
+			
 			var value = $("#newHcType_sal_medicamentos").val();
 			var option = $("#newHcType_sal_medicamentos option[value='"+value+"']").text();
 
 			$("#newHcType_medicamentos_s").append("\nMedicamento["+option+"]:");
 
-			return true;
+			return true;		
 		});
-	 $("#newHcType_sal_procedimientos").change(function(){
-
+	 $("#newHcType_sal_procedimientos").change(function(){		
+			
 			var value = $("#newHcType_sal_procedimientos").val();
 			var option = $("#newHcType_sal_procedimientos option[value='"+value+"']").text();
 
 			$("#newHcType_procedimientos_s").append("\nProcedimiento["+option+"]:");
 
-			return true;
+			return true;		
 		});
-	 $("#newHcType_sal_examenes").change(function(){
-
+	 $("#newHcType_sal_examenes").change(function(){		
+			
 			var value = $("#newHcType_sal_examenes").val();
-			var option = $("#newHcType_sal_examenes option[value='"+value+"']").text();
+			var option = $("#newHcType_sal_examenes option[value='"+value+"']").text();		
 
 			$("#newHcType_examenes_s").append("\nExamen["+option+"]:");
 
-			return true;
+			return true;		
 		});
-</script>
+
+	 $(function() {
+			 $("#newHcType_pFechaN").datetimepicker({ dateFormat: 'dd/mm/yy' });
+			 $("#newHcType_pFechaM").datetimepicker({ dateFormat: 'dd/mm/yy' });
+		 });	 
+</script>	
 {% endblock %}

@@ -18,8 +18,11 @@ class FacturaCargoType extends AbstractType
 				 	   'choices' => array(
 				 	   				''	  => '-- select an option --',
 				 	   				'IG'  => 'Informe General',
-				 	   				'IR'  => 'Informe Regimen',
+				 	   				'IR'  => 'Informe Regimen',				 	   				
 				 	   				'IAR' => 'Informe Actividad Realizada',
+				 	   				'ICRM'=> 'Informe Consultas por Medicos',
+				 	   				'IRR' => 'Informe Remisiones Realizadas',
+				 	   				'IM'  => 'Informe Morvilida',
 				 	   				'BC'  => 'Boletin Cierre De Mes',				 	   				
 				 	   				'IPS' => 'Informe Prestacion Servicios'			 	   		
 				 	   		)
@@ -54,6 +57,24 @@ class FacturaCargoType extends AbstractType
  						->createQueryBuilder('s')
  						->orderBy('s.nombre', 'ASC');
  						}))
+ 						
+ 		// opcion para realizar informes consultas realizadas por medicos 						
+ 		->add('usuarios', 'entity', array(
+ 				'label' => 'Medico :',
+ 				'attr' => array('class' => 'span4'),
+ 				'mapped' => false,
+ 				'class' => 'knx\UsuarioBundle\Entity\Usuario',
+ 				'empty_value' => 'Consultar Todos Medicos',
+ 				'required' => false,
+ 				'query_builder' => function (
+ 						EntityRepository $repositorio) {
+ 							return $repositorio
+ 							->createQueryBuilder('u')
+ 							->where('u.roles LIKE :roles')
+ 							->setParameter('roles', '%ROLE_MEDICO%')
+ 							->orderBy('u.nombre', 'ASC');
+ 						}))
+ 						
  		//opcion para consultar por el tipo de regimen
  		->add('regimen', 'choice', array(
  				'attr' => array('class' => 'span4'),

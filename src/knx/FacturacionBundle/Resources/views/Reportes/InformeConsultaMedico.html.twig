@@ -1,0 +1,32 @@
+{% extends "::simple.html.twig" %}
+
+{% block head %}
+{% endblock %}
+
+{% block body %}
+	<div>
+		<p><b>Desde:</b> {{ dateStart | date('d-M-Y') }} <b>Hasta:</b> {{ dateEnd | date('d-M-Y') }}</p><br/>
+		<table>			
+			<thead>
+				<tr>
+					<th>Nombre</th>		
+					<th>Apellido</th>
+					<th>especialidad</th>
+					<th>Nombre Cargo</th>
+					<th>Cantidad</th>												
+				</tr>
+			</thead>
+			<tbody>
+				{% for entity in facturaCargo %}
+					<tr>
+						<td>{{ entity.nombre }}</td>
+						<td>{{ entity.apellido}}</td>
+						<td>{{ entity.especialidad}}</td>
+						<td>{{ entity.servicio }}</td>
+						<td>{{ entity.cantidad }}</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+{% endblock %}

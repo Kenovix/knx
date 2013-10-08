@@ -179,9 +179,9 @@ class HcType extends AbstractType {
 				->add('tipoDx', 'choice',
 						array('label' => 'Tipo Dx:', 'required' => true,
 								'choices' => array('' => '--seleccione--',
-										'impresionDx' => 'Impresion diagnostica',
-										'confirmadoNuevo' => 'Confirmado nuevo',
-										'repetido' => 'Repetido',),
+										'1' => 'Impresion diagnostica',
+										'2' => 'Confirmado nuevo',
+										'3' => 'Repetido',),
 								'multiple' => false,)) /* EndDiagnosticos */
 
 				->add('conducta', 'textarea',
@@ -359,6 +359,65 @@ class HcType extends AbstractType {
 						array('label' => 'Incapacidad','required' => false,
 								'attr' => array('placeholder' => 'incapacidad del paciente ingrese la informacion correspondiente de los desde hasta etc.')))
 								
+								
+			// formulario documentacion para el parto
+				->add('pFechaN', 'text',
+						array('label' => 'Fecha Naciemiento: ','required' => false,
+								'attr' => array('placeholder' => 'DD/MM/YYYY HH:MM')))
+								
+				->add('pEdadG', 'integer',
+						array('label' => 'Edad Gestacional: ','required' => false,
+								'attr' => array('placeholder' => 'Edad Gestacional')))
+								
+				->add('pControlP', 'choice',
+						array('label' => 'Control Prenatal: ', 'required' => false,
+								'choices' => array('' => '--seleccione--',
+										'SI' => 'SI',
+										'NO' => 'NO',),
+								'multiple' => false,))
+
+				->add('pSexo', 'choice',
+						array('label' => 'Sexo: ', 'required' => false,
+								'choices' => array('' => '--seleccione--',
+										'M' => 'M',
+										'F' => 'F',),
+								'multiple' => false,))
+								
+				->add('pPeso', 'integer',
+						array('label' => 'Peso: ','required' => false,
+								'attr' => array('placeholder' => 'Peso')))
+								
+				->add('pCausaM', 'entity',
+						array('mapped' => false,
+								'label' => 'Causa Muerte recién nacido: ',
+								'class' => 'knx\\HistoriaBundle\\Entity\\Cie',
+								'required' => false,
+								'empty_value' => '--diagnosticos--',
+								'query_builder' => function (
+										EntityRepository $repositorio) {
+									return $repositorio
+									->createQueryBuilder('c')
+									->orderBy('c.nombre', 'ASC');
+								}))
+								
+				->add('pFechaM', 'text',
+						array('label' => 'Fecha Muerte: ','required' => false,
+								'attr' => array('placeholder' => 'DD/MM/YYYY HH:MM')))
+								
+				->add('pDx', 'entity',
+						array('mapped' => false,
+								'label' => 'Diagnóstico del recién nacido: ',
+								'class' => 'knx\\HistoriaBundle\\Entity\\Cie',
+								'required' => false,
+								'empty_value' => '--diagnosticos--',
+								'query_builder' => function (
+										EntityRepository $repositorio) {
+									return $repositorio
+									->createQueryBuilder('c')
+									->orderBy('c.nombre', 'ASC');
+								}))
+								
+			// fin formulario documentacion para el parto								
 		;
 	}
 
