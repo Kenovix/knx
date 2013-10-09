@@ -896,14 +896,14 @@
 		
 		{% ui_expander expanded=false %}
   		{% ui_header label="Fromulario Parto" %}
-		    {% ui_content style="height:400px" %}
+		    {% ui_content style="height:430px" %}
 			    <div id="hcParto" >
 	    	 		<div class="control-group">
-		    			{{ form_label(edit_form.pFechaN) }}
+		    			{{ form_label(edit_form.p_Fecha_n) }}
 		    			
 	    	    		<div class="controls">
-							{{ form_errors(edit_form.pFechaN) }}
-							{{ form_widget(edit_form.pFechaN) }}
+							{{ form_errors(edit_form.p_Fecha_n) }}
+							{{ form_widget(edit_form.p_Fecha_n) }}
 						</div>
 	    	   		 </div>	 
 	    	   		 
@@ -913,6 +913,7 @@
 	    	    		<div class="controls">
 							{{ form_errors(edit_form.pEdadG) }}
 							{{ form_widget(edit_form.pEdadG) }}
+							 <span class="add-on">Semanal</span>
 						</div>
 	    	   		 </div> 
 	    	   		 
@@ -940,8 +941,27 @@
 	    	    		<div class="controls">
 							{{ form_errors(edit_form.pPeso) }}
 							{{ form_widget(edit_form.pPeso) }}
+							<span class="add-on">g</span>
 						</div>
 	    	   		 </div>  
+	    	   		 
+	    	   		 <div class="control-group">
+		    			{{ form_label(edit_form.pDx) }}
+		    			
+	    	    		<div class="controls">
+							{{ form_errors(edit_form.pDx) }}
+							{{ form_widget(edit_form.pDx) }}
+						</div>
+	    	   		 </div>
+	    	   		 
+	    	   		 <div class="control-group">
+		    			{{ form_label(edit_form.p_fecha_m) }}
+		    			
+	    	    		<div class="controls">
+							{{ form_errors(edit_form.p_fecha_m) }}
+							{{ form_widget(edit_form.p_fecha_m) }}
+						</div>
+	    	   		 </div>	
 	    	   		 
 	    	   		 <div class="control-group">
 		    			{{ form_label(edit_form.pCausaM) }}
@@ -952,23 +972,7 @@
 						</div>
 	    	   		 </div>
 	    	   		 
-	    	   		 <div class="control-group">
-		    			{{ form_label(edit_form.pFechaM) }}
-		    			
-	    	    		<div class="controls">
-							{{ form_errors(edit_form.pFechaM) }}
-							{{ form_widget(edit_form.pFechaM) }}
-						</div>
-	    	   		 </div>
-	    	   		 
-	    	   		 <div class="control-group">
-		    			{{ form_label(edit_form.pDx) }}
-		    			
-	    	    		<div class="controls">
-							{{ form_errors(edit_form.pDx) }}
-							{{ form_widget(edit_form.pDx) }}
-						</div>
-	    	   		 </div>
+	    	   		     	   		 
 	    	 	</div>
 		    {% end_ui_content %}
 		{% end_ui_expander %}  <br/> 
@@ -1020,15 +1024,16 @@
 			
 			var opcion = $("#newHcType_destino").val();
 
-			if(opcion == 'remision' || opcion == 'contraRemision'){
+			if(opcion == '2'){
+				$("label[for='newHcType_descripcion_r']").text('Descripcion remision:');
 				$('#remision').show('slow');
-				$('#remision2').show('slow');
+				$('#remision2').show('slow');				
 			}else{
 				$('#remision').hide('slow');
 				$('#remision2').hide('slow');
 			}
 
-			if(opcion == 'muerte'){
+			if(opcion == '6'){
 				$("label[for='newHcType_descripcion_r']").text('Descrip, hora y fecha de la muerte');				
 				$('#remision2').show('slow');				
 			}
@@ -1377,8 +1382,16 @@
 		});
 
 	 $(function() {
-			 $("#newHcType_pFechaN").datetimepicker({ dateFormat: 'dd/mm/yy' });
-			 $("#newHcType_pFechaM").datetimepicker({ dateFormat: 'dd/mm/yy' });
+			 $("#newHcType_p_Fecha_n").datetimepicker({ dateFormat: 'dd/mm/yy' });
+			 $("#newHcType_p_fecha_m").datetimepicker({ dateFormat: 'dd/mm/yy' });
+			 
+			 if("{{ historia.pFechaN }}" != null)
+			 { $("#newHcType_p_Fecha_n").val('{{ historia.pFechaN }}');
+				  }
+			 if("{{ historia.pFechaM }}" != null)
+			 { $("#newHcType_p_fecha_m").val('{{ historia.pFechaM }}'); 
+				 }	 
+		     
 		 });	 
 </script>	
 {% endblock %}
