@@ -155,12 +155,10 @@ class PacienteController extends Controller
 		
 		$depto = $em->getRepository('ParametrizarBundle:Depto')->find($paciente->getDepto());
 		$mupio = $em->getRepository('ParametrizarBundle:Mupio')->find($paciente->getMupio());
-<<<<<<< HEAD
+
 		
-		$paciente->setDepto($depto);				
-		$paciente->setMupio($mupio);		
 		
-=======
+
 
 
 
@@ -175,7 +173,7 @@ class PacienteController extends Controller
 		//$paciente->setDepto($depto);
 		//$paciente->setMupio($mupio);
 
->>>>>>> 4be0510f1f8f3231a96a86fb9b8323d3eadef081
+
 		//---------------------------------
 		if(!$paciente->getMovil())		// estas condicionales se usan para evitar posible problemas 
 			$paciente->setMovil(NULL);	// entre la DB y la aplicacion ya q si se ah cargado info 

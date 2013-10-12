@@ -263,10 +263,12 @@ class DevolucionController extends Controller
     				}
 
 
-    				return $this->render('FarmaciaBundle:Devolucion:new.html.twig', array(
-    						'form'   => $form->createView()
-    				));
+    				
     	}
+        
+                                  return $this->render('FarmaciaBundle:Devolucion:new.html.twig', array(
+    						'form'   => $form->createView()
+                                        ));
 	}
 
 
