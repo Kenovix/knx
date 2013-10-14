@@ -214,14 +214,15 @@ class HcType extends AbstractType {
 								'attr' => array(
 										'placeholder' => 'Manejo de Salida')))
 				->add('destino', 'choice',
-						array('label' => 'Destino:', 'required' => true,
+						array('label' => 'Destino: *', 'required' => true,
 								'choices' => array('' => '--seleccione--',
-										'domicilio' => 'Domicilio',
-										'observacion' => 'Observación',
-										'internacion' => 'Internación',
-										'remision' => 'Remisión',
-										'contraRemision' => 'Contra remisión',
-										'muerte' => 'Muerte', 'otro' => 'Otro',),
+										'5' => 'Domicilio',
+										'4' => 'Observación',
+										'1' => 'Urgencias',
+										'2' => 'Remitido',
+										'3' => 'Hospitalizacion',
+										'6' => 'Muerte',
+										'7' => 'Otro',),
 								'multiple' => false,))
 				/* EndEgreso */
 
@@ -361,19 +362,20 @@ class HcType extends AbstractType {
 								
 								
 			// formulario documentacion para el parto
-				->add('pFechaN', 'text',
-						array('label' => 'Fecha Naciemiento: ','required' => false,
-								'attr' => array('placeholder' => 'DD/MM/YYYY HH:MM')))
+				->add('p_Fecha_n', 'text',
+						array('label' => 'Fecha Naciemiento: ','required' => false, 'mapped' => false,
+								'attr' => array('placeholder' => 'DD/MM/YYYY HH:MM', 'class' => 'span2')))
 								
 				->add('pEdadG', 'integer',
 						array('label' => 'Edad Gestacional: ','required' => false,
-								'attr' => array('placeholder' => 'Edad Gestacional')))
+								'attr' => array('placeholder' => 'Edad Gestacional', 'class' => 'span2')))
 								
 				->add('pControlP', 'choice',
 						array('label' => 'Control Prenatal: ', 'required' => false,
 								'choices' => array('' => '--seleccione--',
 										'SI' => 'SI',
 										'NO' => 'NO',),
+								'attr' => array('class' => 'span2'),
 								'multiple' => false,))
 
 				->add('pSexo', 'choice',
@@ -381,14 +383,15 @@ class HcType extends AbstractType {
 								'choices' => array('' => '--seleccione--',
 										'M' => 'M',
 										'F' => 'F',),
+								'attr' => array('class' => 'span2'),
 								'multiple' => false,))
 								
 				->add('pPeso', 'integer',
 						array('label' => 'Peso: ','required' => false,
-								'attr' => array('placeholder' => 'Peso')))
+								'attr' => array('placeholder' => 'Peso', 'class' => 'span2')))
 								
 				->add('pCausaM', 'entity',
-						array('mapped' => false,
+						array(	'attr' => array('class' => 'span4'),								
 								'label' => 'Causa Muerte recién nacido: ',
 								'class' => 'knx\\HistoriaBundle\\Entity\\Cie',
 								'required' => false,
@@ -400,12 +403,12 @@ class HcType extends AbstractType {
 									->orderBy('c.nombre', 'ASC');
 								}))
 								
-				->add('pFechaM', 'text',
-						array('label' => 'Fecha Muerte: ','required' => false,
-								'attr' => array('placeholder' => 'DD/MM/YYYY HH:MM')))
+				->add('p_fecha_m', 'text',
+						array('label' => 'Fecha Muerte: ','required' => false, 'mapped' => false,
+								'attr' => array('placeholder' => 'DD/MM/YYYY HH:MM', 'class' => 'span2')))
 								
 				->add('pDx', 'entity',
-						array('mapped' => false,
+						array(  'attr' => array('class' => 'span4'),
 								'label' => 'Diagnóstico del recién nacido: ',
 								'class' => 'knx\\HistoriaBundle\\Entity\\Cie',
 								'required' => false,

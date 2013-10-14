@@ -154,9 +154,16 @@ class PacienteController extends Controller
 		}		
 		
 		$depto = $em->getRepository('ParametrizarBundle:Depto')->find($paciente->getDepto());
+
 		$mupio = $em->getRepository('ParametrizarBundle:Mupio')->find($paciente->getMupio());
 		$paciente->setDepto($depto);				
 		$paciente->setMupio($mupio);		
+
+
+		$mupio = $em->getRepository('ParametrizarBundle:Mupio')->find($paciente->getMupio());		
+		$paciente->setDepto($depto);				
+		$paciente->setMupio($mupio);		
+		
 
 		//---------------------------------
 		if(!$paciente->getMovil())		// estas condicionales se usan para evitar posible problemas 
@@ -166,6 +173,10 @@ class PacienteController extends Controller
 		//----------------------------------
 		
 		$paciente->setFN($paciente->getFN()->format('d/m/Y'));		
+
+
+	
+
 
 		$editForm = $this->createForm(new PacienteType(), $paciente);		
 		
@@ -555,7 +566,7 @@ class PacienteController extends Controller
 		foreach ($insert as $key => $value){
 			
 			// se verifica que las columnas estes complestas de cada fila	
-			if(count($value) == 21)
+			if(count($value) == 20)
 			{				
 				$tipoId 		= $em->getRepository('ParametrizarBundle:Paciente')->existTipoId($insert[$key][0]);
 				$identificacion = $em->getRepository('ParametrizarBundle:Paciente')->existIdentificacion((int)$insert[$key][1]);
@@ -567,7 +578,7 @@ class PacienteController extends Controller
 				$depto 			= $em->getRepository('ParametrizarBundle:Depto')->find($insert[$key][9]);
 				$mupio 			= $em->getRepository('ParametrizarBundle:Mupio')->find($insert[$key][10]);
 				$zona 			= $em->getRepository('ParametrizarBundle:Paciente')->existZona($insert[$key][12]);
-				$ocupacion		= $em->getRepository('ParametrizarBundle:Ocupacion')->find($insert[$key][19]);				
+				$ocupacion		= $em->getRepository('ParametrizarBundle:Ocupacion')->find($insert[$key][18]);				
 								
 				
 				// Campos obligatorios que no pueden ir nulos
@@ -596,7 +607,7 @@ class PacienteController extends Controller
 					$paciente->setPertEtnica($insert[$key][16]);
 					$paciente->setNivelEdu($insert[$key][17]);
 					$paciente->setOcupacion($ocupacion);
-					$paciente->setTipoDes($insert[$key][20]);
+					$paciente->setTipoDes($insert[$key][19]);
 					
 					$afiliacion = new Afiliacion();
 					$afiliacion->setPaciente($paciente);
