@@ -170,8 +170,25 @@ class ImpresionHistoriaController extends Controller
 			$pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $header, $border = 0, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
 			$pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $examenes, $border = 0, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
 		}
-
-
+		if($historia->getPFechaN() != '')
+		{
+			$pCausaM="";
+			$pdx = "";
+			if($historia->getPDx()){$pdx = $em->getRepository('HistoriaBundle:Cie')->find($historia->getPDx());}
+			if($historia->getPCausaM()){$pCausaM = $em->getRepository('HistoriaBundle:Cie')->find($historia->getPCausaM());}
+			
+			$historia->setPCausaM($pCausaM);
+			$historia->setPDx($pdx);
+			
+			$parto = $this->renderView('HistoriaBundle:Impresos:Parto.html.twig',array(
+					'historia' 	 => $historia,
+					'usuario'  	 => $usuario,
+			));
+		
+			$pdf->AddPage('P', 'A4');
+			$pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $header, $border = 0, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
+			$pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $parto, $border = 0, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
+		}
 		$response = new Response($pdf->Output('HcPrint.pdf', 'I'));
 		$response->headers->set('Content-Type', 'application/pdf');
 	}

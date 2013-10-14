@@ -297,9 +297,9 @@ class Hc {
 	private $manejoSalida;
 
 	/**
-	 * @var text $destino
+	 * @var integer $destino
 	 *
-	 * @ORM\Column(name="destino", type="string", length=20, nullable=true)
+	 * @ORM\Column(name="destino", type="integer", nullable=true)
 	 * @Assert\Length(max=20)
 	 */
 	private $destino;
@@ -481,7 +481,7 @@ class Hc {
 	/**
 	 * @var text $pCausaM
 	 *
-	 * @ORM\Column(name="p_causa_m", type="text", nullable=true)
+	 * @ORM\Column(name="p_causa_m", type="integer", nullable=true)
 	 */
 	private $pCausaM;//parto_causa_muerte
 	
@@ -1273,7 +1273,7 @@ class Hc {
 	/**
 	 * Set destino
 	 *
-	 * @param string $destino
+	 * @param integer $destino
 	 * @return Hc
 	 */
 	public function setDestino($destino) {
@@ -1285,7 +1285,7 @@ class Hc {
 	/**
 	 * Get destino
 	 *
-	 * @return string 
+	 * @return integer 
 	 */
 	public function getDestino() {
 		return $this->destino;

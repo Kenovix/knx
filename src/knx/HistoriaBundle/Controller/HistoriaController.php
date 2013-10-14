@@ -17,7 +17,24 @@ class HistoriaController extends Controller
 	{
 		$em = $this->getDoctrine()->getEntityManager();
 		$factura = $em->getRepository('FacturacionBundle:Factura')->find($factura);
-		$historia = $factura->getHc();       
+		$historia = $factura->getHc(); 
+
+		// se instancian los atributos para evitar conflictos con otras versiones de php
+		$serviEgre = "";
+		$dxSalida = "";
+		$pCausaM="";		
+		$pdx = "";
+		
+		$arrayDestino = array(
+		''	=> false,
+		'5' => 'Domicilio',
+		'4' => false,
+		'1' => false,
+		'2' => 'Remitido',
+		'3' => false,
+		'6' => 'Muerte',
+		'7' => 'Otro');					
+		
 
 		/* No se verifica la existencia del paciente y los servicios porque si existe la factura existe el paciente
 		 * y si existe la historia existen los servicios.
@@ -25,13 +42,15 @@ class HistoriaController extends Controller
 		if (!$factura || !$historia) {
 			throw $this->createNotFoundException('La informacion solicitada no esta disponible.');
 		}
-
+		// se filtra la historia para validar si se puede dar permisos de edition o no
+		$destino = $historia->getDestino();		
+		if($arrayDestino[$destino]){			
+			$this->get('session')->setFlash('error','Esta Historia Clinica No Esta Disponible, La Historia Ha Sido Cerrada, Si Necesita Su Info Porfabor Genere El Impreso');
+			return $this->redirect($this->generateUrl('paciente_filtro'));		
+		}			
 		if ($historia->getServiEgre()) {
 			$serviEgre = $em->getRepository('ParametrizarBundle:Servicio')->find($historia->getServiEgre());
-		} else {
-			$serviEgre = "";
 		}
-
 		if($historia->getPFechaN())
 		{
 			$historia->setPFechaN($historia->getPFechaN()->format('d/m/Y H:i'));
@@ -40,17 +59,24 @@ class HistoriaController extends Controller
 		{
 			$historia->setPFechaM($historia->getPFechaM()->format('d/m/Y H:i'));
 		}
-
+		if($historia->getPDx())
+		{
+			$pdx = $em->getRepository('HistoriaBundle:Cie')->find($historia->getPDx());
+		}
+		if($historia->getPCausaM())
+		{
+			$pCausaM= $em->getRepository('HistoriaBundle:Cie')->find($historia->getPCausaM());
+		}
 		if($historia->getDxSalida())
 		{
 			$dxSalida = $em->getRepository('HistoriaBundle:Cie')->find($historia->getDxSalida());
-		}else{
-			$dxSalida = "";
-		}		
+		}
 	
 		// se cargan los respectivos objetos para que el formulario los visualice correctamente.
 		$historia->setServiEgre($serviEgre);
 		$historia->setDxSalida($dxSalida);
+		$historia->setPCausaM($pCausaM);
+		$historia->setPDx($pdx);
 		$historia->setFechaEgre(new \DateTime('now'));		
 		$form_historia = $this->createForm(new HcType(), $historia);		
 		
@@ -61,12 +87,12 @@ class HistoriaController extends Controller
 	{
 		$em = $this->getDoctrine()->getEntityManager();
 		$factura = $em->getRepository('FacturacionBundle:Factura')->find($factura);
-		$historia = $factura->getHc();		
+		$historia = $factura->getHc();	
 
 		if (!$factura || !$historia) {
 			throw $this->createNotFoundException('La informacion solicitada no esta disponible.');
 		}
-
+				
 		$form_historia = $this->createForm(new HcType(), $historia);
 		$request = $this->getRequest();
 		$form_historia->bindRequest($request);
@@ -75,41 +101,48 @@ class HistoriaController extends Controller
 		$listNotas = $em->getRepository('HistoriaBundle:Notas')->findByHc($historia, array('fecha' => 'DESC'));
 		if(!$listNotas){
 			return $this->validarHistoria($factura, $historia, $form_historia);
-		}
+		}	
 		
 		// validacion del formulario del parto
 		$dateTomorrow = new \DateTime('tomorrow');
-		$dateYesterday = new \DateTime('yesterday');		
+		$dateYesterday = new \DateTime('yesterday');	
 		
 		// se valida que las fechas de nacimiento o de muerte no sean mayor o menor a 24 horas
-		$pFechaN = date_create_from_format('d/m/Y H:i',$form_historia->get('pFechaN')->getData());
+		// una ves la fecha sea ingresada no podra ser guardada como un campo null solo podra ser modificada.
+		$pFechaN = date_create_from_format('d/m/Y H:i',$form_historia->get('p_Fecha_n')->getData());		
 		if($pFechaN){
 			if($pFechaN>$dateYesterday && $pFechaN<$dateTomorrow)
 			{
 				$historia->setPFechaN($pFechaN);
-				if(!$form_historia->get('pEdadG')->getData() ||	!$form_historia->get('pControlP')->getData() || !$form_historia->get('pSexo')->getData() ||	!$form_historia->get('pPeso')->getData() || !$form_historia->get('pDx')->getData())
+				$dxRN = $form_historia->get('pDx')->getData();
+				if(!$form_historia->get('pEdadG')->getData() ||	!$form_historia->get('pControlP')->getData() || !$form_historia->get('pSexo')->getData() ||	!$form_historia->get('pPeso')->getData() || !$dxRN)
 				{
 					return $this->validarHistoria($factura, $historia, $form_historia);
 				}
+				$historia->setPDx($dxRN->getId());
 			}else{
 				return $this->validarHistoria($factura, $historia, $form_historia);
 			}								
-		}		
-		$pFechaM = date_create_from_format('d/m/Y H:i',$form_historia->get('pFechaM')->getData());
+		}
+		$pFechaM = date_create_from_format('d/m/Y H:i',$form_historia->get('p_fecha_m')->getData());
 		if($pFechaM){
 			if($pFechaM>$dateYesterday && $pFechaM<$dateTomorrow)
 			{
 				$historia->setPFechaM($pFechaM);
-				if(!$form_historia->get('pCausaM')->getData())
+				$pCausaM = $form_historia->get('pCausaM')->getData();
+				if(!$pCausaM)
 				{
 					return $this->validarHistoria($factura, $historia, $form_historia);
-				}				
+				}			
+				$historia->setPCausaM($pCausaM->getId());
+			}else{
+				return $this->validarHistoria($factura, $historia, $form_historia);
 			}			
 		}
 		
+		
 		if($form_historia->isValid()) 
-		{
-			
+		{			
 			/* Para el ingreso de los sevicios se trabaja con los IDs mas no con sus objetos ya q la informacion
 			 * que se almacena en la historia no son relaciones, pero el formulario si trabaja con objetos.
 			 */ 

@@ -1,0 +1,49 @@
+{% extends "::simple.html.twig" %}
+
+{% block body %}
+<div>
+	<h1>Parto:</h1>
+	<table>
+		<tr>
+				<td>Fecha Nacimiento</td>
+				<td>{{ historia.pFechaN |date('d/M/Y H:i') }}</td>
+			</tr>
+			<tr>
+				<td>Edad Gestacional</td>
+				<td>{{ historia.pEdadG }}</td>
+			</tr>
+			<tr>
+				<td>Control Prenatal (semanas)</td>
+				<td>{{ historia.pControlP }}</td>
+			</tr>
+			<tr>
+				<td>Sexo</td>
+				<td>{{ historia.pSexo }}</td>
+			</tr>
+			<tr>
+				<td>Peso: g</td>
+				<td>{{ historia.pSexo }}</td>
+			</tr>
+			<tr>
+				<td>Diagnostico Recien Nacido</td>
+				<td>{{ historia.pDx.nombre }}</td>
+			</tr>
+			{% if historia.pFechaM %}
+				<tr>
+					<td>Fecha Muerte</td>
+					<td>{{ historia.pFechaM |date('d/M/Y H:i') }}</td>
+				</tr>
+				<tr>
+					<td>Causa Muerte</td>
+					<td>{{ historia.pCausaM.nombre }}</td>
+				</tr>
+			{% endif %}	
+	</table>
+	
+	<p>
+		<b>Medico: </b> {{ usuario.nombre }} {{ usuario.apellido }} Especialidad: {{ usuario.especialidad }} <br/>
+		<b>Registro: </b>	<br/>
+		<b>Firma: </b>
+	</p>
+</div>
+{% endblock %}
