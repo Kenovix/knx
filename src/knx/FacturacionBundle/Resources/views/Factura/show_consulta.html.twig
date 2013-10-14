@@ -173,7 +173,7 @@
 		{% endfor %}
 	</table>
 	
-	<a href="#" id="btn-imprimir-factura" class="btn" {% if factura.estado == 'A' %} style="display:none" {% endif %}><i class="icon-print"></i> Imprimir</a>
+	<a href="{{ path('facturacion_fv_imprimir', {'factura':factura.id}) }}" id="btn-imprimir-factura" class="btn" {% if factura.estado == 'A' %} style="display:none" {% endif %}><i class="icon-print"></i> Imprimir</a>
 	<a href="{{ path('facturacion_consulta_new') }}" id="btn-nueva-factura" class="btn" {% if factura.estado == 'A' %} style="display:none" {% endif %}><i class="icon-print"></i> Nueva factura</a>
 
 {% endblock %}

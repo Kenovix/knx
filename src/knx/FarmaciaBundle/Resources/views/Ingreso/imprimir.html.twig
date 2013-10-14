@@ -1,17 +1,10 @@
 {% extends "::simple.html.twig" %}
 
-{% block stylesheets %}
-{% endblock %}
-
-{% block head %}
-{% endblock %}
-
-
 {% block body %}
 
         <p><b>INFORME DE INGRESO No. {{ ingreso.id }}</b><br/><br/><br/>
 
-<table class="table" cellpadding="2" cellspacing="2" border="1">
+<table class="table" border="1">
          <thead>
 	        <tr>
                 <td width="100px"><b>ALMACEN</b></td>
@@ -39,7 +32,7 @@
 
     <p><b>CARGOS</b><br/><br/>
 
-     <table class="table" cellpadding="2" cellspacing="2" border="1">
+     <table border="1">
          <thead>
 	        <tr>
                 <th width="35px"><b>No.</b></th>
@@ -48,30 +41,23 @@
                 <th width="60px"><b>PRECIO COMPRA</b></th>
                 <th width="70px"><b>PRECIO VENTA</b></th>
                 <th width="70px"><b>PRECIO TOTAL</b></th>
-
             </tr>
         </thead>
         <tbody>
-                {% for inventario in inventarios %}
+        	{% for inventario in inventarios %}
 
-        <tr>
-                <td width="35px">{{ loop.index }}</td>
-	    		<td width="245px">{{ inventario.imv.nombre }}</td>
-	    	    <td width="40px">{{ inventario.cant }}</td>
-                <td width="60px">$ {{ inventario.precioCompra | number_format(0,',','.')}} </td>
-                <td width="70px">$ {{ inventario.imv.precioVenta | number_format(0,',','.')}} </td>
-                <td width="70px">$ {{ inventario.precioTotal | number_format(0,',','.')}} </td>
-
-            </tr>
-       </tbody>
-
-           {% endfor %}
-
-
+	        	<tr>
+	                <td width="35px">{{ loop.index }}</td>
+		    		<td width="245px">{{ inventario.imv.nombre }}</td>
+		    	    <td width="40px">{{ inventario.cant }}</td>
+	                <td width="60px">$ {{ inventario.precioCompra | number_format(0,',','.')}} </td>
+	                <td width="70px">$ {{ inventario.imv.precioVenta | number_format(0,',','.')}} </td>
+	                <td width="70px">$ {{ inventario.precioTotal | number_format(0,',','.')}} </td>
+	            </tr>
+			
+        	{% endfor %}
+            
+		</tbody>
     </table>
 
  {% endblock %}
-
-
-{% block footer %}
-{% endblock %}

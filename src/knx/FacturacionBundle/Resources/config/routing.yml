@@ -29,6 +29,10 @@ facturacion_cargo_save:
     defaults: { _controller: FacturacionBundle:Factura:jxCargoSave }
     requirements:
         _method: POST
+        
+facturacion_fv_imprimir:
+    pattern:  /fv/{factura}/imprimir
+    defaults: { _controller: FacturacionBundle:Factura:imprimir }
 
         
 #******************** FACTURA CARGO ***************************#
