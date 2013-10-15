@@ -65,6 +65,7 @@ class NotaController extends Controller
 	public function validarNotas($nota_form,$factura,$historia)
 	{
 		$paciente = $factura->getPaciente();
+		$paciente->setPertEtnica($paciente->getPE($paciente->getPertEtnica()));
 		
 		$breadcrumbs = $this->get("white_october_breadcrumbs");
 		$breadcrumbs->addItem("Inicio",$this->get("router")->generate("paciente_filtro"));
@@ -147,6 +148,7 @@ class NotaController extends Controller
 		// Se optienen los objetos necesarios para la nota "paciente".		
 		$factura = $historia->getFactura();
 		$paciente = $factura->getPaciente();
+		$paciente->setPertEtnica($paciente->getPE($paciente->getPertEtnica()));
 
 		// visualizacion del rastro de miga
 		$breadcrumbs = $this->get("white_october_breadcrumbs");
@@ -175,7 +177,9 @@ class NotaController extends Controller
 
 		$historia = $nota->getHc();
 		$factura = $historia->getFactura();
+		
 		$paciente = $factura->getPaciente();
+		$paciente->setPertEtnica($paciente->getPE($paciente->getPertEtnica()));
 
 		$editForm = $this->createForm(new NotasType(), $nota);
 
@@ -219,6 +223,7 @@ class NotaController extends Controller
 		$historia = $nota->getHc();
 		$factura = $historia->getFactura();
 		$paciente = $factura->getPaciente();
+		$paciente->setPertEtnica($paciente->getPE($paciente->getPertEtnica()));
 
 		$breadcrumbs = $this->get("white_october_breadcrumbs");
 		$breadcrumbs->addItem("Inicio",$this->get("router")->generate("paciente_filtro"));
@@ -262,6 +267,7 @@ class NotaController extends Controller
 		// Se optienen los objetos necesarios para la nota "paciente".
 		$factura = $historia->getFactura();
 		$paciente = $factura->getPaciente();
+		$paciente->setPertEtnica($paciente->getPE($paciente->getPertEtnica()));
 
 		// visualizacion del rastro de miga
 		$breadcrumbs = $this->get("white_october_breadcrumbs");
@@ -291,6 +297,7 @@ class NotaController extends Controller
 		$listNotas = $em->getRepository('HistoriaBundle:Notas')->findByHc($historia, array('fecha' => 'DESC'));
 		$factura = $historia->getFactura();
 		$paciente = $factura->getPaciente();
+		$paciente->setPertEtnica($paciente->getPE($paciente->getPertEtnica()));
 		$depto = $em->getRepository('ParametrizarBundle:Depto')->find($paciente->getDepto());
 		$mupio = $em->getRepository('ParametrizarBundle:Mupio')->find($paciente->getMupio());
 		

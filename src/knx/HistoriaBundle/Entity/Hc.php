@@ -305,6 +305,53 @@ class Hc {
 	private $destino;
 	
 	/**
+	 * @var integer $destinoUserSalidaObser
+	 *
+	 * @ORM\Column(name="destino_user_sali_obser", type="integer", nullable=true)
+	 * @Assert\Choice(choices = {"1", "2", "3"}, message = "Selecciona una opción valida.")
+	 */
+	
+	// 1 alta urgencias, 2 remision, 3 hospitalizacion
+	private $destinoUserSalidaObser;
+	
+	/**
+	 * @var integer $estadoSalida
+	 *
+	 * @ORM\Column(name="estado_salida", type="integer", nullable=true)
+	 * @Assert\Choice(choices = {"1", "2"}, message = "Selecciona una opción valida.")
+	 */
+	
+	// 1 vivo, 2 muerto
+	private $estadoSalida;
+	
+	/**
+	 * @var integer $tipoDestino
+	 *
+	 * @ORM\Column(name="tipo_destino", type="integer", nullable=true)
+	 * @Assert\Choice(choices = {"1", "2", "3"}, message = "Selecciona una opción valida.")
+	 */
+	
+	// 1 observacion, 2 hurgencias
+	private $tipoDestino;
+	
+	/**
+	 * @var datetime $fechaIngreObser
+	 *
+	 * @ORM\Column(name="fecha_ingre_observacion", type="datetime", nullable=true)
+	 */
+	private $fechaIngreObser;
+	
+	/**
+	 * @var datetime $viaIngresoInstitucion
+	 *
+	 * @ORM\Column(name="via_ingre_institu", type="integer", nullable=true)
+	 * @Assert\Choice(choices = {"1", "2", "3", "4"}, message = "Selecciona una opción valida.")
+	 */
+	
+	// 1 urgencia, 2 consulta externa, 3 remitido, 4 nacido institucion
+	private $viaIngresoInstitucion;
+	
+	/**
 	 * @var string $destino_r
 	 *
 	 * @ORM\Column(name="destino_r", type="string", length=50, nullable=true)	
@@ -453,7 +500,7 @@ class Hc {
 	 * @var string $pControlP
 	 *
 	 * @ORM\Column(name="p_control_p", type="string", length=2, nullable=true)	 
-	 * @Assert\Choice(choices = {"SI","NO"}, message = "Selecciona una opción valida.")	 
+	 * @Assert\Choice(choices = {"1","2"}, message = "Selecciona una opción valida.")	 
 	 */
 	private $pControlP; //parto_control_prenatal
 	
@@ -1953,5 +2000,120 @@ class Hc {
     public function getPDx()
     {
         return $this->pDx;
+    }
+
+    /**
+     * Set destinoUserSalidaObser
+     *
+     * @param integer $destinoUserSalidaObser
+     * @return Hc
+     */
+    public function setDestinoUserSalidaObser($destinoUserSalidaObser)
+    {
+        $this->destinoUserSalidaObser = $destinoUserSalidaObser;
+    
+        return $this;
+    }
+
+    /**
+     * Get destinoUserSalidaObser
+     *
+     * @return integer 
+     */
+    public function getDestinoUserSalidaObser()
+    {
+        return $this->destinoUserSalidaObser;
+    }
+
+    /**
+     * Set estadoSalida
+     *
+     * @param integer $estadoSalida
+     * @return Hc
+     */
+    public function setEstadoSalida($estadoSalida)
+    {
+        $this->estadoSalida = $estadoSalida;
+    
+        return $this;
+    }
+
+    /**
+     * Get estadoSalida
+     *
+     * @return integer 
+     */
+    public function getEstadoSalida()
+    {
+        return $this->estadoSalida;
+    }
+
+    /**
+     * Set tipoDestino
+     *
+     * @param integer $tipoDestino
+     * @return Hc
+     */
+    public function setTipoDestino($tipoDestino)
+    {
+        $this->tipoDestino = $tipoDestino;
+    
+        return $this;
+    }
+
+    /**
+     * Get tipoDestino
+     *
+     * @return integer 
+     */
+    public function getTipoDestino()
+    {
+        return $this->tipoDestino;
+    }
+
+    /**
+     * Set fechaIngreObser
+     *
+     * @param \DateTime $fechaIngreObser
+     * @return Hc
+     */
+    public function setFechaIngreObser($fechaIngreObser)
+    {
+        $this->fechaIngreObser = $fechaIngreObser;
+    
+        return $this;
+    }
+
+    /**
+     * Get fechaIngreObser
+     *
+     * @return \DateTime 
+     */
+    public function getFechaIngreObser()
+    {
+        return $this->fechaIngreObser;
+    }
+
+    /**
+     * Set viaIngresoInstitucion
+     *
+     * @param integer $viaIngresoInstitucion
+     * @return Hc
+     */
+    public function setViaIngresoInstitucion($viaIngresoInstitucion)
+    {
+        $this->viaIngresoInstitucion = $viaIngresoInstitucion;
+    
+        return $this;
+    }
+
+    /**
+     * Get viaIngresoInstitucion
+     *
+     * @return integer 
+     */
+    public function getViaIngresoInstitucion()
+    {
+        return $this->viaIngresoInstitucion;
     }
 }

@@ -35,24 +35,23 @@
 				<tr>
 					<th>Nombres</th>
 					<th>Apellidos</th>
-					<th>Identificación</th>
-					<th>GrupoEtnico</th>
-					<th>Edad</th>
-					<th>EstadoCivil</th>
-					<th>Aseguradora</th>
-					<th>Afiliación</th>
+					<th>Identificación</th>				
+					<th>Grupo Etnico</th>
+					<th>Edad</th>					
+					<th>Estado Civil</th>					
+					<th>Aseguradora</th>							
 				</tr>
 			</thead>
 	        <tbody>
-	            <tr>
-	                <td>{{ paciente.priNombre | capitalize }} {{ paciente.segNombre | capitalize }}</td>
+	            <tr>                
+	                <td>{{ paciente.priNombre | capitalize }} {{ paciente.segNombre | capitalize }}</td>                
 	                <td>{{ paciente.priApellido | capitalize }} {{ paciente.segApellido | capitalize }}</td>
 	                <td>{{ paciente.identificacion }}</td>
 	                <td>{{ paciente.pertEtnica }}</td>
-	                <td>{{ date('now') | date('Y-m-d') - paciente.fn | date('Y-m-d') }} Años</td>
-	                <td>{{ paciente.estaCivil }}</td>
-	                <td>{{ factura.cliente.nombre }}</td>
-	            </tr>
+	                <td>{{ date('now') | date('Y-m-d') - paciente.fn | date('Y-m-d') }} Años</td>	                
+	                <td>{{ paciente.estaCivil }}</td>	                        
+	                <td>{{ factura.cliente.nombre }}</td>                                          
+	            </tr>            
 	        </tbody>
 	    </table>
    </div>
