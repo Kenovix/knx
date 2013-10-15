@@ -173,7 +173,8 @@
 		{% endfor %}
 	</table>
 	
-	<a href="#" class="btn" {% if factura.estado == 'C' %} style="display:none" {% endif %}><i class="icon-print"></i> Imprimir</a>
+	<a href="{{ path('facturacion_fv_imprimir', {'factura':factura.id}) }}" id="btn-imprimir-factura" class="btn" {% if factura.estado == 'A' %} style="display:none" {% endif %}><i class="icon-print"></i> Imprimir</a>
+	<a href="{{ path('facturacion_consulta_new') }}" id="btn-nueva-factura" class="btn" {% if factura.estado == 'A' %} style="display:none" {% endif %}><i class="icon-print"></i> Nueva factura</a>
 
 {% endblock %}
 
@@ -268,6 +269,8 @@
 			             html += "</tr>";
 	
 		            	 $("#facturado").append(html);
+
+		            	 $("#btn-imprimir-factura, #btn-nueva-factura").removeAttr('style');
 
 		             }
 		             else if(data.responseCode==400){

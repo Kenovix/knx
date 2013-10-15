@@ -1,0 +1,33 @@
+{% extends "::simple.html.twig" %}
+
+{% block body %}
+
+<table>
+	<tr>
+		<td><h4 align="left">fecha</h4></td>
+		<td></td>
+		<td><h3 align="right">FACTURA DE VENTA No. {{ factura.id }}</h3></td>
+	</tr>
+	<tr>
+		<td>Identificación: {{ factura.paciente.identificacion }}</td>
+		<td>Regimén: </td>
+		<td>Empresa: </td>
+	</tr>
+	<tr>
+		<td>Nombre: </td>
+		<td>Vinculo: </td>
+		<td>Fecha nacimiento: </td>
+	</tr>
+	<tr>
+		<td>Dirección: </td>
+		<td>Teléfono: </td>
+		<td>Municipio :</td>
+	</tr>
+	<tr>
+		<td>Centro costo: </td>
+		<td>Historia</td>
+		<td></td>
+	</tr>
+</table>
+
+{% endblock %}

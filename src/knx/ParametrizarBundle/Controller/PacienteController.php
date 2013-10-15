@@ -154,10 +154,17 @@ class PacienteController extends Controller
 		}		
 		
 		$depto = $em->getRepository('ParametrizarBundle:Depto')->find($paciente->getDepto());
+
+		$mupio = $em->getRepository('ParametrizarBundle:Mupio')->find($paciente->getMupio());
+		$paciente->setDepto($depto);				
+		$paciente->setMupio($mupio);		
+
+
 		$mupio = $em->getRepository('ParametrizarBundle:Mupio')->find($paciente->getMupio());		
 		$paciente->setDepto($depto);				
 		$paciente->setMupio($mupio);		
 		
+
 		//---------------------------------
 		if(!$paciente->getMovil())		// estas condicionales se usan para evitar posible problemas 
 			$paciente->setMovil(NULL);	// entre la DB y la aplicacion ya q si se ah cargado info 
@@ -166,8 +173,11 @@ class PacienteController extends Controller
 		//----------------------------------
 		
 		$paciente->setFN($paciente->getFN()->format('d/m/Y'));		
+
+
 	
-		//die(var_dump($paciente));
+
+
 		$editForm = $this->createForm(new PacienteType(), $paciente);		
 		
 		$breadcrumbs = $this->get("white_october_breadcrumbs");

@@ -220,6 +220,8 @@ class CargoPypController extends Controller
 	    		
 	    		$where = "";
 	    		$parametros = array();
+	    		$rango = 0;
+	    		$rangoa = 0;
 	    		
 	    		if(in_array($edad, array(4, 14, 16, 45))){
 	    			

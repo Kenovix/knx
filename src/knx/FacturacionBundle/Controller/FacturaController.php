@@ -275,7 +275,11 @@ class FacturaController extends Controller
     		$factura_cargo->setEstado('C');
     		$factura_cargo->setAmbito($ambito);
     		
-    		$factura->setEstado('C');
+    		if($factura->getTipo() == 'U'){
+    			$factura->setEstado('A');
+    		}else{
+    			$factura->setEstado('C');
+    		}
     		
     		$em->persist($factura_cargo);
     		$em->persist($factura);
@@ -296,5 +300,24 @@ class FacturaController extends Controller
     	 
     	$return=json_encode($response);
     	return new Response($return,200,array('Content-Type'=>'application/json'));
+    }
+    
+    
+    public function imprimirAction($factura) {
+    	
+    	$em = $this->getDoctrine()->getEntityManager();
+    	
+    	$factura = $em->getRepository('FacturacionBundle:Factura')->find($factura);
+    	
+    	if (!$factura) {
+    		throw $this->createNotFoundException('La factura solicitada no existe');
+    	}
+    	
+    	$pdf = $this->get('white_october.tcpdf')->create();
+    	
+    	$html = $this->renderView('FacturacionBundle:Factura:factura.pdf.twig',array('factura' => $factura));
+    	
+    	return $pdf->quick_pdf($html, 'factura_venta_'.$factura->getId().'.pdf', 'I');    	
+    	
     }
 }
