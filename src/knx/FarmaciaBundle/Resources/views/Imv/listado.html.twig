@@ -12,15 +12,15 @@
         <p><b>Existencias</b><br/><br/><br/>
 
 
-	       <table class="table" cellpadding="2" cellspacing="2" border="1">
+	       <table  border="1">
 	        <thead>
 	            <tr>
-	                <th width="40px">No.</th>
-	              	<th width="40px">Codigo</th>
-	                <th width="35px">Tipo</th>
-	                <th width="300px">Nombre</th>
-	                <th width="50px">Cantidad</th>
-	                <th width="50px">Precio Venta</th>
+                        <th width="40px"><b>No.</b></th>
+	              	<th width="45px"><b>Codigo</b></th>
+                        <th width="35px"><b>Tipo</b></th>
+                        <th width="350px"><b>Nombre</b></th>
+                        <th width="60px"><b>Cantidad</b></th>
+                        <th width="80px"><b>Precio Venta</b></th>
 
 
 
@@ -30,11 +30,11 @@
 	        {% for imv in imv %}
 	            <tr>
 	                 <td width="40px">{{ loop.index }}</td>
-	                 <td width="40px">{{ imv.codCups}}</td>
-	             	 <td width="35px">{{ imv.tipoImv }}</td>
-	             	 <td width="300px">{{ imv.nombre }}</td>
-	             	 <td width="50px">{{ imv.cantT }}</td>
-	             	 <td width="50px">{{ imv.precioVenta }}</td>
+	                 <td width="45px">{{ imv.codCups}}</td>
+	             	 <td width="35px" align="center">{{ imv.tipoImv }}</td>
+	             	 <td width="350px">{{ imv.nombre }}</td>
+	             	 <td width="60px">{{ imv.cantT }}</td>
+	             	 <td width="80px">{{ imv.precioVenta }}</td>
 
 
 	            </tr>

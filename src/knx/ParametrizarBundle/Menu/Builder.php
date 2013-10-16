@@ -179,6 +179,19 @@ class Builder extends ContainerAware
 			$menu[$usuario->getUsername()]->addChild('Salir', array('route' => 'logout'));
 			
 		}
+                elseif($security->isGranted('ROLE_AUXILIAR')){
+                    
+                         $menu->addChild('Historia', array('uri' => '#'));
+			$menu['Historia']->addChild('Consultas pendientes', array('uri' => '#'));
+			$menu['Historia']['Consultas pendientes']->addChild('Externas', array('route' => 'historia_externas_list'));
+			$menu['Historia']['Consultas pendientes']->addChild('Urgencias', array('route' => 'historia_urgencias_list'));
+			$menu['Historia']['Consultas pendientes']->addChild('Observación', array('route' => 'historia_urgenciaList'));
+                        $menu['Historia']->addChild('Busqueda', array('route' => 'paciente_filtro'));
+                        $menu->addChild($usuario->getUsername(), array('uri' => '#'));
+			$menu[$usuario->getUsername()]->addChild('Cambiar contraseña', array('route' => 'fos_user_change_password'));
+			$menu[$usuario->getUsername()]->addChild('Salir', array('route' => 'logout'));
+                    
+                }
 	
 		return $menu;
 	}

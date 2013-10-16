@@ -174,11 +174,15 @@ class PacienteController extends Controller
 		//$paciente->setDepto($depto);
 		//$paciente->setMupio($mupio);
 
+		$paciente->setDepto($depto);				
+		$paciente->setMupio($mupio);		
 
 
 		$mupio = $em->getRepository('ParametrizarBundle:Mupio')->find($paciente->getMupio());		
 		$paciente->setDepto($depto);				
 		$paciente->setMupio($mupio);		
+
+		
 
 		//---------------------------------
 		if(!$paciente->getMovil())		// estas condicionales se usan para evitar posible problemas 
@@ -188,8 +192,11 @@ class PacienteController extends Controller
 		//----------------------------------
 		
 		$paciente->setFN($paciente->getFN()->format('d/m/Y'));		
+
+
 	
-		//die(var_dump($paciente));
+
+
 		$editForm = $this->createForm(new PacienteType(), $paciente);		
 		
 		$breadcrumbs = $this->get("white_october_breadcrumbs");
