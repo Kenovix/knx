@@ -59,6 +59,8 @@ class HistoriaController extends Controller
 		{
 			$dxSalida = $em->getRepository('HistoriaBundle:Cie')->find($historia->getDxSalida());
 		}
+		if($factura->getTipo() == 'C')
+			$historia->setDestino('1');
 	
 		// se cargan los respectivos objetos para que el formulario los visualice correctamente.
 		$historia->setServiEgre($serviEgre);
@@ -80,6 +82,8 @@ class HistoriaController extends Controller
 		if (!$factura || !$historia) {
 			throw $this->createNotFoundException('La informacion solicitada no esta disponible.');
 		}
+		if($factura->getTipo() == 'C')
+			$historia->setDestino('1');
 				
 		$form_historia = $this->createForm(new HcType(), $historia);
 		$request = $this->getRequest();
@@ -147,11 +151,22 @@ class HistoriaController extends Controller
 			if($historia->getServiEgre()){
 				$historia->setServiEgre($historia->getServiEgre()->getId());				
 			}		
-
-			$factura->setTipo('HC');
-			$historia->setFactura($factura);						
-			$em->persist($historia);
-			$em->persist($factura);
+			
+			$facturaCargo = false;
+			if($factura->getTipo() == 'C')			
+				$facturaCargo = $em->getRepository('HistoriaBundle:Hc')->closeFacturaCargoHc($factura->getId(),'CE');							
+			elseif($factura->getTipo() == 'U' || $factura->getTipo() == 'H')			
+				$facturaCargo = $em->getRepository('HistoriaBundle:Hc')->closeFacturaCargoHc($factura->getId(),'CU');	
+			
+			if($facturaCargo)
+			{
+				$facturaCargo->setEstado('C');
+				$em->persist($facturaCargo);
+			}
+				
+			
+			$historia->setFactura($factura);			
+			$em->persist($historia);			
 			$em->flush();		
 
 			$this->get('session')->setFlash('ok','La historia clinica ha sido modificada éxitosamente.');
@@ -206,7 +221,7 @@ class HistoriaController extends Controller
 		if($historia->getPFechaM())
 		{
 			$historia->setPFechaM($historia->getPFechaM()->format('d/m/Y H:i'));
-		}
+		}		
 		
 		// rastro de miga
 		$breadcrumbs = $this->get("white_october_breadcrumbs");

@@ -123,11 +123,11 @@ class HcRepository extends EntityRepository
 									fc.cargo c
 								 WHERE
 									c.tipoCargo = :tipoCargo AND
-									f.tipo = :tipo AND								
+									fc.estado = :estado AND								
 									f.profesional = :profesional");
 		
 		$dql->setParameter('tipoCargo', 'CE');
-		$dql->setParameter('tipo', 'C');
+		$dql->setParameter('estado', 'A');
 		$dql->setParameter('profesional', $profesional);
 		
 		return $dql->getResult();
@@ -148,13 +148,42 @@ class HcRepository extends EntityRepository
 									fc.cargo c
 								 WHERE
 									c.tipoCargo = :tipoCargo AND 
-									f.tipo = :tipo OR f.tipo = :tipo2 AND c.tipoCargo = :tipoCargo");
+									fc.estado = :estado");
 	
 		$dql->setParameter('tipoCargo', 'CU');
-		$dql->setParameter('tipo', 'U');
-		$dql->setParameter('tipo2', 'H');
+		$dql->setParameter('estado', 'A');
 	
 		return $dql->getResult();
+	}
+	
+	
+	// se realiza la consulta debida a que obtenga la factura cargo con sus debidos requerimientos
+	public function closeFacturaCargoHc($factura, $tipoCargo)
+	{
+		$em = $this->getEntityManager();
+	
+		$dql = $em->createQuery("SELECT
+									f.id AS factura, c.id AS cargo 
+								 FROM
+									FacturacionBundle:FacturaCargo fc
+								 JOIN
+									fc.factura f
+								 JOIN
+									fc.cargo c
+								 WHERE
+									f.id = :factura AND
+									c.tipoCargo = :tipoCargo");
+	
+		$dql->setParameter('factura', $factura);
+		$dql->setParameter('tipoCargo', $tipoCargo);
+
+		$facturaCargo = $dql->getResult();
+		if($facturaCargo)
+			$facturaCargo = $em->getRepository('FacturacionBundle:FacturaCargo')->findOneBy(array('factura' => $facturaCargo[0]['factura'], 'cargo' => $facturaCargo[0]['cargo']));
+		else 
+			throw $this->createNotFoundException('Revise la factura y el tipo de cargo que ya que hay informacion no disponible.');
+	
+		return $facturaCargo;
 	}
 }
 
