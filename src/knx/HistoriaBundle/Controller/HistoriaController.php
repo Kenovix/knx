@@ -130,6 +130,11 @@ class HistoriaController extends Controller
 			}			
 		}
 		
+		// se guarda la hora de ingreso a la observacion.
+		$tipoDestino = $form_historia->get('tipoDestino')->getData();
+		if($tipoDestino == 1)
+			$historia->setFechaIngreObser(new \DateTime('now'));
+		
 		
 		if($form_historia->isValid()) 
 		{			
@@ -143,8 +148,10 @@ class HistoriaController extends Controller
 				$historia->setServiEgre($historia->getServiEgre()->getId());				
 			}		
 
-			$historia->setFactura($factura);			
+			$factura->setTipo('HC');
+			$historia->setFactura($factura);						
 			$em->persist($historia);
+			$em->persist($factura);
 			$em->flush();		
 
 			$this->get('session')->setFlash('ok','La historia clinica ha sido modificada éxitosamente.');
@@ -267,7 +274,7 @@ class HistoriaController extends Controller
 	}
 	
 	public function listUrgenciasAction()
-	{
+	{		
 		$paginator = $this->get('knp_paginator');
 		$em = $this->getDoctrine()->getEntityManager();
 		$urgencias = $em->getRepository('HistoriaBundle:Hc')->listHcUrgencias();

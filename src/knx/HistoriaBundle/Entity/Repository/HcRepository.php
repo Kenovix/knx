@@ -100,8 +100,8 @@ class HcRepository extends EntityRepository
 								 FROM 
 									HistoriaBundle:Hc h
 								 WHERE
-									h.destino = '4' or
-									h.destino = '3' 
+									h.tipoDestino = '1' or
+									h.tipoDestino = '2' 
 								 ORDER BY
 									h.updated DESC");
 		return $dql->getResult();
@@ -123,17 +123,17 @@ class HcRepository extends EntityRepository
 									fc.cargo c
 								 WHERE
 									c.tipoCargo = :tipoCargo AND
-									f.estado = :estado AND								
+									f.tipo = :tipo AND								
 									f.profesional = :profesional");
 		
 		$dql->setParameter('tipoCargo', 'CE');
-		$dql->setParameter('estado', 'C');
+		$dql->setParameter('tipo', 'C');
 		$dql->setParameter('profesional', $profesional);
 		
 		return $dql->getResult();
 	}
 	
-	// listar todas las historias que se encuentran en consulta externa
+	// listar todas las historias que apenas se an facturado como urgencias.
 	public function listHcUrgenciasPendientes()
 	{
 		$em = $this->getEntityManager();
@@ -147,12 +147,16 @@ class HcRepository extends EntityRepository
 								 JOIN
 									fc.cargo c
 								 WHERE
-									c.tipoCargo = :tipoCargo AND
-									f.estado = :estado");
+									c.tipoCargo = :tipoCargo AND 
+									f.tipo = :tipo OR f.tipo = :tipo2 AND c.tipoCargo = :tipoCargo");
 	
 		$dql->setParameter('tipoCargo', 'CU');
-		$dql->setParameter('estado', 'C');
+		$dql->setParameter('tipo', 'U');
+		$dql->setParameter('tipo2', 'H');
 	
 		return $dql->getResult();
 	}
 }
+
+/*
+*/

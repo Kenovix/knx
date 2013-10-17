@@ -802,15 +802,19 @@
 				 
 				
 				<br/>
-				<div>
-					{{ form_label(edit_form.procedimientos_s) }}
-					<div>						
-						{{ form_errors(edit_form.sal_procedimientos) }}
-						{{ form_widget(edit_form.sal_procedimientos) }}
-					</div>					
-					{{ form_errors(edit_form.procedimientos_s) }}
-					{{ form_widget(edit_form.procedimientos_s) }}				
-				</div>
+				{% if tipoingreso == 'U' or tipoingreso == 'H' %}
+					{% else %}
+					<div>
+						{{ form_label(edit_form.procedimientos_s) }}
+						<div>						
+							{{ form_errors(edit_form.sal_procedimientos) }}
+							{{ form_widget(edit_form.sal_procedimientos) }}
+						</div>					
+						{{ form_errors(edit_form.procedimientos_s) }}
+						{{ form_widget(edit_form.procedimientos_s) }}				
+					</div>
+				{% endif %}
+				
 				
 				<br/>
 				<div>
@@ -1450,7 +1454,7 @@
 				$('#formSalida').show('slow');
 				$('#salidaObservacion').show('slow');
 			}
-			else if( (destino == '1') && (tipoDestino == '2') )
+			else if( tipoDestino == '2')
 			{						
 				$('#formSalida').show('slow');
 				$('#viaIngresoInstitution').show('slow');
