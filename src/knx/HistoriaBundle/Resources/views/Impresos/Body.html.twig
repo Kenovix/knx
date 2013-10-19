@@ -150,18 +150,42 @@
 		~ Procedimientos: 	{{ historia.procedimientosS }} <br/>
 		~ Examenes:			{{ historia.examenesS }} <br/>
 		~ Incapacidad:		{{ historia.incapacidad }} <br/>
-	</p>
-
-	{% if historia.destino == 'remision' %}
-		<b>Remision:</b><br/>
-		<p>
-			~ Destino: {{ historia.destinoR}} <br/>
-			~ Especialidad: {{ historia.especialidadR}}<br/>
-			~ Autorizacion: {{ historia.nuAutoR}} <br/>
-			~ Servicio: {{ historia.rServicio}} <br/>
-			~ Descripcion: {{ historia.descripcionR}}
-		</p>
+	</p>	
+	
+	{% if tipoingreso == 'U' or tipoingreso == 'H' %}
+		{% if historia.destinoUserSalidaObser == '2' %}		
+			 <b>Via De Ingreso A La Institucionn Remision:</b><br/>
+			 <p>
+				~ Destino: {{ historia.destinoR}} <br/>
+				~ Especialidad: {{ historia.especialidadR}}<br/>
+				~ Autorizacion: {{ historia.nuAutoR}} <br/>
+				~ Servicio: {{ historia.rServicio}} <br/>
+				~ Descripcion: {{ historia.descripcionR}}
+			</p>
+			{% elseif  historia.viaIngresoInstitucion == '3'%}
+			 <b>Destino Usuario Salida Observacion Remitido:</b><br/>			 
+			 <p>
+				~ Destino: {{ historia.destinoR}} <br/>
+				~ Especialidad: {{ historia.especialidadR}}<br/>
+				~ Autorizacion: {{ historia.nuAutoR}} <br/>
+				~ Servicio: {{ historia.rServicio}} <br/>
+				~ Descripcion: {{ historia.descripcionR}}
+			</p>
+		{% endif %}	
+		
+		{% else %}
+			{% if historia.tipoDestino == '3' %}		
+				 <b>Remision:</b><br/>
+				 <p>
+					~ Destino: {{ historia.destinoR}} <br/>
+					~ Especialidad: {{ historia.especialidadR}}<br/>
+					~ Autorizacion: {{ historia.nuAutoR}} <br/>
+					~ Servicio: {{ historia.rServicio}} <br/>
+					~ Descripcion: {{ historia.descripcionR}}
+				</p>
+			{% endif %}					
 	{% endif %}
+		
 	<p>
 		<b>Medico: </b> {{ usuario.nombre }} {{ usuario.apellido }} Especialidad: {{ usuario.especialidad }} <br/>
 		<b>Registro: </b>	<br/>

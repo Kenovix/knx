@@ -36,11 +36,10 @@
 					<th>Nombres</th>
 					<th>Apellidos</th>
 					<th>Identificación</th>				
-					<th>GrupoEtnico</th>
+					<th>Grupo Etnico</th>
 					<th>Edad</th>					
-					<th>EstadoCivil</th>					
-					<th>Aseguradora</th>
-					<th>Afiliación</th>								
+					<th>Estado Civil</th>					
+					<th>Aseguradora</th>							
 				</tr>
 			</thead>
 	        <tbody>
@@ -50,8 +49,9 @@
 	                <td>{{ paciente.identificacion }}</td>
 	                <td>{{ paciente.pertEtnica }}</td>
 	                <td>{{ date('now') | date('Y-m-d') - paciente.fn | date('Y-m-d') }} Años</td>	                
-	                <td>{{ paciente.estaCivil }}</td>	                        
+	                <td>{{ paciente.estaCivil }}</td>                        
 	                <td>{{ factura.cliente.nombre }}</td>
+
 	            </tr>            
 	        </tbody>
 	    </table>
@@ -104,7 +104,7 @@
 			    </table>  
     
     		{% if historia.serviEgre %}
-    			{% if historia.destino == 'domicilio' or historia.destino == 'remision' or historia.destino == 'muerte' %}
+    			{% if historia.destino == '1' or historia.destino == '3' %}
     				<a href="{{ path('nota_print', { 'historia': historia.id }) }}" target='blank' class="btn"><i class="icon-print"></i></a>
     			 {% else %}
     			    <a href="{{ path('nota_edit', { 'nota': nota.id }) }}" class="btn">Modificar nota</a>
