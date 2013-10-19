@@ -49,8 +49,9 @@
 	                <td>{{ paciente.identificacion }}</td>
 	                <td>{{ paciente.pertEtnica }}</td>
 	                <td>{{ date('now') | date('Y-m-d') - paciente.fn | date('Y-m-d') }} Años</td>	                
-	                <td>{{ paciente.estaCivil }}</td>	                        
-	                <td>{{ factura.cliente.nombre }}</td>                                          
+	                <td>{{ paciente.estaCivil }}</td>                        
+	                <td>{{ factura.cliente.nombre }}</td>
+
 	            </tr>            
 	        </tbody>
 	    </table>

@@ -1,12 +1,12 @@
 {% extends "::admin_layout.html.twig" %}
 
 {% block menu %}
-	{{ knp_menu_render('FacturacionBundle:Builder:facturaMenu') }}
+	{{ knp_menu_render('ParametrizarBundle:Builder:superAdminMenu') }}
 {% endblock %}
 
 {% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
 
-{% block titulo %}Nueva factura{% endblock %}
+{% block titulo %}Nueva factura de procedimiento{% endblock %}
 
 {% block msg %}
 	{% if app.session.hasFlash('ok') %}
@@ -34,7 +34,7 @@
     	<span></span>
     </div>
 
-	<form action="{{ path('facturacion_consulta_save') }}" class="form-inline" method="post" {{ form_enctype(form) }}>
+	<form action="{{ path('facturacion_procedimiento_save') }}" class="form-inline" method="post" {{ form_enctype(form) }}>
 	    <fieldset>
 	    	<legend>Datos del paciente</legend>
 	    	
@@ -355,7 +355,7 @@
 
 				var edad = $("#edad").text();
 				var sexo = $("#sexo").text();
-				var tipo_cargo = 'CE';
+				var tipo_cargo = 'P';
 
 				if(edad == ""){
 					alert("Seleccione un paciente");
@@ -370,7 +370,8 @@
 				$.post(url,{
 	                edad: edad,
 	                sexo: sexo,
-	                cliente: cliente
+	                cliente: cliente,
+	                tipo: tipo_cargo
 	            },function(data){
 	                if(data.responseCode==200 ){
 

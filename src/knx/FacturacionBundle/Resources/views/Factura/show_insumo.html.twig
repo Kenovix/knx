@@ -1,7 +1,7 @@
 {% extends "::admin_layout.html.twig" %}
 
 {% block menu %}
-	{{ knp_menu_render('FacturacionBundle:Builder:facturaMenu') }}
+	{{ knp_menu_render('ParametrizarBundle:Builder:superAdminMenu') }}
 {% endblock %}
 
 {% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
@@ -112,7 +112,7 @@
 				{% endfor %}
 			</select>
 			
-			<input type="text" class="input-mini" id="cantidad" name="cantidad" value="1" readonly="readonly" />
+			<input type="text" class="input-mini" id="cantidad" name="cantidad" value="1" />
 			<input type="text" class="input-small" placeholder="Valor" id="valor" readonly="readonly" />
 			    
 			<br /><br />
@@ -174,7 +174,7 @@
 	</table>
 	
 	<a href="{{ path('facturacion_fv_imprimir', {'factura':factura.id}) }}" id="btn-imprimir-factura" class="btn" {% if factura.estado == 'A' %} style="display:none" {% endif %}><i class="icon-print"></i> Imprimir</a>
-	<a href="{{ path('facturacion_consulta_new') }}" id="btn-nueva-factura" class="btn" {% if factura.estado == 'A' %} style="display:none" {% endif %}><i class="icon-print"></i> Nueva factura</a>
+	<a href="{{ path('facturacion_procedimiento_new') }}" id="btn-nueva-factura" class="btn" {% if factura.estado == 'A' %} style="display:none" {% endif %}><i class="icon-print"></i> Nueva factura</a>
 
 {% endblock %}
 
@@ -238,6 +238,9 @@
 
 				$("#vr_facturado").val(valor);
 
+				$('#jxMsg > span').empty();
+         		$('#jxMsg').css('display', 'none');
+
 				var html = "";
 
 	    		$.post(url,{
@@ -250,13 +253,10 @@
 	    			pago_pte: $("#pago_pct").val(),
 	    			cargo_ips: $("#cargo_ips").val(),
 	    			total: $("#valor_total").val(),
-	    			ambito: 'A'
+	    			ambito: 'A',
+	    			estado: 'C',
 		         },function(data){
 		             if(data.responseCode==200 ){
-
-			             $("#actividad").attr('disabled', 'disabled');
-			             $("#cobrar_pte").attr('disabled', 'disabled');
-			             $("#agregar").attr('disabled', 'disabled');
 
 			             html += "<tr>";
 			             html += "<td>" + data.codigo + "</td>";

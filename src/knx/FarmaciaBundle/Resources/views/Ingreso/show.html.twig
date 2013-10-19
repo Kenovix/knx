@@ -52,7 +52,7 @@
             	<td>{{ ingreso.fecha | date('d-m-Y')}}</td>
             	<td>$ {{ ingreso.valorT| number_format(0,',','.')}}</td>
             	<td>$ {{ ingreso.valorN| number_format(0,',','.')}}</td>
-            	<td>$ {{ ingreso.valorIva}} </td>
+            	<td> {{ ingreso.valorIva}} %</td>
         	</tr>
         </tbody>
     </table>

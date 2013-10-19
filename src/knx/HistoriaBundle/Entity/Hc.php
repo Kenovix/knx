@@ -489,9 +489,9 @@ class Hc {
 	 * @ORM\Column(name="p_edad_g", type="integer", nullable=true)
 	 * @Assert\Range(
      *      min = "1",
-     *      max = "36",
+     *      max = "40",
      *      minMessage = "El menor número a ingresar es 1",
-     *      maxMessage = "El mayor número a ingresar es 36"
+     *      maxMessage = "El mayor número a ingresar es 40"
      * ))
 	 */
 	private $pEdadG;//parto_edad_gestacional

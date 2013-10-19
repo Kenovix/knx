@@ -31,8 +31,8 @@ security:
         - { path: ^/usuario/registrar, role: ROLE_SUPER_ADMIN }
         - { path: ^/usuario/resetting, role: ROLE_SUPER_ADMIN }
         - { path: ^/usuario/profile, role: IS_AUTHENTICATED_FULLY }
-        - { path: ^/admin/, role: ROLE_SUPER_ADMIN }
-        - { path: ^/farmacia/, role: ROLE_SUPER_ADMIN }
+        - { path: ^/admin/, role: [ROLE_SUPER_ADMIN,ROLE_MEDICO,ROLE_AUXILIAR] }
+        - { path: ^/farmacia/, role: [ROLE_SUPER_ADMIN,ROLE_FARMACIA] }
         - { path: ^/usuario/, role: ROLE_SUPER_ADMIN }
-        - { path: ^/historia/, role: ROLE_MEDICO }
-        - { path: ^/facturacion/, role: ROLE_SUPER_ADMIN }
+        - { path: ^/historia/, role: [ROLE_MEDICO,ROLE_AUXILIAR] }
+        - { path: ^/facturacion/, role: [ROLE_SUPER_ADMIN,ROLE_FACTURADOR] }

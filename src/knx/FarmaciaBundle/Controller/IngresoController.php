@@ -337,7 +337,7 @@ class IngresoController extends Controller
     			'ingreso' =>$ingreso,
     			'inventarios' => $inventario));
     	 
-    	return $pdf->quick_pdf($html, 'Detallado_ingreso_'.$ingreso->getId().'.pdf', 'I');
+    	return $pdf->quick_pdf($html, 'Detallado_ingreso_'.$ingreso->getId().'.pdf', 'D');
     }
 
 }

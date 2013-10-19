@@ -15,7 +15,7 @@ class FacturaImv
 {
 	/**
 	 * @ORM\Id
-	 * @ORM\ManyToOne(targetEntity="knx\FarmaciaBundle\Entity\IMV")
+	 * @ORM\ManyToOne(targetEntity="knx\FarmaciaBundle\Entity\Imv")
      */
 	private $imv;
 

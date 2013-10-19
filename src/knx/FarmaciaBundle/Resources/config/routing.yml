@@ -1,6 +1,6 @@
 farmacia_index:
-    pattern:  /categoria/new
-    defaults: { _controller: FarmaciaBundle:Catfarma:catNew }
+    pattern:  /inicio
+    defaults: { _controller: FarmaciaBundle:Default:inicio }
 
  #************** Categoria Imv ***************#
 
