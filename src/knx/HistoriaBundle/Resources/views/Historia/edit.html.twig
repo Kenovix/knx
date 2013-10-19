@@ -802,8 +802,6 @@
 				 
 				
 				<br/>
-				{% if tipoingreso == 'U' or tipoingreso == 'H' %}
-					{% else %}
 					<div>
 						{{ form_label(edit_form.procedimientos_s) }}
 						<div>						
@@ -812,10 +810,7 @@
 						</div>					
 						{{ form_errors(edit_form.procedimientos_s) }}
 						{{ form_widget(edit_form.procedimientos_s) }}				
-					</div>
-				{% endif %}
-				
-				
+					</div>			
 				<br/>
 				<div>
 					{{ form_label(edit_form.examenes_s) }}

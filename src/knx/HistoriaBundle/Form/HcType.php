@@ -319,7 +319,9 @@ class HcType extends AbstractType {
 								'query_builder' => function (
 										EntityRepository $repositorio) {
 									return $repositorio
-									->createQueryBuilder('e')									
+									->createQueryBuilder('e')		
+									->where("e.tipo = :tipo")
+									->setParameter('tipo', 'LB')
 									->orderBy('e.nombre', 'ASC');
 								}))
 								
@@ -333,8 +335,9 @@ class HcType extends AbstractType {
 								{
 									return $repositorio
 									->createQueryBuilder('e')
-									->where("e.tipo = :tipo")
+									->where("e.tipo = :tipo OR e.tipo = :tipo1")
 									->setParameter('tipo', 'P')
+									->setParameter('tipo1', 'ID')
 									->orderBy('e.nombre', 'ASC');
 								}))
 				->add('sal_medicamentos', 'entity',
