@@ -50,7 +50,7 @@
 	                <td><a href="{{ path('historia_edit', {'factura':hc.factura.id}) }}">{{ hc.factura.paciente.identificacion }}</a></td>
 	                <td>{{ hc.factura.cliente.nombre}}</td>
 	                <td>{{ hc.factura.servicio.nombre}}</td>
-	                <td>{{ tipoDestino[hc.destino]}}</td>
+	                <td>{{ tipoDestino[hc.tipoDestino]}}</td>
 	            </tr>
 	        {% endfor %}
 	        </tbody>

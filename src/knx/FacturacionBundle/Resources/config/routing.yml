@@ -1,6 +1,6 @@
 facturacion_index:
-    pattern:  /hello/{name}
-    defaults: { _controller: FacturacionBundle:Default:index }
+    pattern:  /inicio
+    defaults: { _controller: FacturacionBundle:Default:inicio }
 
 facturacion_consulta_new:
     pattern:  /consulta/new

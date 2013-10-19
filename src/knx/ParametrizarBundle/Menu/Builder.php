@@ -195,4 +195,39 @@ class Builder extends ContainerAware
 	
 		return $menu;
 	}
+        
+        
+        
+        
+        public function FacturacionMenu(FactoryInterface $factory, array $options)
+	{
+		$security = $this->container->get('security.context');
+		$usuario = $security->getToken()->getUser();
+	
+		$menu = $factory->createItem('root');
+		$menu->setChildrenAttributes(array('id' => 'menu'));
+		
+		if($security->isGranted('ROLE_ADMIN'))
+		{
+	
+			
+		
+		}elseif ($security->isGranted('ROLE_FACTURADOR')){
+			
+			$menu->addChild('Facturación', array('uri' => '#'));
+			$menu['Facturación']->addChild('Facturar', array('uri' => '#'));
+			$menu['Facturación']['Facturar']->addChild('Consulta', array('route' => 'facturacion_consulta_new'));
+			$menu['Facturación']['Facturar']->addChild('Procedimiento', array('route' => 'facturacion_consulta_new'));
+			$menu['Facturación']['Facturar']->addChild('Medicamento', array('route' => 'facturacion_consulta_new'));
+			$menu['Facturación']['Facturar']->addChild('Reportes', array('route' => 'reporte_cargo_new'));
+			
+			$menu->addChild($usuario->getUsername(), array('uri' => '#'));
+			$menu[$usuario->getUsername()]->addChild('Cambiar contraseña', array('route' => 'fos_user_change_password'));
+			$menu[$usuario->getUsername()]->addChild('Salir', array('route' => 'logout'));
+			
+		}
+                
+	
+		return $menu;
+	}
 }
