@@ -52,8 +52,8 @@ class Builder extends ContainerAware
 			$menu['Facturación']->addChild('Facturar', array('uri' => '#'));
 
 				$menu['Facturación']['Facturar']->addChild('Consulta', array('route' => 'facturacion_consulta_new'));
-				$menu['Facturación']['Facturar']->addChild('Procedimiento', array('route' => 'facturacion_consulta_new'));
-				$menu['Facturación']['Facturar']->addChild('Medicamento', array('route' => 'facturacion_consulta_new'));
+				$menu['Facturación']['Facturar']->addChild('Procedimiento', array('route' => 'facturacion_procedimiento_new'));
+				$menu['Facturación']['Facturar']->addChild('Medicamento', array('route' => 'facturacion_insumo_new'));
 
 
 

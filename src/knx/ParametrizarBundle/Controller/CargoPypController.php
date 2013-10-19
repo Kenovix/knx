@@ -193,6 +193,7 @@ class CargoPypController extends Controller
     	$edad = $request->request->get('edad');
     	$sexo = $request->request->get('sexo');
     	$cliente = $request->request->get('cliente');
+    	$tipo = $request->request->get('tipo');
     	
     	$em = $this->getDoctrine()->getEntityManager();
     	
@@ -261,6 +262,7 @@ class CargoPypController extends Controller
 	    		
 	    		$parametros['edad'] = $edad;
 	    		$parametros['sexo'] = $sexo;
+	    		$parametros['tipo'] = $tipo;
 	    		
 	    		
 	    		
@@ -284,7 +286,8 @@ class CargoPypController extends Controller
 	    									cp.edadFin >= :edad ) OR
 	    									(cp.edadIni <= :edad AND
 	    									cp.edadFin = '') AND
-	    									c.tipoCargo = 'CE' ".$where);
+	    									c.tipoCargo = :tipo ".$where);
+
 
 	    		$query->setParameters($parametros);
 

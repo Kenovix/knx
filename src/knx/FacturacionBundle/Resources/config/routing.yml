@@ -18,6 +18,38 @@ facturacion_consulta_edit:
     pattern:  /consulta/{factura}/edit
     defaults: { _controller: FacturacionBundle:Factura:editConsulta }
     
+facturacion_procedimiento_new:
+    pattern:  /procedimiento/new
+    defaults: { _controller: FacturacionBundle:Factura:newProcedimiento }
+    
+facturacion_procedimiento_save:
+    pattern:  /procedimiento/save
+    defaults: { _controller: FacturacionBundle:Factura:saveProcedimiento }
+    
+facturacion_procedimiento_show:
+    pattern:  /procedimiento/{factura}/show
+    defaults: { _controller: FacturacionBundle:Factura:showProcedimiento }
+
+facturacion_procedimiento_edit:
+    pattern:  /procedimiento/{factura}/edit
+    defaults: { _controller: FacturacionBundle:Factura:editProcedimiento }
+    
+facturacion_insumo_new:
+    pattern:  /insumo/new
+    defaults: { _controller: FacturacionBundle:Factura:newInsumo }
+    
+facturacion_insumo_save:
+    pattern:  /insumo/save
+    defaults: { _controller: FacturacionBundle:Factura:saveInsumo }
+    
+facturacion_insumo_show:
+    pattern:  /insumo/{factura}/show
+    defaults: { _controller: FacturacionBundle:Factura:showInsumo }
+
+facturacion_insumo_edit:
+    pattern:  /insumo/{factura}/edit
+    defaults: { _controller: FacturacionBundle:Factura:editInsumo }
+    
 facturacion_paciente_buscar:
     pattern:  /paciente/buscar
     defaults: { _controller: FacturacionBundle:Factura:jxBuscarPaciente }

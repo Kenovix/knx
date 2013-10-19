@@ -1,0 +1,288 @@
+{% extends "::admin_layout.html.twig" %}
+
+{% block menu %}
+	{{ knp_menu_render('ParametrizarBundle:Builder:superAdminMenu') }}
+{% endblock %}
+
+{% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
+
+{% block titulo %}Información de la factura{% endblock %}
+
+{% block msg %}
+	{% if app.session.hasFlash('ok') %}
+	    <div class="alert alert-success">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('ok') }}</span>
+	    </div>
+	{% elseif app.session.hasFlash('info') %}
+		<div class="alert alert-info">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('info') }}</span>
+	    </div>
+	{% elseif app.session.hasFlash('error') %}
+		<div class="alert alert-error">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('error') }}</span>
+	    </div>
+	{% endif %}
+{% endblock %}
+
+{% block cuerpo %}
+
+	<table class="table table-bordered">
+        <tbody>
+        	<tr>
+                <td colspan="5"></td>                
+                <td colspan="2"><strong>FACTURA No.</strong></td>
+                <td colspan="3" ><span class="badge badge-important">{{ factura.id }}</span></td>
+            </tr>
+        	<tr>
+                <td><strong>Identificaci&oacute;n</strong></td>
+                <td>{{ factura.paciente.tipoId }} - {{ factura.paciente.identificacion }}</td>
+                <td><strong>Nombre</strong></td>
+                <td>{{ factura.paciente.priNombre | capitalize }} {{ factura.paciente.segNombre | capitalize }} {{ factura.paciente.priApellido | capitalize }} {{ factura.paciente.segApellido | capitalize }}</td>
+                <td><strong>Fecha de nacimiento</strong></td>
+                <td>{{ factura.paciente.fN | date('d/m/Y') }}</td>
+                <td><strong>Sexo</strong></td>
+                <td>{{ factura.paciente.sexo }}</td>
+                <td><strong>Edad</strong></td>
+                <td>{{ factura.paciente.edad }} Años</td>
+            </tr>
+            <tr>
+                <td><strong>Rango</strong></td>
+                <td></td>
+                <td><strong>Tipo de afiliación</strong></td>
+                <td></td>
+                <td><strong>Asegurador</strong></td>
+                <td colspan="5">{{ factura.cliente.nombre }}</td>
+            </tr>  
+        </tbody>
+    </table>
+    
+    <table class="table table-bordered">
+        <tbody>
+        	<tr>
+                <td><strong>Tipo de actividad</strong></td>
+                <td>{% if(factura.pyp == "") %}
+                        <span class="badge badge-info">Normal</span>
+                    {% else %}
+                        <span class="badge badge-warning">PYP</span>
+                    {% endif %}</td>
+                <td><strong>Categoria de PYP</strong></td>
+                <td>{% if(pyp != "") %}
+                        <span class="badge badge-warning">{{ pyp.nombre }}</span>
+                    {% else %}
+                        
+                    {% endif %}</td>
+            </tr>
+            <tr>
+                <td><strong>Autorizaci&oacute;n</strong></td>
+                <td>{{ factura.autorizacion }}</td>
+                <td><strong>Profesional</strong></td>
+                <td>{% if(profesional != "") %}
+                        {{ profesional.nombre }} {{ profesional.apellido }}
+                    {% else %}
+                        
+                    {% endif %}</td>
+                <td><strong>Servicio</strong></td>
+                <td colspan="5">{{ factura.servicio.nombre }}</td>
+            </tr>
+            <tr>
+                <td><strong>Observaci&oacute;n</strong></td>
+                <td colspan="6">{{ factura.observacion }}</td>
+            </tr>  
+        </tbody>
+    </table>
+    
+    <hr />
+    
+    <div class="alert" id="jxMsg" style="display: none;">
+    	<button type="button" class="close" data-dismiss="alert">&times;</button>
+    	<span></span>
+    </div>
+    
+    <div id="gst_cargo" class="well well-small">
+    
+		<form class="form-inline">
+			
+			<select name="actividad" id="actividad" class="input-xxlarge" {% if factura.estado == 'C' %} disabled="disabled" {% endif %}>
+				<option value="">Seleccione una actividad</option>
+				{% for consulta in consultas %}
+					<option value="{{ consulta.id }}">{{ consulta.nombre }}</option>
+				{% endfor %}
+			</select>
+			
+			<input type="text" class="input-mini" id="cantidad" name="cantidad" value="1" />
+			<input type="text" class="input-small" placeholder="Valor" id="valor" readonly="readonly" />
+			    
+			<br /><br />
+			
+			<label>Valor facturado</label>		
+				<input type="text" class="input-mini" id="vr_facturado" name="vr_facturado" readonly="readonly" />
+	
+			{% if (factura.cliente.tipo == 1) %}
+	
+				<label>Cobrar a paciente</label>		
+					<input type="text" class="input-mini" id="cobrar_pte" name="cobrar_pte" value="0" />
+					
+				<label>Pago paciente</label>
+					<input type="text" class="input-small" placeholder="Copago" id="pago_pct" value="0" readonly="readonly" />
+	
+			{% else %}
+	
+				<label>Cobrar a paciente</label>		
+					<input type="text" class="input-mini" id="cobrar_pte" name="cobrar_pte" value="0" readonly="readonly" />
+					
+				<label>Pago paciente</label>
+					<input type="text" class="input-small" placeholder="Copago" id="pago_pct" value="0" readonly="readonly" />
+	
+			{% endif %}
+	
+			<label>Reconocido IPS</label>
+				<input type="text" class="input-small" id="cargo_ips" value="0" readonly="readonly" />
+				
+			<label>Valor total</label>
+				<input type="text" class="input-small" id="valor_total" readonly="readonly" />
+				
+			<button id="agregar" type="button" class="btn btn-success" {% if factura.estado == 'C' %} disabled="disabled" {% endif %}>Agregar</button>
+	
+		</form>
+	
+	</div>
+		
+	<table class="table table-bordered" id="facturado">
+		<tr>
+			<th>Código</th>
+			<th>Nombre</th>
+			<th>Cantidad</th>
+			<th>V/r Unitario</th>
+			<th>Cobro a paciente</th>
+			<th>V/r Total</th>
+			<th>Opciones</th>
+		</tr>
+		{% for actividad in cargos %}
+			<tr>
+				<td>{{ actividad.cargo.cups }}</td>
+				<td>{{ actividad.cargo.nombre }}</td>
+				<td>{{ actividad.cantidad }}</td>
+				<td>{{ actividad.VrUnitario }}</td>
+				<td>{{ actividad.CobrarPte }}</td>
+				<td>{{ actividad.ValorTotal }}</td>
+				<td></td>
+			</tr>
+		{% endfor %}
+	</table>
+	
+	<a href="{{ path('facturacion_fv_imprimir', {'factura':factura.id}) }}" id="btn-imprimir-factura" class="btn" {% if factura.estado == 'A' %} style="display:none" {% endif %}><i class="icon-print"></i> Imprimir</a>
+	<a href="{{ path('facturacion_procedimiento_new') }}" id="btn-nueva-factura" class="btn" {% if factura.estado == 'A' %} style="display:none" {% endif %}><i class="icon-print"></i> Nueva factura</a>
+
+{% endblock %}
+
+{% block javascripts %}
+	<script type="text/javascript">
+
+		$("#actividad").change(function() {
+	
+			var cargo = $("#actividad").val();
+	
+			if ( cargo > 0 && cargo != "" ) {
+				
+				var url="{{ path('contrato_buscar_tarifa') }}";
+	
+				var cliente = "{{ factura.cliente.id }}";
+				
+	    		$.post(url,{
+	    			cliente: cliente,
+	    			cargo: cargo
+		         },function(data){
+		             if(data.responseCode==200 ){
+	
+		            	$("#valor").val(data.precio);
+		            	$("#vr_facturado").val(data.precio);
+		            	$("#valor_total").val(data.precio);
+	
+		             }
+		             else if(data.responseCode==400){
+		            	$('#jxMsg > span').prepend(data.msg);
+		         		$('#jxMsg').css('display', 'block');
+		             }
+		             else{
+		         	    alert("Ha ocurrido un error en el sistema.");
+		             }
+		      	});
+			}
+		});
+
+		$("#cobrar_pte").focusout(function() {
+
+			var cobro = $("#cobrar_pte").val();
+
+			var valor = $("#vr_facturado").val();
+
+			$("#valor_total").val(valor - cobro);
+		});
+
+
+		$("#agregar").click(function() {
+			
+			var cargo = $("#actividad").val();
+	
+			if ( cargo > 0 && cargo != "" ) {
+				
+				var url="{{ path('facturacion_cargo_save') }}";
+	
+				var factura = "{{ factura.id }}";
+
+				var valor = $("#valor").val();
+				var cantidad = $("#cantidad").val();
+
+				$("#vr_facturado").val(valor);
+
+				$('#jxMsg > span').empty();
+         		$('#jxMsg').css('display', 'none');
+
+				var html = "";
+
+	    		$.post(url,{
+	    			factura: factura,
+	    			cargo: cargo,
+	    			cantidad: cantidad,
+	    			vr_unitario: valor,
+	    			vr_facturado: valor,
+	    			cobrar_pte: $("#cobrar_pte").val(),
+	    			pago_pte: $("#pago_pct").val(),
+	    			cargo_ips: $("#cargo_ips").val(),
+	    			total: $("#valor_total").val(),
+	    			ambito: 'A',
+	    			estado: 'C',
+		         },function(data){
+		             if(data.responseCode==200 ){
+
+			             html += "<tr>";
+			             html += "<td>" + data.codigo + "</td>";
+			             html += "<td>" + data.nombre + "</td>";
+			             html += "<td>" + data.cantidad + "</td>";
+			             html += "<td>" + data.unitario + "</td>";
+			             html += "<td>" + data.cobro + "</td>";
+			             html += "<td>" + data.total + "</td>";
+			             html += "<td></td>";
+			             html += "</tr>";
+	
+		            	 $("#facturado").append(html);
+
+		            	 $("#btn-imprimir-factura, #btn-nueva-factura").removeAttr('style');
+
+		             }
+		             else if(data.responseCode==400){
+		            	$('#jxMsg > span').prepend(data.msg);
+		         		$('#jxMsg').css('display', 'block');
+		             }
+		             else{
+		         	    alert("Ha ocurrido un error en el sistema.");
+		             }
+		      	});
+			}
+		});		
+
+	</script>
+{% endblock %}
