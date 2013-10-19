@@ -177,7 +177,7 @@ class HcType extends AbstractType {
 													'ASC');
 								}))
 				->add('tipoDx', 'choice',
-						array('label' => 'Tipo Dx:', 'required' => true,
+						array('label' => 'Tipo Dx: *', 'required' => true,
 								'choices' => array('' => '--seleccione--',
 										'1' => 'Impresion diagnostica',
 										'2' => 'Confirmado nuevo',
@@ -216,13 +216,9 @@ class HcType extends AbstractType {
 				->add('destino', 'choice',
 						array('label' => 'Destino: *', 'required' => true,
 								'choices' => array('' => '--seleccione--',
-										'5' => 'Domicilio',
-										'4' => 'Observación',
-										'1' => 'Urgencias',
-										'2' => 'Remitido',
-										'3' => 'Hospitalizacion',
-										'6' => 'Muerte',
-										'7' => 'Otro',),
+										'1' => 'Domicilio',	
+										'2' => 'Pendiente',																	
+										'3' => 'Otro',),
 								'multiple' => false,))
 				/* EndEgreso */
 
@@ -373,8 +369,8 @@ class HcType extends AbstractType {
 				->add('pControlP', 'choice',
 						array('label' => 'Control Prenatal: ', 'required' => false,
 								'choices' => array('' => '--seleccione--',
-										'SI' => 'SI',
-										'NO' => 'NO',),
+										'1' => 'SI',
+										'2' => 'NO',),
 								'attr' => array('class' => 'span2'),
 								'multiple' => false,))
 
@@ -418,9 +414,52 @@ class HcType extends AbstractType {
 									return $repositorio
 									->createQueryBuilder('c')
 									->orderBy('c.nombre', 'ASC');
-								}))
+								}))				
 								
-			// fin formulario documentacion para el parto								
+			// fin formulario documentacion para el parto	
+
+								
+			// formulario para las opcionesque se despliegan una ves el paciente sale de observacion o hurgencias
+				->add('destinoUserSalidaObser', 'choice',
+						array('label' => 'Destino Usuario Salida Observacion: ',
+								'required' => false,
+								'choices' => array('' => '--seleccione--',
+										'1' => 'Alta Urgencias',
+										'2' => 'Remision',
+										'3' => 'Hospitalizacion',),
+								'attr' => array('class' => 'span2'),
+								'multiple' => false,))
+								
+				->add('estadoSalida', 'choice',
+						array('label' => 'Estado De La Salida: ',
+								'required' => false,
+								'choices' => array('' => '--seleccione--',
+										'1' => 'Vivo',
+										'2' => 'Muerto',),
+								'attr' => array('class' => 'span2'),
+								'multiple' => false,))
+								
+				->add('tipoDestino', 'choice',
+						array('label' => 'Tipo Destino: ',								
+								'choices' => array('' => '--seleccione--',
+										'1' => 'Observacion',
+										'2' => 'Hospitalizacion',),
+								'attr' => array('class' => 'span3'),
+								'multiple' => false,
+								'expanded' => false,
+								'required' => false, ))
+
+				->add('viaIngresoInstitucion', 'choice',
+						array('label' => 'Via De Ingreso A La Institucion: ',
+								'required' => false,
+								'choices' => array('' => '--seleccione--',
+										'1' => 'Urgencias',
+										'2' => 'Consulta Externa',
+										'3' => 'Remitido',
+										'4' => 'Nacido En La Institucion',),
+								'attr' => array('class' => 'span2'),
+								'multiple' => false,))							
+			// find del formulario
 		;
 	}
 

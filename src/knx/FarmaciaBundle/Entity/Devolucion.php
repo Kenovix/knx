@@ -90,6 +90,7 @@ class Devolucion
      * @var motivo
      *
      * @ORM\Column(name="motivo", type="string", nullable=false)
+     * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
      * @Assert\Length(min=3 , max=255)
      */
         private $motivo;

@@ -11,13 +11,13 @@
 
         <p><b>Existencias en Farmacia {{ farmacia.nombre }}</b><br/><br/><br/>
 
-	    <table class="table" cellpadding="2" cellspacing="2" border="1">
+	    <table border="1">
 	        <thead>
 	            <tr>
 	                <th width="50px"><b>No.</b></th>
 	                <th width="50px"><b>CODIGO</b></th>
-	                <th width="300px"><b>NOMBRE</b></th>
-					<th width="60px"><b>CANTIDAD</b></th>
+	                <th width="350px"><b>NOMBRE</b></th>
+			<th width="80px"><b>CANTIDAD</b></th>
 
 
 	            </tr>
@@ -26,9 +26,9 @@
 	        {% for farmacia1 in farmacia1 %}
 	            <tr>
 	                 <td width="50px">{{ loop.index }}</td>
-					 <td width="50px">{{ farmacia1.imv.codCups }}</td>
-		           	 <td width="300px">{{ farmacia1.imv }}</td>
-	             	 <td width="60px">{{ farmacia1.cant }}</td>
+			 <td width="50px">{{ farmacia1.imv.codCups }}</td>
+		         <td width="350px">{{ farmacia1.imv }}</td>
+	             	 <td width="80px">{{ farmacia1.cant }}</td>
 
 	            </tr>
 

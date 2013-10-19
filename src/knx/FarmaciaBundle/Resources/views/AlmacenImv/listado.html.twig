@@ -13,13 +13,13 @@
 
 
 	      {% if almacenimv %}
-	       <table class="table" cellpadding="2" cellspacing="2" border="1">
+	       <table border="1">
 
 	       <thead>
 	            <tr>
 	                <th width="30px"><b>No.</b></th>
-	                <th width="300px"><b>Nombre</b></th>
-					<th width="40px"><b>Cant.</b></th>
+	                <th width="500px"><b>Nombre</b></th>
+			<th width="50px"><b>Cant.</b></th>
 
 	            </tr>
 	        </thead>
@@ -27,8 +27,8 @@
 	        {% for almacenimv in almacenimv %}
 	            <tr>
 	               <td width="30px">{{ loop.index }}</td>
-		           <td width="300px">{{ almacenimv.imv }}</td>
-	               <td width="40px">{{ almacenimv.cant }}</td>
+		           <td width="500px">{{ almacenimv.imv }}</td>
+	               <td width="50px">{{ almacenimv.cant }}</td>
 	            </tr>
 
 	        {% endfor %}

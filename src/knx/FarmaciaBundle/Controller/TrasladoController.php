@@ -634,26 +634,7 @@ class TrasladoController extends Controller
     	}
 
     	$pdf = $this->get('white_october.tcpdf')->create();
-    	$pdf->setFontSubsetting(true);
-    	$pdf->SetFont('dejavusans', '', 9, '', true);
-
-    	// Header and footer
-    	//$pdf->SetHeaderData('logo.jpg', 20, 'Hospital San Agustin');
-    	$pdf->setFooterData(array(0,64,0), array(0,64,128));
-
-    	// set header and footer fonts
-    	$pdf->setHeaderFont(Array('dejavusans', '', 9));
-    	$pdf->setFooterFont(Array('dejavusans', '', 9));
-
-    	// set margins
-    	$pdf->SetMargins(PDF_MARGIN_LEFT, 30, PDF_MARGIN_RIGHT);
-    	$pdf->SetHeaderMargin(1);
-    	$pdf->SetFooterMargin(10);
-
-    	// set image scale factor
-    	//$pdf->setImageScale(5);
-
-    	$pdf->AddPage();
+    	
 
 
     	$html = $this->renderView('FarmaciaBundle:Traslado:listado.html.twig',array(
@@ -663,10 +644,8 @@ class TrasladoController extends Controller
 
     	));
 
-    	$pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $html,$border = 0, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
+        return $pdf->quick_pdf($html, 'Detallado_traslados_', 'D');          
 
-    	$response = new Response($pdf->Output('listado.pdf', 'I'));
-    	$response->headers->set('Content-Type', 'application/pdf');
     }
 
 }

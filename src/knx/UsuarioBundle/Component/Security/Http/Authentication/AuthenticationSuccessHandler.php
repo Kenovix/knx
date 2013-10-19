@@ -34,6 +34,19 @@ class AuthenticationSuccessHandler implements AuthenticationSuccessHandlerInterf
 			
 			$response = new RedirectResponse($this->router->generate('historia_index'));
 		
+		}elseif ($this->security->isGranted('ROLE_AUXILIAR')){
+			
+			$response = new RedirectResponse($this->router->generate('historia_index'));
+		
+		}elseif ($this->security->isGranted('ROLE_FARMACIA')){
+			
+			$response = new RedirectResponse($this->router->generate('farmacia_index'));
+		
+		}
+                elseif ($this->security->isGranted('ROLE_FACTURADOR')){
+			
+			$response = new RedirectResponse($this->router->generate('facturacion_index'));
+		
 		}
 		
 		return $response;

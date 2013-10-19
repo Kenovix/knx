@@ -6,7 +6,7 @@
 
 {% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
 
-{% block titulo %}Urgencias listado de las Historias{% endblock %}
+{% block titulo %}Hospitalizacion y Observacion listado de Historias{% endblock %}
 
 {% block msg %}
 	{% if app.session.hasFlash('ok') %}
@@ -29,6 +29,7 @@
 
 {% block cuerpo %}
 
+{% set tipoDestino = {'1' : 'Observacion', '2' : 'Hospitalizacion' } %}
 {% if urgencias_hc %}
 	    <table class="table table-hover">
 	        <thead>
@@ -49,7 +50,7 @@
 	                <td><a href="{{ path('historia_edit', {'factura':hc.factura.id}) }}">{{ hc.factura.paciente.identificacion }}</a></td>
 	                <td>{{ hc.factura.cliente.nombre}}</td>
 	                <td>{{ hc.factura.servicio.nombre}}</td>
-	                <td>{{ hc.destino}}</td>
+	                <td>{{ tipoDestino[hc.tipoDestino]}}</td>
 	            </tr>
 	        {% endfor %}
 	        </tbody>

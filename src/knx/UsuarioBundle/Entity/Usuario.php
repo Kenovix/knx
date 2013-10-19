@@ -7,11 +7,13 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use JMS\SecurityExtraBundle\Security\Util\String;
+use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
 
 /**
  * knx\UsuarioBundle\Entity\Usuario
  *
  * @ORM\Table(name="usuario")
+ * @DoctrineAssert\UniqueEntity("cc")
  * @ORM\Entity
  * @Vich\Uploadable
  */

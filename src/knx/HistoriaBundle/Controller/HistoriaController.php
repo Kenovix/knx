@@ -27,13 +27,9 @@ class HistoriaController extends Controller
 		
 		$arrayDestino = array(
 		''	=> false,
-		'5' => 'Domicilio',
-		'4' => false,
-		'1' => false,
-		'2' => 'Remitido',
-		'3' => false,
-		'6' => 'Muerte',
-		'7' => 'Otro');					
+		'1' => 'Domicilio',
+		'2' => false,
+		'3' => 'Otro');					
 		
 
 		/* No se verifica la existencia del paciente y los servicios porque si existe la factura existe el paciente
@@ -51,14 +47,6 @@ class HistoriaController extends Controller
 		if ($historia->getServiEgre()) {
 			$serviEgre = $em->getRepository('ParametrizarBundle:Servicio')->find($historia->getServiEgre());
 		}
-		if($historia->getPFechaN())
-		{
-			$historia->setPFechaN($historia->getPFechaN()->format('d/m/Y H:i'));
-		}
-		if($historia->getPFechaM())
-		{
-			$historia->setPFechaM($historia->getPFechaM()->format('d/m/Y H:i'));
-		}
 		if($historia->getPDx())
 		{
 			$pdx = $em->getRepository('HistoriaBundle:Cie')->find($historia->getPDx());
@@ -71,6 +59,8 @@ class HistoriaController extends Controller
 		{
 			$dxSalida = $em->getRepository('HistoriaBundle:Cie')->find($historia->getDxSalida());
 		}
+		if($factura->getTipo() == 'C')
+			$historia->setDestino('1');
 	
 		// se cargan los respectivos objetos para que el formulario los visualice correctamente.
 		$historia->setServiEgre($serviEgre);
@@ -92,6 +82,8 @@ class HistoriaController extends Controller
 		if (!$factura || !$historia) {
 			throw $this->createNotFoundException('La informacion solicitada no esta disponible.');
 		}
+		if($factura->getTipo() == 'C')
+			$historia->setDestino('1');
 				
 		$form_historia = $this->createForm(new HcType(), $historia);
 		$request = $this->getRequest();
@@ -112,14 +104,15 @@ class HistoriaController extends Controller
 		$pFechaN = date_create_from_format('d/m/Y H:i',$form_historia->get('p_Fecha_n')->getData());		
 		if($pFechaN){
 			if($pFechaN>$dateYesterday && $pFechaN<$dateTomorrow)
-			{
-				$historia->setPFechaN($pFechaN);
+			{				
 				$dxRN = $form_historia->get('pDx')->getData();
 				if(!$form_historia->get('pEdadG')->getData() ||	!$form_historia->get('pControlP')->getData() || !$form_historia->get('pSexo')->getData() ||	!$form_historia->get('pPeso')->getData() || !$dxRN)
 				{
 					return $this->validarHistoria($factura, $historia, $form_historia);
-				}
-				$historia->setPDx($dxRN->getId());
+				}else{
+					$historia->setPFechaN($pFechaN);
+					$historia->setPDx($dxRN->getId());					
+				}				
 			}else{
 				return $this->validarHistoria($factura, $historia, $form_historia);
 			}								
@@ -127,18 +120,24 @@ class HistoriaController extends Controller
 		$pFechaM = date_create_from_format('d/m/Y H:i',$form_historia->get('p_fecha_m')->getData());
 		if($pFechaM){
 			if($pFechaM>$dateYesterday && $pFechaM<$dateTomorrow)
-			{
-				$historia->setPFechaM($pFechaM);
+			{				
 				$pCausaM = $form_historia->get('pCausaM')->getData();
 				if(!$pCausaM)
 				{
 					return $this->validarHistoria($factura, $historia, $form_historia);
-				}			
-				$historia->setPCausaM($pCausaM->getId());
+				}else{
+					$historia->setPFechaM($pFechaM);
+					$historia->setPCausaM($pCausaM->getId());
+				}				
 			}else{
 				return $this->validarHistoria($factura, $historia, $form_historia);
 			}			
 		}
+		
+		// se guarda la hora de ingreso a la observacion.
+		$tipoDestino = $form_historia->get('tipoDestino')->getData();
+		if($tipoDestino == 1)
+			$historia->setFechaIngreObser(new \DateTime('now'));
 		
 		
 		if($form_historia->isValid()) 
@@ -152,16 +151,29 @@ class HistoriaController extends Controller
 			if($historia->getServiEgre()){
 				$historia->setServiEgre($historia->getServiEgre()->getId());				
 			}		
-
+			
+			$facturaCargo = false;
+			if($factura->getTipo() == 'C')			
+				$facturaCargo = $em->getRepository('HistoriaBundle:Hc')->closeFacturaCargoHc($factura->getId(),'CE');							
+			elseif($factura->getTipo() == 'U' || $factura->getTipo() == 'H')			
+				$facturaCargo = $em->getRepository('HistoriaBundle:Hc')->closeFacturaCargoHc($factura->getId(),'CU');	
+			
+			if($facturaCargo)
+			{
+				$facturaCargo->setEstado('C');
+				$em->persist($facturaCargo);
+			}
+				
+			
 			$historia->setFactura($factura);			
-			$em->persist($historia);
+			$em->persist($historia);			
 			$em->flush();		
 
 			$this->get('session')->setFlash('ok','La historia clinica ha sido modificada éxitosamente.');
 			return $this->redirect($this->generateUrl('historia_edit',array('factura' => $factura->getId())));
-		}
-		
-		return $this->validarHistoria($factura, $historia, $form_historia);
+		}else{
+			return $this->validarHistoria($factura, $historia, $form_historia);			
+		}		
 	}
 	
 	// esta funcion se ha creado para que la usen dos metodos y evitar la reescritura de la misma en ambos metodos.
@@ -202,13 +214,22 @@ class HistoriaController extends Controller
 		$form_nota = $this->createForm(new NotasType(), $notas);
 		
 		
+		if($historia->getPFechaN())
+		{
+			$historia->setPFechaN($historia->getPFechaN()->format('d/m/Y H:i'));
+		}
+		if($historia->getPFechaM())
+		{
+			$historia->setPFechaM($historia->getPFechaM()->format('d/m/Y H:i'));
+		}		
+		
 		// rastro de miga
 		$breadcrumbs = $this->get("white_october_breadcrumbs");
 		$breadcrumbs->addItem("Inicio",$this->get("router")->generate("paciente_filtro"));
 		$breadcrumbs->addItem("Historia",$this->get("router")->generate("paciente_filtro"));
 		$breadcrumbs->addItem("Modificar " . $paciente->getPriNombre());
 		
-		$this->get('session')->setFlash('info','Los campos * son obligatorios, los signos son obligatorios, valide que su información sea correcta para poder guardar.');
+		$this->get('session')->setFlash('info','Los campos * son obligatorios, los signos son obligatorios, hora de parto y hora de muerte no puede ser mayor o menor a 24Hrs valide que su información sea correcta para poder guardar.');
 		
 		// Visualizacion de la plantilla.
 		return $this->render('HistoriaBundle:Historia:edit.html.twig',array(
@@ -268,7 +289,7 @@ class HistoriaController extends Controller
 	}
 	
 	public function listUrgenciasAction()
-	{
+	{		
 		$paginator = $this->get('knp_paginator');
 		$em = $this->getDoctrine()->getEntityManager();
 		$urgencias = $em->getRepository('HistoriaBundle:Hc')->listHcUrgencias();

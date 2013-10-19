@@ -213,13 +213,13 @@
 		<div class="control-group">
 			<label class="control-label" for="fechaIngre">Fecha Ingreso:</label>
 			<div class="controls">				
-				<span class="input-xlarge uneditable-input">{{ historia.fechaIngre|date('Y-m-d H:m:i') }}</span>
+				<span class="input-xlarge uneditable-input">{{ historia.fechaIngre|date('Y-m-d H:i:m') }}</span>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label"  for="fechaEgre">Fecha Egreso:</label>
 			<div class="controls">
-				<span class="input-xlarge uneditable-input">{{ historia.fechaEgre|date('Y-m-d H:m:i') }}</span>
+				<span class="input-xlarge uneditable-input">{{ historia.fechaEgre|date('Y-m-d H:i:m') }}</span>
 			</div>
 		</div>			
 		<div class="control-group">
@@ -802,15 +802,19 @@
 				 
 				
 				<br/>
-				<div>
-					{{ form_label(edit_form.procedimientos_s) }}
-					<div>						
-						{{ form_errors(edit_form.sal_procedimientos) }}
-						{{ form_widget(edit_form.sal_procedimientos) }}
-					</div>					
-					{{ form_errors(edit_form.procedimientos_s) }}
-					{{ form_widget(edit_form.procedimientos_s) }}				
-				</div>
+				{% if tipoingreso == 'U' or tipoingreso == 'H' %}
+					{% else %}
+					<div>
+						{{ form_label(edit_form.procedimientos_s) }}
+						<div>						
+							{{ form_errors(edit_form.sal_procedimientos) }}
+							{{ form_widget(edit_form.sal_procedimientos) }}
+						</div>					
+						{{ form_errors(edit_form.procedimientos_s) }}
+						{{ form_widget(edit_form.procedimientos_s) }}				
+					</div>
+				{% endif %}
+				
 				
 				<br/>
 				<div>
@@ -836,18 +840,59 @@
 					{{ form_widget(edit_form.incapacidad) }}
 				  </div>	
 				  
-				  <div class="control-group">
-					{{ form_label(edit_form.destino) }}	
-    	    		<div class="controls">
-					{{ form_errors(edit_form.destino) }}
-					{{ form_widget(edit_form.destino) }}
-					</div>
-    	   		 </div>				  
-				  			
+				{% if tipoingreso == 'U' or tipoingreso == 'H' %}
+					  <div class="control-group">
+						{{ form_label(edit_form.tipoDestino) }}	
+	    	    		<div class="controls">
+						{{ form_errors(edit_form.tipoDestino) }}
+						{{ form_widget(edit_form.tipoDestino) }}
+						</div>
+	    	   		 </div>	
+					  
+					  <div class="control-group">
+						{{ form_label(edit_form.destino) }}	
+	    	    		<div class="controls">
+						{{ form_errors(edit_form.destino) }}
+						{{ form_widget(edit_form.destino) }}
+						</div>
+	    	   		 </div>	 
+	    	   		 {% else %}
+	    	   		 <br/><a href="#" onClick='tipoSalidaConsultaExterna(true); return false;' name="cextRemision" id="cextRemision" class="btn">Remisión</a>
+    	   		 {% endif %} 			
 		    	</div>     
-		    	
-		    	
-		    	<div id="remision" style="display: none;" >	
+		    					
+				<div id="formSalida" style="display: none;" >
+					<div id="salidaObservacion" style="display: none;" >
+						<div class="control-group">
+							{{ form_label(edit_form.destinoUserSalidaObser) }}
+		    	    		<div class="controls">
+							{{ form_errors(edit_form.destinoUserSalidaObser) }}
+							{{ form_widget(edit_form.destinoUserSalidaObser) }}
+							</div>
+		    	   		 </div>	
+		    	   	</div>
+		    	   		 
+		    	   	<div id="viaIngresoInstitution" style="display: none;" >
+						<div class="control-group">
+							{{ form_label(edit_form.viaIngresoInstitucion) }}
+		    	    		<div class="controls">
+							{{ form_errors(edit_form.viaIngresoInstitucion) }}
+							{{ form_widget(edit_form.viaIngresoInstitucion) }}
+							</div>
+		    	   	 	</div>		    	   	 
+		    	   	</div>
+	    	   		 
+	    	   		 <div class="control-group">
+						{{ form_label(edit_form.estadoSalida) }}
+	    	    		<div class="controls">
+						{{ form_errors(edit_form.estadoSalida) }}
+						{{ form_widget(edit_form.estadoSalida) }}
+						</div>
+	    	   		 </div>		    	   			
+				</div>		
+				
+				
+				<div id="remision" style="display: none;" >	
 		    	
 		    	<div class="control-group">
 					{{ form_label(edit_form.destino_r) }}	
@@ -889,93 +934,96 @@
 					{{ form_widget(edit_form.descripcion_r) }}
 					</div>
     	   		 </div>	
-				</div>					
+				</div>		
+				
+					
 		    {% end_ui_content %}
 		{% end_ui_expander %}
 		 
-		
-		{% ui_expander expanded=false %}
-  		{% ui_header label="Fromulario Parto" %}
-		    {% ui_content style="height:430px" %}
-			    <div id="hcParto" >
-	    	 		<div class="control-group">
-		    			{{ form_label(edit_form.p_Fecha_n) }}
-		    			
-	    	    		<div class="controls">
-							{{ form_errors(edit_form.p_Fecha_n) }}
-							{{ form_widget(edit_form.p_Fecha_n) }}
-						</div>
-	    	   		 </div>	 
-	    	   		 
-	    	   		 <div class="control-group">
-		    			{{ form_label(edit_form.pEdadG) }}
-		    			
-	    	    		<div class="controls">
-							{{ form_errors(edit_form.pEdadG) }}
-							{{ form_widget(edit_form.pEdadG) }}
-							 <span class="add-on">Semanal</span>
-						</div>
-	    	   		 </div> 
-	    	   		 
-	    	   		 <div class="control-group">
-		    			{{ form_label(edit_form.pControlP) }}
-		    			
-	    	    		<div class="controls">
-							{{ form_errors(edit_form.pControlP) }}
-							{{ form_widget(edit_form.pControlP) }}
-						</div>
-	    	   		 </div>  
-	    	   		 
-	    	   		 <div class="control-group">
-		    			{{ form_label(edit_form.pSexo) }}
-		    			
-	    	    		<div class="controls">
-							{{ form_errors(edit_form.pSexo) }}
-							{{ form_widget(edit_form.pSexo) }}
-						</div>
-	    	   		 </div> 	
-	    	   		 
-	    	   		 <div class="control-group">
-		    			{{ form_label(edit_form.pPeso) }}
-		    			
-	    	    		<div class="controls">
-							{{ form_errors(edit_form.pPeso) }}
-							{{ form_widget(edit_form.pPeso) }}
-							<span class="add-on">g</span>
-						</div>
-	    	   		 </div>  
-	    	   		 
-	    	   		 <div class="control-group">
-		    			{{ form_label(edit_form.pDx) }}
-		    			
-	    	    		<div class="controls">
-							{{ form_errors(edit_form.pDx) }}
-							{{ form_widget(edit_form.pDx) }}
-						</div>
-	    	   		 </div>
-	    	   		 
-	    	   		 <div class="control-group">
-		    			{{ form_label(edit_form.p_fecha_m) }}
-		    			
-	    	    		<div class="controls">
-							{{ form_errors(edit_form.p_fecha_m) }}
-							{{ form_widget(edit_form.p_fecha_m) }}
-						</div>
-	    	   		 </div>	
-	    	   		 
-	    	   		 <div class="control-group">
-		    			{{ form_label(edit_form.pCausaM) }}
-		    			
-	    	    		<div class="controls">
-							{{ form_errors(edit_form.pCausaM) }}
-							{{ form_widget(edit_form.pCausaM) }}
-						</div>
-	    	   		 </div>
-	    	   		 
-	    	   		     	   		 
-	    	 	</div>
-		    {% end_ui_content %}
-		{% end_ui_expander %}  <br/> 
+		{% if tipoingreso == 'U' or tipoingreso == 'H' %}
+				{% ui_expander expanded=false %}
+		  		{% ui_header label="Fromulario Parto" %}
+				    {% ui_content style="height:430px" %}
+					    <div id="hcParto" >
+			    	 		<div class="control-group">
+				    			{{ form_label(edit_form.p_Fecha_n) }}
+				    			
+			    	    		<div class="controls">
+									{{ form_errors(edit_form.p_Fecha_n) }}
+									{{ form_widget(edit_form.p_Fecha_n) }}
+								</div>
+			    	   		 </div>	 
+			    	   		 
+			    	   		 <div class="control-group">
+				    			{{ form_label(edit_form.pEdadG) }}
+				    			
+			    	    		<div class="controls">
+									{{ form_errors(edit_form.pEdadG) }}
+									{{ form_widget(edit_form.pEdadG) }}
+									 <span class="add-on">Semanal</span>
+								</div>
+			    	   		 </div> 
+			    	   		 
+			    	   		 <div class="control-group">
+				    			{{ form_label(edit_form.pControlP) }}
+				    			
+			    	    		<div class="controls">
+									{{ form_errors(edit_form.pControlP) }}
+									{{ form_widget(edit_form.pControlP) }}
+								</div>
+			    	   		 </div>  
+			    	   		 
+			    	   		 <div class="control-group">
+				    			{{ form_label(edit_form.pSexo) }}
+				    			
+			    	    		<div class="controls">
+									{{ form_errors(edit_form.pSexo) }}
+									{{ form_widget(edit_form.pSexo) }}
+								</div>
+			    	   		 </div> 	
+			    	   		 
+			    	   		 <div class="control-group">
+				    			{{ form_label(edit_form.pPeso) }}
+				    			
+			    	    		<div class="controls">
+									{{ form_errors(edit_form.pPeso) }}
+									{{ form_widget(edit_form.pPeso) }}
+									<span class="add-on">g</span>
+								</div>
+			    	   		 </div>  
+			    	   		 
+			    	   		 <div class="control-group">
+				    			{{ form_label(edit_form.pDx) }}
+				    			
+			    	    		<div class="controls">
+									{{ form_errors(edit_form.pDx) }}
+									{{ form_widget(edit_form.pDx) }}
+								</div>
+			    	   		 </div>
+			    	   		 
+			    	   		 <div class="control-group">
+				    			{{ form_label(edit_form.p_fecha_m) }}
+				    			
+			    	    		<div class="controls">
+									{{ form_errors(edit_form.p_fecha_m) }}
+									{{ form_widget(edit_form.p_fecha_m) }}
+								</div>
+			    	   		 </div>	
+			    	   		 
+			    	   		 <div class="control-group">
+				    			{{ form_label(edit_form.pCausaM) }}
+				    			
+			    	    		<div class="controls">
+									{{ form_errors(edit_form.pCausaM) }}
+									{{ form_widget(edit_form.pCausaM) }}
+								</div>
+			    	   		 </div>
+			    	   		 
+			    	   		     	   		 
+			    	 	</div>
+				    {% end_ui_content %}
+				{% end_ui_expander %} 
+			{% endif %} <br/> 
 		
 				<div class="control-group">
 	    			{{ form_label(edit_form.serviEgre) }}
@@ -1002,6 +1050,9 @@
 
 {% block javascripts %}
 
+{% set tipoingreso = factura.tipo %}
+
+
 	<script type="text/javascript">
 		$("#newNotasType_peso,#newNotasType_estatura").focusout(function() {
 			var imc = 0;
@@ -1016,28 +1067,7 @@
 			}else{
 				$("#newNotasType_imc").val('');
 			}
-		});
-
-
-		// funcion para visualizar los campos q se deben de llenar para una remision y una contraremision.
-		$("#newHcType_destino").change(function(){		
-			
-			var opcion = $("#newHcType_destino").val();
-
-			if(opcion == '2'){
-				$("label[for='newHcType_descripcion_r']").text('Descripcion remision:');
-				$('#remision').show('slow');
-				$('#remision2').show('slow');				
-			}else{
-				$('#remision').hide('slow');
-				$('#remision2').hide('slow');
-			}
-
-			if(opcion == '6'){
-				$("label[for='newHcType_descripcion_r']").text('Descrip, hora y fecha de la muerte');				
-				$('#remision2').show('slow');				
-			}
-		});		
+		});				
 	</script>
 	
 	
@@ -1381,6 +1411,67 @@
 			return true;		
 		});
 
+	// funcion para visualizar los campos q se deben de llenar para una remision y una contraremision.
+		 
+		$("#newHcType_destino,#newHcType_tipoDestino,#newHcType_destinoUserSalidaObser,#newHcType_viaIngresoInstitucion,#newHcType_estadoSalida").change(function(){		
+
+		{% if tipoingreso == 'U' or tipoingreso == 'H' %}
+			tipoDeSalidaDelPaciente();
+		  {% else %}
+		  	tipoSalidaConsultaExterna();
+		{% endif %}
+			
+		});
+
+		function tipoSalidaConsultaExterna(bool)
+		{			
+			$('#remision').hide('slow');
+			$('#remision2').hide('slow');
+				$("label[for='newHcType_descripcion_r']").text('Descripcion remision:');
+				$('#remision').show('slow');
+				$('#remision2').show('slow');
+			
+		}
+		function tipoDeSalidaDelPaciente()
+		{
+			var destino = $("#newHcType_destino").val();
+			var tipoDestino = $("#newHcType_tipoDestino").val();
+			
+			var salidaObservacion = $("#newHcType_destinoUserSalidaObser").val();
+			var ingresoInstitution = $("#newHcType_viaIngresoInstitucion").val();
+			var vivoMuerto = $("#newHcType_estadoSalida").val();
+			
+
+			$('#remision').hide('slow');
+			$('#remision2').hide('slow');
+			$('#viaIngresoInstitution').hide('slow');
+			$('#salidaObservacion').hide('slow');
+			$('#formSalida').hide('slow');
+
+			if( (destino == '1') && (tipoDestino == '1') )
+			{						
+				$('#formSalida').show('slow');
+				$('#salidaObservacion').show('slow');
+			}
+			else if( tipoDestino == '2')
+			{						
+				$('#formSalida').show('slow');
+				$('#viaIngresoInstitution').show('slow');
+			}
+
+			if( ((salidaObservacion == '2') && (tipoDestino == '1')) || ( (ingresoInstitution == '3') && (tipoDestino == '2') ))
+			{
+				$("label[for='newHcType_descripcion_r']").text('Descripcion remision:');
+				$('#remision').show('slow');
+				$('#remision2').show('slow');
+			}
+			if( ((tipoDestino == '1') || (tipoDestino == '2')) && ((salidaObservacion != '2') &&  (ingresoInstitution != '3')) && vivoMuerto=='2' )
+			{
+				$("label[for='newHcType_descripcion_r']").text('Descrip, hora y fecha de la muerte');				
+				$('#remision2').show('slow');
+			}
+		}
+
 	 $(function() {
 			 $("#newHcType_p_Fecha_n").datetimepicker({ dateFormat: 'dd/mm/yy' });
 			 $("#newHcType_p_fecha_m").datetimepicker({ dateFormat: 'dd/mm/yy' });
@@ -1390,8 +1481,13 @@
 				  }
 			 if("{{ historia.pFechaM }}" != null)
 			 { $("#newHcType_p_fecha_m").val('{{ historia.pFechaM }}'); 
-				 }	 
-		     
+				 }
+			 
+			 {% if tipoingreso == 'U' or tipoingreso == 'H' %}
+				tipoDeSalidaDelPaciente();
+			  {% else %}
+			  	tipoSalidaConsultaExterna(true);
+			{% endif %}	     
 		 });	 
 </script>	
 {% endblock %}
