@@ -802,15 +802,19 @@
 				 
 				
 				<br/>
-				<div>
-					{{ form_label(edit_form.procedimientos_s) }}
-					<div>						
-						{{ form_errors(edit_form.sal_procedimientos) }}
-						{{ form_widget(edit_form.sal_procedimientos) }}
-					</div>					
-					{{ form_errors(edit_form.procedimientos_s) }}
-					{{ form_widget(edit_form.procedimientos_s) }}				
-				</div>
+				{% if tipoingreso == 'U' or tipoingreso == 'H' %}
+					{% else %}
+					<div>
+						{{ form_label(edit_form.procedimientos_s) }}
+						<div>						
+							{{ form_errors(edit_form.sal_procedimientos) }}
+							{{ form_widget(edit_form.sal_procedimientos) }}
+						</div>					
+						{{ form_errors(edit_form.procedimientos_s) }}
+						{{ form_widget(edit_form.procedimientos_s) }}				
+					</div>
+				{% endif %}
+				
 				
 				<br/>
 				<div>
@@ -836,21 +840,25 @@
 					{{ form_widget(edit_form.incapacidad) }}
 				  </div>	
 				  
-				  <div class="control-group">
-					{{ form_label(edit_form.tipoDestino) }}	
-    	    		<div class="controls">
-					{{ form_errors(edit_form.tipoDestino) }}
-					{{ form_widget(edit_form.tipoDestino) }}
-					</div>
-    	   		 </div>	
-				  
-				  <div class="control-group">
-					{{ form_label(edit_form.destino) }}	
-    	    		<div class="controls">
-					{{ form_errors(edit_form.destino) }}
-					{{ form_widget(edit_form.destino) }}
-					</div>
-    	   		 </div>	  			
+				{% if tipoingreso == 'U' or tipoingreso == 'H' %}
+					  <div class="control-group">
+						{{ form_label(edit_form.tipoDestino) }}	
+	    	    		<div class="controls">
+						{{ form_errors(edit_form.tipoDestino) }}
+						{{ form_widget(edit_form.tipoDestino) }}
+						</div>
+	    	   		 </div>	
+					  
+					  <div class="control-group">
+						{{ form_label(edit_form.destino) }}	
+	    	    		<div class="controls">
+						{{ form_errors(edit_form.destino) }}
+						{{ form_widget(edit_form.destino) }}
+						</div>
+	    	   		 </div>	 
+	    	   		 {% else %}
+	    	   		 <br/><a href="#" onClick='tipoSalidaConsultaExterna(true); return false;' name="cextRemision" id="cextRemision" class="btn">Remisión</a>
+    	   		 {% endif %} 			
 		    	</div>     
 		    					
 				<div id="formSalida" style="display: none;" >
@@ -1415,19 +1423,14 @@
 			
 		});
 
-		function tipoSalidaConsultaExterna()
+		function tipoSalidaConsultaExterna(bool)
 		{			
-			var tipoDestino = $("#newHcType_tipoDestino").val();
-			
 			$('#remision').hide('slow');
 			$('#remision2').hide('slow');
-
-			if( tipoDestino == '3' )
-			{
 				$("label[for='newHcType_descripcion_r']").text('Descripcion remision:');
 				$('#remision').show('slow');
 				$('#remision2').show('slow');
-			}
+			
 		}
 		function tipoDeSalidaDelPaciente()
 		{
@@ -1450,7 +1453,7 @@
 				$('#formSalida').show('slow');
 				$('#salidaObservacion').show('slow');
 			}
-			else if( (destino == '1') && (tipoDestino == '2') )
+			else if( tipoDestino == '2')
 			{						
 				$('#formSalida').show('slow');
 				$('#viaIngresoInstitution').show('slow');
@@ -1483,7 +1486,7 @@
 			 {% if tipoingreso == 'U' or tipoingreso == 'H' %}
 				tipoDeSalidaDelPaciente();
 			  {% else %}
-			  	tipoSalidaConsultaExterna();
+			  	tipoSalidaConsultaExterna(true);
 			{% endif %}	     
 		 });	 
 </script>	

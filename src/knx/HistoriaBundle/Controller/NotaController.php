@@ -114,14 +114,17 @@ class NotaController extends Controller
 
 			$this->get('session')->setFlash('ok','La informacion de la respectiva nota ha sido creada éxitosamente.');
 						
+			$perfil = false;
 			foreach ($usuario->getRoles() as $role)
 			{
 				if($role == 'ROLE_MEDICO')
-				{
-					return $this->redirect($this->generateUrl('historia_edit',array("factura" => $factura->getId())));
-				}else{
-					return $this->redirect($this->generateUrl('nota_list',array("historia" => $historia->getId())));
-				}
+					$perfil = true;
+			}
+			if($perfil)
+			{
+				return $this->redirect($this->generateUrl('historia_edit',array("factura" => $factura->getId())));
+			}else{
+				return $this->redirect($this->generateUrl('nota_list',array("historia" => $historia->getId())));
 			}			
 
 		} else {

@@ -177,7 +177,7 @@ class HcType extends AbstractType {
 													'ASC');
 								}))
 				->add('tipoDx', 'choice',
-						array('label' => 'Tipo Dx:', 'required' => true,
+						array('label' => 'Tipo Dx: *', 'required' => true,
 								'choices' => array('' => '--seleccione--',
 										'1' => 'Impresion diagnostica',
 										'2' => 'Confirmado nuevo',
@@ -443,8 +443,7 @@ class HcType extends AbstractType {
 						array('label' => 'Tipo Destino: ',								
 								'choices' => array('' => '--seleccione--',
 										'1' => 'Observacion',
-										'2' => 'Hospitalizacion',
-										'3' => 'Consulta Externa (remision)'),
+										'2' => 'Hospitalizacion',),
 								'attr' => array('class' => 'span3'),
 								'multiple' => false,
 								'expanded' => false,

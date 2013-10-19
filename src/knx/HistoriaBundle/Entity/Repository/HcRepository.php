@@ -100,8 +100,8 @@ class HcRepository extends EntityRepository
 								 FROM 
 									HistoriaBundle:Hc h
 								 WHERE
-									h.destino = '4' or
-									h.destino = '3' 
+									h.tipoDestino = '1' or
+									h.tipoDestino = '2' 
 								 ORDER BY
 									h.updated DESC");
 		return $dql->getResult();
@@ -123,17 +123,17 @@ class HcRepository extends EntityRepository
 									fc.cargo c
 								 WHERE
 									c.tipoCargo = :tipoCargo AND
-									f.estado = :estado AND								
+									fc.estado = :estado AND								
 									f.profesional = :profesional");
 		
 		$dql->setParameter('tipoCargo', 'CE');
-		$dql->setParameter('estado', 'C');
+		$dql->setParameter('estado', 'A');
 		$dql->setParameter('profesional', $profesional);
 		
 		return $dql->getResult();
 	}
 	
-	// listar todas las historias que se encuentran en consulta externa
+	// listar todas las historias que apenas se an facturado como urgencias.
 	public function listHcUrgenciasPendientes()
 	{
 		$em = $this->getEntityManager();
@@ -147,12 +147,45 @@ class HcRepository extends EntityRepository
 								 JOIN
 									fc.cargo c
 								 WHERE
-									c.tipoCargo = :tipoCargo AND
-									f.estado = :estado");
+									c.tipoCargo = :tipoCargo AND 
+									fc.estado = :estado");
 	
 		$dql->setParameter('tipoCargo', 'CU');
-		$dql->setParameter('estado', 'C');
+		$dql->setParameter('estado', 'A');
 	
 		return $dql->getResult();
 	}
+	
+	
+	// se realiza la consulta debida a que obtenga la factura cargo con sus debidos requerimientos
+	public function closeFacturaCargoHc($factura, $tipoCargo)
+	{
+		$em = $this->getEntityManager();
+	
+		$dql = $em->createQuery("SELECT
+									f.id AS factura, c.id AS cargo 
+								 FROM
+									FacturacionBundle:FacturaCargo fc
+								 JOIN
+									fc.factura f
+								 JOIN
+									fc.cargo c
+								 WHERE
+									f.id = :factura AND
+									c.tipoCargo = :tipoCargo");
+	
+		$dql->setParameter('factura', $factura);
+		$dql->setParameter('tipoCargo', $tipoCargo);
+
+		$facturaCargo = $dql->getResult();
+		if($facturaCargo)
+			$facturaCargo = $em->getRepository('FacturacionBundle:FacturaCargo')->findOneBy(array('factura' => $facturaCargo[0]['factura'], 'cargo' => $facturaCargo[0]['cargo']));
+		else 
+			throw $this->createNotFoundException('Revise la factura y el tipo de cargo que ya que hay informacion no disponible.');
+	
+		return $facturaCargo;
+	}
 }
+
+/*
+*/

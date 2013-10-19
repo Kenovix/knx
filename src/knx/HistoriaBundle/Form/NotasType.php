@@ -22,13 +22,13 @@ class NotasType extends AbstractType {
 						array('required' => false, 'label' => 'FR:',
 								'attr' => array('placeholder' => 'entero')))
 				->add('ta', 'text',
-						array('required' => false, 'label' => 'T/A:',
+						array('required' => true, 'label' => 'T/A:',
 								'attr' => array('placeholder' => '##/##')))
 				->add('peso', 'integer',
-						array('required' => false, 'label' => 'Peso:',
+						array('required' => true, 'label' => 'Peso:',
 								'attr' => array('placeholder' => 'entero')))
 				->add('estatura', 'integer',
-						array('required' => false, 'label' => 'Talla:',
+						array('required' => true, 'label' => 'Talla:',
 								'attr' => array('placeholder' => 'entero')))
 				->add('imc', 'text',
 						array('read_only' => true, 'required' => false,'label' => 'IMC:',
@@ -40,7 +40,7 @@ class NotasType extends AbstractType {
 						array('required' => false, 'label' => 'Pulso:',
 								'attr' => array('placeholder' => 'entero')))
 				->add('glasgow', 'text',
-						array('required' => false, 'label' => 'Glasgow:',
+						array('required' => true, 'label' => 'Glasgow:',
 								'attr' => array('placeholder' => '##/##'))) // escala q se asigna al paciente
 				->add('triage', 'text',
 						array('required' => false, 'label' => 'Triage:',
