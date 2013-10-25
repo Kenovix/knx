@@ -217,7 +217,8 @@ class HcType extends AbstractType {
 						array('label' => 'Destino: *', 'required' => true,
 								'choices' => array('' => '--seleccione--',
 										'1' => 'Domicilio',	
-										'2' => 'Pendiente',																	
+										'2' => 'Pendiente',
+										'4' => 'Remision',
 										'3' => 'Otro',),
 								'multiple' => false,))
 				/* EndEgreso */
@@ -429,7 +430,7 @@ class HcType extends AbstractType {
 								'choices' => array('' => '--seleccione--',
 										'1' => 'Alta Urgencias',
 										'2' => 'Remision',
-										'3' => 'Hospitalizacion',),
+										'3' => 'Hospitalización',),
 								'attr' => array('class' => 'span2'),
 								'multiple' => false,))
 								
@@ -446,7 +447,7 @@ class HcType extends AbstractType {
 						array('label' => 'Tipo Destino: ',								
 								'choices' => array('' => '--seleccione--',
 										'1' => 'Observacion',
-										'2' => 'Hospitalizacion',),
+										'2' => 'Hospitalización',),
 								'attr' => array('class' => 'span3'),
 								'multiple' => false,
 								'expanded' => false,

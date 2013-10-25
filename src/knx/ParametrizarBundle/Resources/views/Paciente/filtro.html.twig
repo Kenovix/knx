@@ -103,7 +103,11 @@
         {% for entity in entities %}
             <tr>
                 <td>{{ loop.index }}</td>
-                <td><a href="{{ path('paciente_show', {'paciente':entity.id}) }}">{{ entity.tipoid }} - {{ entity.identificacion }}</a></td>
+                {% if perfil %}
+                	<td><a href="{{ path('paciente_show', {'paciente':entity.id}) }}">{{ entity.tipoid }} - {{ entity.identificacion }}</a></td>
+                	{% else %}
+                	<td>{{ entity.tipoid }} - {{ entity.identificacion }}</td>
+                {% endif %}
                 <td><a href="{{ path('historia_search_result', {'paciente':entity.id}) }}" class="btn"><i class="icon-list"></i></a></td>
                 <td>{{ entity.priNombre }} {{ entity.segNombre }} {{ entity.priApellido }} {{ entity.segApellido }}</td>
             </tr>

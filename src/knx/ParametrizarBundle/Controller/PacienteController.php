@@ -346,6 +346,16 @@ class PacienteController extends Controller
 		$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
 		$breadcrumbs->addItem("Paciente", $this->get("router")->generate("paciente_list", array("char" => 'A')));		
 		$breadcrumbs->addItem("Buscar");
+		
+		$usuario = $this->get('security.context')->getToken()->getUser();
+		$perfil = null;
+		foreach ($usuario->getRoles() as $role)
+		{
+			if($role == 'ROLE_FACTURADOR' || $role == 'ROLE_ADMIN' || $role == 'ROLE_SUPER_ADMIN')
+			{
+				$perfil = $role;
+			}
+		}
 		 
 		if($boolean == 6){
 			
@@ -353,6 +363,7 @@ class PacienteController extends Controller
 			
 			return $this->render('ParametrizarBundle:Paciente:filtro.html.twig', array(
 					'entities'  => null,
+					'perfil'  => $perfil,
 					'form'   => $form->createView()
 			));
 		}
@@ -368,6 +379,7 @@ class PacienteController extends Controller
 	
 		return $this->render('ParametrizarBundle:Paciente:filtro.html.twig', array(
 				'entities'  => $pacientes,
+				'perfil'  => $perfil,
 				'form'   => $form->createView()
 		));
 	}

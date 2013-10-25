@@ -22,9 +22,7 @@ class FacturaCargoType extends AbstractType
 				 	   				'IAR' => 'Informe Actividad Realizada',
 				 	   				'ICRM'=> 'Informe Consultas por Medicos',
 				 	   				'IRR' => 'Informe Remisiones Realizadas',
-				 	   				'IM'  => 'Informe Morvilida',
-				 	   				'BC'  => 'Boletin Cierre De Mes',				 	   				
-				 	   				'IPS' => 'Informe Prestacion Servicios'			 	   		
+				 	   				'IM'  => 'Informe Morvilida',		 	   		
 				 	   		)
 				 		))
 				 		

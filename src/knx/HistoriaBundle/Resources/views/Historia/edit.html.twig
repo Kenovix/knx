@@ -1443,27 +1443,46 @@
 			$('#salidaObservacion').hide('slow');
 			$('#formSalida').hide('slow');
 
-			if( (destino == '1') && (tipoDestino == '1') )
+
+			if(destino == '4')
+			{
+				$("#newHcType_tipoDestino").val('');
+				$("#newHcType_destinoUserSalidaObser").val('');
+				$("#newHcType_viaIngresoInstitucion").val('');
+				$("label[for='newHcType_descripcion_r']").text('Descripcion remision:');
+				$('#remision').show('slow');
+				$('#remision2').show('slow');
+				
+			}else if( (destino == '1') && (tipoDestino == '1') || (destino == '3') && (tipoDestino == '1') )
 			{						
 				$('#formSalida').show('slow');
 				$('#salidaObservacion').show('slow');
-			}
-			else if( tipoDestino == '2')
+				
+			}else if( tipoDestino == '2')
 			{						
 				$('#formSalida').show('slow');
 				$('#viaIngresoInstitution').show('slow');
 			}
-
-			if( ((salidaObservacion == '2') && (tipoDestino == '1')) || ( (ingresoInstitution == '3') && (tipoDestino == '2') ))
+			else if( ((salidaObservacion == '2') && (tipoDestino == '1')) )
 			{
 				$("label[for='newHcType_descripcion_r']").text('Descripcion remision:');
 				$('#remision').show('slow');
 				$('#remision2').show('slow');
 			}
+			if( (tipoDestino == '1') && ((destino == '1')||(destino == '3')) && (salidaObservacion == '3'))
+			{
+				$('#formSalida').show('slow');
+				$('#viaIngresoInstitution').show('slow');
+				$('#salidaObservacion').show('slow');
+			}
 			if( ((tipoDestino == '1') || (tipoDestino == '2')) && ((salidaObservacion != '2') &&  (ingresoInstitution != '3')) && vivoMuerto=='2' )
 			{
 				$("label[for='newHcType_descripcion_r']").text('Descrip, hora y fecha de la muerte');				
 				$('#remision2').show('slow');
+			}
+			if(salidaObservacion == '2' && tipoDestino == '1')
+			{
+				$("#newHcType_destino").val('3');
 			}
 		}
 
