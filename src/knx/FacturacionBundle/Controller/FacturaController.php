@@ -276,7 +276,7 @@ class FacturaController extends Controller
     		$pyp = $em->getRepository('ParametrizarBundle:Pyp')->find($factura->getPyp());
     
     		$dql = $em->createQuery( "SELECT
-										c.id,
+									c.id,
     									c.nombre
 									 FROM
 										ParametrizarBundle:CargoPyp cp
@@ -298,9 +298,10 @@ class FacturaController extends Controller
     		if ($factura->getServicio() == 'LABORATORIO') {
     			$tipo_cargo = 'LB';
     		}
-    
+                
+                 
     		$dql = $em->createQuery( "SELECT
-										c.id,
+									c.id,
     									c.nombre
 									 FROM
 										ParametrizarBundle:ContratoCargo cc
@@ -312,7 +313,7 @@ class FacturaController extends Controller
     									ct.cliente cli
 									 WHERE
 										c.tipoCargo = :tipoCargo AND
-    									cli.id = :cliente
+                                                                                cli.id = :cliente
 									 ORDER BY
 										c.nombre ASC");
     

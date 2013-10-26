@@ -5,6 +5,7 @@ namespace knx\ParametrizarBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use knx\ParametrizarBundle\Entity\Servicio;
 use knx\ParametrizarBundle\Form\ServicioType;
+use knx\ParametrizarBundle\Form\UpdateServicioType;
 
 class ServicioController extends Controller
 {
@@ -111,7 +112,7 @@ class ServicioController extends Controller
     	$breadcrumbs->addItem($servicio->getNombre(), $this->get("router")->generate("servicio_show", array("servicio" => $servicio->getId())));
     	$breadcrumbs->addItem("Modificar ".$servicio->getNombre());
     
-    	$form = $this->createForm(new ServicioType(), $servicio);
+    	$form = $this->createForm(new UpdateServicioType(), $servicio);
     
     	return $this->render('ParametrizarBundle:Servicio:edit.html.twig', array(
     			'servicio' => $servicio,
@@ -136,7 +137,7 @@ class ServicioController extends Controller
     	$breadcrumbs->addItem($servicio->getNombre(), $this->get("router")->generate("servicio_show", array("servicio" => $servicio->getId())));
     	$breadcrumbs->addItem("Modificar ".$servicio->getNombre());
     
-    	$form = $this->createForm(new ServicioType(), $servicio);
+    	$form = $this->createForm(new UpdateServicioType(), $servicio);
     	$request = $this->getRequest();
     	
     	if ($request->getMethod() == 'POST') {

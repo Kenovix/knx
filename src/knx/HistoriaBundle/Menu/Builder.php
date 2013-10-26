@@ -1,13 +1,13 @@
 <?php
 
-namespace knx\ParametrizarBundle\Menu;
+namespace knx\HistoriaBundle\Menu;
 
 use Knp\Menu\FactoryInterface;
 use Symfony\Component\DependencyInjection\ContainerAware;
 
 class Builder extends ContainerAware
 {
-	public function superAdminMenu(FactoryInterface $factory, array $options)
+	public function HistoriaMenu(FactoryInterface $factory, array $options)
 	{
 		$security = $this->container->get('security.context');
 		$usuario = $security->getToken()->getUser();
@@ -15,6 +15,8 @@ class Builder extends ContainerAware
 		$menu = $factory->createItem('root');
 		$menu->setChildrenAttributes(array('id' => 'menu'));
 
+		if($security->isGranted('ROLE_SUPER_ADMIN')){
+                    
                     $menu->addChild('Parametrizar', array('uri' => '#'));
 			$menu['Parametrizar']->addChild('Almacen', array('route' => 'almacen_list'));
 			$menu['Parametrizar']->addChild('Cargo', array('route' => 'cargo_list'));
@@ -56,7 +58,6 @@ class Builder extends ContainerAware
 			$menu['Facturación']['Facturar']->addChild('Reportes', array('route' => 'reporte_cargo_new'));
 
 			$menu->addChild('Historia', array('uri' => '#'));
-			
 			$menu['Historia']->addChild('Diagnosticos', array('route' => 'cie_list'));
 			$menu['Historia']->addChild('Examenes', array('route' => 'examen_list'));
 			$menu['Historia']->addChild('Medicamentos', array('route' => 'medicamento_list'));
@@ -69,7 +70,34 @@ class Builder extends ContainerAware
 			$menu->addChild($usuario->getUsername(), array('uri' => '#'));
 			$menu[$usuario->getUsername()]->addChild('Cambiar contraseña', array('route' => 'fos_user_change_password'));
 			$menu[$usuario->getUsername()]->addChild('Salir', array('route' => 'logout'));
-	
+		
+		}elseif ($security->isGranted('ROLE_MEDICO')) {
+                    
+                    $menu->addChild('Historia', array('uri' => '#'));
+                    $menu['Historia']->addChild('Consultas pendientes', array('uri' => '#'));
+			$menu['Historia']['Consultas pendientes']->addChild('Externas', array('route' => 'historia_externas_list'));
+			$menu['Historia']['Consultas pendientes']->addChild('Urgencias', array('route' => 'historia_urgenciaList'));
+			$menu['Historia']->addChild('Diagnosticos', array('route' => 'cie_list'));
+			$menu['Historia']->addChild('Examenes', array('route' => 'examen_list'));
+			$menu['Historia']->addChild('Medicamentos', array('route' => 'medicamento_list'));
+			$menu['Historia']->addChild('Urgencias', array('route' => 'historia_urgenciaList'));
+			$menu['Historia']->addChild('Busqueda', array('route' => 'paciente_filtro'));
+            
+                        $menu->addChild($usuario->getUsername(), array('uri' => '#'));
+			$menu[$usuario->getUsername()]->addChild('Salir', array('route' => 'logout'));
+        }elseif ($security->isGranted('ROLE_AUXILIAR')) {
+                    
+                    $menu->addChild('Historia', array('uri' => '#'));
+                    $menu['Historia']->addChild('Consultas pendientes', array('uri' => '#'));
+			$menu['Historia']['Consultas pendientes']->addChild('Urgencias', array('route' => 'historia_urgenciaList'));
+			$menu['Historia']->addChild('Examenes', array('route' => 'examen_list'));
+			$menu['Historia']->addChild('Medicamentos', array('route' => 'medicamento_list'));
+			$menu['Historia']->addChild('Urgencias', array('route' => 'historia_urgenciaList'));
+			$menu['Historia']->addChild('Busqueda', array('route' => 'paciente_filtro'));
+            
+                        $menu->addChild($usuario->getUsername(), array('uri' => '#'));
+			$menu[$usuario->getUsername()]->addChild('Salir', array('route' => 'logout'));
+        }
                 
 	
 		return $menu;
