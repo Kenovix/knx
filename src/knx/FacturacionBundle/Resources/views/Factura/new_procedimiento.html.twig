@@ -204,6 +204,19 @@
 {% block javascripts %}
 	<script type="text/javascript">
 
+		$("#knx_facturacionbundle_facturatype_servicio").change(function(){
+			var sel = "";
+
+			sel = $("#knx_facturacionbundle_facturatype_servicio option:selected").text();
+
+			if(sel != 'LABORATORIO' && sel != 'PROCEDIMIENTOS'){
+
+				alert('Por favor selecciona un servicio valido');
+
+				$("#knx_facturacionbundle_facturatype_servicio").val('');
+			} 
+		});
+
 		$("#buscar_paciente").click(function(){
 				        
 	        var tipoid = $("#tipoid").val();
