@@ -217,7 +217,8 @@ class HcType extends AbstractType {
 						array('label' => 'Destino: *', 'required' => true,
 								'choices' => array('' => '--seleccione--',
 										'1' => 'Domicilio',	
-										'2' => 'Pendiente',																	
+										'2' => 'Pendiente',
+										'4' => 'Remision',
 										'3' => 'Otro',),
 								'multiple' => false,))
 				/* EndEgreso */
@@ -319,7 +320,9 @@ class HcType extends AbstractType {
 								'query_builder' => function (
 										EntityRepository $repositorio) {
 									return $repositorio
-									->createQueryBuilder('e')									
+									->createQueryBuilder('e')		
+									->where("e.tipo = :tipo")
+									->setParameter('tipo', 'LB')
 									->orderBy('e.nombre', 'ASC');
 								}))
 								
@@ -333,8 +336,9 @@ class HcType extends AbstractType {
 								{
 									return $repositorio
 									->createQueryBuilder('e')
-									->where("e.tipo = :tipo")
+									->where("e.tipo = :tipo OR e.tipo = :tipo1")
 									->setParameter('tipo', 'P')
+									->setParameter('tipo1', 'ID')
 									->orderBy('e.nombre', 'ASC');
 								}))
 				->add('sal_medicamentos', 'entity',
@@ -426,7 +430,7 @@ class HcType extends AbstractType {
 								'choices' => array('' => '--seleccione--',
 										'1' => 'Alta Urgencias',
 										'2' => 'Remision',
-										'3' => 'Hospitalizacion',),
+										'3' => 'Hospitalización',),
 								'attr' => array('class' => 'span2'),
 								'multiple' => false,))
 								
@@ -443,7 +447,7 @@ class HcType extends AbstractType {
 						array('label' => 'Tipo Destino: ',								
 								'choices' => array('' => '--seleccione--',
 										'1' => 'Observacion',
-										'2' => 'Hospitalizacion',),
+										'2' => 'Hospitalización',),
 								'attr' => array('class' => 'span3'),
 								'multiple' => false,
 								'expanded' => false,

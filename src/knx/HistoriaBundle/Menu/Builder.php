@@ -76,7 +76,8 @@ class Builder extends ContainerAware
                     $menu->addChild('Historia', array('uri' => '#'));
                     $menu['Historia']->addChild('Consultas pendientes', array('uri' => '#'));
 			$menu['Historia']['Consultas pendientes']->addChild('Externas', array('route' => 'historia_externas_list'));
-			$menu['Historia']['Consultas pendientes']->addChild('Urgencias', array('route' => 'historia_urgenciaList'));
+                        $menu['Historia']['Consultas pendientes']->addChild('Urgencias', array('route' => 'historia_urgencias_list'));
+			$menu['Historia']['Consultas pendientes']->addChild('En espera', array('route' => 'historia_urgenciaList'));
 			$menu['Historia']->addChild('Diagnosticos', array('route' => 'cie_list'));
 			$menu['Historia']->addChild('Examenes', array('route' => 'examen_list'));
 			$menu['Historia']->addChild('Medicamentos', array('route' => 'medicamento_list'));
@@ -89,7 +90,8 @@ class Builder extends ContainerAware
                     
                     $menu->addChild('Historia', array('uri' => '#'));
                     $menu['Historia']->addChild('Consultas pendientes', array('uri' => '#'));
-			$menu['Historia']['Consultas pendientes']->addChild('Urgencias', array('route' => 'historia_urgenciaList'));
+			$menu['Historia']['Consultas pendientes']->addChild('Urgencias', array('route' => 'historia_urgencias_list'));
+			$menu['Historia']['Consultas pendientes']->addChild('En espera', array('route' => 'historia_urgenciaList'));
 			$menu['Historia']->addChild('Examenes', array('route' => 'examen_list'));
 			$menu['Historia']->addChild('Medicamentos', array('route' => 'medicamento_list'));
 			$menu['Historia']->addChild('Urgencias', array('route' => 'historia_urgenciaList'));

@@ -29,6 +29,7 @@ class HistoriaController extends Controller
 		''	=> false,
 		'1' => 'Domicilio',
 		'2' => false,
+		'4' => 'Remision',
 		'3' => 'Otro');					
 		
 
@@ -85,6 +86,7 @@ class HistoriaController extends Controller
 		if($factura->getTipo() == 'C')
 			$historia->setDestino('1');
 				
+		$historia->setFechaEgre(new \DateTime('now'));
 		$form_historia = $this->createForm(new HcType(), $historia);
 		$request = $this->getRequest();
 		$form_historia->bindRequest($request);

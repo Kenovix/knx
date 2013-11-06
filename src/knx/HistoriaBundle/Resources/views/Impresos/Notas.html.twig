@@ -7,9 +7,9 @@
   					<table>
   						<thead>
   							<tr>
-  								<th width="50px">No.</th>
-  								<th>Fecha/Hora</th>
-  								<th>Responsable</th>
+  								<th width="80px">No.</th>
+  								<th width="300px">Fecha/Hora</th>
+  								<th width="400px">Responsable</th>
   								<th>FC</th>
 	                			<th>FR</th>
 		                		<th>TA</th>
@@ -24,9 +24,9 @@
   						<tbody>
   							{% for nota in listNotas %}  							
 	  							<tr border="1">
-	  								<td>{{ loop.index }}</td>
-	  								<td >{{ nota.fecha | date("H:m d/m/Y")}}</td>
-	  								<td>{{ nota.responsable.nombre}} {{ nota.responsable.apellido}}</td>
+	  								<td width="80px">{{ loop.index }}</td>
+	  								<td width="300px">{{ nota.fecha | date("H:m d/m/Y")}}</td>
+	  								<td width="400px">{{ nota.responsable.nombre}} {{ nota.responsable.apellido}}</td>
 		                			<td>{{ nota.fC}}</td>
 		                			<td>{{ nota.fR }}</td>
 		                			<td>{{ nota.ta }}</td>
