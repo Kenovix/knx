@@ -244,12 +244,7 @@ class FacturaController extends Controller
     	$factura->setProfesional($entity['profesional']);
     	$factura->setPyp($pyp);
     	$factura->setEstado('A');
-    
-    	if($factura->getServicio() == 'CONSULTA EXTERNA'){
-    		$factura->setTipo('C');
-    	}else{
-    		$factura->setTipo('U');
-    	}
+    	$factura->setTipo('P');
     
     	$em->persist($factura);
     	$em->flush();
@@ -294,10 +289,12 @@ class FacturaController extends Controller
     
     	}else{
     		$pyp = "";
-    
+    		
     		if ($factura->getServicio() == 'LABORATORIO') {
     			$tipo_cargo = 'LB';
     		}
+    		
+    		
     
     		$dql = $em->createQuery( "SELECT
 										c.id,
