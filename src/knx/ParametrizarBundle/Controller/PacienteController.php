@@ -38,7 +38,7 @@ class PacienteController extends Controller
 		$entity = new Paciente();
 		$form = $this->createForm(new PacienteType(), $entity);
 	
-		return $this->render('ParametrizarBundle:Paciente:jx_new.html.twig.twig',array(
+		return $this->render('ParametrizarBundle:Paciente:jx_new.html.twig',array(
 				'form' => $form->createView()
 		));
 	}
@@ -107,6 +107,42 @@ class PacienteController extends Controller
 	
 	}
 	
+	public function jxsaveAction()
+	{
+		$paciente = new Paciente();
+		$request = $this->getRequest();
+	
+		$form = $this->createForm(new PacienteType(), $paciente);
+		$form->bindRequest($request);
+	
+		// Se convierte la fecha de naciemiento en una date se asigna al entity antes de ser validado
+		$fN = date_create_from_format('d/m/Y',$form->get('fN')->getData());
+		$paciente->setFN($fN);
+	
+		if ($form->isValid()) {
+	
+			// se optinen los objetos mupio y depto para agregar su respectivo id
+			$depto = $form->get('depto')->getData();
+			$mupio = $form->get('mupio')->getData();
+	
+			$paciente->setMupio($mupio->getId());
+			$paciente->setDepto($depto->getId());
+	
+			$em = $this->getDoctrine()->getEntityManager();
+			$em->persist($paciente);
+			$em->flush();
+	
+			$this->get('session')->setFlash('info', 'El paciente ha sido creado éxitosamente.');
+	
+			return $this->redirect($this->generateUrl('paciente_jx_show', array("paciente" => $paciente->getId())));
+		}
+	
+		return $this->render('ParametrizarBundle:Paciente:jx_new.html.twig', array(
+				'form' => $form->createView()
+		));
+	
+	}
+	
 	public function showAction($paciente)
 	{
 		$em = $this->getDoctrine()->getEntityManager();	
@@ -142,6 +178,44 @@ class PacienteController extends Controller
 		  			'afiliaciones' => $afiliaciones,
 		  			'form' => $form->createView()
 				));
+	}
+	
+	
+	public function jxshowAction($paciente)
+	{
+		$em = $this->getDoctrine()->getEntityManager();
+		$paciente = $em->getRepository('ParametrizarBundle:Paciente')->find($paciente);
+	
+		if (!$paciente) {
+			throw $this->createNotFoundException('El paciente solicitado no existe.');
+		}
+	
+		$depto = $em->getRepository('ParametrizarBundle:Depto')->find($paciente->getDepto());
+		$mupio = $em->getRepository('ParametrizarBundle:Mupio')->find($paciente->getMupio());
+		$paciente->setDepto($depto);
+		$paciente->setMupio($mupio);
+	
+		// optengo de los metodos el valor de los campos
+		$paciente->setPertEtnica($paciente->getPE($paciente->getPertEtnica()));
+		$paciente->setNivelEdu($paciente->getNE($paciente->getNivelEdu()));
+		$paciente->setTipoDes($paciente->getTD($paciente->getTipoDes()));
+	
+		$afiliaciones = $em->getRepository('ParametrizarBundle:Afiliacion')->findByPaciente($paciente);
+	
+		$afiliacion = new Afiliacion();
+		$form = $this->createForm(new AfiliacionType(), $afiliacion);
+	
+		$breadcrumbs = $this->get("white_october_breadcrumbs");
+		$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
+		$breadcrumbs->addItem("Paciente", $this->get("router")->generate("paciente_list", array("char" => 'A')));
+		$breadcrumbs->addItem("Detalles", $this->get("router")->generate("paciente_show", array("paciente" => $paciente->getId() )));
+	
+	
+		return $this->render('ParametrizarBundle:Paciente:jx_show.html.twig', array(
+				'paciente' => $paciente,
+				'afiliaciones' => $afiliaciones,
+				'form' => $form->createView()
+		));
 	}
 	
 	public function editAction($paciente)
@@ -190,12 +264,6 @@ class PacienteController extends Controller
 		if(!$paciente->getTelefono())	// con datos en vacios posiblemnte intentara convertir numeros q no existen 
 			$paciente->setTelefono(NULL);
 		//----------------------------------
-		
-		$paciente->setFN($paciente->getFN()->format('d/m/Y'));		
-
-
-	
-
 
 		$editForm = $this->createForm(new PacienteType(), $paciente);		
 		
@@ -208,6 +276,45 @@ class PacienteController extends Controller
 		return $this->render('ParametrizarBundle:Paciente:edit.html.twig', array(
 				'paciente' 	  => $paciente,								
 				'edit_form'   => $editForm->createView()
+		));
+	}
+	
+	public function jxeditAction($paciente)
+	{
+		$em = $this->getDoctrine()->getEntityManager();
+		$paciente = $em->getRepository('ParametrizarBundle:Paciente')->find($paciente);
+	
+		if (!$paciente) {
+			throw $this->createNotFoundException('El paciente solicitado no existe');
+		}
+	
+		$depto = $em->getRepository('ParametrizarBundle:Depto')->find($paciente->getDepto());
+		$mupio = $em->getRepository('ParametrizarBundle:Mupio')->find($paciente->getMupio());
+	
+		$paciente->setDepto($depto);
+		$paciente->setMupio($mupio);
+	
+		//---------------------------------
+		if(!$paciente->getMovil())                // estas condicionales se usan para evitar posible problemas
+			$paciente->setMovil(NULL);        // entre la DB y la aplicacion ya q si se ah cargado info
+		if(!$paciente->getTelefono())        // con datos en vacios posiblemnte intentara convertir numeros q no existen
+			$paciente->setTelefono(NULL);
+		//----------------------------------
+	
+		$paciente->setFN($paciente->getFN()->format('d/m/Y'));
+	
+		//die(var_dump($paciente));
+		$editForm = $this->createForm(new PacienteType(), $paciente);
+	
+		$breadcrumbs = $this->get("white_october_breadcrumbs");
+		$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
+		$breadcrumbs->addItem("Paciente", $this->get("router")->generate("paciente_list", array("char" => 'A')));
+		$breadcrumbs->addItem("Detalles", $this->get("router")->generate("paciente_show", array("paciente" => $paciente->getId() )));
+		$breadcrumbs->addItem("Edit");
+	
+		return $this->render('ParametrizarBundle:Paciente:jx_edit.html.twig', array(
+				'paciente'          => $paciente,
+				'edit_form' => $editForm->createView()
 		));
 	}
 	
@@ -259,7 +366,57 @@ class PacienteController extends Controller
 				'paciente'    => $paciente,
 				'edit_form'   => $editForm->createView(),
 		));
-	}	
+	}
+	
+	public function jxupdateAction($paciente)
+	{
+		$em = $this->getDoctrine()->getEntityManager();
+		$paciente = $em->getRepository('ParametrizarBundle:Paciente')->find($paciente);
+	
+		if (!$paciente) {
+			throw $this->createNotFoundException('El paciente solicitado no existe.');
+		}
+	
+		//---------------------------------
+		if(!$paciente->getMovil())                // estas condicionales se usan para evitar posible problemas
+			$paciente->setMovil(NULL);        // entre la DB y la aplicacion ya q si se ah cargado info
+		if(!$paciente->getTelefono())        // con datos en vacios posiblemnte intentara convertir numeros q no existen
+			$paciente->setTelefono(NULL);
+		//----------------------------------
+	
+		$editForm = $this->createForm(new PacienteType(), $paciente);
+		$request = $this->getRequest();
+		$editForm->bindRequest($request);
+	
+		// Se convierte la fecha de naciemiento en una date se asigna al entity antes de ser validado
+		$fN = date_create_from_format('d/m/Y',$editForm->get('fN')->getData());
+		$paciente->setFN($fN);
+	
+		if ($editForm->isValid()) {
+	
+			// se optinen los objetos mupio y depto para agregar su respectivo id
+			$paciente->setMupio($paciente->getMupio()->getId());
+			$paciente->setDepto($paciente->getDepto()->getId());
+	
+			$em->persist($paciente);
+			$em->flush();
+	
+			$this->get('session')->setFlash('info', 'La información del paciente ha sido modificada éxitosamente.');
+	
+			return $this->redirect($this->generateUrl('paciente_jx_edit', array('paciente' => $paciente->getId())));
+		}
+	
+		$breadcrumbs = $this->get("white_october_breadcrumbs");
+		$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
+		$breadcrumbs->addItem("Paciente", $this->get("router")->generate("paciente_list", array("char" => 'A')));
+		$breadcrumbs->addItem("Detalles", $this->get("router")->generate("paciente_show", array("paciente" => $paciente->getId() )));
+		$breadcrumbs->addItem("Edit");
+	
+		return $this->render('ParametrizarBundle:Paciente:jx_edit.html.twig', array(
+				'paciente' => $paciente,
+				'edit_form' => $editForm->createView(),
+		));
+	}
 	
 	public function filtrarAction()
 	{
@@ -344,7 +501,12 @@ class PacienteController extends Controller
 		
 		$breadcrumbs = $this->get("white_october_breadcrumbs");
 		$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
-		$breadcrumbs->addItem("Paciente", $this->get("router")->generate("paciente_list", array("char" => 'A')));		
+                $usuario = $this->get('security.context')->getToken()->getUser();
+
+                if( $usuario == 'ROLE_SUPER_ADMIN')
+			{
+                            $breadcrumbs->addItem("Paciente", $this->get("router")->generate("paciente_list", array("char" => 'A')));		
+			}
 		$breadcrumbs->addItem("Buscar");
 		
 		$usuario = $this->get('security.context')->getToken()->getUser();
