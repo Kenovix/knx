@@ -1,13 +1,14 @@
 {% extends "::simple.html.twig" %}
 
 {% block head %}
+	<div><p>{{ titulo }}</p></div>
 	<table>
 		<tr>
-		  	<td width="1000px" align="left"><b>Paciente: {{ paciente.priNombre|capitalize }} {{ paciente.segNombre|capitalize }} {{ paciente.priApellido|capitalize }} {{ paciente.segApellido|capitalize }}</b></td>
-		  	<td width="400px" align="left"><b>{{ paciente.tipoid }} : {{ paciente.identificacion }}</b></td>
-		  	<td width="580px" align="left"><b>Fnaciem: {{ paciente.fN | date('d/m/Y') }}</b></td>
-		  	<td width="400px" align="left"><b>Edad: {{ date('now') | date('Y-m-d') - paciente.fn | date('Y-m-d') }} A</b></td>
-		  	<td width="300px" align="left"><b>Sexo: {{ paciente.sexo }}</b></td>
+		  	<td width="1000px" align="left">Paciente: {{ paciente.priNombre|capitalize }} {{ paciente.segNombre|capitalize }} {{ paciente.priApellido|capitalize }} {{ paciente.segApellido|capitalize }}</td>
+		  	<td width="400px" align="left">{{ paciente.tipoid }} : {{ paciente.identificacion }}</td>
+		  	<td width="580px" align="left">Fnaciem: {{ paciente.fN | date('d/m/Y') }}</td>
+		  	<td width="400px" align="left">Edad: {{ date('now') | date('Y-m-d') - paciente.fn | date('Y-m-d') }} A</td>
+		  	<td width="300px" align="left">Sexo: {{ paciente.sexo }}</td>
 	 	</tr>
 	 	<tr>
 		  	<td align="left">Estado Civil: {{ paciente.estaCivil }}</td>

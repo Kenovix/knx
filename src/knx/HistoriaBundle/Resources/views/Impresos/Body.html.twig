@@ -87,7 +87,7 @@
 	{% if tipoingreso == 'U' or tipoingreso == 'H' %}
 		<p>
 			<b>EVOLUCION</b><br/>
-			~ Evolución: {{ historia.evolucion }}<br/>
+			~ Evolución: {{ historia.evolucion | raw }}<br/><br/>
 			<table>
      		 	<thead>
      		 		<tr>
@@ -153,8 +153,15 @@
 	</p>	
 	
 	{% if tipoingreso == 'U' or tipoingreso == 'H' %}
-		{% if historia.destinoUserSalidaObser == '2' %}		
-			 <b>Via De Ingreso A La Institucionn Remision:</b><br/>
+		{% if historia.tipoDestino == '1' and historia.destinoUserSalidaObser == '2' %}		
+			 <b>Destino Usuario Salida Observacion: Remision</b><br/>
+			 
+		{% elseif historia.tipoDestino == '2' and historia.viaIngresoInstitucion == '3'%}
+			 <b>Via De Ingreso A La Institucion: Remitido</b><br/>	
+		{% endif %}			
+	{% else %}
+		{% if historia.destino == '4' %}		
+			 <b>Remision:</b><br/>
 			 <p>
 				~ Destino: {{ historia.destinoR}} <br/>
 				~ Especialidad: {{ historia.especialidadR}}<br/>
@@ -162,28 +169,7 @@
 				~ Servicio: {{ historia.rServicio}} <br/>
 				~ Descripcion: {{ historia.descripcionR}}
 			</p>
-			{% elseif  historia.viaIngresoInstitucion == '3'%}
-			 <b>Destino Usuario Salida Observacion Remitido:</b><br/>			 
-			 <p>
-				~ Destino: {{ historia.destinoR}} <br/>
-				~ Especialidad: {{ historia.especialidadR}}<br/>
-				~ Autorizacion: {{ historia.nuAutoR}} <br/>
-				~ Servicio: {{ historia.rServicio}} <br/>
-				~ Descripcion: {{ historia.descripcionR}}
-			</p>
-		{% endif %}	
-		
-		{% else %}
-			{% if historia.tipoDestino == '3' %}		
-				 <b>Remision:</b><br/>
-				 <p>
-					~ Destino: {{ historia.destinoR}} <br/>
-					~ Especialidad: {{ historia.especialidadR}}<br/>
-					~ Autorizacion: {{ historia.nuAutoR}} <br/>
-					~ Servicio: {{ historia.rServicio}} <br/>
-					~ Descripcion: {{ historia.descripcionR}}
-				</p>
-			{% endif %}					
+		{% endif %}					
 	{% endif %}
 		
 	<p>

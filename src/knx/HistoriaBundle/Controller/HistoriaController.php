@@ -18,6 +18,19 @@ class HistoriaController extends Controller
 		$em = $this->getDoctrine()->getEntityManager();
 		$factura = $em->getRepository('FacturacionBundle:Factura')->find($factura);
 		$historia = $factura->getHc(); 
+		
+		
+		$usuario = $this->get('security.context')->getToken()->getUser();
+		$perfil = null;
+		foreach ($usuario->getRoles() as $role)
+		{
+			if($role == 'ROLE_MEDICO')
+			{
+				$perfil = $role;
+			}
+		}
+		if(!$perfil)
+			return $this->redirect($this->generateUrl('nota_list', array('historia' => $historia->getId() )));
 
 		// se instancian los atributos para evitar conflictos con otras versiones de php
 		$serviEgre = "";
@@ -301,8 +314,19 @@ class HistoriaController extends Controller
 		$breadcrumbs->addItem("Inicio",$this->get("router")->generate("paciente_filtro"));
 		$breadcrumbs->addItem("Urgencias");
 		
+		$usuario = $this->get('security.context')->getToken()->getUser();
+		$perfil = null;
+		foreach ($usuario->getRoles() as $role)
+		{
+			if($role == 'ROLE_MEDICO')
+			{
+				$perfil = $role;
+			}
+		}
+		
 		return $this->render('HistoriaBundle:Historia:urgencias.html.twig',array(
 				'urgencias_hc' => $urgencias,
+				'perfil'   => $perfil,
 		));
 	}
 

@@ -40,6 +40,7 @@
 	                <th>Entidad</th>
 	                <th>Servicio ingre</th>
 	                <th>Destino</th>
+	                <th>Editar</th>
 	            </tr>
 	        </thead>
 	        <tbody>
@@ -47,10 +48,17 @@
 	            <tr>
 	                <td>{{ hc.updated | date('H:m d/m/Y')}}</td>
 	                <td>{{ hc.factura.paciente.priNombre }} {{ hc.factura.paciente.priApellido }}</td>
-	                <td><a href="{{ path('historia_edit', {'factura':hc.factura.id}) }}">{{ hc.factura.paciente.identificacion }}</a></td>
+	                <td>{{ hc.factura.paciente.identificacion }}</td>
 	                <td>{{ hc.factura.cliente.nombre}}</td>
 	                <td>{{ hc.factura.servicio.nombre}}</td>
 	                <td>{{ tipoDestino[hc.tipoDestino]}}</td>
+	                <td>
+		                {% if perfil %}
+		                	<a href="{{ path('historia_edit', { 'factura': hc.factura.id }) }}"  class="btn"><i class="icon-edit"></i></a>
+		                {% else %}
+		                	<a href="{{ path('nota_list', { 'historia': hc.id }) }}"  class="btn"><i class="icon-edit"></i></a>
+		                {% endif %}
+	                </td>
 	            </tr>
 	        {% endfor %}
 	        </tbody>

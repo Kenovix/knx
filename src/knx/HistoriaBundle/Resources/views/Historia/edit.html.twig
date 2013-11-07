@@ -1036,7 +1036,7 @@
        </fieldset>
        
 			<div class="form-actions">
-				<input class="btn btn-primary" name="guardar" type="submit" value="Modificar" />
+				<input class="btn btn-primary" name="guardar" type="submit" value="Modificar" onclick="return confirm('¡Una ves guardada la información la historia quedara cerrada!. ¿Seguro desea guardar?');" />
 			    <a href="{{ path('paciente_filtro') }}" class="btn btn-danger">Cancelar</a>			    
 			   {% if historia.serviEgre %} <a href="{{ path('historia_imprime', {'factura': factura.id}) }}" target='blank' class="btn" >Imprimir</a>{% endif %}
 			</div>
@@ -1272,7 +1272,7 @@
 	{			
 		var usuario = "{{ usuario.nombre }} {{ usuario.apellido }}";
 		var date = "{{ today | date("d/m/Y H:i") }}";			 
-			$('#newHcType_evolucion').append("\nEvolución["+date+"], Dr[ "+usuario+"]: ");
+			$('#newHcType_evolucion').append("\n::Evolución["+date+"], Dr[ "+usuario+"]: ");
 			return false; 
 		});
 	  
@@ -1499,8 +1499,6 @@
 			 
 			 {% if tipoingreso == 'U' or tipoingreso == 'H' %}
 				tipoDeSalidaDelPaciente();
-			  {% else %}
-			  	tipoSalidaConsultaExterna(true);
 			{% endif %}	     
 		 });	 
 </script>	

@@ -47,7 +47,7 @@
         {% for entity in historia %}
             <tr>           
                 <td>{{ loop.index }}</td>
-			    <td>{{ entity.fechaEgre|date('d-m-Y H:i') }}</td>            	
+			    <td>{{ entity.fechaIngre|date('d-m-Y H:i') }}</td>            	
                 <td><strong>{{ entity.factura.servicio.nombre }}</strong></td>
                 
                 {% if entity.serviEgre %}

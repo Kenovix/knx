@@ -317,14 +317,14 @@ class NotaController extends Controller
 		$pdf->setFontSubsetting(true);
 		$pdf->SetFont('dejavusans', '', 8, '', true);
 		
-		$tipoIngreso = "Historia Clinica Listado De Notas, Historia No.".$historia->getId();
-		// Header and footer
-		$pdf->SetHeaderData('logo.jpg', 20, 'Hospital San Agustin', $tipoIngreso);
-		$pdf->setFooterData(array(0,64,0), array(0,64,128));
-		
-		// set header and footer fonts
-		$pdf->setHeaderFont(Array('dejavusans', '', 8));
-		$pdf->setFooterFont(Array('dejavusans', '', 8));
+		// se establece el titulo de la impresion dependiendo el servicio de ingreso
+		$tipoIngreso = $factura->getTipo();
+		if( $tipoIngreso == 'U' or $tipoIngreso == 'H')
+		{
+			$titulo = "Historia Clinica Urgencias No.".$historia->getId();
+		}elseif($tipoIngreso == 'C'){
+			$titulo = "Historia Clinica Consulta Externa No.".$historia->getId();
+		}
 		
 		// set margins
 		$pdf->SetMargins(PDF_MARGIN_LEFT, 30, PDF_MARGIN_RIGHT);
@@ -342,6 +342,7 @@ class NotaController extends Controller
 				'historia' 	 => $historia,
 				'depto'		 => $depto,
 				'mupio'		 => $mupio,
+				'titulo'	 => $titulo,
 		));
 		
 		$notasHtml = $this->renderView('HistoriaBundle:Impresos:Notas.html.twig',array(
