@@ -17,7 +17,7 @@ class FacturaType extends AbstractType
             ->add('autorizacion')
             ->add('observacion')
             ->add('profesional', 'choice', array('label' => 'Profesional', 'disabled' => true, 'choices' => array('' => 'Seleccione un profesional')))
-            ->add('servicio', 'entity', array('required' => true, 'class' => 'knx\ParametrizarBundle\Entity\Servicio', 'empty_value' => 'Elige un servicio'))
+            ->add('servicio', 'entity', array('required' => true, 'label' => 'Centro de costo', 'class' => 'knx\ParametrizarBundle\Entity\Servicio', 'empty_value' => 'Elige un servicio'))
         ;
     }
 
