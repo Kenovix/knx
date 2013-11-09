@@ -1,7 +1,7 @@
 {% extends "::admin_layout.html.twig" %}
 
 {% block menu %}
-	{{ knp_menu_render('ParametrizarBundle:Builder:superAdminMenu') }}	
+	{{ knp_menu_render('HistoriaBundle:Builder:HistoriaMenu') }}
 {% endblock %}
 
 {% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
@@ -778,16 +778,19 @@
   		{% ui_header label="Egreso" %}
 		    {% ui_content style="height:1200px" %} 		    	
 		    	<div id="Egreso">
-		    	 <div>
-		    	    {{ form_label(edit_form.dxSalida) }}
-					{{ form_errors(edit_form.dxSalida) }}
-					{{ form_widget(edit_form.dxSalida,{ 'attr': {'class': 'input-xxlarge'} }) }}
-				 </div>
-				 <div>	
-					{{ form_label(edit_form.condSalida) }}
-					{{ form_errors(edit_form.condSalida) }}
-					{{ form_widget(edit_form.condSalida) }}
-				 </div>
+		    	
+		    	{% if tipoingreso == 'U' or tipoingreso == 'H' %}
+			    	 <div>
+			    	    {{ form_label(edit_form.dxSalida) }}
+						{{ form_errors(edit_form.dxSalida) }}
+						{{ form_widget(edit_form.dxSalida,{ 'attr': {'class': 'input-xxlarge'} }) }}
+					 </div>
+					 <div>	
+						{{ form_label(edit_form.condSalida) }}
+						{{ form_errors(edit_form.condSalida) }}
+						{{ form_widget(edit_form.condSalida) }}
+					 </div>
+				 {% endif %}
 				 
 				 <br/>
 				 <div>
@@ -1036,7 +1039,7 @@
        </fieldset>
        
 			<div class="form-actions">
-				<input class="btn btn-primary" name="guardar" type="submit" value="Modificar" />
+				<input class="btn btn-primary" name="guardar" type="submit" value="Modificar" onclick="return confirm('¡Una ves guardada la información la historia quedara cerrada!. ¿Seguro desea guardar?');" />
 			    <a href="{{ path('paciente_filtro') }}" class="btn btn-danger">Cancelar</a>			    
 			   {% if historia.serviEgre %} <a href="{{ path('historia_imprime', {'factura': factura.id}) }}" target='blank' class="btn" >Imprimir</a>{% endif %}
 			</div>
@@ -1272,7 +1275,7 @@
 	{			
 		var usuario = "{{ usuario.nombre }} {{ usuario.apellido }}";
 		var date = "{{ today | date("d/m/Y H:i") }}";			 
-			$('#newHcType_evolucion').append("\nEvolución["+date+"], Dr[ "+usuario+"]: ");
+			$('#newHcType_evolucion').append("\n::Evolución["+date+"], Dr[ "+usuario+"]: ");
 			return false; 
 		});
 	  
@@ -1422,6 +1425,7 @@
 		{			
 			$('#remision').hide('slow');
 			$('#remision2').hide('slow');
+			$("#newHcType_destino").val('4');
 				$("label[for='newHcType_descripcion_r']").text('Descripcion remision:');
 				$('#remision').show('slow');
 				$('#remision2').show('slow');
@@ -1499,8 +1503,6 @@
 			 
 			 {% if tipoingreso == 'U' or tipoingreso == 'H' %}
 				tipoDeSalidaDelPaciente();
-			  {% else %}
-			  	tipoSalidaConsultaExterna(true);
 			{% endif %}	     
 		 });	 
 </script>	

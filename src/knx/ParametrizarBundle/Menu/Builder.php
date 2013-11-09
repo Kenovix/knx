@@ -14,6 +14,7 @@ class Builder extends ContainerAware
 
 		$menu = $factory->createItem('root');
 		$menu->setChildrenAttributes(array('id' => 'menu'));
+                if($security->isGranted('ROLE_SUPER_ADMIN')){
 
 		$menu->addChild('Parametrizar', array('uri' => '#'));
 			$menu['Parametrizar']->addChild('Almacen', array('route' => 'almacen_list'));
@@ -107,7 +108,7 @@ class Builder extends ContainerAware
 		if($security->isGranted('ROLE_ADMIN'))
 		{
 	
-			$menu->addChild('Parametrizar', array('uri' => '#'));
+            $menu->addChild('Parametrizar', array('uri' => '#'));
 			$menu['Parametrizar']->addChild('Almacen', array('route' => 'almacen_list'));
 			$menu['Parametrizar']->addChild('Cargo', array('route' => 'cargo_list'));
 			$menu['Parametrizar']->addChild('Categoría pyp', array('route' => 'pyp_list'));
@@ -150,10 +151,10 @@ class Builder extends ContainerAware
 			$menu['Facturación']['Facturar']->addChild('Reportes', array('route' => 'reporte_cargo_new'));
 
 			$menu->addChild('Historia', array('uri' => '#'));
+			
 			$menu['Historia']->addChild('Diagnosticos', array('route' => 'cie_list'));
 			$menu['Historia']->addChild('Examenes', array('route' => 'examen_list'));
 			$menu['Historia']->addChild('Medicamentos', array('route' => 'medicamento_list'));
-			$menu['Historia']->addChild('Urgencias', array('route' => 'historia_urgenciaList'));
 			$menu['Historia']->addChild('Busqueda', array('route' => 'paciente_filtro'));
 	
 			$menu->addChild('Usuarios', array('uri' => '#'));
@@ -163,74 +164,35 @@ class Builder extends ContainerAware
 			$menu->addChild($usuario->getUsername(), array('uri' => '#'));
 			$menu[$usuario->getUsername()]->addChild('Cambiar contraseña', array('route' => 'fos_user_change_password'));
 			$menu[$usuario->getUsername()]->addChild('Salir', array('route' => 'logout'));
-		
-		}elseif ($security->isGranted('ROLE_MEDICO')){
-			
-			$menu->addChild('Historia', array('uri' => '#'));
-			$menu['Historia']->addChild('Consultas pendientes', array('uri' => '#'));
-			$menu['Historia']['Consultas pendientes']->addChild('Externas', array('route' => 'historia_externas_list'));
+                }
+                elseif ($security->isGranted('ROLE_MEDICO')) {
+                    
+                    $menu->addChild('Historia', array('uri' => '#'));
+                    $menu['Historia']->addChild('Consultas pendientes', array('uri' => '#'));
 			$menu['Historia']['Consultas pendientes']->addChild('Urgencias', array('route' => 'historia_urgencias_list'));
-			$menu['Historia']['Consultas pendientes']->addChild('Observación', array('route' => 'historia_urgenciaList'));
-			
-			$menu['Historia']->addChild('Diagnosticos', array('route' => 'cie_list'));
+			$menu['Historia']['Consultas pendientes']->addChild('En espera', array('route' => 'historia_urgenciaList'));
 			$menu['Historia']->addChild('Examenes', array('route' => 'examen_list'));
 			$menu['Historia']->addChild('Medicamentos', array('route' => 'medicamento_list'));
-			
+			$menu['Historia']->addChild('Urgencias', array('route' => 'historia_urgenciaList'));
 			$menu['Historia']->addChild('Busqueda', array('route' => 'paciente_filtro'));
 			
 			$menu->addChild($usuario->getUsername(), array('uri' => '#'));
 			$menu[$usuario->getUsername()]->addChild('Cambiar contraseña', array('route' => 'fos_user_change_password'));
 			$menu[$usuario->getUsername()]->addChild('Salir', array('route' => 'logout'));
-			
-		}
-                elseif($security->isGranted('ROLE_AUXILIAR')){
+        }elseif ($security->isGranted('ROLE_AUXILIAR')) {
                     
-                         $menu->addChild('Historia', array('uri' => '#'));
-			$menu['Historia']->addChild('Consultas pendientes', array('uri' => '#'));
-			$menu['Historia']['Consultas pendientes']->addChild('Externas', array('route' => 'historia_externas_list'));
+                    $menu->addChild('Historia', array('uri' => '#'));
+                    $menu['Historia']->addChild('Consultas pendientes', array('uri' => '#'));
 			$menu['Historia']['Consultas pendientes']->addChild('Urgencias', array('route' => 'historia_urgencias_list'));
-			$menu['Historia']['Consultas pendientes']->addChild('Observación', array('route' => 'historia_urgenciaList'));
-                        $menu['Historia']->addChild('Busqueda', array('route' => 'paciente_filtro'));
+			$menu['Historia']['Consultas pendientes']->addChild('En espera', array('route' => 'historia_urgenciaList'));
+			$menu['Historia']->addChild('Examenes', array('route' => 'examen_list'));
+			$menu['Historia']->addChild('Medicamentos', array('route' => 'medicamento_list'));
+			$menu['Historia']->addChild('Busqueda', array('route' => 'paciente_filtro'));
+            
                         $menu->addChild($usuario->getUsername(), array('uri' => '#'));
 			$menu[$usuario->getUsername()]->addChild('Cambiar contraseña', array('route' => 'fos_user_change_password'));
 			$menu[$usuario->getUsername()]->addChild('Salir', array('route' => 'logout'));
-                    
-                }
-	
-		return $menu;
-	}
-        
-        
-        
-        
-        public function FacturacionMenu(FactoryInterface $factory, array $options)
-	{
-		$security = $this->container->get('security.context');
-		$usuario = $security->getToken()->getUser();
-	
-		$menu = $factory->createItem('root');
-		$menu->setChildrenAttributes(array('id' => 'menu'));
-		
-		if($security->isGranted('ROLE_ADMIN'))
-		{
-	
-			
-		
-		}elseif ($security->isGranted('ROLE_FACTURADOR')){
-			
-			$menu->addChild('Facturación', array('uri' => '#'));
-			$menu['Facturación']->addChild('Facturar', array('uri' => '#'));
-			$menu['Facturación']['Facturar']->addChild('Consulta', array('route' => 'facturacion_consulta_new'));
-			$menu['Facturación']['Facturar']->addChild('Procedimiento', array('route' => 'facturacion_consulta_new'));
-			$menu['Facturación']['Facturar']->addChild('Medicamento', array('route' => 'facturacion_consulta_new'));
-			$menu['Facturación']['Facturar']->addChild('Reportes', array('route' => 'reporte_cargo_new'));
-			
-			$menu->addChild($usuario->getUsername(), array('uri' => '#'));
-			$menu[$usuario->getUsername()]->addChild('Cambiar contraseña', array('route' => 'fos_user_change_password'));
-			$menu[$usuario->getUsername()]->addChild('Salir', array('route' => 'logout'));
-			
-		}
-                
+        }
 	
 		return $menu;
 	}

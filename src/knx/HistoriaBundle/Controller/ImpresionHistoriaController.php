@@ -66,16 +66,8 @@ class ImpresionHistoriaController extends Controller
 		{
 			$titulo = "Historia Clinica Urgencias No.".$historia->getId();
 		}elseif($tipoIngreso == 'C'){
-			$titulo = "Historia Clinica Ambulatoria No.".$historia->getId();
+			$titulo = "Historia Clinica Consulta Externa No.".$historia->getId();
 		}
-
-		// Header and footer
-		//$pdf->SetHeaderData('logo.jpg', 20, 'Hospital San Agustin', $titulo);
-		$pdf->setFooterData(array(0,64,0), array(0,64,128));
-
-		// set header and footer fonts
-		$pdf->setHeaderFont(Array('dejavusans', '', 8));
-		$pdf->setFooterFont(Array('dejavusans', '', 8));
 
 		// set margins
 		$pdf->SetMargins(PDF_MARGIN_LEFT, 30, PDF_MARGIN_RIGHT);
@@ -86,6 +78,11 @@ class ImpresionHistoriaController extends Controller
 		$pdf->setImageScale(5);
 
 		$pdf->AddPage();
+		
+		// se organiza la informacion de las evoluciones.
+		$string = $historia->getEvolucion();
+		$newString = str_replace('::', '<br/>', $string);
+		$historia->setEvolucion($newString);
 
 		$header = $this->renderView('HistoriaBundle:Impresos:header.html.twig',array(
 				'factura'  	 => $factura,
@@ -94,6 +91,7 @@ class ImpresionHistoriaController extends Controller
 				'historia' 	 => $historia,
 				'depto'		 => $depto,
 				'mupio'		 => $mupio,
+				'titulo'	 => $titulo,
 		));
 
 		$body = $this->renderView('HistoriaBundle:Impresos:Body.html.twig',array(

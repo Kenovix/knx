@@ -18,6 +18,19 @@ class HistoriaController extends Controller
 		$em = $this->getDoctrine()->getEntityManager();
 		$factura = $em->getRepository('FacturacionBundle:Factura')->find($factura);
 		$historia = $factura->getHc(); 
+		
+		
+		$usuario = $this->get('security.context')->getToken()->getUser();
+		$perfil = null;
+		foreach ($usuario->getRoles() as $role)
+		{
+			if($role == 'ROLE_MEDICO')
+			{
+				$perfil = $role;
+			}
+		}
+		if(!$perfil)
+			return $this->redirect($this->generateUrl('nota_list', array('historia' => $historia->getId() )));
 
 		// se instancian los atributos para evitar conflictos con otras versiones de php
 		$serviEgre = "";
@@ -32,6 +45,7 @@ class HistoriaController extends Controller
 		'4' => 'Remision',
 		'3' => 'Otro');					
 		
+		$paciente = $factura->getPaciente();
 
 		/* No se verifica la existencia del paciente y los servicios porque si existe la factura existe el paciente
 		 * y si existe la historia existen los servicios.
@@ -43,7 +57,7 @@ class HistoriaController extends Controller
 		$destino = $historia->getDestino();		
 		if($arrayDestino[$destino]){			
 			$this->get('session')->setFlash('error','Esta Historia Clinica No Esta Disponible, La Historia Ha Sido Cerrada, Si Necesita Su Info Porfabor Genere El Impreso');
-			return $this->redirect($this->generateUrl('paciente_filtro'));		
+			return $this->redirect($this->generateUrl('historia_search_result', array('paciente' => $paciente->getId())));		
 		}			
 		if ($historia->getServiEgre()) {
 			$serviEgre = $em->getRepository('ParametrizarBundle:Servicio')->find($historia->getServiEgre());
@@ -83,8 +97,7 @@ class HistoriaController extends Controller
 		if (!$factura || !$historia) {
 			throw $this->createNotFoundException('La informacion solicitada no esta disponible.');
 		}
-		if($factura->getTipo() == 'C')
-			$historia->setDestino('1');
+		
 				
 		$historia->setFechaEgre(new \DateTime('now'));
 		$form_historia = $this->createForm(new HcType(), $historia);
@@ -301,8 +314,19 @@ class HistoriaController extends Controller
 		$breadcrumbs->addItem("Inicio",$this->get("router")->generate("paciente_filtro"));
 		$breadcrumbs->addItem("Urgencias");
 		
+		$usuario = $this->get('security.context')->getToken()->getUser();
+		$perfil = null;
+		foreach ($usuario->getRoles() as $role)
+		{
+			if($role == 'ROLE_MEDICO')
+			{
+				$perfil = $role;
+			}
+		}
+		
 		return $this->render('HistoriaBundle:Historia:urgencias.html.twig',array(
 				'urgencias_hc' => $urgencias,
+				'perfil'   => $perfil,
 		));
 	}
 

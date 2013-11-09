@@ -100,8 +100,9 @@ class HcRepository extends EntityRepository
 								 FROM 
 									HistoriaBundle:Hc h
 								 WHERE
-									h.tipoDestino = '1' or
-									h.tipoDestino = '2' 
+									h.tipoDestino = '1' AND h.destino = '2'
+									OR
+									h.tipoDestino = '2' AND h.destino = '2'
 								 ORDER BY
 									h.updated DESC");
 		return $dql->getResult();

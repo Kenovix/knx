@@ -493,7 +493,12 @@ class PacienteController extends Controller
 		
 		$breadcrumbs = $this->get("white_october_breadcrumbs");
 		$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
-		$breadcrumbs->addItem("Paciente", $this->get("router")->generate("paciente_list", array("char" => 'A')));		
+                $usuario = $this->get('security.context')->getToken()->getUser();
+
+                if( $usuario == 'ROLE_SUPER_ADMIN')
+			{
+                            $breadcrumbs->addItem("Paciente", $this->get("router")->generate("paciente_list", array("char" => 'A')));		
+			}
 		$breadcrumbs->addItem("Buscar");
 		
 		$usuario = $this->get('security.context')->getToken()->getUser();
