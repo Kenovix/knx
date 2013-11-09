@@ -778,16 +778,19 @@
   		{% ui_header label="Egreso" %}
 		    {% ui_content style="height:1200px" %} 		    	
 		    	<div id="Egreso">
-		    	 <div>
-		    	    {{ form_label(edit_form.dxSalida) }}
-					{{ form_errors(edit_form.dxSalida) }}
-					{{ form_widget(edit_form.dxSalida,{ 'attr': {'class': 'input-xxlarge'} }) }}
-				 </div>
-				 <div>	
-					{{ form_label(edit_form.condSalida) }}
-					{{ form_errors(edit_form.condSalida) }}
-					{{ form_widget(edit_form.condSalida) }}
-				 </div>
+		    	
+		    	{% if tipoingreso == 'U' or tipoingreso == 'H' %}
+			    	 <div>
+			    	    {{ form_label(edit_form.dxSalida) }}
+						{{ form_errors(edit_form.dxSalida) }}
+						{{ form_widget(edit_form.dxSalida,{ 'attr': {'class': 'input-xxlarge'} }) }}
+					 </div>
+					 <div>	
+						{{ form_label(edit_form.condSalida) }}
+						{{ form_errors(edit_form.condSalida) }}
+						{{ form_widget(edit_form.condSalida) }}
+					 </div>
+				 {% endif %}
 				 
 				 <br/>
 				 <div>
@@ -1422,6 +1425,7 @@
 		{			
 			$('#remision').hide('slow');
 			$('#remision2').hide('slow');
+			$("#newHcType_destino").val('4');
 				$("label[for='newHcType_descripcion_r']").text('Descripcion remision:');
 				$('#remision').show('slow');
 				$('#remision2').show('slow');
