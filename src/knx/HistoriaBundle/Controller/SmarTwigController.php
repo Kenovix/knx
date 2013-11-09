@@ -41,8 +41,7 @@ class SmarTwigController extends Controller
 	
 		if($form_nota->isValid()){		
 	
-			//$usuario = $this->get('security.context')->getToken()->getUser();
-			$usuario = $em->getRepository('UsuarioBundle:Usuario')->find(6);
+			$usuario = $this->get('security.context')->getToken()->getUser();			
 	
 			$notas->setHc($historia);
 			$notas->setResponsable($usuario);

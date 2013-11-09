@@ -13,12 +13,13 @@
 	 	<tr>
 		  	<td align="left">Estado Civil: {{ paciente.estaCivil }}</td>
 		  	<td align="left">Entidad: {{ factura.cliente.nombre }}</td>
-		  	<td align="left" colspan="2">Ocupacion: {{ paciente.ocupacion.nombre }}</td>
+		  	<td align="left">Nivel: {{ afiliacion.tipoRegist }}</td>
+		  	<td align="left">Afiliación: {{ afiliacion.rango }}</td>
 	 	</tr>
 	 	<tr>
 		  	<td width="850px" align="left">Direccion: {{ paciente.direccion }}</td>
-		  	<td width="700px" align="left" colspan="2">Info: {{ paciente.telefono }} - {{ paciente.movil }}</td>
-		  	<td align="left" colspan="2">Municipio: {{ mupio.municipio }} [ {{ depto.nombre }} ]</td>
+		  	<td width="700px" align="left" colspan="2">Telefono: {{ paciente.telefono }} - {{ paciente.movil }}</td>
+		  	<td align="left" colspan="2">Municipio: {{ mupio.municipio }} [{{ depto.nombre }}]</td>
 	 	</tr>
 	 	<tr>
 		  	<td width="750px" align="left">Servi Ingreso: {{ factura.servicio.nombre }}</td>

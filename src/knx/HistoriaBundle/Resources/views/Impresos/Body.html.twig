@@ -158,9 +158,10 @@
 			 
 		{% elseif historia.tipoDestino == '2' and historia.viaIngresoInstitucion == '3'%}
 			 <b>Via De Ingreso A La Institucion: Remitido</b><br/>	
-		{% endif %}			
-	{% else %}
-		{% if historia.destino == '4' %}		
+		{% endif %}						
+	{% endif %}
+	
+	{% if historia.destino == '4' %}		
 			 <b>Remision:</b><br/>
 			 <p>
 				~ Destino: {{ historia.destinoR}} <br/>
@@ -169,8 +170,7 @@
 				~ Servicio: {{ historia.rServicio}} <br/>
 				~ Descripcion: {{ historia.descripcionR}}
 			</p>
-		{% endif %}					
-	{% endif %}
+	{% endif %}	
 		
 	<p>
 		<b>Medico: </b> {{ usuario.nombre }} {{ usuario.apellido }} Especialidad: {{ usuario.especialidad }} <br/>

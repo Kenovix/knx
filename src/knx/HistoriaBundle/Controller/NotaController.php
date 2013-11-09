@@ -248,7 +248,10 @@ class NotaController extends Controller
 	public function listAction($historia) 
 	{
 		$em = $this->getDoctrine()->getEntityManager();
-		$listNotas = $em->getRepository('HistoriaBundle:Notas')->findByHc($historia, array('fecha' => 'DESC'));
+
+		// se filtran las notas para los auxiliares "se visualizan las notas de cada auxiliar"
+		$usuario = $this->get('security.context')->getToken()->getUser();
+		$listNotas = $em->getRepository('HistoriaBundle:Notas')->findListAuxNotas($historia,$usuario);
 
 		// se verifica q la nota exista
 		if (!$listNotas) {

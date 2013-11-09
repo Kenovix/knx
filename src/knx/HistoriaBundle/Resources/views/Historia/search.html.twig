@@ -37,7 +37,8 @@
         <thead>
             <tr>
                 <th>No.</th>
-                <th>Fecha DD-MM-AA</th>
+                <th>Ingreso DD-MM-AA</th>
+                <th>Egreso DD-MM-AA</th>
                 <th>Servicio. Ingreso</th>             
                 <th>Ver Historia</th>
                 <th>Ver Notas</th>
@@ -47,7 +48,8 @@
         {% for entity in historia %}
             <tr>           
                 <td>{{ loop.index }}</td>
-			    <td>{{ entity.fechaIngre|date('d-m-Y H:i') }}</td>            	
+			    <td>{{ entity.fechaIngre|date('d-m-Y H:i') }}</td>
+			    <td>{{ entity.fechaEgre|date('d-m-Y H:i') }}</td>              	
                 <td><strong>{{ entity.factura.servicio.nombre }}</strong></td>
                 
                 {% if entity.serviEgre %}
