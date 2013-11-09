@@ -54,10 +54,33 @@ class NotasRepository extends EntityRepository {
 		$historia->setEspalda("NORMAL");
 		$historia->setEnfermedad("NORMAL");
 		$historia->setGenitales("NORMAL");
+		$historia->setExtremidades("NORMAL");
 
 		$em->persist($historia);
 		$em->flush();
 
 		return $historia;
+	}
+	
+	public function findListAuxNotas($historia,$usuario)
+	{
+		$em = $this->getEntityManager();
+		$dql = $em->createQuery(
+							"SELECT
+								notas
+							 FROM
+								HistoriaBundle:Notas notas
+							 JOIN
+								notas.hc hc
+							 WHERE
+								hc.id = :id
+							 AND
+								notas.responsable = :user
+							 ORDER BY
+								notas.fecha DESC");
+	
+		$dql->setParameter('id', $historia);
+		$dql->setParameter('user', $usuario->getId());
+		return $dql->getResult();
 	}
 }
