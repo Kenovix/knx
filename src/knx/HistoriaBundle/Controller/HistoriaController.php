@@ -97,8 +97,7 @@ class HistoriaController extends Controller
 		if (!$factura || !$historia) {
 			throw $this->createNotFoundException('La informacion solicitada no esta disponible.');
 		}
-		if($factura->getTipo() == 'C')
-			$historia->setDestino('1');
+		
 				
 		$historia->setFechaEgre(new \DateTime('now'));
 		$form_historia = $this->createForm(new HcType(), $historia);
