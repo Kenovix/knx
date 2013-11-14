@@ -190,11 +190,11 @@ class FacturaController extends Controller
     }
     
     
-    public function newProcedimientoAction()
+    public function newProcedimientoAction($tipo)
     {
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
     	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
-    	$breadcrumbs->addItem("Nueva factura", $this->get("router")->generate("facturacion_procedimiento_new"));
+    	$breadcrumbs->addItem("Nueva factura");
     
     	$factura = new Factura();
     	$form = $this->createForm(new FacturaType(), $factura);
@@ -202,6 +202,7 @@ class FacturaController extends Controller
     	$form_afiliacion = $this->createForm(new AfiliacionType());
     
     	return $this->render('FacturacionBundle:Factura:new_procedimiento.html.twig', array(
+    			'tipo' => $tipo,
     			'form'   => $form->createView(),
     			'form_afiliacion' => $form_afiliacion->createView()
     	));
@@ -212,7 +213,7 @@ class FacturaController extends Controller
     {
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
     	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
-    	$breadcrumbs->addItem("Nueva factura", $this->get("router")->generate("facturacion_procedimiento_new"));
+    	$breadcrumbs->addItem("Nueva factura");
     
     	$factura = new Factura();
     
@@ -271,7 +272,7 @@ class FacturaController extends Controller
     		$pyp = $em->getRepository('ParametrizarBundle:Pyp')->find($factura->getPyp());
     
     		$dql = $em->createQuery( "SELECT
-									c.id,
+										c.id,
     									c.nombre
 									 FROM
 										ParametrizarBundle:CargoPyp cp
@@ -290,14 +291,17 @@ class FacturaController extends Controller
     	}else{
     		$pyp = "";
     		
-    		if ($factura->getServicio() == 'LABORATORIO') {
+    		if($factura->getServicio()->getNombre() == 'LABORATORIO'){
     			$tipo_cargo = 'LB';
+    		}elseif ($factura->getServicio()->getNombre() == 'ODONTOLOGIA'){
+    			$tipo_cargo = 'PO';
+    		}else{
+    			$tipo_cargo = 'P';
     		}
-
-                
-
+    		    		
+    
     		$dql = $em->createQuery( "SELECT
-									c.id,
+										c.id,
     									c.nombre
 									 FROM
 										ParametrizarBundle:ContratoCargo cc
@@ -309,7 +313,7 @@ class FacturaController extends Controller
     									ct.cliente cli
 									 WHERE
 										c.tipoCargo = :tipoCargo AND
-                                                                                cli.id = :cliente
+    									cli.id = :cliente
 									 ORDER BY
 										c.nombre ASC");
     
@@ -327,7 +331,7 @@ class FacturaController extends Controller
     
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
     	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
-    	$breadcrumbs->addItem("Nueva factura", $this->get("router")->generate("facturacion_procedimiento_new"));
+    	$breadcrumbs->addItem("Nueva factura");
     
     	return $this->render('FacturacionBundle:Factura:show_procedimiento.html.twig', array(
     			'factura'  => $factura,
@@ -485,6 +489,32 @@ class FacturaController extends Controller
     	));
     }
     
+    public function urgenciasListAction()
+    {
+    	$breadcrumbs = $this->get("white_october_breadcrumbs");
+    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
+    	$breadcrumbs->addItem("Urgencias");
+    	
+    	$em = $this->getDoctrine()->getEntityManager();
+    	
+    	$dql = $em->createQuery( "SELECT
+										f
+									 FROM
+										FacturacionBundle:Factura f
+									 WHERE
+										f.estado = 'A' AND
+    									f.tipo = 'U' OR
+    									f.tipo = 'H'
+									 ORDER BY
+										f.fecha ASC");
+    	
+    	$factura = $dql->getResult();
+    	
+    	return $this->render('FacturacionBundle:Factura:urgencias_list.html.twig', array(
+    			'facturas'  => $factura
+    	));
+    }
+    
     /**
      * @uses Función que consulta la información del paciente por tipo y número de identificación.
      *
@@ -551,7 +581,6 @@ class FacturaController extends Controller
     	$pagoPte = $request->request->get('pago_pte');
     	$recoIps = $request->request->get('cargo_ips');
     	$valorTotal = $request->request->get('total');
-    	$ambito = $request->request->get('ambito');
     	$estado = $request->request->get('estado');
 
     	$em = $this->getDoctrine()->getEntityManager();
@@ -575,7 +604,7 @@ class FacturaController extends Controller
 	    		$factura_cargo->setCobrarPte($cobrarPte);
 	    		$factura_cargo->setPagoPte($pagoPte);
 	    		$factura_cargo->setRecoIps($recoIps);
-	    		$factura_cargo->setValorTotal($valorTotal);
+	    		$factura_cargo->setValorTotal((($cantidad*$vrUnitario)-$cobrarPte));
 	    		
 	    		if (trim($estado)){
 	    			$factura_cargo->setEstado($estado);
@@ -583,12 +612,20 @@ class FacturaController extends Controller
 	    			$factura_cargo->setEstado('A');
 	    		}
 	    		
-	    		$factura_cargo->setAmbito($ambito);
 	    		
 	    		if($factura->getTipo() == 'U'){
+	    			
+	    			$factura_cargo->setAmbito(3);
 	    			$factura->setEstado('A');
+	    			
+	    		}elseif($factura->getTipo() == 'H'){
+	    			
+	    			$factura_cargo->setAmbito(2);
+	    			$factura->setEstado('A');
+	    			
 	    		}else{
 	    			$factura->setEstado('C');
+	    			$factura_cargo->setAmbito(1);
 	    		}
 	    		
 	    		$em->persist($factura_cargo);
@@ -624,14 +661,13 @@ class FacturaController extends Controller
     	
     	if (!$factura) {
     		throw $this->createNotFoundException('La factura solicitada no existe');
-    	}else{
+    	}else{    		
     		
-    		if($factura->getEstado() != 'C'){
-    			$factura->setEstado('C');
-    			
-    			$em->persist($factura);
-    			$em->flush();
-    		}
+    		$factura->setEstado('C');
+    		
+    		$em->persist($factura);
+    		$em->flush();
+    		
     	}
     	
     	$factura_cargo = $em->getRepository('FacturacionBundle:FacturaCargo')->findBy(array('factura' => $factura->getId()));

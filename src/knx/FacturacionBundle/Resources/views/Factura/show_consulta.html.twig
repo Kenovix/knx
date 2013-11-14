@@ -105,7 +105,7 @@
     
 		<form class="form-inline">
 			
-			<select name="actividad" id="actividad" class="input-xxlarge" {% if factura.estado == 'C' %} disabled="disabled" {% endif %}>
+			<select name="actividad" id="actividad" class="input-xxlarge" {% if (factura.estado == 'C' or (factura.estado == 'A' and factura.tipo == 'U' )) %} disabled="disabled" {% endif %}>
 				<option value="">Seleccione una actividad</option>
 				{% for consulta in consultas %}
 					<option value="{{ consulta.id }}">{{ consulta.nombre }}</option>
@@ -144,7 +144,7 @@
 			<label>Valor total</label>
 				<input type="text" class="input-small" id="valor_total" readonly="readonly" />
 				
-			<button id="agregar" type="button" class="btn btn-success" {% if factura.estado == 'C' %} disabled="disabled" {% endif %}>Agregar</button>
+			<button id="agregar" type="button" class="btn btn-success" {% if (factura.estado == 'C' or (factura.estado == 'A' and factura.tipo == 'U' )) %} disabled="disabled" {% endif %}>Agregar</button>
 	
 		</form>
 	
@@ -173,8 +173,8 @@
 		{% endfor %}
 	</table>
 	
-	<a href="{{ path('facturacion_fv_imprimir', {'factura':factura.id}) }}" id="btn-imprimir-factura" class="btn" {% if factura.estado == 'A' %} style="display:none" {% endif %}><i class="icon-print"></i> Imprimir</a>
-	<a href="{{ path('facturacion_consulta_new') }}" id="btn-nueva-factura" class="btn" {% if factura.estado == 'A' %} style="display:none" {% endif %}><i class="icon-print"></i> Nueva factura</a>
+	<a href="{{ path('facturacion_fv_imprimir', {'factura':factura.id}) }}" id="btn-imprimir-factura" class="btn" {% if (factura.estado == 'A' and factura.tipo != 'U') %} style="display:none" {% endif %}><i class="icon-print"></i> Imprimir</a>
+	<a href="{{ path('facturacion_consulta_new') }}" id="btn-nueva-factura" class="btn" {% if (factura.estado == 'A' and factura.tipo != 'U') %} style="display:none" {% endif %}><i class="icon-repeat"></i> Nueva factura</a>
 
 {% endblock %}
 

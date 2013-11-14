@@ -19,7 +19,7 @@ facturacion_consulta_edit:
     defaults: { _controller: FacturacionBundle:Factura:editConsulta }
     
 facturacion_procedimiento_new:
-    pattern:  /procedimiento/new
+    pattern:  /procedimiento/{tipo}/new
     defaults: { _controller: FacturacionBundle:Factura:newProcedimiento }
     
 facturacion_procedimiento_save:
@@ -65,6 +65,10 @@ facturacion_cargo_save:
 facturacion_fv_imprimir:
     pattern:  /fv/{factura}/imprimir
     defaults: { _controller: FacturacionBundle:Factura:imprimir }
+    
+facturacion_urgencias_list:
+    pattern:  /urgencias/list
+    defaults: { _controller: FacturacionBundle:Factura:urgenciasList }
 
         
 #******************** FACTURA CARGO ***************************#

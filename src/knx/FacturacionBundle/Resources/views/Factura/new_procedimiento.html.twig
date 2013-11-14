@@ -206,14 +206,25 @@
 
 		$("#knx_facturacionbundle_facturatype_servicio").change(function(){
 			var sel = "";
+			var tipo = "{{ tipo }}";
 
 			sel = $("#knx_facturacionbundle_facturatype_servicio option:selected").text();
 
-			if(sel != 'LABORATORIO' && sel != 'PROCEDIMIENTOS'){
+			if(tipo == "A"){
 
-				alert('Por favor selecciona un servicio valido');
-
-				$("#knx_facturacionbundle_facturatype_servicio").val('');
+				if(sel == 'URGENCIAS' || sel == 'HOSPITALIZACION'){
+	
+					alert('Por favor selecciona un servicio valido');
+	
+					$("#knx_facturacionbundle_facturatype_servicio").val('');
+				}
+			}else{
+				if(sel != 'URGENCIAS' || sel != 'HOSPITALIZACION'){
+					
+					alert('Por favor selecciona un servicio valido');
+	
+					$("#knx_facturacionbundle_facturatype_servicio").val('');
+				}
 			} 
 		});
 
