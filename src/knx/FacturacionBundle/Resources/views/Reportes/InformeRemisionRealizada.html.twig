@@ -7,23 +7,27 @@
 {% set total = 0 %}
 	<div>
 		<p><b>Desde:</b> {{ dateStart | date('d-M-Y') }} <b>Hasta:</b> {{ dateEnd | date('d-M-Y') }} </p><br/>
-		<table>			
+		<table border="1">			
 			<thead>
 				<tr>
-					<th>Destino Remision</th>		
-					<th>Especialidad Remision</th>
-					<th>Numero Autorizacion</th>
-					<th>Descripcion Remision</th>											
+					<th width="100px" ><b> No.		</b></th>
+					<th><b> Destino Remision		</b></th>		
+					<th><b> Especialidad Remision	</b></th>
+					<th><b> Numero Autorizacion		</b></th>
+					<th><b> Servicio				</b></th>
+					<th width="800px"><b> Descripcion Remision	</b></th>											
 				</tr>					
 			</thead>
 			<tbody>
 				{% for entity in facturaCargo %}
 					<tr>
+						<td width="100px">{{ loop.index }}</td>
 						<td>{{ entity.destino_r }}</td>
 						<td>{{ entity.especialidad_r }}</td>
 						<td>{{ entity.nuAuto_r }}</td>
-						<td>{{ entity.descripcion_r }}</td>						
-						{% set total = entity.cantidad %}
+						<td>{{ entity.rServicio }}</td>
+						<td width="800px">{{ entity.descripcion_r }}</td>						
+						{% set total = loop.index %}
 					</tr>
 				{% endfor %}
 			</tbody>
