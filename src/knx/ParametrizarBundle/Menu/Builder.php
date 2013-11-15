@@ -95,10 +95,11 @@ class Builder extends ContainerAware
 
 		return $menu;
 	}
+        }	
 	
-	
-	public function HistoriaMenu(FactoryInterface $factory, array $options)
-	{
+            public function HistoriaMenu(FactoryInterface $factory, array $options)
+                {
+            
 		$security = $this->container->get('security.context');
 		$usuario = $security->getToken()->getUser();
 	
