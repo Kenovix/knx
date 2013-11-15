@@ -29,7 +29,8 @@
 
 {% block cuerpo %}
 
-	{% if trasfarma %}
+
+
 
 	    <table class="table">
 	        <thead>
@@ -58,7 +59,7 @@
 	        </tbody>
 	    </table>
 
-<div class="navigation">
+            <div class="navigation">
     		{{ knp_pagination_render(trasfarma) }}
 		</div>
 	    <div class="form-actions">
@@ -66,14 +67,47 @@
 			    <a href="{{ path('traslado_search') }}" class="btn">Buscar Traslados</a>
 		</div>
 
-	{% else %}
-		<div class="alert alert-success">
-	    	<button data-dismiss="alert" class="close" type="button">×</button>
-	        <span>No existen traslados creadas</span>
-	    </div>
-	{% endif %}
+	
 
 
+<form action="{{ path('traslado_result') }}" onSubmit="return confirm('Seguro de querer generarla busqueda?');" method="post" class="form-horizontal">
+    <fieldset>
+    	<legend>Busqueda Traslados</legend>
+
+        
+  <div>
+    	<label for="fecha_inicio">Desde:</label>
+    	    <p><input type="text" name="fecha_inicio" id="fecha_inicio" /></p>
+    	    <span>(DD/MM/AAAA)</span>
+    </div>
+    
+    <div>
+    	<label for="fecha_fin">Hasta:</label>
+    	    <p><input type="text" name="fecha_fin" id="fecha_fin" /></p>
+    	    <span>(DD/MM/AAAA)</span>
+    </div>
+    
+    </fieldset>
+    
+   <div class="form-actions">
+		<input class="btn btn-primary" name="Buscar" type="submit" value="Buscar" />
+				<a href="{{ path('traslado_list') }}" class="btn">Volver</a>				
+				
+	</div>		    
+			    
+	
+			
+</form>
 
 
+{% endblock %}
+
+{% block javascripts %}
+		    <script language="javascript" type="text/javascript">
+   $(function() {
+       $( "#fecha_inicio" ).datepicker({ dateFormat: 'dd/mm/yy' })
+       ;
+       $( "#fecha_fin" ).datepicker({ dateFormat: 'dd/mm/yy' });
+     });
+   </script>
 {% endblock %}

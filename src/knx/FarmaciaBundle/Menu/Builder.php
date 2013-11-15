@@ -132,7 +132,6 @@ class Builder extends ContainerAware
 			$menu['Usuarios']->addChild('Crear', array('route' => 'fos_user_registration_register'));
 		
 			$menu->addChild($usuario->getUsername(), array('uri' => '#'));
-			$menu[$usuario->getUsername()]->addChild('Cambiar contraseña', array('route' => 'fos_user_change_password'));
 			$menu[$usuario->getUsername()]->addChild('Salir', array('route' => 'logout'));
                     
                     

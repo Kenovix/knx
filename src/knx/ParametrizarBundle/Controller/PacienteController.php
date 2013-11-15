@@ -537,7 +537,7 @@ class PacienteController extends Controller
 		$dql->setParameters($parametros);			
 		$pacientes = $dql->getResult();		
 		$paginator = $this->get('knp_paginator');
-		$pacientes = $paginator->paginate($pacientes, $this->getRequest()->query->get('page', 1),15);		
+		$pacientes = $paginator->paginate($pacientes, $this->getRequest()->query->get('page', 1),1);		
 	
 		return $this->render('ParametrizarBundle:Paciente:filtro.html.twig', array(
 				'entities'  => $pacientes,

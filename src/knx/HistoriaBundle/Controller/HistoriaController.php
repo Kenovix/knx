@@ -56,7 +56,7 @@ class HistoriaController extends Controller
 		// se filtra la historia para validar si se puede dar permisos de edition o no
 		$destino = $historia->getDestino();		
 		if($arrayDestino[$destino]){			
-			$this->get('session')->setFlash('error','Esta Historia Clinica No Esta Disponible, La Historia Ha Sido Cerrada, Si Necesita Su Info Porfabor Genere El Impreso');
+			$this->get('session')->setFlash('error','Esta Historia Clinica No Esta Disponible, La Historia Ha Sido Cerrada, Si Necesita Su Info Por favor Genere El Impreso');
 			return $this->redirect($this->generateUrl('historia_search_result', array('paciente' => $paciente->getId())));		
 		}			
 		if ($historia->getServiEgre()) {
