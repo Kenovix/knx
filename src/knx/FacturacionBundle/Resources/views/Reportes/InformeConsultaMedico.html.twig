@@ -6,14 +6,16 @@
 {% block body %}
 	<div>
 		<p><b>Desde:</b> {{ dateStart | date('d-M-Y') }} <b>Hasta:</b> {{ dateEnd | date('d-M-Y') }}</p><br/>
-		<table>			
+		<table border="1">			
 			<thead>
 				<tr>
-					<th>Nombre</th>		
-					<th>Apellido</th>
-					<th>especialidad</th>
-					<th>Nombre Cargo</th>
-					<th>Cantidad</th>												
+					<th><b> Nombre			</b></th>		
+					<th><b> Apellido		</b></th>
+					<th><b> especialidad	</b></th>
+					<th><b> Servicio		</b></th>
+					<th><b> Codigo Cargo	</b></th>
+					<th><b> Nombre Cargo	</b></th>
+					<th><b> Cantidad		</b></th>												
 				</tr>
 			</thead>
 			<tbody>
@@ -23,6 +25,8 @@
 						<td>{{ entity.apellido}}</td>
 						<td>{{ entity.especialidad}}</td>
 						<td>{{ entity.servicio }}</td>
+						<td>{{ entity.soat}}</td>
+						<td>{{ entity.cargo }}</td>
 						<td>{{ entity.cantidad }}</td>
 					</tr>
 				{% endfor %}

@@ -153,39 +153,52 @@ class FacturaCargoRepository extends EntityRepository
 //------------- informes por consultas realizadas por los diferentes medicos excluyendo quizas algunas facturas realizadas a un usuario sin role medico
 	public function findInformeConsultasMedicos($dateStart,$dateEnd)
 	{
+		
 		$em = $this->getEntityManager();
 		$dql = $em->createQuery("SELECT s.nombre AS servicio,
-										COUNT(f.servicio) AS cantidad,
-										u.nombre, u.apellido, u.especialidad
-								 FROM FacturacionBundle:Factura f									
-									JOIN f.servicio s, UsuarioBundle:Usuario u
-								 WHERE									
-									f.created >= :dateStart
-									AND f.created <= :dateEnd									
+										ca.soat, ca.nombre AS cargo,
+										u.nombre, u.apellido, u.especialidad,
+										COUNT(fc.factura) AS cantidad				
+										
+								 FROM FacturacionBundle:FacturaCargo fc
+									JOIN fc.factura f
+									JOIN fc.cargo ca
+									JOIN f.servicio s,									
+									UsuarioBundle:Usuario u
+								 WHERE 
+									fc.created >= :dateStart
+									AND fc.created <= :dateEnd
 									AND f.profesional = u.id
 									AND u.roles LIKE :roles
-								 GROUP BY f.profesional, f.servicio ORDER BY f.profesional, s.nombre ASC");
-		
+								 GROUP BY f.profesional, fc.cargo, f.servicio ORDER BY f.profesional, ca.soat ASC");
+				
 		$dql->setParameter('roles', '%ROLE_MEDICO%');
 		$dql->setParameter('dateStart', $dateStart);
 		$dql->setParameter('dateEnd', $dateEnd);
 		return $dql->getResult();
+		
 	}
 	
 	public function findInformeConsultaMedico($dateStart,$dateEnd,$usuario)
 	{
+		
 		$em = $this->getEntityManager();
-		$dql = $em->createQuery("SELECT s.nombre AS servicio,								
-										u.nombre, u.apellido, u.especialidad,		
-										COUNT(f.servicio) AS cantidad
-								 FROM FacturacionBundle:Factura f 									
-									JOIN f.servicio s, UsuarioBundle:Usuario u
+		$dql = $em->createQuery("SELECT s.nombre AS servicio,
+										ca.soat, ca.nombre AS cargo,
+										u.nombre, u.apellido, u.especialidad,
+										COUNT(fc.factura) AS cantidad
+		
+								 FROM FacturacionBundle:FacturaCargo fc
+									JOIN fc.factura f
+									JOIN fc.cargo ca
+									JOIN f.servicio s,
+									UsuarioBundle:Usuario u
 								 WHERE
-									f.profesional = :usuario
-									AND f.created >= :dateStart
-									AND f.created <= :dateEnd
+									fc.created >= :dateStart
+									AND fc.created <= :dateEnd
+									AND f.profesional = :usuario
 									AND u.id = :usuario
-								 GROUP BY f.servicio ORDER BY s.nombre ASC");
+								 GROUP BY fc.cargo, f.servicio ORDER BY ca.nombre ASC");
 		
 		$dql->setParameter('usuario', $usuario);
 		$dql->setParameter('dateStart', $dateStart);
@@ -198,8 +211,7 @@ class FacturaCargoRepository extends EntityRepository
 	public function findInformeRemisionRealizada($dateStart,$dateEnd)
 	{
 		$em = $this->getEntityManager();
-		$dql = $em->createQuery("SELECT h.destino_r, h.especialidad_r, h.nuAuto_r, h.descripcion_r,
-										COUNT(f.id) AS cantidad
+		$dql = $em->createQuery("SELECT h.destino_r, h.especialidad_r, h.nuAuto_r, h.descripcion_r, h.rServicio									
 								 FROM HistoriaBundle:Hc h
 									JOIN h.factura f
 								 WHERE
@@ -208,7 +220,7 @@ class FacturaCargoRepository extends EntityRepository
 									AND f.created <= :dateEnd	
 								 ORDER BY f.created DESC");
 
-		$dql->setParameter('remision', 'remision');
+		$dql->setParameter('remision', '4');
 		$dql->setParameter('dateStart', $dateStart);
 		$dql->setParameter('dateEnd', $dateEnd);
 		return $dql->getResult();
