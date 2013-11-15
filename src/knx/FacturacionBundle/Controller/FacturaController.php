@@ -672,11 +672,14 @@ class FacturaController extends Controller
     	
     	$factura_cargo = $em->getRepository('FacturacionBundle:FacturaCargo')->findBy(array('factura' => $factura->getId()));
     	
+    	$mupio = $em->getRepository('ParametrizarBundle:Mupio')->find($factura->getPaciente()->getMupio());
+    	
     	$pdf = $this->get('white_october.tcpdf')->create();
     	
     	$html = $this->renderView('FacturacionBundle:Factura:factura.pdf.twig',array(
     								'factura' => $factura,
-    								'cargos' => $factura_cargo
+    								'cargos' => $factura_cargo,
+    								'mupio' => $mupio
     	));
     	
     	return $pdf->quick_pdf($html, 'factura_venta_'.$factura->getId().'.pdf', 'I');    	
