@@ -86,13 +86,14 @@
 			<td width="80">${{ copago | number_format(0) }}</td>
 		</tr>
 		<tr>
-			<td width="570">Valor neto</td>
-			<td width="80">${{ (total - copago) | number_format(0) }}</td>
-		</tr>
-		<tr>
 			<td width="570">Valor asumido por la institución</td>
 			<td width="80">${{ perdida | number_format(0) }}</td>
 		</tr>
+		<tr>
+			<td width="570">Valor neto</td>
+			<td width="80">${{ ((total - copago) - perdida) | number_format(0) }}</td>
+		</tr>
+		
 	</tbody>
 </table>
 

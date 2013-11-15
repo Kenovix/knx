@@ -112,31 +112,19 @@
 				{% endfor %}
 			</select>
 			
-			<input type="text" class="input-mini" id="cantidad" name="cantidad" value="1" />
+			<input type="text" class="input-mini" id="cantidad" name="cantidad" value="1" {% if factura.estado == 'C' %} readonly="readonly" {% endif %} />
 			<input type="text" class="input-small" placeholder="Valor" id="valor" readonly="readonly" />
 			    
 			<br /><br />
 			
 			<label>Valor facturado</label>		
 				<input type="text" class="input-mini" id="vr_facturado" name="vr_facturado" readonly="readonly" />
-	
-			{% if (factura.cliente.tipo == 1) %}
-	
-				<label>Cobrar a paciente</label>		
-					<input type="text" class="input-mini" id="cobrar_pte" name="cobrar_pte" value="0" />
+		
+			<label>Cobrar a paciente</label>		
+				<input type="text" class="input-mini" id="cobrar_pte" name="cobrar_pte" value="0" {% if factura.estado == 'C' %} readonly="readonly" {% endif %} />
 					
-				<label>Pago paciente</label>
-					<input type="text" class="input-small" placeholder="Copago" id="pago_pct" value="0" readonly="readonly" />
-	
-			{% else %}
-	
-				<label>Cobrar a paciente</label>		
-					<input type="text" class="input-mini" id="cobrar_pte" name="cobrar_pte" value="0" readonly="readonly" />
-					
-				<label>Pago paciente</label>
-					<input type="text" class="input-small" placeholder="Copago" id="pago_pct" value="0" readonly="readonly" />
-	
-			{% endif %}
+			<label>Pago paciente</label>
+				<input type="text" class="input-small" placeholder="Copago" id="pago_pct" value="0" {% if factura.estado == 'C' %} readonly="readonly" {% endif %} />
 	
 			<label>Reconocido IPS</label>
 				<input type="text" class="input-small" id="cargo_ips" value="0" readonly="readonly" />
@@ -173,8 +161,8 @@
 		{% endfor %}
 	</table>
 	
-	<a href="{{ path('facturacion_fv_imprimir', {'factura':factura.id}) }}" id="btn-imprimir-factura" class="btn" {% if factura.estado == 'A' %} style="display:none" {% endif %}><i class="icon-print"></i> Imprimir</a>
-	<a href="{{ path('facturacion_procedimiento_new') }}" id="btn-nueva-factura" class="btn" {% if factura.estado == 'A' %} style="display:none" {% endif %}><i class="icon-print"></i> Nueva factura</a>
+	<a href="{{ path('facturacion_fv_imprimir', {'factura':factura.id}) }}" id="btn-imprimir-factura" class="btn" {% if factura.estado == 'A' and factura.tipo != 'U' %} style="display:none" {% endif %}><i class="icon-print"></i> Imprimir</a>
+	<a href="{{ path('facturacion_procedimiento_new', {'tipo':'A'}) }}" id="btn-nueva-factura" class="btn" {% if factura.estado == 'A' and factura.tipo != 'U' %} style="display:none" {% endif %}><i class="icon-print"></i> Nueva factura</a>
 
 {% endblock %}
 
@@ -213,15 +201,40 @@
 			}
 		});
 
-		$("#cobrar_pte").focusout(function() {
+		$("#cobrar_pte").change(function() {
 
 			var cobro = $("#cobrar_pte").val();
 
 			var valor = $("#vr_facturado").val();
 
+			var pago = $("#pago_pct").val();
+
+			$("#cargo_ips").val(cobro - pago);
+
 			$("#valor_total").val(valor - cobro);
 		});
 
+		$("#pago_pct").change(function() {
+
+			var cobro = $("#cobrar_pte").val();
+			var pago = $("#pago_pct").val();
+
+			$("#cargo_ips").val(cobro - pago);
+		});
+
+		$("#cantidad").change(function() {
+
+			var valor = $("#valor").val();
+			var cantidad = $("#cantidad").val();
+
+			$("#vr_facturado").val(valor * cantidad);
+
+			var cobro = $("#cobrar_pte").val();
+
+			var v_f = $("#vr_facturado").val();
+
+			$("#valor_total").val(v_f - cobro);
+		});
 
 		$("#agregar").click(function() {
 			
@@ -253,7 +266,6 @@
 	    			pago_pte: $("#pago_pct").val(),
 	    			cargo_ips: $("#cargo_ips").val(),
 	    			total: $("#valor_total").val(),
-	    			ambito: 'A',
 	    			estado: 'C',
 		         },function(data){
 		             if(data.responseCode==200 ){
@@ -282,7 +294,11 @@
 		             }
 		      	});
 			}
-		});		
+		});
+
+		$("#btn-imprimir-factura").click(function() {
+			$("#agregar, #actividad, #cantidad, #cobrar_pte, #pago_pct").attr('disabled', 'disabled');
+		});
 
 	</script>
 {% endblock %}

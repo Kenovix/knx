@@ -230,14 +230,6 @@ class PacienteController extends Controller
 		$depto = $em->getRepository('ParametrizarBundle:Depto')->find($paciente->getDepto());
 
 		$mupio = $em->getRepository('ParametrizarBundle:Mupio')->find($paciente->getMupio());
-
-		
-		
-
-
-
-
-
 		$paciente->setDepto($depto);
 		$paciente->setMupio($mupio);
 
