@@ -6,7 +6,7 @@
 
 {% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
 
-{% block titulo %}Información de la factura{% endblock %}
+{% block titulo %}Facturación de medicamentos{% endblock %}
 
 {% block msg %}
 	{% if app.session.hasFlash('ok') %}
@@ -84,8 +84,8 @@
                     {% else %}
                         
                     {% endif %}</td>
-                <td><strong>Servicio</strong></td>
-                <td colspan="5">{{ factura.servicio.nombre }}</td>
+                <td><strong>Farmacia</strong></td>
+                <td colspan="5">{{ factura.farmacia }}</td>
             </tr>
             <tr>
                 <td><strong>Observaci&oacute;n</strong></td>
@@ -174,7 +174,7 @@
 	</table>
 	
 	<a href="{{ path('facturacion_fv_imprimir', {'factura':factura.id}) }}" id="btn-imprimir-factura" class="btn" {% if factura.estado == 'A' %} style="display:none" {% endif %}><i class="icon-print"></i> Imprimir</a>
-	<a href="{{ path('facturacion_procedimiento_new') }}" id="btn-nueva-factura" class="btn" {% if factura.estado == 'A' %} style="display:none" {% endif %}><i class="icon-print"></i> Nueva factura</a>
+	<a href="{{ path('facturacion_insumo_new', {'tipo':'A'}) }}" id="btn-nueva-factura" class="btn" {% if factura.estado == 'A' %} style="display:none" {% endif %}><i class="icon-print"></i> Nueva factura</a>
 
 {% endblock %}
 
@@ -213,23 +213,49 @@
 			}
 		});
 
-		$("#cobrar_pte").focusout(function() {
+		$("#cobrar_pte").change(function() {
 
 			var cobro = $("#cobrar_pte").val();
 
 			var valor = $("#vr_facturado").val();
 
+			var pago = $("#pago_pct").val();
+
+			$("#cargo_ips").val(cobro - pago);
+
 			$("#valor_total").val(valor - cobro);
+		});
+
+		$("#pago_pct").change(function() {
+
+			var cobro = $("#cobrar_pte").val();
+			var pago = $("#pago_pct").val();
+
+			$("#cargo_ips").val(cobro - pago);
+		});
+
+		$("#cantidad").change(function() {
+
+			var valor = $("#valor").val();
+			var cantidad = $("#cantidad").val();
+
+			$("#vr_facturado").val(valor * cantidad);
+
+			var cobro = $("#cobrar_pte").val();
+
+			var v_f = $("#vr_facturado").val();
+
+			$("#valor_total").val(v_f - cobro);
 		});
 
 
 		$("#agregar").click(function() {
 			
-			var cargo = $("#actividad").val();
+			var imv = $("#actividad").val();
 	
-			if ( cargo > 0 && cargo != "" ) {
+			if ( imv > 0 && imv != "" ) {
 				
-				var url="{{ path('facturacion_cargo_save') }}";
+				var url="{{ path('facturacion_imv_save') }}";
 	
 				var factura = "{{ factura.id }}";
 
@@ -245,7 +271,7 @@
 
 	    		$.post(url,{
 	    			factura: factura,
-	    			cargo: cargo,
+	    			imv: imv,
 	    			cantidad: cantidad,
 	    			vr_unitario: valor,
 	    			vr_facturado: valor,
@@ -282,7 +308,43 @@
 		             }
 		      	});
 			}
-		});		
+		});
+
+		$("#btn-imprimir-factura").click(function() {
+			$("#agregar, #actividad, #cantidad, #cobrar_pte, #pago_pct").attr('disabled', 'disabled');
+		});
+
+		$("#btn-del-cargo").click(function() {
+			alert("se fue");
+		});
+
+		function borrarCargo(factura, cargo){
+
+			var url = "{{ path('facturacion_cargo_delete') }}";
+
+			$('#jxMsg').css('display', 'none');
+			$('#jxMsg > span').empty();
+
+			$.post(url,{
+                factura: factura,
+                cargo: cargo
+            },function(data){
+                if(data.responseCode==200 ){
+
+                	$( "#"+factura+"-"+cargo ).remove();
+                    
+                	$('#jxMsg > span').prepend(data.msg);
+                	$('#jxMsg').css('display', 'block');
+                 }
+                 else if(data.responseCode==400){
+	            	$('#jxMsg > span').prepend(data.msg);
+                	$('#jxMsg').css('display', 'block');
+                 }
+                 else{
+             	    alert("Ha ocurrido un error en el sistema.");
+                 }
+          });
+		}
 
 	</script>
 {% endblock %}

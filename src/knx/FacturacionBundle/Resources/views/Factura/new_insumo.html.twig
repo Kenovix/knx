@@ -1,7 +1,7 @@
 {% extends "::admin_layout.html.twig" %}
 
 {% block menu %}
-	{{ knp_menu_render('FacturacionBundle:Builder:facturaMenu') }}
+	{{ knp_menu_render('ParametrizarBundle:Builder:superAdminMenu') }}
 {% endblock %}
 
 {% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
@@ -181,9 +181,9 @@
     	<div class="controls controls-row">
     		<div class="span4">
     		
-    			{{ form_errors(form.servicio) }}
-            	{{ form_label(form.servicio) }}
-            	{{ form_widget(form.servicio) }}
+    			{{ form_errors(form.farmacia) }}
+            	{{ form_label(form.farmacia) }}
+            	{{ form_widget(form.farmacia) }}
             	 
     		</div>
     	
@@ -202,6 +202,30 @@
 
 {% block javascripts %}
 	<script type="text/javascript">
+
+		$("#knx_facturacionbundle_facturatype_servicio").change(function(){
+			var sel = "";
+			var tipo = "{{ tipo }}";
+	
+			sel = $("#knx_facturacionbundle_facturatype_servicio option:selected").text();
+	
+			if(tipo == "A"){
+	
+				if(sel == 'URGENCIAS' || sel == 'HOSPITALIZACION'){
+	
+					alert('Por favor selecciona un servicio valido');
+	
+					$("#knx_facturacionbundle_facturatype_servicio").val('');
+				}
+			}else{
+				if(sel != 'URGENCIAS' || sel != 'HOSPITALIZACION'){
+					
+					alert('Por favor selecciona un servicio valido');
+	
+					$("#knx_facturacionbundle_facturatype_servicio").val('');
+				}
+			} 
+		});
 
 		$("#buscar_paciente").click(function(){
 				        

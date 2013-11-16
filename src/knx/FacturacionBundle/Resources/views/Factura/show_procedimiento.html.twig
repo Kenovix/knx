@@ -137,6 +137,11 @@
 		</form>
 	
 	</div>
+	
+	<div class="alert" id="jxMsg" style="display: none;">
+    	<button type="button" class="close" data-dismiss="alert">&times;</button>
+    	<span></span>
+    </div>
 		
 	<table class="table table-bordered" id="facturado">
 		<tr>
@@ -149,14 +154,14 @@
 			<th>Opciones</th>
 		</tr>
 		{% for actividad in cargos %}
-			<tr>
+			<tr id="{{ factura.id }}-{{ actividad.cargo.id }}">
 				<td>{{ actividad.cargo.cups }}</td>
 				<td>{{ actividad.cargo.nombre }}</td>
 				<td>{{ actividad.cantidad }}</td>
 				<td>{{ actividad.VrUnitario }}</td>
 				<td>{{ actividad.CobrarPte }}</td>
 				<td>{{ actividad.ValorTotal }}</td>
-				<td><a href="#" id="btn-del-cargo" class="btn btn-danger" title="Eliminar"{% if factura.estado == 'A' %} style="display:none" {% endif %}><i class="icon-remove"></i></a></td>
+				<td><a href="#" id="btn-del-cargo-{{ actividad.cargo.id }}" class="btn btn-danger" title="Eliminar" onclick="return borrarCargo({{ factura.id }}, {{ actividad.cargo.id }});" {% if factura.estado == 'C' %} style="display:none" {% endif %}><i class="icon-remove"></i></a></td>
 			</tr>
 		{% endfor %}
 	</table>
@@ -270,14 +275,14 @@
 		         },function(data){
 		             if(data.responseCode==200 ){
 
-			             html += "<tr>";
+			             html += "<tr id='"+factura+"-"+cargo+"'>";
 			             html += "<td>" + data.codigo + "</td>";
 			             html += "<td>" + data.nombre + "</td>";
 			             html += "<td>" + data.cantidad + "</td>";
 			             html += "<td>" + data.unitario + "</td>";
 			             html += "<td>" + data.cobro + "</td>";
 			             html += "<td>" + data.total + "</td>";
-			             html += "<td><a href='#' id='btn-del-cargo' class='btn btn-danger' title='Eliminar'><i class='icon-remove'></i></a></td>";
+			             html += "<td><a href='#' id='btn-del-cargo"+factura+"-"+cargo+"' class='btn btn-danger' title='Eliminar' onclick='return borrarCargo("+factura+","+cargo+");'><i class='icon-remove'></i></a></td>";
 			             html += "</tr>";
 	
 		            	 $("#facturado").append(html);
@@ -303,6 +308,34 @@
 		$("#btn-del-cargo").click(function() {
 			alert("se fue");
 		});
+
+		function borrarCargo(factura, cargo){
+
+			var url = "{{ path('facturacion_cargo_delete') }}";
+
+			$('#jxMsg').css('display', 'none');
+			$('#jxMsg > span').empty();
+
+			$.post(url,{
+                factura: factura,
+                cargo: cargo
+            },function(data){
+                if(data.responseCode==200 ){
+
+                	$( "#"+factura+"-"+cargo ).remove();
+                    
+                	$('#jxMsg > span').prepend(data.msg);
+                	$('#jxMsg').css('display', 'block');
+                 }
+                 else if(data.responseCode==400){
+	            	$('#jxMsg > span').prepend(data.msg);
+                	$('#jxMsg').css('display', 'block');
+                 }
+                 else{
+             	    alert("Ha ocurrido un error en el sistema.");
+                 }
+          });
+		}
 
 	</script>
 {% endblock %}

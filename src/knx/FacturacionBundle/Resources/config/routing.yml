@@ -35,7 +35,7 @@ facturacion_procedimiento_edit:
     defaults: { _controller: FacturacionBundle:Factura:editProcedimiento }
     
 facturacion_insumo_new:
-    pattern:  /insumo/new
+    pattern:  /insumo/{tipo}/new
     defaults: { _controller: FacturacionBundle:Factura:newInsumo }
     
 facturacion_insumo_save:
@@ -59,6 +59,24 @@ facturacion_paciente_buscar:
 facturacion_cargo_save:
     pattern:  /cargo/save
     defaults: { _controller: FacturacionBundle:Factura:jxCargoSave }
+    requirements:
+        _method: POST
+        
+facturacion_cargo_delete:
+    pattern:  /cargo/delete
+    defaults: { _controller: FacturacionBundle:Factura:jxCargoDelete }
+    requirements:
+        _method: POST
+        
+facturacion_imv_save:
+    pattern:  /imv/save
+    defaults: { _controller: FacturacionBundle:Factura:jxImvSave }
+    requirements:
+        _method: POST
+        
+facturacion_imv_delete:
+    pattern:  /imv/delete
+    defaults: { _controller: FacturacionBundle:Factura:jxImvDelete }
     requirements:
         _method: POST
         
