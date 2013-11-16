@@ -156,7 +156,7 @@
 				<td>{{ actividad.VrUnitario }}</td>
 				<td>{{ actividad.CobrarPte }}</td>
 				<td>{{ actividad.ValorTotal }}</td>
-				<td></td>
+				<td><a href="#" id="btn-del-cargo" class="btn btn-danger" title="Eliminar"{% if factura.estado == 'A' %} style="display:none" {% endif %}><i class="icon-remove"></i></a></td>
 			</tr>
 		{% endfor %}
 	</table>
@@ -277,7 +277,7 @@
 			             html += "<td>" + data.unitario + "</td>";
 			             html += "<td>" + data.cobro + "</td>";
 			             html += "<td>" + data.total + "</td>";
-			             html += "<td></td>";
+			             html += "<td><a href='#' id='btn-del-cargo' class='btn btn-danger' title='Eliminar'><i class='icon-remove'></i></a></td>";
 			             html += "</tr>";
 	
 		            	 $("#facturado").append(html);
@@ -298,6 +298,10 @@
 
 		$("#btn-imprimir-factura").click(function() {
 			$("#agregar, #actividad, #cantidad, #cobrar_pte, #pago_pct").attr('disabled', 'disabled');
+		});
+
+		$("#btn-del-cargo").click(function() {
+			alert("se fue");
 		});
 
 	</script>

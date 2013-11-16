@@ -155,7 +155,7 @@
     				<option value="">Seleccione</option>
     				<option value="medico">Médico</option>
     				<option value="odontologo">Odontologo</option>
-    				<option value="enfermera">Enfermera</option>
+    				<option value="auxiliar">Enfermera</option>
     			</select>
             	 
     		</div>
@@ -203,6 +203,31 @@
 
 {% block javascripts %}
 	<script type="text/javascript">
+
+		$("#knx_facturacionbundle_facturatype_servicio").change(function(){
+			var sel = "";
+	
+			sel = $("#knx_facturacionbundle_facturatype_servicio option:selected").text();
+	
+			if($("#tipoActividad").val() == 'n'){
+
+				if(sel == 'LABORATORIO' || sel == 'HOSPITALIZACION'){
+					
+					alert('Por favor selecciona un servicio valido');
+		
+						$("#knx_facturacionbundle_facturatype_servicio").val('');
+				}
+			}else{
+
+				if(sel != 'CONSULTA EXTERNA'){
+					
+					alert('Por favor selecciona un servicio valido');
+		
+						$("#knx_facturacionbundle_facturatype_servicio").val('');
+				}
+				
+			}
+		});
 
 		$("#buscar_paciente").click(function(){
 				        
@@ -345,7 +370,8 @@
 		$("#tipoActividad").change(function(){
 
 			var ta = $("#tipoActividad").val();
-			
+
+			$("#knx_facturacionbundle_facturatype_servicio").val('');
 			
 			if(ta == "pyp"){
 

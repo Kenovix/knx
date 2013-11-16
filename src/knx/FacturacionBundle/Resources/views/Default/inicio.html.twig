@@ -1,6 +1,7 @@
 {% extends "::admin_layout.html.twig" %}
 
 {% block menu %}
+	{{ knp_menu_render('FacturacionBundle:Builder:facturaMenu') }}
 {% endblock %}
 
 {% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
