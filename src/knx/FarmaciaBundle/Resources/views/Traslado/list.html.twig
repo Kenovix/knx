@@ -70,44 +70,4 @@
 	
 
 
-<form action="{{ path('traslado_result') }}" onSubmit="return confirm('Seguro de querer generarla busqueda?');" method="post" class="form-horizontal">
-    <fieldset>
-    	<legend>Busqueda Traslados</legend>
-
-        
-  <div>
-    	<label for="fecha_inicio">Desde:</label>
-    	    <p><input type="text" name="fecha_inicio" id="fecha_inicio" /></p>
-    	    <span>(DD/MM/AAAA)</span>
-    </div>
-    
-    <div>
-    	<label for="fecha_fin">Hasta:</label>
-    	    <p><input type="text" name="fecha_fin" id="fecha_fin" /></p>
-    	    <span>(DD/MM/AAAA)</span>
-    </div>
-    
-    </fieldset>
-    
-   <div class="form-actions">
-		<input class="btn btn-primary" name="Buscar" type="submit" value="Buscar" />
-				<a href="{{ path('traslado_list') }}" class="btn">Volver</a>				
-				
-	</div>		    
-			    
-	
-			
-</form>
-
-
-{% endblock %}
-
-{% block javascripts %}
-		    <script language="javascript" type="text/javascript">
-   $(function() {
-       $( "#fecha_inicio" ).datepicker({ dateFormat: 'dd/mm/yy' })
-       ;
-       $( "#fecha_fin" ).datepicker({ dateFormat: 'dd/mm/yy' });
-     });
-   </script>
 {% endblock %}

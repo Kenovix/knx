@@ -29,7 +29,7 @@ class TrasladoController extends Controller
 
 		$form   = $this->createForm(new TrasladoSearchType());
 
-		return $this->render('FarmaciaBundle:Traslado:list.html.twig', array(
+		return $this->render('FarmaciaBundle:Traslado:search.html.twig', array(
 				'form'   => $form->createView()
 
 		));
@@ -68,22 +68,21 @@ class TrasladoController extends Controller
 
 		$em = $this->getDoctrine()->getEntityManager();
 		$traslado = $em->getRepository('FarmaciaBundle:Traslado')->findAll();
-                $farmacia = $em->getRepository('FarmaciaBundle:Farmacia')->findAll();
-                $imvfarmacia = $em->getRepository('FarmaciaBundle:ImvFarmacia')->findAll();
 		$request = $this->get('request');
 		$fecha_inicio = $request->request->get('fecha_inicio');
 		$fecha_fin = $request->request->get('fecha_fin');
-                
-                die(var_dump($fecha_fin));
+		//die(print_r($fecha_inicio));
 
 		$form   = $this->createForm(new TrasladoSearchType());
 
 		if(trim($fecha_inicio)){
 			$desde = explode('/',$fecha_inicio);
 
+			//die(print_r($desde));
+
 			if(!checkdate($desde[1],$desde[0],$desde[2])){
 				$this->get('session')->setFlash('info', 'La fecha de inicio ingresada es incorrecta.');
-				return $this->render('FarmaciaBundle:Traslado:list.html.twig', array(
+				return $this->render('FarmaciaBundle:Traslado:search.html.twig', array(
 				'form'   => $form->createView()
 
 			));
@@ -91,7 +90,7 @@ class TrasladoController extends Controller
 			}
 		}else{
 			$this->get('session')->setFlash('info', 'La fecha de inicio no puede estar en blanco.');
-			return $this->render('FarmaciaBundle:Traslado:list.html.twig', array(
+			return $this->render('FarmaciaBundle:Traslado:search.html.twig', array(
 				'form'   => $form->createView()
 
 			));
@@ -102,14 +101,14 @@ class TrasladoController extends Controller
 
 			if(!checkdate($hasta[1],$hasta[0],$hasta[2])){
 				$this->get('session')->setFlash('info', 'La fecha de finalización ingresada es incorrecta.');
-				return $this->render('FarmaciaBundle:Traslado:list.html.twig', array(
+				return $this->render('FarmaciaBundle:Traslado:search.html.twig', array(
 				'form'   => $form->createView()
 
 			));
 			}
 		}else{
 			$this->get('session')->setFlash('info', 'La fecha de finalización no puede estar en blanco.');
-				return $this->render('FarmaciaBundle:Traslado:list.html.twig', array(
+				return $this->render('FarmaciaBundle:Traslado:search.html.twig', array(
 				'form'   => $form->createView()
 
 			));
@@ -122,22 +121,28 @@ class TrasladoController extends Controller
     				f.fecha ASC";
 
 		$dql = $em->createQuery($query);
-                
-                die(print_r($dql));
 
+
+
+		//die(print_r($dql));
 
 		$dql->setParameter('inicio', $desde[2]."/".$desde[1]."/".$desde[0].' 00:00:00');
 		$dql->setParameter('fin', $hasta[2]."/".$hasta[1]."/".$hasta[0].' 23:59:00');
 
-                
-                 $paginator = $this->get('knp_paginator');
-                 $traslado = $paginator->paginate($traslado,$this->getRequest()->query->get('page', 1), 3);
-                
-                return $this->render('FarmaciaBundle:Traslado:list.html.twig', array(
-                'trasfarma'  => $traslado,
-        		'farmacia'   => $farmacia,
-        		'imvfarmacia' => $imvfarmacia
-        ));
+		$traslado = $dql->getResult();
+		//die(var_dump($ingreso));
+		//die("paso");
+
+		if(!$traslado)
+		{
+			$this->get('session')->setFlash('info', 'La consulta no ha arrojado ningún resultado para los parametros de busqueda ingresados.');
+
+			return $this->redirect($this->generateUrl('traslado_search'));
+		}
+
+		return $this->render('FarmaciaBundle:Traslado:list.html.twig', array(
+				'trasfarma'  => $traslado
+		));
 	}
 
 
@@ -161,7 +166,7 @@ class TrasladoController extends Controller
 			$this->get('session')->setFlash('info', 'No existen traslados');
 		}
 
-        $traslado = $paginator->paginate($traslado,$this->getRequest()->query->get('page', 1), 5);
+        $traslado = $paginator->paginate($traslado,$this->getRequest()->query->get('page', 1), 10);
 
 
         return $this->render('FarmaciaBundle:Traslado:list.html.twig', array(
