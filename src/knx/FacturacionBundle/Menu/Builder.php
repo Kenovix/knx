@@ -52,6 +52,7 @@ class Builder extends ContainerAware
 			$menu->addChild('Facturación', array('uri' => '#'));
 			$menu['Facturación']->addChild('Facturar', array('uri' => '#'));
 			$menu['Facturación']['Facturar']->addChild('Consulta', array('route' => 'facturacion_consulta_new'));
+			
 			$menu['Facturación']['Facturar']->addChild('Procedimiento', array('uri' => '#'));
 			$menu['Facturación']['Facturar']['Procedimiento']->addChild('Ambulatorio', array('route' => 'facturacion_procedimiento_new', 'routeParameters' => array('tipo' => 'A')));
 			$menu['Facturación']['Facturar']['Procedimiento']->addChild('Urgencias', array('route' => 'facturacion_urgencias_list'));
@@ -77,11 +78,11 @@ class Builder extends ContainerAware
 			$menu->addChild('Facturación', array('uri' => '#'));
 			$menu['Facturación']->addChild('Facturar', array('uri' => '#'));
 			$menu['Facturación']['Facturar']->addChild('Consulta', array('route' => 'facturacion_consulta_new'));
+			
 			$menu['Facturación']['Facturar']->addChild('Procedimiento', array('uri' => '#'));
 			$menu['Facturación']['Facturar']['Procedimiento']->addChild('Ambulatorio', array('route' => 'facturacion_procedimiento_new', 'routeParameters' => array('tipo' => 'A')));
 			$menu['Facturación']['Facturar']['Procedimiento']->addChild('Urgencias', array('route' => 'facturacion_urgencias_list'));
-			$menu['Facturación']['Facturar']->addChild('Medicamento', array('route' => 'facturacion_insumo_new'));
-			$menu['Facturación']['Facturar']->addChild('Reportes', array('route' => 'reporte_cargo_new'));                        
+			$menu['Facturación']['Facturar']->addChild('Medicamento', array('route' => 'facturacion_insumo_new', 'routeParameters' => array('tipo' => 'A')));
 			
 			$menu->addChild($usuario->getUsername(), array('uri' => '#'));
 			$menu[$usuario->getUsername()]->addChild('Salir', array('route' => 'logout'));
@@ -123,7 +124,6 @@ class Builder extends ContainerAware
 			$menu['Usuarios']->addChild('Crear', array('route' => 'fos_user_registration_register'));
 		
 			$menu->addChild($usuario->getUsername(), array('uri' => '#'));
-			$menu[$usuario->getUsername()]->addChild('Cambiar contraseña', array('route' => 'fos_user_change_password'));
 			$menu[$usuario->getUsername()]->addChild('Salir', array('route' => 'logout'));
                     
                     
