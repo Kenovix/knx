@@ -42,34 +42,38 @@ class CieController extends Controller {
 		$Cie = null;
 
 		$breadcrumbs = $this->get("white_october_breadcrumbs");
-		$breadcrumbs
-				->addItem("Inicio",
-						$this->get("router")->generate("paciente_filtro"));
-		$breadcrumbs
-				->addItem("Cie", $this->get("router")->generate("cie_list"));
+		$breadcrumbs->addItem("Inicio",$this->get("router")->generate("paciente_filtro"));
+		$breadcrumbs->addItem("Cie", $this->get("router")->generate("cie_list"));
 		$breadcrumbs->addItem("Listado");
 
 		if ($form->isValid()) {
 			$nombre = $form->get('nombre')->getData();
+			$type = $form->get('typeChoice')->getData();
 			$em = $this->getDoctrine()->getEntityManager();
 
-			$dql = $em
-					->createQuery(
-							"SELECT c FROM HistoriaBundle:Cie c WHERE c.nombre LIKE :nombre");
-			$dql->setParameter('nombre', $nombre . '%');
-			$Cie = $dql->getResult();
+			if($type == 'name')
+			{
+				$dql = $em->createQuery(
+						"SELECT c FROM HistoriaBundle:Cie c WHERE c.nombre LIKE :nombre");
+				$dql->setParameter('nombre', $nombre . '%');
+				$Cie = $dql->getResult();
+			}else{
+				$dql = $em->createQuery(
+						"SELECT c FROM HistoriaBundle:Cie c WHERE c.codigo LIKE :cod");
+				$dql->setParameter('cod', $nombre . '%');
+				$Cie = $dql->getResult();
+			}
 
 			if (!$Cie) {
-				$this->get('session')
-						->setFlash('error',
-								'Busquedad no exítosa, vuelva a intentar.');
+				$this->get('session')->setFlash('error','Busquedad no exítosa, vuelva a intentar.');
 				return $this->redirect($this->generateUrl('cie_list'));
 			}
 		}
 
-		return $this
-				->render('HistoriaBundle:Cie:list.html.twig',
-						array('cies' => $Cie, 'filtro' => 0,
-								'search_form' => $form->createView(),));
+		return $this->render('HistoriaBundle:Cie:list.html.twig',array(
+								'cies' => $Cie,
+								'filtro' => 0,
+								'search_form' => $form->createView(),
+				));
 	}
 }

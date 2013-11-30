@@ -67,15 +67,19 @@ class NotaController extends Controller
 		$paciente = $factura->getPaciente();
 		$paciente->setPertEtnica($paciente->getPE($paciente->getPertEtnica()));
 		
+		$usuario = $this->get('security.context')->getToken()->getUser();
+		
 		$breadcrumbs = $this->get("white_october_breadcrumbs");
 		$breadcrumbs->addItem("Inicio",$this->get("router")->generate("paciente_filtro"));
 		$breadcrumbs->addItem("Notas",$this->get("router")->generate("paciente_filtro"));
 		$breadcrumbs->addItem("Nueva");
 		
 		return $this->render('HistoriaBundle:Notas:new.html.twig',array(
-				'factura' => $factura,
-				'paciente' => $paciente,
-				'historia' => $historia,
+				'factura' 	=> $factura,
+				'paciente' 	=> $paciente,
+				'historia' 	=> $historia,
+				'today'		=> new \DateTime('now'),
+				'usuario'  	=> $usuario,
 				'form' => $nota_form->createView(),
 		));
 	}
