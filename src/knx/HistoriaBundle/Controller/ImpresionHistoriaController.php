@@ -28,6 +28,9 @@ class ImpresionHistoriaController extends Controller
 		$em = $this->getDoctrine()->getEntityManager();
 		$factura = $em->getRepository('FacturacionBundle:Factura')->find($factura);
 		
+		if(!$factura){
+			throw $this->createNotFoundException('Error!! La información solicitada es incorrecta.');
+		}
 				
 		$this->setUsuario($this->get('security.context')->getToken()->getUser());
 		$this->setHistoria($factura->getHc());
@@ -95,21 +98,8 @@ class ImpresionHistoriaController extends Controller
 					 si no toma, guarda, o verifica los signos no podra generar el impreso.');
 		}
 		
-		// se instancia el objeto del tcpdf
-		$pdf = $this->get('white_october.tcpdf')->create();
-		
-		$pdf->setFontSubsetting(true);
-		$pdf->SetFont('dejavusans', '', 6, '', true);		
-		
-		// set margins
-		$pdf->SetMargins(PDF_MARGIN_LEFT, 30, PDF_MARGIN_RIGHT);
-		$pdf->SetHeaderMargin(1);
-		$pdf->SetFooterMargin(10);
-		
-		// set image scale factor
-		$pdf->setImageScale(5);
-		
-		$pdf->AddPage();
+		// se instancia el tcpdBundle
+		$pdf = $this->getPritTcpd();
 		
 		// se organiza la informacion de las evoluciones.
 		$string = $historia->getEvolucion();
@@ -148,10 +138,10 @@ class ImpresionHistoriaController extends Controller
 			$pdf->AddPage('P', 'A4');
 			$pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $remision, $border = 0, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
 			$pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $body, $border = 0, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
-		}
-		
-		// Se valida la iformacion que va en formato de media carta tal como la remision, incapacidad, examenes, procedimientos y medicamentos		
-		if( $tipoIngreso == 'U' or $tipoIngreso == 'H')
+		}		
+
+		// Se valida la iformacion que va en formato de media carta tal como la remision, incapacidad, examenes, procedimientos y medicamentos
+		/*if( $tipoIngreso == 'U' or $tipoIngreso == 'H')
 		{
 			if($historia->getEvolucion() != '')
 			{
@@ -164,7 +154,7 @@ class ImpresionHistoriaController extends Controller
 				$pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $header, $border = 0, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
 				$pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $evoluciones, $border = 0, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
 			}
-		}		
+		}*/
 		
 		if($historia->getIncapacidad() != '')
 		{
@@ -244,6 +234,27 @@ class ImpresionHistoriaController extends Controller
 				'mupio'		 => $this->mupio,
 				'titulo'	 => $titulo.$this->historia->getId(),
 		));
+	}
+	
+	public function getPritTcpd()
+	{
+		// se instancia el objeto del tcpdf
+		$pdf = $this->get('white_october.tcpdf')->create();
+		
+		$pdf->setFontSubsetting(true);
+		$pdf->SetFont('dejavusans', '', 6, '', true);
+		
+		// set margins
+		$pdf->SetMargins(PDF_MARGIN_LEFT, 30, PDF_MARGIN_RIGHT);
+		$pdf->SetHeaderMargin(1);
+		$pdf->SetFooterMargin(10);
+		
+		// set image scale factor
+		$pdf->setImageScale(5);
+		
+		$pdf->AddPage();
+		
+		return $pdf; 
 	}
 	
 	// usuario
