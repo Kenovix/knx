@@ -280,7 +280,8 @@ class FacturaController extends Controller
 									 JOIN
 										cp.cargo c
 									 WHERE
-										c.tipoCargo = 'P' AND
+										c.tipoCargo = 'OS' OR
+    									c.tipoCargo = 'P' AND
     									cp.pyp = :categoria
 									 ORDER BY
 										c.nombre ASC");

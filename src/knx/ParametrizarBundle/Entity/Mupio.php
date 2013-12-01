@@ -107,7 +107,7 @@ class Mupio
      *
      * @param knx\ParametrizarBundle\Entity\Depto $depto
      */
-    public function setDepto(\cahis\ParametrizarBundle\Entity\Depto $depto)
+    public function setDepto(\knx\ParametrizarBundle\Entity\Depto $depto)
     {
         $this->depto = $depto;
     }
