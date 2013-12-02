@@ -51,7 +51,7 @@
 		~ Abdomen:		{{ historia.abdomen }}<br/>
 		~ Espalda:		{{ historia.espalda }}<br/>
 		~ Extremidades:	{{ historia.extremidades }}<br/>
-		~ Genitales:	{{ historia.genitales }}<br/>
+		~ Genitales:	{{ historia.genitales }}
 	</p>
 	<p>
 		<b>SIGNOS VITALES</b><br/>
@@ -81,11 +81,10 @@
 		    </tbody>
 		</table><br/><br/>
 		~ Diagnostico Salida: {% if historia.dxSalida %} {{ historia.dxSalida.nombre }} {% endif %}<br/>
-		~ Conducta: {{ historia.conducta }}<br/>
+		~ Conducta: {{ historia.conducta }}
 	</p>
 
 	{% if tipoingreso == 'U' or tipoingreso == 'H' %}
-		<p>
 			<b>EVOLUCION</b><br/>
 			~ Evolución: {{ historia.evolucion | raw }}<br/><br/>
 			<table>
@@ -136,8 +135,7 @@
 				   		</tr>
      		 		{% endfor %}
      		 	</tbody>
-     		 </table>
-		</p>
+     		 </table>		
 	{% endif %}
 
 	<p>
@@ -149,20 +147,20 @@
 		~ Medicamentos: 	{{ historia.medicamentosS }} <br/>
 		~ Procedimientos: 	{{ historia.procedimientosS }} <br/>
 		~ Examenes:			{{ historia.examenesS }} <br/>
-		~ Incapacidad:		{{ historia.incapacidad }} <br/>
+		~ Incapacidad:		{{ historia.incapacidad }}
 	</p>	
 	
 	{% if tipoingreso == 'U' or tipoingreso == 'H' %}
 		{% if historia.tipoDestino == '1' and historia.destinoUserSalidaObser == '2' %}		
-			 <b>Destino Usuario Salida Observacion: Remision</b><br/>
+			 <b>Destino Usuario Salida Observacion: Remision</b>
 			 
 		{% elseif historia.tipoDestino == '2' and historia.viaIngresoInstitucion == '3'%}
-			 <b>Via De Ingreso A La Institucion: Remitido</b><br/>	
+			 <b>Via De Ingreso A La Institucion: Remitido</b>
 		{% endif %}						
 	{% endif %}
 	
 	{% if historia.destino == '4' %}		
-			 <b>Remision:</b><br/>
+			 <b>Remision:</b>
 			 <p>
 				~ Destino: {{ historia.destinoR}} <br/>
 				~ Especialidad: {{ historia.especialidadR}}<br/>
@@ -170,13 +168,11 @@
 				~ Servicio: {{ historia.rServicio}} <br/>
 				~ Descripcion: {{ historia.descripcionR}}
 			</p>
-	{% endif %}	
-		
+	{% endif %}			
 	<p>
 		<b>Medico: </b> {{ usuario.nombre }} {{ usuario.apellido }} Especialidad: {{ usuario.especialidad }} <br/>
-		<b>Registro: </b>	<br/>
+		<b>Registro:</b><br/>
 		<b>Firma: </b>
 	</p>
 </div>
-
 {% endblock %}

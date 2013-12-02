@@ -132,5 +132,14 @@
 				$("#newNotasType_imc").val('');
 			}
 		});
+
+		// Cada vez q el usuario de clic sobre el campo este ingresara la info de ese usuario para ingresar la nota	
+		$('#newNotasType_resumenNota').click(function()
+		{			
+			var usuario = "{{ usuario.nombre }} {{ usuario.apellido }}";
+			var date = "{{ today | date("d/m/Y H:i") }}";			 
+				$('#newNotasType_resumenNota').append("\n::Fecha["+date+"], Usuario[ "+usuario+"]: ");
+				return false; 
+			});		
 	</script>
 {% endblock %}

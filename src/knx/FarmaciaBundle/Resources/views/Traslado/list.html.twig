@@ -29,7 +29,8 @@
 
 {% block cuerpo %}
 
-	{% if trasfarma %}
+
+
 
 	    <table class="table">
 	        <thead>
@@ -58,7 +59,7 @@
 	        </tbody>
 	    </table>
 
-<div class="navigation">
+            <div class="navigation">
     		{{ knp_pagination_render(trasfarma) }}
 		</div>
 	    <div class="form-actions">
@@ -66,14 +67,7 @@
 			    <a href="{{ path('traslado_search') }}" class="btn">Buscar Traslados</a>
 		</div>
 
-	{% else %}
-		<div class="alert alert-success">
-	    	<button data-dismiss="alert" class="close" type="button">×</button>
-	        <span>No existen traslados creadas</span>
-	    </div>
-	{% endif %}
-
-
+	
 
 
 {% endblock %}

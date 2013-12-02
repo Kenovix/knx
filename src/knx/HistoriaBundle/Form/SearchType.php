@@ -11,7 +11,16 @@ class SearchType extends AbstractType {
 								'property_path' => false,
 								'attr' => array(
 										'placeholder' => 'Ingrese el nombre de busqueda.',
-										'autofocus' => 'autofocus')));
+										'autofocus' => 'autofocus')))
+										
+				->add('typeChoice', 'choice',
+						array('label' => '*', 'required' => true,
+								'property_path' => false,
+								'choices' => array(
+										'name' => 'Nombre',
+										'cod' => 'Codigo',),
+								'multiple' => false,))				
+		;
 	}
 
 	public function getName() {

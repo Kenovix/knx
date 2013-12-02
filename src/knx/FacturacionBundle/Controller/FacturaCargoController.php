@@ -99,7 +99,7 @@ class FacturaCargoController extends Controller
 
 		$pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $view, $border = 0, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
 
-		$response = new Response($pdf->Output('Informe_general.pdf', 'I'));
+		$response = new Response($pdf->Output('Informe_general.pdf', 'D'));
 		$response->headers->set('Content-Type', 'application/pdf');
 	}
 
@@ -121,7 +121,7 @@ class FacturaCargoController extends Controller
 
 		$pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $view, $border = 0, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
 
-		$response = new Response($pdf->Output('Informe_regimen.pdf', 'I'));
+		$response = new Response($pdf->Output('Informe_regimen.pdf', 'D'));
 		$response->headers->set('Content-Type', 'application/pdf');
 	}	
 	
@@ -143,7 +143,7 @@ class FacturaCargoController extends Controller
 		
 		$pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $view, $border = 0, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
 		
-		$response = new Response($pdf->Output('Informe_servicio.pdf', 'I'));
+		$response = new Response($pdf->Output('Informe_servicio.pdf', 'D'));
 		$response->headers->set('Content-Type', 'application/pdf');
 	}
 	
@@ -167,7 +167,7 @@ class FacturaCargoController extends Controller
 		
 		$pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $view, $border = 0, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
 		
-		$response = new Response($pdf->Output('Informe_servicio.pdf', 'I'));
+		$response = new Response($pdf->Output('Informe_servicio.pdf', 'D'));
 		$response->headers->set('Content-Type', 'application/pdf');
 	}
 	
@@ -188,7 +188,7 @@ class FacturaCargoController extends Controller
 	
 		$pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $view, $border = 0, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
 	
-		$response = new Response($pdf->Output('Informe_servicio.pdf', 'I'));
+		$response = new Response($pdf->Output('Informe_servicio.pdf', 'D'));
 		$response->headers->set('Content-Type', 'application/pdf');
 	}
 	
