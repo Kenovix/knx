@@ -5,6 +5,7 @@ namespace knx\UsuarioBundle\Controller;
 use FOS\UserBundle\Controller\ChangePasswordController as BaseController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use FOS\UserBundle\Model\UserInterface;
 
 class ChangePasswordController extends BaseController
 {
