@@ -67,6 +67,61 @@ class AfiliacionController extends Controller
         ));    
     }
     
+    public function jxsaveAction($paciente)
+    {
+    	$em = $this->getDoctrine()->getEntityManager();
+    	$paciente = $em->getRepository('ParametrizarBundle:Paciente')->find($paciente);
+    
+    	if (!$paciente) {
+    		throw $this->createNotFoundException('El paciente solicitado no existe.');
+    	}
+    
+    	$entity  = new Afiliacion();
+    	$request = $this->getRequest();
+    	$form    = $this->createForm(new AfiliacionType(), $entity);
+    	$registro = $request->get($form->getName());
+    	$form->bindRequest($request);
+    	 
+    
+    	if ($registro['tipoRegist'] && $form->get('cliente')->getData()) {
+    
+    		$afiliacion = $em->getRepository('ParametrizarBundle:Afiliacion')->findBy(array('cliente' => $entity->getCliente()->getId(), 'paciente' => $paciente->getId()));
+    
+    		if($afiliacion){
+    			$this->get('session')->setFlash('error', 'La asociación ya existe.');
+    
+    			return $this->redirect($this->generateUrl('paciente_jx_show', array("paciente" => $paciente->getId())));
+    		}
+    
+    		$entity->setPaciente($paciente);
+    		$entity->setTipoRegist($registro['tipoRegist']);
+    		$em->persist($entity);
+    		$em->flush();
+    
+    		$this->get('session')->setFlash('info', 'La asociación ha sido registrada éxitosamente.');
+    
+    		return $this->redirect($this->generateUrl('paciente_jx_show', array("paciente" => $paciente->getId())));
+    	}
+    	// se intancian se consultas los objetos q se van a visualizar en la plantilla
+    	$afiliaciones = $em->getRepository('ParametrizarBundle:Afiliacion')->findByPaciente($paciente);
+    
+    	$depto = $em->getRepository('ParametrizarBundle:Depto')->find($paciente->getDepto());
+    	$mupio = $em->getRepository('ParametrizarBundle:Mupio')->find($paciente->getMupio());
+    	$paciente->setDepto($depto);
+    	$paciente->setMupio($mupio);
+    
+    	$breadcrumbs = $this->get("white_october_breadcrumbs");
+    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
+    	$breadcrumbs->addItem("Paciente", $this->get("router")->generate("paciente_list", array("char" => 'A')));
+    	$breadcrumbs->addItem("Detalles", $this->get("router")->generate("paciente_show", array("paciente" => $paciente->getId() )));
+    
+    	return $this->render('ParametrizarBundle:Paciente:jx_show.html.twig', array(
+    			'paciente' => $paciente,
+    			'afiliaciones' => $afiliaciones,
+    			'form'   => $form->createView()
+    	));
+    }
+    
     
     public function deleteAction($paciente, $cliente)
     {        
@@ -83,6 +138,23 @@ class AfiliacionController extends Controller
             $this->get('session')->setFlash('info', 'La asociación ha sido eliminada éxitosamente.');
     
             return $this->redirect($this->generateUrl('paciente_show', array("paciente" => $paciente)));
+    }
+    
+    public function jxdeleteAction($paciente, $cliente)
+    {
+    	$em = $this->getDoctrine()->getEntityManager();
+    	$entity = $em->getRepository('ParametrizarBundle:Afiliacion')->find(array('cliente' => $cliente, 'paciente' => $paciente));
+    
+    	if (!$entity) {
+    		throw $this->createNotFoundException('La asociación a eliminar no existe.');
+    	}
+    
+    	$em->remove($entity);
+    	$em->flush();
+    
+    	$this->get('session')->setFlash('info', 'La asociación ha sido eliminada éxitosamente.');
+    
+    	return $this->redirect($this->generateUrl('paciente_jx_show', array("paciente" => $paciente)));
     }
     
     
