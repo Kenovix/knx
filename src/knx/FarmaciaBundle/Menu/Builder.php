@@ -57,6 +57,7 @@ class Builder extends ContainerAware
 			$menu['Facturación']['Facturar']['Procedimiento']->addChild('Urgencias', array('route' => 'facturacion_urgencias_list'));
 			$menu['Facturación']['Facturar']->addChild('Medicamento', array('route' => 'facturacion_insumo_new', 'routeParameters' => array('tipo' => 'A')));
 			$menu['Facturación']['Facturar']->addChild('Reportes', array('route' => 'reporte_cargo_new'));
+			$menu['Facturación']['Facturar']->addChild('Morbilidad', array('route' => 'morbilidad_vista'));
 
 			$menu->addChild('Historia', array('uri' => '#'));
 			$menu['Historia']->addChild('Diagnosticos', array('route' => 'cie_list'));
@@ -130,6 +131,7 @@ class Builder extends ContainerAware
 			$menu['Facturación']['Facturar']['Procedimiento']->addChild('Urgencias', array('route' => 'facturacion_urgencias_list'));
 			$menu['Facturación']['Facturar']->addChild('Medicamento', array('route' => 'facturacion_insumo_new'));
 			$menu['Facturación']['Facturar']->addChild('Reportes', array('route' => 'reporte_cargo_new'));
+			$menu['Facturación']['Facturar']->addChild('Morbilidad', array('route' => 'morbilidad_vista'));
                         
 			$menu->addChild('Usuarios', array('uri' => '#'));
 			$menu['Usuarios']->addChild('Listar', array('route' => 'usuario_list'));

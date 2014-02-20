@@ -57,6 +57,7 @@ class Builder extends ContainerAware
 			$menu['Facturación']['Facturar']['Procedimiento']->addChild('Ambulatorio', array('route' => 'facturacion_procedimiento_new', 'routeParameters' => array('tipo' => 'A')));
 			$menu['Facturación']['Facturar']['Procedimiento']->addChild('Urgencias', array('route' => 'facturacion_urgencias_list'));			
 			$menu['Facturación']['Facturar']->addChild('Reportes', array('route' => 'reporte_cargo_new'));
+			$menu['Facturación']['Facturar']->addChild('Morbilidad', array('route' => 'morbilidad_vista'));
 
 			$menu->addChild('Historia', array('uri' => '#'));
 			$menu['Historia']->addChild('Diagnosticos', array('route' => 'cie_list'));
