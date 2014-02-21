@@ -5,6 +5,7 @@ namespace knx\UsuarioBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\SecurityContext;
 use Symfony\Component\HttpFoundation\Response;
+use FOS\UserBundle\Model\UserInterface;
 
 class SecurityController extends Controller
 {

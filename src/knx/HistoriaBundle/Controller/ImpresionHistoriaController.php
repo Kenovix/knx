@@ -11,24 +11,68 @@ use knx\HistoriaBundle\Entity\Notas;
 
 class ImpresionHistoriaController extends Controller
 {
+	private $usuario;
+	private $paciente;
+	private $historia;
+	private $afiliacion;
+	private $cliente;
+	private $hc_cie;
+	private $hc_exa;
+	private $hc_lab;
+	private $depto;
+	private $mupio;
+	private $listNotas;
+	
 	public function printAction($factura)
 	{
 		$em = $this->getDoctrine()->getEntityManager();
 		$factura = $em->getRepository('FacturacionBundle:Factura')->find($factura);
-
-		$usuario = $this->get('security.context')->getToken()->getUser();
-		$historia = $factura->getHc();
-		$paciente = $factura->getPaciente();
-		$cliente = $factura->getCliente();
-		$afiliacion = $em->getRepository('ParametrizarBundle:Afiliacion')->findOneBy(array('cliente' => $cliente->getId(), 'paciente' => $paciente->getId()));
-		$hc_cie = $em->getRepository('HistoriaBundle:Hc')->findHcDx($historia->getId());
-		$hc_exa = $em->getRepository('HistoriaBundle:Hc')->findHcExamen($historia->getId());
-		$hc_lab = $em->getRepository('HistoriaBundle:Hc')->findHcLabora($historia->getId());
-		$depto = $em->getRepository('ParametrizarBundle:Depto')->find($paciente->getDepto());
-		$mupio = $em->getRepository('ParametrizarBundle:Mupio')->find($paciente->getMupio());
-		$listNotas = $em->getRepository('HistoriaBundle:Notas')->findByHc($historia, array('fecha' => 'DESC'));
-
-
+		
+		if(!$factura){
+			throw $this->createNotFoundException('Error!! La información solicitada es incorrecta.');
+		}
+				
+		$this->setUsuario($this->get('security.context')->getToken()->getUser());
+		$this->setHistoria($factura->getHc());
+		$this->setPaciente($factura->getPaciente());
+		$this->setCliente($factura->getCliente());
+		$this->setAfiliacion($em->getRepository('ParametrizarBundle:Afiliacion')->findOneBy(array('cliente' => $this->getCliente()->getId(), 'paciente' => $this->getPaciente()->getId())));
+		$this->setHcCie($em->getRepository('HistoriaBundle:Hc')->findHcDx($this->getHistoria()->getId()));
+		$this->setHcExa($em->getRepository('HistoriaBundle:Hc')->findHcExamen($this->getHistoria()->getId()));
+		$this->setHcLab($em->getRepository('HistoriaBundle:Hc')->findHcLabora($this->getHistoria()->getId()));
+		$this->setListNotas($em->getRepository('HistoriaBundle:Notas')->findByHc($this->getHistoria(), array('fecha' => 'DESC')));
+		$this->setMupio($em->getRepository('ParametrizarBundle:Mupio')->find($this->getPaciente()->getMupio()));
+		$this->setDepto($em->getRepository('ParametrizarBundle:Depto')->find($this->getPaciente()->getDepto()));
+		
+		$this->printDocuments($factura);
+	}
+	
+	public function printDocuments($factura)
+	{
+		$em = $this->getDoctrine()->getEntityManager();		
+		
+		$usuario = $this->getUsuario();		
+		$historia = $this->getHistoria();
+		$paciente = $this->getPaciente();
+		$cliente = $this->getCliente();
+		$afiliacion = $this->getAfiliacion();
+		$hc_cie = $this->getHcCie();
+		$hc_exa = $this->getHcExa();
+		$hc_lab = $this->getHcLab();
+		$depto = $this->getDepto();
+		$mupio = $this->getMupio();
+		$listNotas = $this->getListNotas();
+		
+		
+		// se establece el titulo de la impresion dependiendo el servicio de ingreso
+		$tipoIngreso = $factura->getTipo();
+		if( $tipoIngreso == 'U' or $tipoIngreso == 'H')
+		{
+			$titulo = "Historia Clinica Urgencias No.";
+		}elseif($tipoIngreso == 'C'){
+			$titulo = "Historia Clinica Consulta Externa No.";
+		}
+		
 		// verificar que los servicios existan para evitar posibles errores ya q se usan los objetos en el impreso
 		if($historia->getServiEgre()){
 			$serviEgre = $em->getRepository('ParametrizarBundle:Servicio')->find($historia->getServiEgre());
@@ -37,13 +81,13 @@ class ImpresionHistoriaController extends Controller
 		}
 		// si los servicios existen se asignan a la historia para manejarlos como objetos.
 		$historia->setServiEgre($serviEgre);
-
+		
 		if($historia->getDxSalida())
 		{
 			$dxSalida = $em->getRepository('HistoriaBundle:Cie')->find($historia->getDxSalida());
 			$historia->setDxSalida($dxSalida);
 		}
-
+		
 		// para poder imprimir los signos del paciente se consultan todas las notas y se ordenan en DESC  y de esta lista se optiene el primer objeto
 		if($listNotas)
 		{
@@ -53,47 +97,18 @@ class ImpresionHistoriaController extends Controller
 					 recuerde primero guardar la información de la historia y posteriormente proceda a generar el impreso,
 					 si no toma, guarda, o verifica los signos no podra generar el impreso.');
 		}
-
-		// se instancia el objeto del tcpdf
-		$pdf = $this->get('white_october.tcpdf')->create();
-
-		$pdf->setFontSubsetting(true);
-		$pdf->SetFont('dejavusans', '', 8, '', true);
-
-		// se establece el titulo de la impresion dependiendo el servicio de ingreso
-		$tipoIngreso = $factura->getTipo();
-		if( $tipoIngreso == 'U' or $tipoIngreso == 'H')
-		{
-			$titulo = "Historia Clinica Urgencias No.".$historia->getId();
-		}elseif($tipoIngreso == 'C'){
-			$titulo = "Historia Clinica Consulta Externa No.".$historia->getId();
-		}
-
-		// set margins
-		$pdf->SetMargins(PDF_MARGIN_LEFT, 30, PDF_MARGIN_RIGHT);
-		$pdf->SetHeaderMargin(1);
-		$pdf->SetFooterMargin(10);
-
-		// set image scale factor
-		$pdf->setImageScale(5);
-
-		$pdf->AddPage();
+		
+		// se instancia el tcpdBundle
+		$pdf = $this->getPritTcpd();
 		
 		// se organiza la informacion de las evoluciones.
 		$string = $historia->getEvolucion();
 		$newString = str_replace('::', '<br/>', $string);
 		$historia->setEvolucion($newString);
-
-		$header = $this->renderView('HistoriaBundle:Impresos:header.html.twig',array(
-				'factura'  	 => $factura,
-				'afiliacion' => $afiliacion,
-				'paciente' 	 => $paciente,
-				'historia' 	 => $historia,
-				'depto'		 => $depto,
-				'mupio'		 => $mupio,
-				'titulo'	 => $titulo,
-		));
-
+		
+		// se genera el encabezado
+		$header = $this->getHeader($factura,$titulo);
+		
 		$body = $this->renderView('HistoriaBundle:Impresos:Body.html.twig',array(
 				'factura'  	 => $factura,
 				'usuario'  	 => $usuario,
@@ -103,13 +118,30 @@ class ImpresionHistoriaController extends Controller
 				'hc_lab' 	 => $hc_lab,
 				'listNota'	 => $listNotas,
 		));
-
+		
 		$pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $header, $border = 0, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
 		$pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $body, $border = 0, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
+						
+		if( $tipoIngreso == 'U' or $tipoIngreso == 'H')
+		{
+			// se genera el encabezado de la historia de la epicrisis
+			$epicrisis = $this->getHeader($factura,"EPICRISIS URGENCIAS No ");
+			$pdf->AddPage('P', 'A4');
+			$pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $epicrisis, $border = 0, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
+			$pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $body, $border = 0, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
+		}
+		
+		if($historia->getDestino() == '4')
+		{
+			// se genera el encabezado de la historia de la REMISION
+			$remision = $this->getHeader($factura,"REMISION HISTORIA No ");
+			$pdf->AddPage('P', 'A4');
+			$pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $remision, $border = 0, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
+			$pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $body, $border = 0, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
+		}		
 
 		// Se valida la iformacion que va en formato de media carta tal como la remision, incapacidad, examenes, procedimientos y medicamentos
-
-		if( $tipoIngreso == 'U' or $tipoIngreso == 'H')
+		/*if( $tipoIngreso == 'U' or $tipoIngreso == 'H')
 		{
 			if($historia->getEvolucion() != '')
 			{
@@ -117,20 +149,20 @@ class ImpresionHistoriaController extends Controller
 						'historia' 	 => $historia,
 						'usuario'  	 => $usuario,
 				));
-
+		
 				$pdf->AddPage('P', 'A4');
 				$pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $header, $border = 0, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
 				$pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $evoluciones, $border = 0, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
 			}
-		}
-
+		}*/
+		
 		if($historia->getIncapacidad() != '')
 		{
 			$incapacidad = $this->renderView('HistoriaBundle:Impresos:Incapacidad.html.twig',array(
 					'historia' 	 => $historia,
 					'usuario'  	 => $usuario,
 			));
-
+		
 			$pdf->AddPage('P', 'A4');
 			$pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $header, $border = 0, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
 			$pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $incapacidad, $border = 0, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
@@ -141,7 +173,7 @@ class ImpresionHistoriaController extends Controller
 					'historia' 	 => $historia,
 					'usuario'  	 => $usuario,
 			));
-
+		
 			$pdf->AddPage('P', 'A4');
 			$pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $header, $border = 0, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
 			$pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $medicamentos, $border = 0, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
@@ -152,7 +184,7 @@ class ImpresionHistoriaController extends Controller
 					'historia' 	 => $historia,
 					'usuario'  	 => $usuario,
 			));
-
+		
 			$pdf->AddPage('P', 'A4');
 			$pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $header, $border = 0, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
 			$pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $procedimientos, $border = 0, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
@@ -163,7 +195,7 @@ class ImpresionHistoriaController extends Controller
 					'historia' 	 => $historia,
 					'usuario'  	 => $usuario,
 			));
-
+		
 			$pdf->AddPage('P', 'A4');
 			$pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $header, $border = 0, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
 			$pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $examenes, $border = 0, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
@@ -174,10 +206,10 @@ class ImpresionHistoriaController extends Controller
 			$pdx = "";
 			if($historia->getPDx()){$pdx = $em->getRepository('HistoriaBundle:Cie')->find($historia->getPDx());}
 			if($historia->getPCausaM()){$pCausaM = $em->getRepository('HistoriaBundle:Cie')->find($historia->getPCausaM());}
-			
+				
 			$historia->setPCausaM($pCausaM);
 			$historia->setPDx($pdx);
-			
+				
 			$parto = $this->renderView('HistoriaBundle:Impresos:Parto.html.twig',array(
 					'historia' 	 => $historia,
 					'usuario'  	 => $usuario,
@@ -190,5 +222,149 @@ class ImpresionHistoriaController extends Controller
 		$response = new Response($pdf->Output('HcPrint.pdf', 'I'));
 		$response->headers->set('Content-Type', 'application/pdf');
 	}
-
+	
+	public function getHeader($factura,$titulo)
+	{
+		return $this->renderView('HistoriaBundle:Impresos:header.html.twig',array(
+				'factura'  	 => $factura,
+				'afiliacion' => $this->afiliacion,
+				'paciente' 	 => $this->paciente,
+				'historia' 	 => $this->historia,
+				'depto'		 => $this->depto,
+				'mupio'		 => $this->mupio,
+				'titulo'	 => $titulo.$this->historia->getId(),
+		));
+	}
+	
+	public function getPritTcpd()
+	{
+		// se instancia el objeto del tcpdf
+		$pdf = $this->get('white_october.tcpdf')->create();
+		
+		$pdf->setFontSubsetting(true);
+		$pdf->SetFont('dejavusans', '', 6, '', true);
+		
+		// set margins
+		$pdf->SetMargins(PDF_MARGIN_LEFT, 30, PDF_MARGIN_RIGHT);
+		$pdf->SetHeaderMargin(1);
+		$pdf->SetFooterMargin(10);
+		
+		// set image scale factor
+		$pdf->setImageScale(5);
+		
+		$pdf->AddPage();
+		
+		return $pdf; 
+	}
+	
+	// usuario
+	public function setUsuario($usuario)
+	{
+		$this->usuario = $usuario;
+		return $this;
+	}
+	public function getUsuario()
+	{
+		return $this->usuario;
+	}
+	//paciente
+	public function setPaciente($paciente)
+	{
+		$this->paciente = $paciente;
+		return $this;
+	}
+	public function getPaciente()
+	{
+		return $this->paciente;
+	}
+	//historia
+	public function setHistoria($historia)
+	{
+		$this->historia = $historia;
+		return $this;
+	}
+	public function getHistoria()
+	{
+		return $this->historia;
+	}		
+	//Afiliacion
+	public function setAfiliacion($afiliacion)
+	{
+		$this->afiliacion = $afiliacion;
+		return $this;
+	}
+	public function getAfiliacion()
+	{
+		return $this->afiliacion;
+	}
+	//Cliente
+	public function setCliente($cliente)
+	{
+		$this->cliente = $cliente;
+		return $this;
+	}
+	public function getCliente()
+	{
+		return $this->cliente;
+	}	
+	// HcCie
+	public function setHcCie($hc_cie)
+	{
+		$this->hc_cie = $hc_cie;
+		return $this;
+	}
+	public function getHcCie()
+	{
+		return $this->hc_cie;
+	}
+	//HcExa
+	public function setHcExa($hc_exa)
+	{
+		$this->hc_exa = $hc_exa;
+		return $this;
+	}
+	public function getHcExa()
+	{
+		return $this->hc_exa;
+	}
+	//HcLab
+	public function setHcLab($hc_lab)
+	{
+		$this->hc_lab = $hc_lab;
+		return $this;
+	}
+	public function getHcLab()
+	{
+		return $this->hc_lab;
+	}
+	//ListNotas
+	public function setListNotas($listNotas)
+	{
+		$this->listNotas = $listNotas;
+		return $this;
+	}
+	public function getListNotas()
+	{
+		return $this->listNotas;
+	}
+	
+	public function setDepto($depto)
+	{
+		$this->depto =$depto;
+		return $this;
+	}
+	public function getDepto()
+	{
+		return $this->depto;
+	}
+	
+	public function setMupio($mupio)
+	{
+		$this->mupio = $mupio;
+		return $this;
+	}
+	public function getMupio()
+	{
+		return $this->mupio;
+	}
 }

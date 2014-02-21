@@ -40,6 +40,7 @@
 	    	
 	    	<div class="control-group">
 	    		<label class="control-label required" for="tipoid">Identificaci&oacute;n</label>
+	    		<span id="status" class="label"></span>
 	    		<div class="controls">
 	    			<select class="span1" required="required" name="tipoid" id="tipoid">
 	    				<option value="RC">RC</option>
@@ -53,12 +54,21 @@
     					<button id="buscar_paciente" class="btn" type="button">Buscar</button>
     					<button id="btnIframe" href="{{ path('paciente_jx_new') }}" class="fancybox.iframe btn btn-success" type="link" disabled="disabled">Crear</button>
     				</div>
+    				
+    				
     				<span id="msg" class="label"></span>
+    				
 					
 					{% ui_box for="#btnIframe" id="frame-fijo" %}
 	   
 	    		</div>
 	    	</div>
+	    	
+	    	{% ajax_status onstart="$('#status').show().html('Buscando...');"
+                 onsuccess="$('#status').html('Success');"
+                 oncomplete="$('#status').html('Completado').delay(3000).fadeOut();"
+                 onerror="$('#status').html('Ups!! Error');"
+                 for="#buscar_paciente" %}
 	    	
 	    	<div>
 	    		<div class="span4">Paciente: <span id="datos-paciente" class="label label-success"></span></div>

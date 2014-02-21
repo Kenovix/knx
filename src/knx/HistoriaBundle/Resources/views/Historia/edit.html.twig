@@ -1278,7 +1278,13 @@
 			$('#newHcType_evolucion').append("\n::Evolución["+date+"], Dr[ "+usuario+"]: ");
 			return false; 
 		});
-	  
+	$('#newNotasType_resumenNota').click(function()
+			{			
+				var usuario = "{{ usuario.nombre }} {{ usuario.apellido }}";
+				var date = "{{ today | date("d/m/Y H:i") }}";			 
+					$('#newNotasType_resumenNota').append("\n::Evolución["+date+"], Dr[ "+usuario+"]: ");
+					return false; 
+				});	  
 
 	// funcion para eliminar la relacion del medicamento "laboratorio" con la historia clinica
 	  function delLab(id){

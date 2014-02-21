@@ -382,9 +382,17 @@ afiliacion_save:
     pattern:  /afiliacion/{paciente}/save
     defaults: { _controller: ParametrizarBundle:Afiliacion:save }
     
+afiliacion_jx_save:
+    pattern:  /afiliacion/jx/{paciente}/save
+    defaults: { _controller: ParametrizarBundle:Afiliacion:jxsave }
+    
 afiliacion_delete:
     pattern:  /afiliacion/{paciente}/delete/{cliente}
     defaults: { _controller: ParametrizarBundle:Afiliacion:delete }
+    
+afiliacion_jx_delete:
+    pattern:  /afiliacion/jx/{paciente}/delete/{cliente}
+    defaults: { _controller: ParametrizarBundle:Afiliacion:jxdelete }
     
 afiliacion_tipo_cliente:
     pattern:  /afiliacion/tipo/cliente

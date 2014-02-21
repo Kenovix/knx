@@ -32,11 +32,21 @@
 <form action="{{ path('cie_search') }}" class="form-horizontal" method="post" {{ form_enctype(search_form) }}>
     <fieldset>
     	<legend>Busqueda rapida</legend>
-    		<div>
-    			{{ form_label(search_form.nombre) }}
+    	
+    		<div class="control-group">
+					{{ form_label(search_form.nombre) }}
+				<div class="controls">
 				{{ form_errors(search_form.nombre) }}
-				{{ form_widget(search_form.nombre,{ 'attr': {'class': 'input-xxlarge'} }) }}	
-    		</div>
+				{{ form_widget(search_form.nombre,{ 'attr': {'class': 'input-xxlarge'} }) }}
+				</div>
+			</div>
+			<div class="control-group">
+					{{ form_label(search_form.typeChoice) }}
+				<div class="controls">
+				{{ form_errors(search_form.typeChoice) }}
+				{{ form_widget(search_form.typeChoice,{ 'attr': {'class': 'input-small'} }) }}
+				</div>
+			</div>
     	
     	{{ form_rest(search_form) }}
     </fieldset>
