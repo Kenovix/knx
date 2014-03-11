@@ -1,0 +1,140 @@
+{% extends "::simple.html.twig" %}
+
+{% block body %}
+
+{% set regimen = {'1': 'Contributivo', '2': 'Subsidiado', '3': 'Vinculado', '4': 'Particular', '5':'Otros'} %}
+
+<table>
+	<tbody>
+		<tr>
+			<td><h4 align="left">{{ factura.fecha | date('d-m-Y H:i') }}</h4></td>
+			<td></td>
+			<td><h3 align="right">FACTURA DE VENTA No. {{ factura.id }}</h3></td>
+		</tr>
+		<tr>
+			<td><strong>Identificación:</strong> {{ factura.paciente.identificacion }}</td>
+			<td colspan="2"><strong>Nombre:</strong> {{ factura.paciente.priNombre | capitalize }} {{ factura.paciente.segNombre | capitalize }} {{ factura.paciente.priApellido | capitalize }} {{ factura.paciente.segApellido | capitalize }}</td>
+		</tr>
+		<tr>
+			<td><strong>Regimén:</strong>{{ regimen[factura.cliente.tipo] }}</td>
+			<td><strong>Vinculo:</strong> </td>
+			<td><strong>Fecha nacimiento:</strong> {{ factura.paciente.fN | date ('d-m-Y') }}</td>
+		</tr>
+		<tr>
+			<td><strong>Dirección:</strong> {{ factura.paciente.direccion }}</td>
+			<td><strong>Teléfono:</strong> {{ factura.paciente.telefono }}</td>
+			<td><strong>Municipio :</strong> {{ mupio.municipio }}</td>
+		</tr>
+		<tr>
+			<td><strong>Centro costo:</strong></td>
+			<td><strong>Historia:</strong> {{ factura.paciente.identificacion }}</td>
+			<td><strong>Aseguradora:</strong> {{ factura.cliente.nombre }}</td>
+		</tr>
+	</tbody>
+</table>
+
+<br />
+<hr />
+
+
+<table border="1">
+	<thead>
+		<tr>
+			<th width="60"><strong>Código</strong></th>
+			<th width="390"><strong>Descripción</strong></th>
+			<th width="40"><strong>Cant.</strong></th>
+			<th width="80"><strong>Valor Unit.</strong></th>
+			<th width="80"><strong>Valor total</strong></th>
+		</tr>
+	</thead>
+	<tbody>
+		{% set total = 0 %}
+		{% set copago = 0 %}
+		{% set perdida = 0 %}
+		{% for imv in imvs %}
+		
+			{% set total = (total + (imv.cantidad * imv.vrUnitario)) %}
+			{% set copago = (copago + imv.pagoPte) %}
+			{% set perdida = (perdida + imv.recoIps) %}
+			
+			<tr>
+				<td width="60">{{ imv.imv.codCups }}</td>
+				<td width="390">{{ imv.imv.nombre }}</td>
+				<td width="40">{{ imv.cantidad }}</td>
+				<td width="80">${{ imv.vrUnitario | number_format(0) }}</td>
+				<td width="80">${{ (imv.cantidad * imv.vrUnitario) | number_format(0) }}</td>
+			</tr>
+		{% else %}
+			no hay
+		{% endfor %}
+	</tbody>
+</table>
+
+<br /><br /><br />
+
+<table border="1">
+	<tbody>
+		<tr>
+			<td width="570">Total</td>
+			<td width="80">${{ total | number_format(0) }}</td>
+		</tr>
+		<tr>
+			<td width="570">Valor total servicios prestado</td>
+			<td width="80">${{ total | number_format(0) }}</td>
+		</tr>
+		<tr>
+			<td width="570">Valor cuota de recuperación pagada por el usuario</td>
+			<td width="80">${{ copago | number_format(0) }}</td>
+		</tr>
+		<tr>
+			<td width="570">Valor asumido por la institución</td>
+			<td width="80">${{ perdida | number_format(0) }}</td>
+		</tr>
+		<tr>
+			<td width="570">Valor neto</td>
+			<td width="80">${{ ((total - copago) - perdida) | number_format(0) }}</td>
+		</tr>
+		
+	</tbody>
+</table>
+
+<br /><br /><br /><br /><br />
+
+<table>
+	<tbody>
+		<tr>
+	    	<td>____________________________________</td>
+	    	<td width="230"></td>
+	    	<td>____________________________________</td>
+	  	</tr>
+	  	<tr>
+	    	<td>Firma paciente o representante</td>
+	    	<td width="230"></td>
+	    	<td>Responsable IPS</td>
+	  	</tr>
+	  	<tr>
+	    	<td></td>
+	    	<td width="230"></td>
+	    	<td>Elaboró: {{ factura.usuario.username }}</td>
+	  	</tr>
+  	</tbody>
+</table>
+
+<br /><br /><br />
+
+<table>
+	<tbody>
+		<tr>
+	    	<td align="center">
+	    		Fin del documento<br /><br />
+	    		Esta factura se asimila en todos sus efectos a la letra de cambio según Art. 774 del C.C.<br />
+	    		No estamos obligados a solicitar autrización de facturación de acuerdo al articulo 3 de la Resolución 3878 de 1996<br />
+	    		Exento de retención en la fuente Art. 389 numeral 1 parte B del ET, servicio exento de IVA.
+	    	</td>
+	  	</tr>
+  	</tbody>
+</table>
+
+
+
+{% endblock %}

@@ -427,7 +427,7 @@ class FacturaController extends Controller
     	}
     
     	$factura_imv = $em->getRepository('FacturacionBundle:FacturaImv')->findBy(array('factura' => $factura->getId()));
-    
+
     	if($factura->getPyp()){
     		$pyp = $em->getRepository('ParametrizarBundle:Pyp')->find($factura->getPyp());
     
@@ -690,6 +690,40 @@ class FacturaController extends Controller
     }
     
     
+    public function imprimirImvAction($factura) {
+    	 
+    	$em = $this->getDoctrine()->getEntityManager();
+    	 
+    	$factura = $em->getRepository('FacturacionBundle:Factura')->find($factura);
+    	 
+    	if (!$factura) {
+    		throw $this->createNotFoundException('La factura solicitada no existe');
+    	}else{
+    
+    		$factura->setEstado('C');
+    
+    		$em->persist($factura);
+    		$em->flush();
+    
+    	}
+    	 
+    	$factura_imv = $em->getRepository('FacturacionBundle:FacturaImv')->findBy(array('factura' => $factura->getId()));
+    	 
+    	$mupio = $em->getRepository('ParametrizarBundle:Mupio')->find($factura->getPaciente()->getMupio());
+    	 
+    	$pdf = $this->get('white_october.tcpdf')->create();
+    	 
+    	$html = $this->renderView('FacturacionBundle:Factura:factura_medicamento.pdf.twig',array(
+    			'factura' => $factura,
+    			'imvs' => $factura_imv,
+    			'mupio' => $mupio
+    	));
+    	 
+    	return $pdf->quick_pdf($html, 'factura_venta_'.$factura->getId().'.pdf', 'D');
+    	 
+    }
+    
+    
     /**
      * @uses Función que elimina un cargo de una factura abierta.
      *
@@ -771,7 +805,7 @@ class FacturaController extends Controller
     				$factura_imv->setEstado($estado);
     			}else{
     				$factura_imv->setEstado('A');
-    			}    	   
+    			}
     	   
     			if($factura->getTipo() == 'U'){
 

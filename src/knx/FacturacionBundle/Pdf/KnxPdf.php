@@ -24,7 +24,7 @@ class KnxPdf extends \TCPDF
 		$this->Cell(0, 0, 'PUERTO MERIZALDE - BUENAVENTURA - VALLE DEL CAUCA', 0, false, 'C', 0, '', 0, false, 'M', 'M');
 		
 		$this->SetY($y+12);
-		$this->Cell(0, 0, 'NIT. 890.123.456 - 9', 0, false, 'C', 0, '', 0, false, 'M', 'M');
+		$this->Cell(0, 0, 'NIT. 890.123.456-9', 0, false, 'C', 0, '', 0, false, 'M', 'M');
 		
 		
 	}

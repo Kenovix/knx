@@ -16,7 +16,7 @@ class UsuarioType extends BaseType
     		->add('nombre', 	'text', array('label'=>'Nombre*', 'attr' => array('placeholder' => 'Nombre')))
     		->add('apellido', 	'text', array('label'=>'Apellido*', 'attr' => array('placeholder' => 'Apellido')))
     		->add('roles', 'choice', array('label' => 'Rol', 'required' => true, 'choices' => array( 1 => 'SUPER ADMINISTRADOR', 2 => 'ADMINISTRADOR', 3 => 'FARMACIA', 4 => 'MEDICO', 5 => 'AUXILIAR', 6 => 'FACTURADOR', 7 => 'ODONTOLOGO'), 'multiple' => true))
-    		->add('enabled', 'checkbox', array('label' => 'Estado', 'required' => true))
+    		->add('enabled', 'checkbox', array('label' => 'Estado', 'required' => false))
     		->add('especialidad', 'text', array('label'=>'Especialidad', 'required' => false))
     		->add('rm', 'text', array('label'=>'Registro médico', 'required' => false))
     		->add('cargo', 'choice', array('choices' => array('medico' => 'Médico', 'auxiliar' => 'Enfermera', 'odontologo' => 'Odontologo', 'facturador' => 'Facturador', 'farmaceuta' => 'Farmaceuta'), 'label'=>'Cargo', 'required' => false))
