@@ -76,9 +76,13 @@ class FacturaCargoController extends Controller
 					break;
 			}
 
-			$this->get('session')->setFlash('error', 'Opcion No Validad, Vuelva A Selepcionar Una Opcion.');
+			$this->get('session')->setFlash('error', 'Opcion No Validad, Vuelva A seleccionar Una Opcion.');
 			return $this->redirect($this->generateUrl('reporte_cargo_new'));
-		}
+			
+		}else{
+			$this->get('session')->setFlash('error', 'Opcion No Validad, Vuelva A seleccionar Una Opcion.');
+			return $this->redirect($this->generateUrl('reporte_cargo_new'));			
+		}		
 	}
 
 	private function informeGeneral($dateStart,$dateEnd,$cliente)

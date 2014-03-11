@@ -103,3 +103,12 @@ reporte_cargo_question:
     pattern:  /reporte/cargo/question
     defaults: { _controller: FacturacionBundle:FacturaCargo:questionTipoCargo }
 
+#******************** MORBILIDAD ***************************#
+
+morbilidad_vista:
+    pattern:  /morbilidad/new
+    defaults: { _controller: FacturacionBundle:Morbilidad:vista }
+    
+morbilidad_list:
+    pattern:  /morbilidad/list
+    defaults: { _controller: FacturacionBundle:Morbilidad:list }

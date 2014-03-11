@@ -206,7 +206,7 @@ class HistoriaController extends Controller
 		$paciente->setPertEtnica($paciente->getPE($paciente->getPertEtnica()));
 		
 		// consulto la afiliacion ya que esta contiene el nivel y el rango del paciente con su cliente
-		$cliente = $factura->getCliente();
+		$cliente = $factura->getCliente();		
 		$afiliacion = $em->getRepository('ParametrizarBundle:Afiliacion')->findOneBy(array('cliente' => $cliente->getId(), 'paciente' => $paciente->getId()));
 		
 		// Se realizan las respectivas consultas a sus respectivos repositorios para traer
@@ -219,10 +219,16 @@ class HistoriaController extends Controller
 		
 		// Visualizando las ultimas 10 notas de enfermeria realizdas a esta historia
 		$listNotas = $em->getRepository('HistoriaBundle:Notas')->findByHc($historia, array('fecha' => 'DESC'));
-		$listNotas = $paginator->paginate($listNotas,$this->getRequest()->query->get('page', 1), 10);
+		if($listNotas)
+		{
+			$listNotas = $paginator->paginate($listNotas,$this->getRequest()->query->get('page', 1), 10);
+		}		
 		
 		// visualizo los ultimos 10 examenes del paciente en orden de fecha_r
-		$hc_exa_all = $paginator->paginate($hc_exa_all,$this->getRequest()->query->get('page', 1), 10);
+		if($hc_exa_all)
+		{
+			$hc_exa_all = $paginator->paginate($hc_exa_all,$this->getRequest()->query->get('page', 1), 10);
+		}		
 				
 		$notas = new Notas();
 		$notas->setFecha(new \DateTime('now'));//-----------------

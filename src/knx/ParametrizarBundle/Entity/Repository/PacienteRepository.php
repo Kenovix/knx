@@ -1,6 +1,7 @@
 <?php
 namespace knx\ParametrizarBundle\Entity\Repository;
 use Doctrine\ORM\EntityRepository;
+use knx\ParametrizarBundle\Entity\Mupio;
 
 class PacienteRepository extends EntityRepository {
 
@@ -20,7 +21,8 @@ class PacienteRepository extends EntityRepository {
 		}
 
 		// se ordena el array
-		$arrayOrdenado = $this->quicksort($arrayPacientes, $start, $end-1);
+		//$arrayOrdenado = $this->quicksort($arrayPacientes, $start, $end-1);
+		$arrayOrdenado = $arrayPacientes;
 
 		// se pasan las identificaciones del archivo temporal a un array de solo identificaciones de tipo int
 		for($i=0; $i<count($DatosTemporal); $i++)
@@ -232,5 +234,23 @@ class PacienteRepository extends EntityRepository {
 				break;
 		}
 		return false;
+	}
+	
+	public function findMupioId($mupio, $depto)
+	{		
+		$em = $this->getEntityManager();
+		$dql = $em->createQuery("SELECT m.id
+									 FROM
+										ParametrizarBundle:Mupio m
+									 JOIN
+										m.depto d
+									 WHERE
+										m.codigo = :codigoM
+									 AND
+										d.codigo = :codigoD");
+		
+		$dql->setParameter('codigoM', $mupio);
+		$dql->setParameter('codigoD', $depto);
+		return $dql->getSingleResult();
 	}
 }

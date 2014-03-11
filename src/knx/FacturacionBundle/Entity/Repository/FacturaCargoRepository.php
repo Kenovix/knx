@@ -225,4 +225,62 @@ class FacturaCargoRepository extends EntityRepository
 		$dql->setParameter('dateEnd', $dateEnd);
 		return $dql->getResult();
 	}
+	
+	
+//------ Generar las respectivas consultas para los informes de morbilidad ---------------//
+	public function findMorbilidad($atencion,$genero,$oldStart,$oldEnd,$centroCostos,$dateStart,$dateEnd)
+	{
+		$oldStart = date('Y-m-d', strtotime('-'.$oldStart.' year')) ;
+		$oldEnd = date('Y-m-d', strtotime('-'.$oldEnd.' year')) ;
+		
+		// se instancian los atributos en null
+		$dqlAtencion="";
+		$dqlSexo="";
+		$dqlServicio="";
+		
+		// si los atributos cumplen con la condicion se asigna una parte de consulta si no se toma como una consulta general
+		if($atencion != 'T')
+		{
+			$dqlAtencion="AND h.tipoAtencion = :atencion";
+		}
+		if($genero != 'T')
+		{
+			$dqlSexo = "AND p.sexo = :genero";
+		}
+		if($centroCostos != 'T')
+		{
+			$dqlServicio="AND s.nombre = :servicio";
+		}
+		
+		$em = $this->getEntityManager();
+		$dql = $em->createQuery("SELECT c.nombre, c.codigo, COUNT(hcdx.cie) AS cantidad
+								 FROM HistoriaBundle:HcDx hcdx
+									JOIN hcdx.cie c				
+									JOIN hcdx.hc h	
+									JOIN h.factura f
+									JOIN f.servicio s																	
+									JOIN f.paciente p									
+								 WHERE									
+									p.fN >= :max
+									AND p.fN <= :min
+									".$dqlAtencion."									
+									".$dqlSexo."
+									".$dqlServicio."
+									AND f.created >= :dateStart
+									AND f.created <= :dateEnd
+								 GROUP BY c.nombre, c.codigo ORDER BY c.nombre ASC");
+		
+		
+		$dql->setParameter('max', $oldEnd);
+		$dql->setParameter('min', $oldStart);
+				
+		// se ingresan los valores de los atributos si contienen informacion.
+		if($dqlAtencion){$dql->setParameter('atencion', $atencion);}
+		if($dqlSexo){$dql->setParameter('genero', $genero);}
+		if($dqlServicio){$dql->setParameter('servicio', $centroCostos);}	
+			
+		$dql->setParameter('dateStart', $dateStart);
+		$dql->setParameter('dateEnd', $dateEnd);
+		return $dql->getResult();
+	}
 }
