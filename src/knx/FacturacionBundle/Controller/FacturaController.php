@@ -70,7 +70,7 @@ class FacturaController extends Controller
 		$factura->setPyp($pyp);
 		$factura->setEstado('A');
 		
-		if($factura->getServicio() == 'CONSULTA EXTERNA'){
+		if($factura->getServicio() == 'CONSULTA EXTERNA' || $factura->getServicio() == 'ODONTOLOGIA'){
 			$factura->setTipo('C');
 		}else{
 			$factura->setTipo('U');

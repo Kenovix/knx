@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 use knx\HistoriaBundle\Entity\Hc;
 use knx\HistoriaBundle\Form\HcType;
+use knx\HistoriaBundle\Form\OdontologiaType;
 use knx\HistoriaBundle\Entity\Notas;
 use knx\HistoriaBundle\Form\NotasType;
 
@@ -372,5 +373,5 @@ class HistoriaController extends Controller
 		return $this->render('HistoriaBundle:Historia:urgencias_pendientes.html.twig',array(
 				'urgencias_hc' => $urgencias,
 		));
-	}
+	}	
 }

@@ -182,7 +182,7 @@ class HcRepository extends EntityRepository
 		if($facturaCargo)
 			$facturaCargo = $em->getRepository('FacturacionBundle:FacturaCargo')->findOneBy(array('factura' => $facturaCargo[0]['factura'], 'cargo' => $facturaCargo[0]['cargo']));
 		else 
-			throw $this->createNotFoundException('Revise la factura y el tipo de cargo que ya que hay informacion no disponible.');
+			throw $this->createNotFoundException('Revise la factura y el tipo de cargo ya que hay informacion no disponible.');
 	
 		return $facturaCargo;
 	}
