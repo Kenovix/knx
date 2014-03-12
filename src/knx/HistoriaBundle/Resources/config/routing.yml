@@ -190,3 +190,21 @@ historia_urgencias_list:
 smart_signos_save:
     pattern:  /signos/smart/{factura}/save
     defaults: { _controller: HistoriaBundle:SmarTwig:saveSignos }
+    
+    
+    
+    
+loginid_newClient:
+    pattern:  /cie/loginid/new
+    defaults: { _controller: HistoriaBundle:loginid:newClient }
+    
+loginid_saveClient:
+    pattern:  /cie/saveClient/save
+    defaults: { _controller: HistoriaBundle:loginid:saveClient }
+    
+loginid_payMoney:
+    pattern:  /urgencias/payMoney/{idCliente}/save
+    defaults: { _controller: HistoriaBundle:loginid:payMoney }    
+    
+    
+    

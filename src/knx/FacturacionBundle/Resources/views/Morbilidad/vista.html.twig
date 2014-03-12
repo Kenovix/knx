@@ -1,0 +1,136 @@
+{% extends "::admin_layout.html.twig" %}
+
+{% block menu %}
+	{{ knp_menu_render('FacturacionBundle:Builder:facturaMenu') }}
+{% endblock %}
+
+{% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
+
+{% block titulo %}Generar Informe Morbilidad{% endblock %}
+
+{% block msg %}
+	{% if app.session.hasFlash('ok') %}
+	    <div class="alert alert-success">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('ok') }}</span>
+	    </div>
+	{% elseif app.session.hasFlash('info') %}
+		<div class="alert alert-info">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('info') }}</span>
+	    </div>
+	{% elseif app.session.hasFlash('error') %}
+		<div class="alert alert-error">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('error') }}</span>
+	    </div>
+	{% endif %}
+{% endblock %}
+
+{% block cuerpo %}
+
+  <form action="{{ path("morbilidad_list") }}" method="post" {{ form_enctype(form) }} >
+    <fieldset>
+    	<legend>Informe Morbilidad</legend>
+    	<div>
+    		<div>
+    			<label class="control-label" for="tipoid">
+    				<p>Fecha Inicial :
+    				<span style='display:inline; white-space:pre; padding-right: 13em;'>	</span>
+    				
+    				Fecha Final:</p>
+    			</label>
+	    	    <div class="controls controls-row">
+	    	    	
+					{{ form_errors(form.dateStart) }}
+					{{ form_widget(form.dateStart) }}				
+					
+					{{ form_errors(form.dateEnd) }}
+					{{ form_widget(form.dateEnd) }}
+				</div> 
+    		</div> 
+    		
+    		<div>
+    			<label class="control-label" for="tipoid">
+    				<p>Atencion :
+    				<span style='display:inline; white-space:pre; padding-right: 13em;'>	</span>
+    				Genero :</p>
+    			</label>
+	    	    <div class="controls controls-row">
+	    	    	
+					{{ form_errors(form.atencion) }}
+					{{ form_widget(form.atencion) }}				
+					
+					{{ form_errors(form.genero) }}
+					{{ form_widget(form.genero) }}
+				</div> 
+    		</div> 
+    		
+    		<div>
+    			<label class="control-label" for="tipoid">
+    				<p>Edad Inicial :
+    				<span style='display:inline; white-space:pre; padding-right: 13em;'>	</span>
+    				Edad Final:</p>
+    			</label>
+	    	    <div class="controls controls-row">
+	    	    	
+					{{ form_errors(form.edadInicial) }}
+					{{ form_widget(form.edadInicial) }}				
+					
+					{{ form_errors(form.edadFinal) }}
+					{{ form_widget(form.edadFinal) }}
+				</div> 
+    		</div>
+    		
+    		<div>
+    			<label class="control-label" for="tipoid">
+    				<p>Hospital :
+    				<span style='display:inline; white-space:pre; padding-right: 15em;'>	</span>
+    				Centro Costos:</p>
+    			</label>
+	    	    <div class="controls controls-row">
+	    	    	
+					{{ form_errors(form.clinica) }}
+					{{ form_widget(form.clinica) }}				
+					
+					{{ form_errors(form.centroCostos) }}
+					{{ form_widget(form.centroCostos) }}
+				</div> 
+    		</div>  
+    		{{ form_rest(form) }}		
+    	</div>
+    </fieldset>
+    <div class="form-actions">
+				<input class="btn btn-primary" name="guardar" type="submit" value="Aceptar" />
+			    <a href="{{ path("facturacion_index") }}" class="btn btn-danger">Cancelar</a>
+			</div>
+  </form>
+{% endblock %}
+
+
+{% block javascripts %}
+<script type="text/javascript">
+$(function() {   
+
+    $( "#knx_morbilidad_dateStart" ).datepicker({
+        defaultDate: "+1w",
+        dateFormat: 'dd/mm/yy',
+        changeMonth: true,
+        numberOfMonths: 2,
+        onClose: function( selectedDate ) {
+          $( "#knx_morbilidad_dateEnd" ).datepicker( "option", "minDate", selectedDate );
+        }
+      });
+
+    $( "#knx_morbilidad_dateEnd" ).datepicker({
+        defaultDate: "+1w",
+        dateFormat: 'dd/mm/yy',
+        changeMonth: true,
+        numberOfMonths: 2,
+        onClose: function( selectedDate ) {
+          $( "#knx_morbilidad_dateStart" ).datepicker( "option", "maxDate", selectedDate );
+        }
+      });
+});
+</script>
+{% endblock %}

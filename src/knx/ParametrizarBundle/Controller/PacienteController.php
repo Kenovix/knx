@@ -162,7 +162,7 @@ class PacienteController extends Controller
 		$paciente->setNivelEdu($paciente->getNE($paciente->getNivelEdu()));
 		$paciente->setTipoDes($paciente->getTD($paciente->getTipoDes()));
 	
-		$afiliaciones = $em->getRepository('ParametrizarBundle:Afiliacion')->findByPaciente($paciente);
+		$afiliaciones = $em->getRepository('ParametrizarBundle:Afiliacion')->findByPaciente($paciente);		
 			
 		$afiliacion = new Afiliacion();	
 		$form = $this->createForm(new AfiliacionType(), $afiliacion);
@@ -656,8 +656,9 @@ class PacienteController extends Controller
 					$DatosTemporal[]=explode($separador,$value);					
 				};				
 								
+				// se consulta la bd para extraer todas las cedulas existentes
 				$em = $this->getDoctrine()->getEntityManager();
-				$dql = $em->createQuery("SELECT p.identificacion FROM ParametrizarBundle:Paciente p ORDER BY p.identificacion DESC");
+				$dql = $em->createQuery("SELECT p.identificacion FROM ParametrizarBundle:Paciente p ORDER BY p.identificacion ASC");
 				$objPacientes = $dql->getArrayResult();
 				
 				// se verifica que los pacientes ingresados no existan en la base de datos.
@@ -760,11 +761,18 @@ class PacienteController extends Controller
 				$fn 			= $em->getRepository('ParametrizarBundle:Paciente')->existFN($insert[$key][6]);
 				$sexo 			= $em->getRepository('ParametrizarBundle:Paciente')->existSexo($insert[$key][7]);
 				$estadoCivil 	= $em->getRepository('ParametrizarBundle:Paciente')->existEstadoCivil($insert[$key][8]);
-				$depto 			= $em->getRepository('ParametrizarBundle:Depto')->find($insert[$key][9]);
-				$mupio 			= $em->getRepository('ParametrizarBundle:Mupio')->find($insert[$key][10]);
+								
+				$mupio 			= $em->getRepository('ParametrizarBundle:Paciente')->findMupioId($insert[$key][10], $insert[$key][9]);				
+				$depto			= "";
+				if($mupio)
+				{
+					$mupio 			= $em->getRepository('ParametrizarBundle:Mupio')->find($mupio);
+					$depto 			= $mupio->getDepto();
+				}		
+											
 				$zona 			= $em->getRepository('ParametrizarBundle:Paciente')->existZona($insert[$key][12]);
 				$ocupacion		= $em->getRepository('ParametrizarBundle:Ocupacion')->find($insert[$key][18]);				
-								
+				
 				
 				// Campos obligatorios que no pueden ir nulos
 				if($tipoId && $identificacion && $priNombre && $priApellido && $fn && $sexo && $estadoCivil && $depto && $mupio && $zona && $ocupacion)
@@ -782,8 +790,8 @@ class PacienteController extends Controller
 					$paciente->setFN($fn);
 					$paciente->setSexo($insert[$key][7]);
 					$paciente->setEstaCivil($insert[$key][8]);
-					$paciente->setDepto($insert[$key][9]);
-					$paciente->setMupio($insert[$key][10]);
+					$paciente->setDepto($depto->getId());
+					$paciente->setMupio($mupio->getId());
 					$paciente->setDireccion($insert[$key][11]);
 					$paciente->setZona($insert[$key][12]);
 					$paciente->setTelefono($insert[$key][13]);
