@@ -1,0 +1,269 @@
+{% extends "::admin_layout.html.twig" %}
+
+{% block menu %}
+	{{ knp_menu_render('HistoriaBundle:Builder:HistoriaMenu') }}
+{% endblock %}
+
+{% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
+
+{% block titulo %}Editar Historia Odontologica{% endblock %}
+
+{% block msg %}
+	{% if app.session.hasFlash('ok') %}
+	    <div class="alert alert-success">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('ok') }}</span>
+	    </div>
+	{% elseif app.session.hasFlash('info') %}
+		<div class="alert alert-info">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('info') }}</span>
+	    </div>
+	{% elseif app.session.hasFlash('error') %}
+		<div class="alert alert-error">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('error') }}</span>
+	    </div>
+	{% endif %}
+{% endblock %}
+
+{% block cuerpo %}
+
+{% set tipoingreso = factura.tipo %}
+	
+{% set boolean = '' %}
+{% if tipoingreso == 'U' or tipoingreso == 'H' %}
+	{% set boolean = 'salida' %}
+{% endif %}
+
+   <div id="tableHcPaciente">
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th>Nombres</th>
+					<th>Apellidos</th>
+					<th>Identificación</th>				
+					<th>Grupo Etnico</th>
+					<th>Edad</th>					
+					<th>Estado Civil</th>					
+					<th>Aseguradora</th>
+					<th>Nivel</th>
+					<th>Afiliación</th>								
+				</tr>
+			</thead>
+	        <tbody>
+	            <tr>                
+	                <td>{{ paciente.priNombre | capitalize }} {{ paciente.segNombre | capitalize }}</td>                
+	                <td>{{ paciente.priApellido | capitalize }} {{ paciente.segApellido | capitalize }}</td>
+	                <td>{{ paciente.identificacion }}</td>
+	                <td>{{ paciente.pertEtnica }}</td>
+	                <td>{{ date('now') | date('Y-m-d') - paciente.fn | date('Y-m-d') }} Años</td>	                
+	                <td>{{ paciente.estaCivil }}</td>	                        
+	                <td>{{ factura.cliente.nombre }}</td>
+	                <td>{{ afiliacion.tipoRegist }}</td>
+	                <td>{{ afiliacion.rango }}</td>                                           
+	            </tr>            
+	        </tbody>
+	    </table>
+   </div>           
+   
+   		   
+    
+	<form action="{{ path('odontologia_update', {'factura':factura.id}) }}" class="form-horizontal" method="post" {{ form_enctype(edit_form) }}>
+	    <fieldset>
+	    	<legend>Información de la historia</legend>    	
+    	
+    
+		<div class="control-group">
+			<label class="control-label" for="fechaIngre">Fecha Ingreso:</label>
+			<div class="controls">				
+				<span class="input-xlarge uneditable-input">{{ historia.fechaIngre|date('Y-m-d H:i:m') }}</span>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label"  for="fechaEgre">Fecha Egreso:</label>
+			<div class="controls">
+				<span class="input-xlarge uneditable-input">{{ historia.fechaEgre|date('Y-m-d H:i:m') }}</span>
+			</div>
+		</div>			
+		<div class="control-group">
+			<label class="control-label"  for="fechaEgre">Servicio Ingreso: *</label>
+			<div class="controls">
+				<span class="input-xlarge uneditable-input">{{ factura.servicio.nombre }}</span>
+			</div>
+		</div>    	
+    	    		
+	
+     
+	      <div id="Anamnesis" style="padding:2px">
+	      	<div class="control-group">
+					{{ form_label(edit_form.tipoAtencion) }}
+				<div class="controls">
+					{{ form_errors(edit_form.tipoAtencion) }}
+					{{ form_widget(edit_form.tipoAtencion) }}
+				</div>
+			</div>
+			
+			<div class="control-group">
+					{{ form_label(edit_form.causaExt) }}
+				<div class="controls">
+					{{ form_errors(edit_form.causaExt) }}
+					{{ form_widget(edit_form.causaExt) }}
+				</div>
+			</div>
+			
+			<div class="control-group">
+					{{ form_label(edit_form.tipoDx) }}
+	    	   	<div class="controls">
+					{{ form_errors(edit_form.tipoDx) }}
+					{{ form_widget(edit_form.tipoDx) }}
+				</div>
+	    	</div>
+	    	    
+			<div class="control-group">
+					{{ form_label(edit_form.motivo) }}
+				<div class="controls">
+					{{ form_errors(edit_form.motivo) }}
+					{{ form_widget(edit_form.motivo) }}
+				</div>
+			</div>
+			
+			<div class="control-group">
+					{{ form_label(edit_form.enfermedad) }}
+				<div class="controls">
+					{{ form_errors(edit_form.enfermedad) }}
+					{{ form_widget(edit_form.enfermedad) }}
+				</div>
+			</div> 
+			
+			<div class="control-group">
+					{{ form_label(edit_form.conducta) }}
+	    	   	<div class="controls">
+					{{ form_errors(edit_form.conducta) }}
+					{{ form_widget(edit_form.conducta) }}
+				</div>
+	    	</div>      
+      
+         
+     		 <div id="ParteMedica">     		 
+	     		 <div class="control-group">
+						{{ form_label(edit_form.dxPrin) }}
+	    	    	<div class="controls">
+						{{ form_errors(edit_form.dxPrin) }}
+						{{ form_widget(edit_form.dxPrin) }} 
+					</div>
+	    	    </div>
+	     		 <div id="dxSolicitados">
+	     		 	<div id="ajaxMsgCie"></div>
+		     		<table id="CieSolicitado" class="table table-striped">
+						<thead>
+		            		<tr>
+		                		<th>NOMBRE</th>
+		                		<th>CODIGO</th>
+		                		<th>OPCIÓN</th>                
+		            		</tr>
+		        		</thead>
+					    <tbody>  
+					    	{% for cie in hc_cie %}
+					    		<tr id="dx{{ cie.id }}">
+						    		<td>{{ cie.nombre }}</td>
+						    		<td>{{ cie.codigo }}</td>  
+						    		<td id="delCieBtn{{ cie.id }}">
+						    			<a class='btn' onClick='delCie({{ cie.id }}); return false;' href='#' title='Eliminar'><i class='icon-remove'></i></a>
+						    		</td>
+					    		</tr>
+					    	{% endfor %} 
+					    
+					    </tbody>
+					</table> 
+	     		 </div>	 	   	 
+    	   		 
+    	   		 
+  		<div  style="display: none;" >	
+		   {{ form_rest(edit_form) }}
+		 </div>
+       </fieldset>
+       
+			<div class="form-actions">
+				<input class="btn btn-primary" name="guardar" type="submit" value="Modificar" onclick="return confirm('¡Una ves guardada la información la historia quedara cerrada!. ¿Seguro desea guardar?');" />
+			    <a href="{{ path('paciente_filtro') }}" class="btn btn-danger">Cancelar</a>			   
+			</div>
+	</form>
+{% endblock %}
+
+{% block javascripts %}
+	
+<script type="text/javascript">
+
+	// funcion del onchange para el diagnostico
+	
+	$("#odontologiaType_dxPrin").change(function(){
+		
+		var url="{{ path('historia_dxHc') }}";
+		var cieId = $("#odontologiaType_dxPrin").val();
+		var hcId = {{ historia.id }};
+
+		if(cieId == ""){
+			   alert("Seleccione una opcion valida");
+			}
+
+			$.post(url,{
+				hcId: hcId,
+				cieId : cieId
+				},function(data){
+					if(data.responseCode==200){
+
+						$('#ajaxMsgCie').empty();					
+						var tr = "";
+						tr += "<tr id='dx"+data.cie.id+"'>";
+						tr += "<td>"+data.cie.nombre+"</td>";
+						tr += "<td>"+data.cie.codigo+"</td>";						
+						tr += "<td><a class='btn' onClick='delCie("+data.cie.id+"); return false;' href='#' title='Eliminar'><i class='icon-remove'></i></a></td>";
+						tr += "</tr>";
+
+						$("#CieSolicitado tbody").append(tr);
+						}
+					else if(data.responseCode==400){
+		             	$('#ajaxMsgCie').html(data.msg);
+		                $('#ajaxMsgCie').css("color","red");
+		             }
+		             else{
+		         	    alert("Ha ocurrido un error en el sistema.");
+		             }
+		        })
+	 });
+		      
+	// cuncion para eliminar la relacion del diagnostico con la historia clinica
+  function delCie(id){
+
+	  if(confirm("Esta seguro de eliminar el diagnostico¿?"))// se consulta la valides de evento generado por el usuario
+		{
+			 $('#delCieBtn'+id).empty(); // se deshabilita el boton para evitar multiples acciones
+
+			 var url = "{{ path('historia_delDxHc') }}";
+			 var hc = {{ historia.id }};		 
+
+			 $.post(url,{
+	             cie: id, // atributos que se pasaran por medio del post
+	             hc : hc             
+		      },function(data){
+		          if(data.responseCode==200 ){ // respuesta del RESPONSE 
+		              
+					  $("#dx"+id).empty();
+					  $("#odontologiaType_dxPrin"+id).empty();				  
+
+		        	  $('#ajaxMsgCie').html(data.msg);
+			          $('#ajaxMsgCie').css("color","green");
+		          }
+		          else if(data.responseCode==400){
+		          	$('#ajaxMsgCie').html(data.msg);
+		            $('#ajaxMsgCie').css("color","red");
+		          }
+		          else{
+		      	    alert("Ha ocurrido un error en el sistema.");
+		          }
+		     })
+		}
+	 }		 
+</script>	
+{% endblock %}

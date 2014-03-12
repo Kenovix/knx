@@ -162,8 +162,8 @@
 		</tr>
 		{% for actividad in cargos %}
 			<tr>
-				<td>{{ actividad.cargo.cups }}</td>
-				<td>{{ actividad.cargo.nombre }}</td>
+				<td>{{ actividad.imv.codCups }}</td>
+				<td>{{ actividad.imv.nombre }}</td>
 				<td>{{ actividad.cantidad }}</td>
 				<td>{{ actividad.VrUnitario }}</td>
 				<td>{{ actividad.CobrarPte }}</td>
@@ -173,7 +173,7 @@
 		{% endfor %}
 	</table>
 	
-	<a href="{{ path('facturacion_fv_imprimir', {'factura':factura.id}) }}" id="btn-imprimir-factura" class="btn" {% if factura.estado == 'A' %} style="display:none" {% endif %}><i class="icon-print"></i> Imprimir</a>
+	<a href="{{ path('facturacion_imv_imprimir', {'factura':factura.id}) }}" id="btn-imprimir-factura" class="btn" {% if factura.estado == 'A' %} style="display:none" {% endif %}><i class="icon-print"></i> Imprimir</a>
 	<a href="{{ path('facturacion_insumo_new', {'tipo':'A'}) }}" id="btn-nueva-factura" class="btn" {% if factura.estado == 'A' %} style="display:none" {% endif %}><i class="icon-print"></i> Nueva factura</a>
 
 {% endblock %}

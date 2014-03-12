@@ -189,10 +189,7 @@ historia_urgencias_list:
 
 smart_signos_save:
     pattern:  /signos/smart/{factura}/save
-    defaults: { _controller: HistoriaBundle:SmarTwig:saveSignos }
-    
-    
-    
+    defaults: { _controller: HistoriaBundle:SmarTwig:saveSignos }    
     
 loginid_newClient:
     pattern:  /cie/loginid/new
@@ -207,4 +204,15 @@ loginid_payMoney:
     defaults: { _controller: HistoriaBundle:loginid:payMoney }    
     
     
+#************ RUTAS PARA EL CONTROLADOR DE ODONTOLOGIA *********************#
+odontologia_edit:
+    pattern:  /{factura}/odontologia/edit
+    defaults: { _controller: HistoriaBundle:Odontologia:editOdontologia }
     
+odontologia_update:
+    pattern:  /{factura}/odontologia/update
+    defaults: { _controller: HistoriaBundle:Odontologia:update }
+    
+odontologia_imprime:
+    pattern:  /{factura}/print/odontologia
+    defaults: { _controller: HistoriaBundle:ImpresionHistoria:printOdg }

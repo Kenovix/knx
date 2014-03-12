@@ -1,0 +1,43 @@
+{% extends "::simple.html.twig" %}
+
+{% block body %}
+
+<div>
+	<p>
+		<b>MOTIVO DEL INGRESO</b><br/>
+		~ Motivo De Consulta: {{ historia.motivo }} <br/>
+		~ Enfermedad Actual:  {{ historia.enfermedad }} <br/>
+		~ Tipo Atencion: 	  {{ historia.tipoAtencion }}<br/>
+		~ Tipo Diagnostico: 	  {{ historia.tipoDx }}<br/>
+		~ Causa Externa: 	  {{ historia.causaExt }}<br/>
+		~ Conducta: {{ historia.conducta }}<br/>
+	</p>
+
+	<p>
+		<b>DIAGNOSTICO MEDICO</b><br/>
+		<table class="table table-striped">
+					<thead>
+	            		<tr>
+	            			<th  width="100px" align="left">No.</th>
+	                		<th>NOMBRE</th>
+	                		<th>CODIGO</th>
+	            		</tr>
+	        		</thead>
+				    <tbody>
+				    {% for cie in hc_cie %}
+		    		<tr>
+		    			<td  width="100px" align="left">{{ loop.index}}</td>
+			    		<td>{{ cie.nombre }}</td>
+			    		<td>{{ cie.codigo }}</td>
+		    		</tr>
+		    		{% endfor %}
+		    </tbody>
+		</table><br/><br/>		
+	</p>			
+	<p>
+		<b>Medico: </b> {{ usuario.nombre }} {{ usuario.apellido }} Especialidad: {{ usuario.especialidad }} <br/>
+		<b>Registro:</b><br/>
+		<b>Firma: </b>
+	</p>
+</div>
+{% endblock %}

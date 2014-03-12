@@ -31,14 +31,24 @@ class NotaController extends Controller
 		{
 			// se crea automaticamente la historia y luego lo pasa al edit de la historia.
 			$historia = $factura->getHc();
+			
+			// se optine el servicio para verificar si es de odontologia o de consulta
+			$servicio = $factura->getServicio();			
+			
 			/* Si la historia no existe se procedera a crear una historia en code behind, despues de crear la
 			 * historia se procede a visualizar el formulario de las notas. */
 			if(!$historia){				
 				
 				$historia = $em->getRepository('HistoriaBundle:Notas')->createEmptyHc($factura);
 			}
-			// se redirecciona la a la editccion de la historia
-			return $this->redirect($this->generateUrl('historia_edit',array("factura" => $factura->getId())));
+			
+			if($servicio->getId() == '6'){
+				// se redirecciona a el edit de la odontologia
+				return $this->redirect($this->generateUrl('odontologia_edit',array("factura" => $factura->getId())));
+			}else{
+				// se redirecciona a el edit de la historia
+				return $this->redirect($this->generateUrl('historia_edit',array("factura" => $factura->getId())));
+			}			
 		}		
 		// envia un mesaje diciendo que la facuta no contiene los permisos suficientes para crear una historia clinica
 		return $this->redirect($this->generateUrl('paciente_filtro'));		

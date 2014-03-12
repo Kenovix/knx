@@ -138,23 +138,7 @@ class ImpresionHistoriaController extends Controller
 			$pdf->AddPage('P', 'A4');
 			$pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $remision, $border = 0, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
 			$pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $body, $border = 0, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
-		}		
-
-		// Se valida la iformacion que va en formato de media carta tal como la remision, incapacidad, examenes, procedimientos y medicamentos
-		/*if( $tipoIngreso == 'U' or $tipoIngreso == 'H')
-		{
-			if($historia->getEvolucion() != '')
-			{
-				$evoluciones = $this->renderView('HistoriaBundle:Impresos:Evoluciones.html.twig',array(
-						'historia' 	 => $historia,
-						'usuario'  	 => $usuario,
-				));
-		
-				$pdf->AddPage('P', 'A4');
-				$pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $header, $border = 0, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
-				$pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $evoluciones, $border = 0, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
-			}
-		}*/
+		}	
 		
 		if($historia->getIncapacidad() != '')
 		{
@@ -366,5 +350,99 @@ class ImpresionHistoriaController extends Controller
 	public function getMupio()
 	{
 		return $this->mupio;
+	}
+	
+	public function getCausaExterna()
+	{
+		return $causaExt = array(
+						'1' => 'Accidente de trabajo',
+						'2' => 'Accidente de tránsito',
+						'3' => 'Accidente rábico',
+						'4' => 'Accidente ofídico',
+						'5' => 'Otro tipo de accidente',
+						'6' => 'Evento catastrófico',
+						'7' => 'Lesión por agresión',
+						'8' => 'Lesión auto infligida',
+						'9' => 'Sospecha de maltrato físico',
+						'10' => 'Sospecha de abuso sexual',
+						'11' => 'Sospecha de violencia sexual',
+						'12' => 'Sospecha de maltrato emocional',
+						'13' => 'Enfermedad general',
+						'14' => 'Enfermedad profesional',
+						'15' => 'Otra');
+	}
+	
+	
+	// validar la informacion para generar el pdf de la historia de ODONTOLOGIA
+	public function printOdgAction($factura)
+	{
+		$em = $this->getDoctrine()->getEntityManager();
+		$factura = $em->getRepository('FacturacionBundle:Factura')->find($factura);
+		
+		if(!$factura){
+			throw $this->createNotFoundException('Error!! La información solicitada es incorrecta.');
+		}
+		
+		$this->setUsuario($this->get('security.context')->getToken()->getUser());
+		$this->setHistoria($factura->getHc());
+		$this->setPaciente($factura->getPaciente());
+		$this->setCliente($factura->getCliente());
+		$this->setAfiliacion($em->getRepository('ParametrizarBundle:Afiliacion')->findOneBy(array('cliente' => $this->getCliente()->getId(), 'paciente' => $this->getPaciente()->getId())));
+		$this->setHcCie($em->getRepository('HistoriaBundle:Hc')->findHcDx($this->getHistoria()->getId()));		
+		$this->setMupio($em->getRepository('ParametrizarBundle:Mupio')->find($this->getPaciente()->getMupio()));
+		$this->setDepto($em->getRepository('ParametrizarBundle:Depto')->find($this->getPaciente()->getDepto()));
+		
+		$this->generarOdfPdf($factura);
+	}
+	
+	// generar el pdf de la historia de odontologia.
+	public function generarOdfPdf($factura)
+	{
+		$em = $this->getDoctrine()->getEntityManager();
+		
+		$usuario = $this->getUsuario();
+		$historia = $this->getHistoria();
+		$paciente = $this->getPaciente();
+		$cliente = $this->getCliente();
+		$afiliacion = $this->getAfiliacion();
+		$hc_cie = $this->getHcCie();
+		$depto = $this->getDepto();
+		$mupio = $this->getMupio();
+		$titulo = "Historia Clinica Odontologica No.";
+		
+		// verificar que los servicios existan para evitar posibles errores ya q se usan los objetos en el impreso
+		if($historia->getServiEgre()){
+			$serviEgre = $em->getRepository('ParametrizarBundle:Servicio')->find($historia->getServiEgre());
+		}else{
+			$serviEgre="";
+		}
+		// si los servicios existen se asignan a la historia para manejarlos como objetos.
+		$historia->setServiEgre($serviEgre);
+		
+		// se ingresan los valores de cada atributo por medio de un array opteniendo el nombre de este con el id de su columna
+		$tipoDx = array('1' => 'Impresion diagnostica','2' => 'Confirmado nuevo','3' => 'Repetido');
+		$causaExt = $this->getCausaExterna();
+		
+		$historia->setTipoDx($tipoDx[$historia->getTipoDx()]);		
+		$historia->setCausaExt($causaExt[$historia->getCausaExt()]);
+		
+		// se instancia el tcpdBundle
+		$pdf = $this->getPritTcpd();
+		
+		// se genera el encabezado
+		$header = $this->getHeader($factura,$titulo);
+		
+		$body = $this->renderView('HistoriaBundle:Impresos:OdontologiaPdf.html.twig',array(
+				'factura'  	 => $factura,
+				'usuario'  	 => $usuario,
+				'historia' 	 => $historia,
+				'hc_cie' 	 => $hc_cie,				
+		));
+		
+		$pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $header, $border = 0, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
+		$pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $body, $border = 0, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
+		
+		$response = new Response($pdf->Output('HcPrint.pdf', 'I'));
+		$response->headers->set('Content-Type', 'application/pdf');
 	}
 }

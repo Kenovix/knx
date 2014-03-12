@@ -80,6 +80,10 @@ facturacion_imv_delete:
     requirements:
         _method: POST
         
+facturacion_imv_imprimir:
+    pattern:  /imv/{factura}/imprimir
+    defaults: { _controller: FacturacionBundle:Factura:imprimirImv }
+        
 facturacion_fv_imprimir:
     pattern:  /fv/{factura}/imprimir
     defaults: { _controller: FacturacionBundle:Factura:imprimir }
