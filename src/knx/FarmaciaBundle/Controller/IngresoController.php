@@ -168,6 +168,8 @@ class IngresoController extends Controller
 
     	$ingreso = new Ingreso();
     	$ingreso->setFecha(new \datetime('now'));
+        $ingreso->setEstado('A');
+
     	$form   = $this->createForm(new IngresoType(), $ingreso);
 
     	return $this->render('FarmaciaBundle:Ingreso:new.html.twig', array(
@@ -208,6 +210,7 @@ class IngresoController extends Controller
 
 
     			$em = $this->getDoctrine()->getEntityManager();
+                        $ingreso->setEstado('A');
 
     			$em->persist($ingreso);
     			$em->flush();
@@ -328,6 +331,9 @@ class IngresoController extends Controller
 
     	$em = $this->getDoctrine()->getEntityManager();
     	$ingreso = $em->getRepository('FarmaciaBundle:Ingreso')->find($ingreso);
+        $ingreso->setEstado('I');
+        $em->persist($ingreso);
+    	$em->flush();
 
     	$inventario = $em->getRepository('FarmaciaBundle:Inventario')->findBy(array('ingreso' => $ingreso->getId()));
 		
