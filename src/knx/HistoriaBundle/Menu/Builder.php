@@ -55,6 +55,8 @@ class Builder extends ContainerAware
 			$menu['Facturación']['Facturar']->addChild('Consulta', array('route' => 'facturacion_consulta_new'));
 			$menu['Facturación']['Facturar']->addChild('Procedimiento', array('uri' => '#'));
 			$menu['Facturación']['Facturar']['Procedimiento']->addChild('Ambulatorio', array('route' => 'facturacion_procedimiento_new', 'routeParameters' => array('tipo' => 'A')));
+			$menu['Facturación']['Facturar']['Procedimiento']->addChild('Urgencias', array('route' => 'facturacion_urgencias_list'));
+			$menu['Facturación']['Facturar']->addChild('Medicamento', array('route' => 'facturacion_insumo_new', 'routeParameters' => array('tipo' => 'A')));
 			$menu['Facturación']['Facturar']['Procedimiento']->addChild('Urgencias', array('route' => 'facturacion_urgencias_list'));			
 			$menu['Facturación']['Facturar']->addChild('Reportes', array('route' => 'reporte_cargo_new'));
 			$menu['Facturación']['Facturar']->addChild('Morbilidad', array('route' => 'morbilidad_vista'));
@@ -88,7 +90,24 @@ class Builder extends ContainerAware
             
                         $menu->addChild($usuario->getUsername(), array('uri' => '#'));
 			$menu[$usuario->getUsername()]->addChild('Salir', array('route' => 'logout'));
-        }elseif ($security->isGranted('ROLE_AUXILIAR')) {
+        }
+        
+        elseif ($security->isGranted('ROLE_ODONTOLOGO')) {
+                    
+                    $menu->addChild('Historia', array('uri' => '#'));
+                    $menu['Historia']->addChild('Consultas pendientes', array('uri' => '#'));
+			$menu['Historia']['Consultas pendientes']->addChild('Externas', array('route' => 'historia_externas_list'));
+                        $menu['Historia']['Consultas pendientes']->addChild('Urgencias', array('route' => 'historia_urgencias_list'));
+			$menu['Historia']->addChild('Diagnosticos', array('route' => 'cie_list'));
+			$menu['Historia']->addChild('Examenes', array('route' => 'examen_list'));
+			$menu['Historia']->addChild('Medicamentos', array('route' => 'medicamento_list'));
+			$menu['Historia']->addChild('Urgencias', array('route' => 'historia_urgenciaList'));
+			$menu['Historia']->addChild('Busqueda', array('route' => 'paciente_filtro'));
+            
+                        $menu->addChild($usuario->getUsername(), array('uri' => '#'));
+			$menu[$usuario->getUsername()]->addChild('Salir', array('route' => 'logout'));
+        }
+        elseif ($security->isGranted('ROLE_AUXILIAR')) {
                     
                     $menu->addChild('Historia', array('uri' => '#'));
                     $menu['Historia']->addChild('Consultas pendientes', array('uri' => '#'));

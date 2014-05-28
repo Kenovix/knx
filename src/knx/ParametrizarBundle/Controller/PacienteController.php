@@ -516,7 +516,7 @@ class PacienteController extends Controller
 		$perfil = null;
 		foreach ($usuario->getRoles() as $role)
 		{
-			if($role == 'ROLE_FACTURADOR' || $role == 'ROLE_ADMIN' || $role == 'ROLE_SUPER_ADMIN')
+			if( $role == 'ROLE_FACTURADOR' || $role == 'ROLE_ADMIN' || $role == 'ROLE_SUPER_ADMIN')
 			{
 				$perfil = $role;
 			}

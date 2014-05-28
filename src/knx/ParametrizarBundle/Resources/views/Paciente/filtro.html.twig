@@ -95,7 +95,9 @@
             <tr>
                 <th width="50px" >No.</th>
                 <th width="150px">Identificación</th>
+                {% if  is_granted('ROLE_MEDICO') or is_granted('ROLE_AUXILIAR') or is_granted('ROLE_SUPER_ADMIN')%}
                 <th width="80px">Historial Clinico</th>
+                {%endif%}
                 <th width="400px">Nombre</th>
             </tr>
         </thead>
@@ -108,7 +110,9 @@
                 	{% else %}
                 	<td>{{ entity.tipoid }} - {{ entity.identificacion }}</td>
                 {% endif %}
+                {% if  is_granted('ROLE_MEDICO') or is_granted('ROLE_AUXILIAR') or is_granted('ROLE_SUPER_ADMIN')%}
                 <td><a href="{{ path('historia_search_result', {'paciente':entity.id}) }}" class="btn"><i class="icon-list"></i></a></td>
+                {%endif%}
                 <td>{{ entity.priNombre }} {{ entity.segNombre }} {{ entity.priApellido }} {{ entity.segApellido }}</td>
             </tr>
          {% else %}

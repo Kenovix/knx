@@ -45,8 +45,16 @@
 	        {% for ingreso in ingreso %}
 	            <tr>
 	                <td>{{ loop.index }}</td>
-	                <td><a href="{{ path('ingreso_show', {'ingreso':ingreso.id}) }}">{{ ingreso.numFact }}</a></td>
-	                <td>{{ ingreso.fecha | date('d-m-Y')}}</td>
+                        
+                        {% if ingreso.estado=='I' %}
+                              <td>{{ ingreso.numFact }}</td>
+		                {% else %}
+                              <td><a href="{{ path('ingreso_show', {'ingreso':ingreso.id}) }}">{{ ingreso.numFact }}</a></td>
+		                {% endif %}
+                     
+
+                     
+                        <td>{{ ingreso.fecha | date('d-m-Y')}}</td>
 	                <td> $ {{ ingreso.valorT | number_format(0,',','.')}}</td>
 	              	<td>{{ ingreso.almacen}}</td>
 	                <td>{{ ingreso.proveedor}}</td>
@@ -55,6 +63,7 @@
 	            </tr>
 
 	        {% endfor %}
+
 	        </tbody>
 	    </table>
 
