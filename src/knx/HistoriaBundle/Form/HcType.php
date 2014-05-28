@@ -137,45 +137,46 @@ class HcType extends AbstractType {
 								'attr' => array('placeholder' => 'Genitales')))/* EndExamenFisico */
 
 				/* Medico */
-				/* Diagnosticos */ 
-
-				->add('dxPrin', 'entity',
-						array('mapped' => false,
-								'label' => 'Seleccione los dx:',
-								'class' => 'knx\\HistoriaBundle\\Entity\\Cie',
-								'required' => false,
-								'empty_value' => '--diagnosticos--',
-								'query_builder' => function (
-										EntityRepository $repositorio) {
-									return $repositorio
-											->createQueryBuilder('c')
-											->orderBy('c.nombre', 'ASC');
-								}))
-				->add('examenes', 'entity',
-						array('mapped' => false,
-								'label' => 'Seleccione los examenes:',
-								'class' => 'knx\\HistoriaBundle\\Entity\\Examen',
-								'required' => false,
-								'empty_value' => '--examenes--',
-								'query_builder' => function (
-										EntityRepository $repositorio) {
-									return $repositorio
-											->createQueryBuilder('e')
-											->orderBy('e.nombre', 'ASC');
-								}))
-				->add('laboratorio', 'entity',
-						array('mapped' => false,
-								'label' => 'Seleccione los medicamentos:',
-								'class' => 'knx\\HistoriaBundle\\Entity\\Medicamento',
-								'required' => false,
-								'empty_value' => '--laboratorio--',
-								'query_builder' => function (
-										EntityRepository $repositorio) {
-									return $repositorio
-											->createQueryBuilder('l')
-											->orderBy('l.principioActivo',
-													'ASC');
-								}))
+				/* Diagnosticos */ 				
+										
+				->add('dxPrin', 'text',
+						array(	'mapped' => false,
+								'label' => 'Seleccione los dx  :','required' => false,
+								'attr' => array(
+										'placeholder' => 'Codigo',
+										'class' => 'span1 search-query',										
+										'autocomplete' => 'off',
+								)))
+								
+				->add('nameDxPrin', 'text',
+						array(	'mapped' => false,
+								'label' => 'nombre del dx:','required' => false,
+								'attr' => array(
+										'placeholder' => 'Busquedad por el Nombre del CIE',
+										'class' => 'span6 search-query',
+										//'class' => 'ui-autocomplete-input',
+										'autocomplete' => 'off',
+								)))
+								
+				->add('examenes', 'text',
+						array(	'mapped' => false,
+								'label' => 'Seleccione los examenes:','required' => false,
+								'attr' => array(
+										'placeholder' => 'Busquedad por el Nombre del examen',
+										'class' => 'span4 search-query',										
+										'autocomplete' => 'off',
+								)))
+								
+				->add('laboratorio', 'text',
+						array(	'mapped' => false,
+								'label' => 'Seleccione los medicamentos:','required' => false,
+								'attr' => array(
+										'placeholder' => 'Busquedad por el Nombre del laboratorio',
+										'class' => 'span4 search-query',
+										'autocomplete' => 'off',
+								)))
+								
+				
 				->add('tipoDx', 'choice',
 						array('label' => 'Tipo Dx: *', 'required' => true,
 								'choices' => array('' => '--seleccione--',
@@ -192,17 +193,38 @@ class HcType extends AbstractType {
 								'attr' => array('placeholder' => 'Evolucion')))/* EndMedico*/
 
 				/* Egreso */
-				->add('dxSalida', 'entity',
-						array(	'label' => 'Seleccione el dx salida:',
-								'class' => 'knx\\HistoriaBundle\\Entity\\Cie',
+		
+				->add('dxSalida', 'text',
+						array(	
+								'label' => 'Seleccione el dx salida:',
 								'required' => false,
-								'empty_value' => '--diagnosticos salida--',
-								'query_builder' => function (
-										EntityRepository $repositorio) {
-									return $repositorio
-									->createQueryBuilder('c')
-									->orderBy('c.nombre', 'ASC');
-								}))
+								'read_only' => true,
+								'attr' => array(
+										'placeholder' => '##',
+										'class' => 'span1',	
+										'id' => 'disabledInput'
+								)))
+								
+				->add('codeDxSalida', 'text',
+						array(	'mapped' => false,
+								'label' => 'Seleccione el dx salida:',
+								'required' => false,
+								'attr' => array(
+										'placeholder' => 'Codigo',
+										'class' => 'span1 search-query',										
+										'autocomplete' => 'off',
+								)))
+								
+				->add('nameDxSalida', 'text',
+						array(	'mapped' => false,
+								'label' => 'nombre del dx:',
+								'required' => false,
+								'attr' => array(
+										'placeholder' => 'Busquedad por el Nombre del diagnostico',
+										'class' => 'span6 search-query',										
+										'autocomplete' => 'off',
+								)))
+								
 				->add('condSalida', 'textarea',
 						array('label' => 'Condicion Salidad:',
 								'required' => false,
@@ -303,15 +325,47 @@ class HcType extends AbstractType {
 								
 				->add('examenes_s', 'textarea',
 						array('label' => 'Examenes salida:','required' => false,
-								'attr' => array('placeholder' => 'Examenes que se le envian al paciente')))
+								'attr' => array('placeholder' => 'Recuerde ingresar primero todos los EXAMENES que se le envian al paciente antes de dar una descripcion.')))
 				->add('procedimientos_s', 'textarea',
 						array('label' => 'procedimientos salida:','required' => false,
-								'attr' => array('placeholder' => 'Procedimientos que se le envian al paciente')))
+								'attr' => array('placeholder' => 'Recuerde ingresar primero todos los PROCEDIMIENTOS que se le envian al paciente antes de dar una descripcion.')))
 				->add('medicamentos_s', 'textarea',
 						array('label' => 'medicamentos salida:','required' => false,
-								'attr' => array('placeholder' => 'medicametos que se le envian al paciente')))
+								'attr' => array('placeholder' => 'Recuerde ingresar primero todos los MEDICAMENTOS que se le envian al paciente antes de dar una descripcion.')))
 								
-				->add('sal_examenes', 'entity',
+								
+				->add('sal_medicamentos', 'text',
+						array(	'mapped' => false,
+								'label' => 'Seleccione los medicamentos:',
+								'required' => false,
+								'attr' => array(
+										'placeholder' => 'Busquedad por el Nombre del medicamento',
+										'class' => 'span6 search-query',
+										'autocomplete' => 'off',
+								)))
+				
+				->add('sal_procedimientos', 'text',
+						array(	'mapped' => false,
+								'label' => 'Seleccione los procedimientos:',
+								'required' => false,
+								'attr' => array(
+										'placeholder' => 'Busquedad por el Nombre del procedimiento',
+										'class' => 'span6 search-query',
+										'autocomplete' => 'off',
+								)))
+								
+				->add('sal_examenes', 'text',
+						array(	'mapped' => false,
+								'label' => 'Seleccione los examenes:',
+								'required' => false,
+								'attr' => array(
+										'placeholder' => 'Busquedad por el Nombre del examen',
+										'class' => 'span6 search-query',										
+										'autocomplete' => 'off',
+								)))		
+				
+				
+				/*->add('sal_examenes', 'entity',
 						array('mapped' => false,
 								'label' => 'Seleccione los examenes:',
 								'class' => 'knx\\HistoriaBundle\\Entity\\Examen',
@@ -324,9 +378,9 @@ class HcType extends AbstractType {
 									->where("e.tipo = :tipo")
 									->setParameter('tipo', 'LB')
 									->orderBy('e.nombre', 'ASC');
-								}))
+								}))*/
 								
-				->add('sal_procedimientos', 'entity',
+				/*->add('sal_procedimientos', 'entity',
 						array('mapped' => false,
 								'label' => 'Seleccione los procedimientos:',
 								'class' => 'knx\\HistoriaBundle\\Entity\\Examen',
@@ -340,20 +394,7 @@ class HcType extends AbstractType {
 									->setParameter('tipo', 'P')
 									->setParameter('tipo1', 'ID')
 									->orderBy('e.nombre', 'ASC');
-								}))
-				->add('sal_medicamentos', 'entity',
-						array('mapped' => false,
-								'label' => 'Seleccione los medicamentos:',
-								'class' => 'knx\\HistoriaBundle\\Entity\\Medicamento',
-								'required' => false,
-								'empty_value' => '--medicamentos--',
-								'query_builder' => function (
-										EntityRepository $repositorio) {
-									return $repositorio
-									->createQueryBuilder('l')
-									->orderBy('l.principioActivo',
-											'ASC');
-								}))
+								}))*/
 								
 								
 				->add('incapacidad', 'textarea',
@@ -388,26 +429,39 @@ class HcType extends AbstractType {
 								
 				->add('pPeso', 'integer',
 						array('label' => 'Peso: ','required' => false,
-								'attr' => array('placeholder' => 'Peso', 'class' => 'span2')))
-								
-				->add('pCausaM', 'entity',
-						array(	'attr' => array('class' => 'span4'),								
-								'label' => 'Causa Muerte recién nacido: ',
-								'class' => 'knx\\HistoriaBundle\\Entity\\Cie',
+								'attr' => array('placeholder' => 'Peso', 'class' => 'span2')))								
+				
+				->add('pDx', 'text',
+						array(
+								'label' => 'Diagnóstico del recién nacido:',
 								'required' => false,
-								'empty_value' => '--diagnosticos--',
-								'query_builder' => function (
-										EntityRepository $repositorio) {
-									return $repositorio
-									->createQueryBuilder('c')
-									->orderBy('c.nombre', 'ASC');
-								}))
-								
-				->add('p_fecha_m', 'text',
-						array('label' => 'Fecha Muerte: ','required' => false, 'mapped' => false,
-								'attr' => array('placeholder' => 'DD/MM/YYYY HH:MM', 'class' => 'span2')))
-								
-				->add('pDx', 'entity',
+								'read_only' => true,
+								'attr' => array(
+										'placeholder' => '##',
+										'class' => 'span1',
+										'id' => 'disabledInput'
+								)))
+				
+				->add('codeDxpDx', 'text',
+						array(	'mapped' => false,
+								'label' => 'Seleccione el dx salida:',
+								'required' => false,
+								'attr' => array(
+										'placeholder' => 'Codigo',
+										'class' => 'span1 search-query',
+										'autocomplete' => 'off',
+								)))
+
+				->add('nameDxpDx', 'text',
+						array(	'mapped' => false,
+								'label' => 'nombre del dx:',
+								'required' => false,
+								'attr' => array(
+										'placeholder' => 'Busquedad por el Nombre del diagnostico',
+										'class' => 'span6 search-query',
+										'autocomplete' => 'off',
+								)))
+				/*->add('pDx', 'entity',
 						array(  'attr' => array('class' => 'span4'),
 								'label' => 'Diagnóstico del recién nacido: ',
 								'class' => 'knx\\HistoriaBundle\\Entity\\Cie',
@@ -418,7 +472,54 @@ class HcType extends AbstractType {
 									return $repositorio
 									->createQueryBuilder('c')
 									->orderBy('c.nombre', 'ASC');
-								}))				
+								}))*/	
+					
+				->add('p_fecha_m', 'text',
+						array('label' => 'Fecha Muerte: ','required' => false, 'mapped' => false,
+								'attr' => array('placeholder' => 'DD/MM/YYYY HH:MM', 'class' => 'span2')))
+
+				->add('pCausaM', 'text',
+						array(
+								'label' => 'Causa Muerte recién nacido:',
+								'required' => false,
+								'read_only' => true,
+								'attr' => array(
+										'placeholder' => '##',
+										'class' => 'span1',
+										'id' => 'disabledInput'
+								)))
+				
+				->add('codeDxpCausaM', 'text',
+						array(	'mapped' => false,
+								'label' => 'Seleccione el dx salida:',
+								'required' => false,
+								'attr' => array(
+										'placeholder' => 'Codigo',
+										'class' => 'span1 search-query',
+										'autocomplete' => 'off',
+								)))
+
+				->add('nameDxpCausaM', 'text',
+						array(	'mapped' => false,
+								'label' => 'nombre del dx:',
+								'required' => false,
+								'attr' => array(
+										'placeholder' => 'Busquedad por el Nombre del diagnostico',
+										'class' => 'span6 search-query',
+										'autocomplete' => 'off',
+								)))
+				/*->add('pCausaM', 'entity',
+						array(	'attr' => array('class' => 'span4'),								
+								'label' => 'Causa Muerte recién nacido: ',
+								'class' => 'knx\\HistoriaBundle\\Entity\\Cie',
+								'required' => false,
+								'empty_value' => '--diagnosticos--',
+								'query_builder' => function (
+										EntityRepository $repositorio) {
+									return $repositorio
+									->createQueryBuilder('c')
+									->orderBy('c.nombre', 'ASC');
+								}))*/				
 								
 			// fin formulario documentacion para el parto	
 

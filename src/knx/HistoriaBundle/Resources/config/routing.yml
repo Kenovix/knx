@@ -125,6 +125,17 @@ nota_print:
     defaults: { _controller: HistoriaBundle:Nota:print }
     
 #**************** DIAGNOSTICO HISTORIA ***********************#
+historia_dxCodeSearch:
+    pattern:  /dxCode/search/historia_dx
+    defaults: { _controller: HistoriaBundle:HistoriaDx:codeAutocomplete}
+    requirements:
+        _method:  GET
+     
+historia_dxNameSearch:
+    pattern:  /dxName/search/historia_dx
+    defaults: { _controller: HistoriaBundle:HistoriaDx:nameAutocomplete}
+    requirements:
+        _method:  GET
 
 historia_dxHc:
     pattern:  /dx/save/historia_dx
@@ -139,6 +150,11 @@ historia_delDxHc:
         _method:  POST
         
 #**************** EXAMEN HISTORIA ***********************#
+historia_examen_search:
+    pattern:  /examen/search/search_ex
+    defaults: { _controller: HistoriaBundle:HistoriaExamen:nameExamAutocomplete }
+    requirements:
+        _method:  GET
 
 historia_examenHc:
     pattern:  /save/examenHc
@@ -158,6 +174,11 @@ historia_saveResultadoExamen:
     requirements:
         _method:  POST
 #**************** LABORATORIO HISTORIA ***********************#
+historia_lab_search:
+    pattern:  /laboratorio/search/search_lab
+    defaults: { _controller: HistoriaBundle:HistoriaLaboratorio:nameLabAutocomplete }
+    requirements:
+        _method:  GET
 
 historia_laboratorioHc:
     pattern:  /laboratorioHc/save

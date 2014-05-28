@@ -536,13 +536,17 @@
       {% ui_accordion %}
       {% ui_tab label="Parte Medica Diagnostica" %}
      		 <div id="ParteMedica">     		 
-	     		 <div class="control-group">
-						{{ form_label(edit_form.dxPrin) }}
-	    	    	<div class="controls">
+	     		 <div class="form-inline">
+					{{ form_label(edit_form.dxPrin) }}
+					<div class="controls">
 						{{ form_errors(edit_form.dxPrin) }}
-						{{ form_widget(edit_form.dxPrin) }} 
-					</div>
-	    	    </div>
+						{{ form_widget(edit_form.dxPrin) }}
+						
+						{{ form_errors(edit_form.nameDxPrin) }}
+						{{ form_widget(edit_form.nameDxPrin) }}
+					</div>										
+	    	     </div>
+	    	    
 	     		 <div id="dxSolicitados">
 	     		 	<div id="ajaxMsgCie"></div>
 		     		<table id="CieSolicitado" class="table table-striped">
@@ -681,11 +685,14 @@
       
 	  {% ui_tab label="Parte Medica medicamento" %}	  	
 	  		  
-		    	<div>
-		     		{{ form_label(edit_form.laboratorio) }}
-					{{ form_errors(edit_form.laboratorio) }}
-					{{ form_widget(edit_form.laboratorio) }}
+	  		  	<div class="control-group">
+		     		{{ form_label(edit_form.laboratorio) }}					
+					<div class="controls">				
+					{{ form_errors(edit_form.laboratorio) }}	
+					{{ form_widget(edit_form.laboratorio) }}					
+					</div>				
 	     		 </div>	
+		    	
 	     		 
 	     		  <div id="ajaxMsgLab"></div>
 	     		 <div id="labSoli">	     		 	
@@ -723,13 +730,18 @@
 	 {% ui_accordion %}
       {% ui_tab label="Parte Medica Diagnostica" %}
      		 <div id="ParteMedica">
-	     		 <div class="control-group">
-						{{ form_label(edit_form.dxPrin) }}
-	    	    	<div class="controls">
+     		 
+	     		 <div class="form-inline">
+					{{ form_label(edit_form.dxPrin) }}
+					<div class="controls">
 						{{ form_errors(edit_form.dxPrin) }}
-						{{ form_widget(edit_form.dxPrin) }} 
-					</div>
-	    	    </div>
+						{{ form_widget(edit_form.dxPrin) }}
+						
+						{{ form_errors(edit_form.nameDxPrin) }}
+						{{ form_widget(edit_form.nameDxPrin) }}
+					</div>										
+	    	     </div>
+	    	    
 	     		 <div id="dxSolicitados">
 	     		 	<div id="ajaxMsgCie"></div>
 		     		<table id="CieSolicitado" class="table table-striped">
@@ -780,51 +792,67 @@
 		    	<div id="Egreso">
 		    	
 		    	{% if tipoingreso == 'U' or tipoingreso == 'H' %}
-			    	 <div>
-			    	    {{ form_label(edit_form.dxSalida) }}
-						{{ form_errors(edit_form.dxSalida) }}
-						{{ form_widget(edit_form.dxSalida,{ 'attr': {'class': 'input-xxlarge'} }) }}
-					 </div>
-					 <div>	
-						{{ form_label(edit_form.condSalida) }}
-						{{ form_errors(edit_form.condSalida) }}
-						{{ form_widget(edit_form.condSalida) }}
-					 </div>
+		    	
+			    	 <div class="form-inline">
+						{{ form_label(edit_form.dxSalida) }}
+						<div class="controls">
+							{{ form_errors(edit_form.dxSalida) }}
+							{{ form_widget(edit_form.dxSalida) }}
+							
+							{{ form_errors(edit_form.codeDxSalida) }}
+							{{ form_widget(edit_form.codeDxSalida) }}
+							
+							{{ form_errors(edit_form.nameDxSalida) }}
+							{{ form_widget(edit_form.nameDxSalida) }}
+						</div>											
+	    	    	 </div>   	 
+	    	    	<br/>
+	    	    	<div class="control-group">
+	    	    			{{ form_label(edit_form.condSalida) }}						
+		    	    	 <div class="controls">
+		    	    	 	{{ form_errors(edit_form.condSalida) }}
+							{{ form_widget(edit_form.condSalida) }}
+						 </div>
+	    	    	</div>
 				 {% endif %}
 				 
 				 <br/>
-				 <div>
-				 	{{ form_label(edit_form.medicamentos_s) }}
-					 <div>						
+				 <div class="control-group">
+						{{ form_label(edit_form.medicamentos_s) }}						
+	    	    	 <div class="controls">
 						{{ form_errors(edit_form.sal_medicamentos) }}
 						{{ form_widget(edit_form.sal_medicamentos) }}
-					</div>						
+					 </div>
+					 <div class="controls">
 						{{ form_errors(edit_form.medicamentos_s) }}
 						{{ form_widget(edit_form.medicamentos_s) }}
-				 </div>	
-				 
-				
-				<br/>
-					<div>
-						{{ form_label(edit_form.procedimientos_s) }}
-						<div>						
-							{{ form_errors(edit_form.sal_procedimientos) }}
-							{{ form_widget(edit_form.sal_procedimientos) }}
-						</div>					
+					 </div>
+    	    	</div>	    	    					
+				<br/>				
+				<div class="control-group">
+						{{ form_label(edit_form.procedimientos_s) }}						
+	    	    	 <div class="controls">
+						{{ form_errors(edit_form.sal_procedimientos) }}
+						{{ form_widget(edit_form.sal_procedimientos) }}
+					 </div>
+					 <div class="controls">
 						{{ form_errors(edit_form.procedimientos_s) }}
-						{{ form_widget(edit_form.procedimientos_s) }}				
-					</div>			
+						{{ form_widget(edit_form.procedimientos_s) }}
+					 </div>
+    	    	</div>							
 				<br/>
-				<div>
-					{{ form_label(edit_form.examenes_s) }}
-					<div>						
+				<div class="control-group">
+						{{ form_label(edit_form.examenes_s) }}						
+	    	    	 <div class="controls">
 						{{ form_errors(edit_form.sal_examenes) }}
-						{{ form_widget(edit_form.sal_examenes) }}	
-					</div>
-					{{ form_errors(edit_form.examenes_s) }}
-					{{ form_widget(edit_form.examenes_s) }}					
-								
-				</div>				 
+						{{ form_widget(edit_form.sal_examenes) }}
+					 </div>
+					 <div class="controls">
+						{{ form_errors(edit_form.examenes_s) }}
+						{{ form_widget(edit_form.examenes_s) }}
+					 </div>
+    	    	</div>
+					 
 				 
 				 <div>
 				 	{{ form_label(edit_form.manejoSalida) }}						
@@ -836,7 +864,9 @@
 					{{ form_label(edit_form.incapacidad) }}
 					{{ form_errors(edit_form.incapacidad) }}
 					{{ form_widget(edit_form.incapacidad) }}
-				  </div>	
+				 </div>
+				 <br/>	
+				  
 				  
 				{% if tipoingreso == 'U' or tipoingreso == 'H' %}
 					  <div class="control-group">
@@ -856,6 +886,8 @@
 	    	   		 </div>	 
 	    	   		 {% else %}
 	    	   		 <br/><a href="#" onClick='tipoSalidaConsultaExterna(true); return false;' name="cextRemision" id="cextRemision" class="btn">Remisión</a>
+	    	   		 	  <a href="#" onClick='tipoSalidaConsultaExterna(false); return false;' name="cerrarRemision" id="cerrarRemision" class="btn">Cerrar Remisión</a>
+	    	   		 <br/><br/>
     	   		 {% endif %} 			
 		    	</div>     
 		    					
@@ -978,7 +1010,8 @@
 									{{ form_errors(edit_form.pSexo) }}
 									{{ form_widget(edit_form.pSexo) }}
 								</div>
-			    	   		 </div> 	
+			    	   		 </div>    		 
+			    	   		  
 			    	   		 
 			    	   		 <div class="control-group">
 				    			{{ form_label(edit_form.pPeso) }}
@@ -990,15 +1023,20 @@
 								</div>
 			    	   		 </div>  
 			    	   		 
-			    	   		 <div class="control-group">
-				    			{{ form_label(edit_form.pDx) }}
-				    			
-			    	    		<div class="controls">
+			    	   		  <div class="form-inline">
+								{{ form_label(edit_form.pDx) }}
+								<div class="controls">
 									{{ form_errors(edit_form.pDx) }}
 									{{ form_widget(edit_form.pDx) }}
-								</div>
-			    	   		 </div>
-			    	   		 
+									
+									{{ form_errors(edit_form.codeDxpDx) }}
+									{{ form_widget(edit_form.codeDxpDx) }}
+									
+									{{ form_errors(edit_form.nameDxpDx) }}
+									{{ form_widget(edit_form.nameDxpDx) }}
+								</div>											
+			    	    	 </div>
+			    	   		 <br/><br/>
 			    	   		 <div class="control-group">
 				    			{{ form_label(edit_form.p_fecha_m) }}
 				    			
@@ -1008,16 +1046,19 @@
 								</div>
 			    	   		 </div>	
 			    	   		 
-			    	   		 <div class="control-group">
-				    			{{ form_label(edit_form.pCausaM) }}
-				    			
-			    	    		<div class="controls">
+			    	   		 <div class="form-inline">
+								{{ form_label(edit_form.pCausaM) }}
+								<div class="controls">
 									{{ form_errors(edit_form.pCausaM) }}
 									{{ form_widget(edit_form.pCausaM) }}
-								</div>
-			    	   		 </div>
-			    	   		 
-			    	   		     	   		 
+									
+									{{ form_errors(edit_form.codeDxpCausaM) }}
+									{{ form_widget(edit_form.codeDxpCausaM) }}
+									
+									{{ form_errors(edit_form.nameDxpCausaM) }}
+									{{ form_widget(edit_form.nameDxpCausaM) }}
+								</div>											
+			    	    	 </div>    	   		 
 			    	 	</div>
 				    {% end_ui_content %}
 				{% end_ui_expander %} 
@@ -1050,50 +1091,9 @@
 
 {% set tipoingreso = factura.tipo %}
 
-
-	<script type="text/javascript">
-		$("#newNotasType_peso,#newNotasType_estatura").focusout(function() {
-			var imc = 0;
-			
-			peso = $("#newNotasType_peso").val();
-			talla = $("#newNotasType_estatura").val();
-		
-			if(peso && talla){
-				imc = (peso/(Math.pow((talla/100),2)));		
-				
-				$("#newNotasType_imc").val(imc.toFixed(0));
-			}else{
-				$("#newNotasType_imc").val('');
-			}
-		});				
-	</script>
-	
-	
+<script src="{{ asset('bundles/knx/js/HistoriaJS/Historia_edit.js') }}"></script>
 	
 <script type="text/javascript">
-
-
-	//	funcion para el leer el examen solicitado por el medico
-	
-	/* Esta funcion se encarga de creear un area de texto y de cambiar la funcion del boton edit una funcion de guardar
-	   despues de dar click en la opcion de guardar se dirige a la funcion saveResultadoExamen que es la que se encarga 
-	   de trabajar con el ajax para guardar la informacion.
-	*/
-
-	function readExamen(examen){        	
-
-	       var examenId = examen;	       
-	       var resultado = $('#resultado'+examenId).html();
-
-	       var div ="<div id='resultado"+examenId+"'><textarea id='textarea"+examenId+"' style='width:300px; height:75px;' rows='2'>"+resultado+"</textarea></div>";
-	       var a = "<a onClick='saveResultadoExamen("+examenId+"); return false;' class='btn' href='#' title='guardar'><i class='icon-hdd'></i></a>"
-	    	  
-
-	       $('#opcion'+examenId).empty();
-	       $('#div'+examenId).empty();
-	       $("#div"+examenId).append(div);	       
-	       $("#opcion"+examenId).append(a);
-	}
 
 	function saveResultadoExamen(examen){
 
@@ -1151,124 +1151,6 @@
 		       $("#opcion"+examenId).append(a);
 			}
 	}
-
-	// funcion del onchange para el diagnostico
-	
-	$("#newHcType_dxPrin").change(function(){
-		
-		var url="{{ path('historia_dxHc') }}";
-		var cieId = $("#newHcType_dxPrin").val();
-		var hcId = {{ historia.id }};
-
-		if(cieId == ""){
-			   alert("Seleccione una opcion valida");
-			}
-
-			$.post(url,{
-				hcId: hcId,
-				cieId : cieId
-				},function(data){
-					if(data.responseCode==200){
-
-						$('#ajaxMsgCie').empty();					
-						var tr = "";
-						tr += "<tr id='dx"+data.cie.id+"'>";
-						tr += "<td>"+data.cie.nombre+"</td>";
-						tr += "<td>"+data.cie.codigo+"</td>";						
-						tr += "<td><a class='btn' onClick='delCie("+data.cie.id+"); return false;' href='#' title='Eliminar'><i class='icon-remove'></i></a></td>";
-						tr += "</tr>";
-
-						$("#CieSolicitado tbody").append(tr);
-						}
-					else if(data.responseCode==400){
-		             	$('#ajaxMsgCie').html(data.msg);
-		                $('#ajaxMsgCie').css("color","red");
-		             }
-		             else{
-		         	    alert("Ha ocurrido un error en el sistema.");
-		             }
-		        })
-	 });
-
-	// funcion del onchange para el examen
-	$("#newHcType_examenes").change(function(){
-		
-		var url="{{ path('historia_examenHc') }}";
-		var exaId = $("#newHcType_examenes").val();
-		var hcId = {{ historia.id }};
-
-		if(exaId == ""){
-			   alert("Seleccione una opcion valida");
-			}
-
-			$.post(url,{
-				hcId: hcId,
-				exaId : exaId
-				},function(data){
-					if(data.responseCode==200){
-
-						$('#ajaxMsgExa').empty();					
-						var tr = "";
-						tr += "<tr id='exa"+data.examen.id+"'>";
-						tr += "<td>"+data.examen.nombre+"</td>";
-						tr += "<td>"+data.examen.tipo+"</td>";
-						tr += "<td id='div"+data.examen.id+"'><div id='resultado"+data.examen.id+"'></div></td>";			
-						tr += "<td id='opcion"+data.examen.id+"'><a class='btn' onClick='readExamen("+data.examen.id+"); return false;' href='#' title='leer'><i class='icon-edit'></i></a></td>"			
-						tr += "<td id='delExaBtn"+data.examen.id+"'><a class='btn' onClick='delExa("+data.examen.id+"); return false;' href='#' title='Eliminar'><i class='icon-remove'></i></a></td>";
-						tr += "</tr>";
-
-						$("#examenSolicitado tbody").append(tr);
-						}
-					else if(data.responseCode==400){
-		             	$('#ajaxMsgExa').html(data.msg);
-		                $('#ajaxMsgExa').css("color","red");
-		             }
-		             else{
-		         	    alert("Ha ocurrido un error en el sistema.");
-		             }
-		        })
-	 });
-	
-	// funcion del onchange para el medicamento nikname (laboratorio)
-	
-	$("#newHcType_laboratorio").change(function(){
-		
-		var url="{{ path('historia_laboratorioHc') }}";
-		var labId = $("#newHcType_laboratorio").val();
-		var hcId = {{ historia.id }};
-
-		if(labId == ""){
-			   alert("Seleccione una opcion valida");
-			}
-
-			$.post(url,{
-				hcId: hcId,
-				labId : labId
-				},function(data){
-					if(data.responseCode==200){
-
-						$('#ajaxMsgLab').empty();					
-						var tr = "";
-						tr += "<tr id='lab"+data.medicamento.id+"'>";
-						tr += "<td>"+data.medicamento.principioActivo+"</td>";
-						tr += "<td>"+data.medicamento.presentacion+"</td>";
-						tr += "<td>"+data.medicamento.concentracion+"</td>";
-						tr += "<td>"+data.medicamento.posologia+"</td>";						
-						tr += "<td><a class='btn' onClick='delLab("+data.medicamento.id+"); return false;' href='#' title='Eliminar'><i class='icon-remove'></i></a></td>";
-						tr += "</tr>";
-
-						$("#laboraSolicitado tbody").append(tr);
-						}
-					else if(data.responseCode==400){
-		             	$('#ajaxMsgLab').html(data.msg);
-		                $('#ajaxMsgLab').css("color","red");
-		             }
-		             else{
-		         	    alert("Ha ocurrido un error en el sistema.");
-		             }
-		        })
-	 });
-
 	
 	// funcion para que el medico cada vez que presione la evolucion se asigne la fecha.	
 	$('#newHcType_evolucion').click(function()
@@ -1384,36 +1266,47 @@
 		}
 	 }
 
+	 // funcion para la busqueda del diagnostico con el autocomplete
+	$("#newHcType_dxPrin,#newHcType_codeDxSalida,#newHcType_codeDxpDx,#newHcType_codeDxpCausaM").focusin(function()
+	{
+		var url = "{{ path('historia_dxCodeSearch') }}";
+		var ruta="{{ path('historia_dxHc') }}";
+		var hcId = {{ historia.id }};
 
-	 // opciones para el manejo de la salida que se asignes los respectivos medicamentos laboratorios y examenes en su respetivo campo
-	 
-	 $("#newHcType_sal_medicamentos").change(function(){		
-			
-			var value = $("#newHcType_sal_medicamentos").val();
-			var option = $("#newHcType_sal_medicamentos option[value='"+value+"']").text();
+		autocompleteDxCodeSearch(url,ruta,hcId);			    
+	});
 
-			$("#newHcType_medicamentos_s").append("\nMedicamento["+option+"]:");
+	 // funcion para la busqueda del diagnostico con el autocomplete
+	$("#newHcType_nameDxPrin,#newHcType_nameDxSalida,#newHcType_nameDxpDx,#newHcType_nameDxpCausaM").focusin(function()
+	{
+    	var url = "{{ path('historia_dxNameSearch') }}";
+    	var ruta = "{{ path('historia_dxHc') }}";
+    	var hcId = {{ historia.id }};
+    	
+    	autocompleteNameDxCodeSearch(url,ruta,hcId);
+	 });
 
-			return true;		
-		});
-	 $("#newHcType_sal_procedimientos").change(function(){		
-			
-			var value = $("#newHcType_sal_procedimientos").val();
-			var option = $("#newHcType_sal_procedimientos option[value='"+value+"']").text();
+	 // funcion para la busqueda del EXAMENES con el autocomplete
+	$("#newHcType_examenes,#newHcType_sal_examenes,#newHcType_sal_procedimientos").focusin(function()
+	{
+    	var url = "{{ path('historia_examen_search') }}";
+    	var ruta = "{{ path('historia_examenHc') }}";
+    	var hcId = {{ historia.id }};
+    	
+    	autocompleteExamenesSearch(url,ruta,hcId);
+	 });
 
-			$("#newHcType_procedimientos_s").append("\nProcedimiento["+option+"]:");
+	 // funcion para la busqueda del LABORATORIO con el autocomplete
+	$("#newHcType_laboratorio,#newHcType_sal_medicamentos").focusin(function()
+	{
+    	var url =  "{{ path('historia_lab_search') }}";
+    	var ruta = "{{ path('historia_laboratorioHc') }}";
+    	var hcId = {{ historia.id }};
 
-			return true;		
-		});
-	 $("#newHcType_sal_examenes").change(function(){		
-			
-			var value = $("#newHcType_sal_examenes").val();
-			var option = $("#newHcType_sal_examenes option[value='"+value+"']").text();		
+    	autocompleteMedicamentosSearch(url,ruta,hcId)    	
+	 });
 
-			$("#newHcType_examenes_s").append("\nExamen["+option+"]:");
-
-			return true;		
-		});
+	
 
 	// funcion para visualizar los campos q se deben de llenar para una remision y una contraremision.
 		 
@@ -1427,74 +1320,7 @@
 			
 		});
 
-		function tipoSalidaConsultaExterna(bool)
-		{			
-			$('#remision').hide('slow');
-			$('#remision2').hide('slow');
-			$("#newHcType_destino").val('4');
-				$("label[for='newHcType_descripcion_r']").text('Descripcion remision:');
-				$('#remision').show('slow');
-				$('#remision2').show('slow');
-			
-		}
-		function tipoDeSalidaDelPaciente()
-		{
-			var destino = $("#newHcType_destino").val();
-			var tipoDestino = $("#newHcType_tipoDestino").val();
-			
-			var salidaObservacion = $("#newHcType_destinoUserSalidaObser").val();
-			var ingresoInstitution = $("#newHcType_viaIngresoInstitucion").val();
-			var vivoMuerto = $("#newHcType_estadoSalida").val();
-			
-
-			$('#remision').hide('slow');
-			$('#remision2').hide('slow');
-			$('#viaIngresoInstitution').hide('slow');
-			$('#salidaObservacion').hide('slow');
-			$('#formSalida').hide('slow');
-
-
-			if(destino == '4')
-			{
-				$("#newHcType_tipoDestino").val('');
-				$("#newHcType_destinoUserSalidaObser").val('');
-				$("#newHcType_viaIngresoInstitucion").val('');
-				$("label[for='newHcType_descripcion_r']").text('Descripcion remision:');
-				$('#remision').show('slow');
-				$('#remision2').show('slow');
-				
-			}else if( (destino == '1') && (tipoDestino == '1') || (destino == '3') && (tipoDestino == '1') )
-			{						
-				$('#formSalida').show('slow');
-				$('#salidaObservacion').show('slow');
-				
-			}else if( tipoDestino == '2')
-			{						
-				$('#formSalida').show('slow');
-				$('#viaIngresoInstitution').show('slow');
-			}
-			else if( ((salidaObservacion == '2') && (tipoDestino == '1')) )
-			{
-				$("label[for='newHcType_descripcion_r']").text('Descripcion remision:');
-				$('#remision').show('slow');
-				$('#remision2').show('slow');
-			}
-			if( (tipoDestino == '1') && ((destino == '1')||(destino == '3')) && (salidaObservacion == '3'))
-			{
-				$('#formSalida').show('slow');
-				$('#viaIngresoInstitution').show('slow');
-				$('#salidaObservacion').show('slow');
-			}
-			if( ((tipoDestino == '1') || (tipoDestino == '2')) && ((salidaObservacion != '2') &&  (ingresoInstitution != '3')) && vivoMuerto=='2' )
-			{
-				$("label[for='newHcType_descripcion_r']").text('Descrip, hora y fecha de la muerte');				
-				$('#remision2').show('slow');
-			}
-			if(salidaObservacion == '2' && tipoDestino == '1')
-			{
-				$("#newHcType_destino").val('3');
-			}
-		}
+		
 
 	 $(function() {
 			 $("#newHcType_p_Fecha_n").datetimepicker({ dateFormat: 'dd/mm/yy' });
