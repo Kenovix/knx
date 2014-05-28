@@ -79,17 +79,24 @@ class NotaController extends Controller
 		
 		$usuario = $this->get('security.context')->getToken()->getUser();
 		
+		
+		foreach ($usuario->getRoles() as $role)
+		{
+			if($role == 'ROLE_MEDICO')
+				return $this->redirect($this->generateUrl('historia_edit',array("factura" => $factura->getId())));
+		}
+		
 		$breadcrumbs = $this->get("white_october_breadcrumbs");
 		$breadcrumbs->addItem("Inicio",$this->get("router")->generate("paciente_filtro"));
-		$breadcrumbs->addItem("Notas",$this->get("router")->generate("paciente_filtro"));
-		$breadcrumbs->addItem("Nueva");
+		$breadcrumbs->addItem("Consltas en urgencias",$this->get("router")->generate("historia_urgencias_list"));
+		$breadcrumbs->addItem("Nota Nueva");
 		
 		return $this->render('HistoriaBundle:Notas:new.html.twig',array(
 				'factura' 	=> $factura,
 				'paciente' 	=> $paciente,
 				'historia' 	=> $historia,
 				'today'		=> new \DateTime('now'),
-				'usuario'  	=> $usuario,
+				'usuario'  	=> $usuario,				
 				'form' => $nota_form->createView(),
 		));
 	}
@@ -170,7 +177,7 @@ class NotaController extends Controller
 		// visualizacion del rastro de miga
 		$breadcrumbs = $this->get("white_october_breadcrumbs");
 		$breadcrumbs->addItem("Inicio",$this->get("router")->generate("paciente_filtro"));
-		$breadcrumbs->addItem("Notas",$this->get("router")->generate("paciente_filtro"));
+		$breadcrumbs->addItem("Notas",$this->get("router")->generate("nota_new", array('factura' => $factura->getId() )));
 		$breadcrumbs->addItem("Listado",$this->get("router")->generate("nota_list",	array("historia" => $historia->getId())));
 		$breadcrumbs->addItem("Detalle");
 
@@ -202,7 +209,7 @@ class NotaController extends Controller
 
 		$breadcrumbs = $this->get("white_october_breadcrumbs");
 		$breadcrumbs->addItem("Inicio",$this->get("router")->generate("paciente_filtro"));
-		$breadcrumbs->addItem("Notas",$this->get("router")->generate("paciente_filtro"));
+		$breadcrumbs->addItem("Notas",$this->get("router")->generate("nota_new", array('factura' => $factura->getId() )));
 		$breadcrumbs->addItem("Listado",$this->get("router")->generate("nota_list",array("historia" => $historia->getId())));
 		$breadcrumbs->addItem("Detalle",$this->get("router")->generate("nota_show",array("nota" => $nota->getId())));
 		$breadcrumbs->addItem("Modificar Nota");
@@ -244,7 +251,7 @@ class NotaController extends Controller
 
 		$breadcrumbs = $this->get("white_october_breadcrumbs");
 		$breadcrumbs->addItem("Inicio",$this->get("router")->generate("paciente_filtro"));
-		$breadcrumbs->addItem("Notas",$this->get("router")->generate("paciente_filtro"));
+		$breadcrumbs->addItem("Notas",$this->get("router")->generate("nota_new", array('factura' => $factura->getId() )));
 		$breadcrumbs->addItem("Listado",$this->get("router")->generate("nota_list",array("historia" => $historia->getId())));
 		$breadcrumbs->addItem("Detalle",$this->get("router")->generate("nota_show",array("nota" => $nota->getId())));
 		$breadcrumbs->addItem("Modificar Nota");
@@ -292,7 +299,7 @@ class NotaController extends Controller
 		// visualizacion del rastro de miga
 		$breadcrumbs = $this->get("white_october_breadcrumbs");
 		$breadcrumbs->addItem("Inicio",$this->get("router")->generate("paciente_filtro"));
-		$breadcrumbs->addItem("Notas",$this->get("router")->generate("paciente_filtro"));
+		$breadcrumbs->addItem("Notas",$this->get("router")->generate("nota_new", array('factura' => $factura->getId() )));
 		$breadcrumbs->addItem("Listado");		
 
 		// Se realiza la respectiva paginacion
@@ -317,9 +324,11 @@ class NotaController extends Controller
 		$listNotas = $em->getRepository('HistoriaBundle:Notas')->findByHc($historia, array('fecha' => 'DESC'));
 		$factura = $historia->getFactura();
 		$paciente = $factura->getPaciente();
+		$cliente = $factura->getCliente();
 		$paciente->setPertEtnica($paciente->getPE($paciente->getPertEtnica()));
 		$depto = $em->getRepository('ParametrizarBundle:Depto')->find($paciente->getDepto());
 		$mupio = $em->getRepository('ParametrizarBundle:Mupio')->find($paciente->getMupio());
+		$afiliacion = $em->getRepository('ParametrizarBundle:Afiliacion')->findOneBy(array('cliente' => $cliente->getId(), 'paciente' => $paciente->getId()));
 		
 		// verificar que los servicios existan para evitar posibles errores ya q se usan los objetos en el impreso
 		if($historia->getServiEgre()){
@@ -355,6 +364,7 @@ class NotaController extends Controller
 		
 		$header = $this->renderView('HistoriaBundle:Impresos:header.html.twig',array(
 				'factura'  	 => $factura,
+				'afiliacion' => $afiliacion,
 				'paciente' 	 => $paciente,
 				'historia' 	 => $historia,
 				'depto'		 => $depto,

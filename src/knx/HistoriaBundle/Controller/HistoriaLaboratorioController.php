@@ -74,8 +74,7 @@ class HistoriaLaboratorioController extends Controller {
 
 		$em = $this->getDoctrine()->getEntityManager();
 		$historia = $em->getRepository('HistoriaBundle:Hc')->find($hc);
-		$laboratorio = $em->getRepository('HistoriaBundle:Medicamento')
-				->find($lab);
+		$laboratorio = $em->getRepository('HistoriaBundle:Medicamento')->find($lab);
 
 		if (!$historia || !$laboratorio) {
 			$response = array("responseCode" => 400,
@@ -94,5 +93,26 @@ class HistoriaLaboratorioController extends Controller {
 		$return = json_encode($response);
 		return new Response($return, 200,
 				array('Content-Type' => 'application/json'));
+	}
+	
+	public function nameLabAutocompleteAction()
+	{
+		$response='';
+		if ( !isset($_REQUEST['term']) ){exit;}
+	
+		$em = $this->getDoctrine()->getEntityManager();
+		$dql = $em->getRepository('HistoriaBundle:Medicamento')->findByLaboratorioName($_REQUEST['term']);
+	
+		if($dql){
+			foreach ($dql as $data)
+				$response[] = array(
+						'label' => $data['principioActivo'].' - '.$data['concentracion'].' - '.$data['presentacion'],
+						'value' => $data['principioActivo'],
+						'id' 	=> $data['id']						
+				);
+		}
+	
+		$return = json_encode($response);
+		return new Response($return, 200,array('Content-Type' => 'application/json'));
 	}
 }

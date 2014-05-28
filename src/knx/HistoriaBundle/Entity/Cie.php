@@ -9,6 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="cie")
  * @ORM\Entity
+ * @ORM\Entity(repositoryClass="knx\HistoriaBundle\Entity\Repository\CieRepository")
  * 
  */
 class Cie {
@@ -89,6 +90,6 @@ class Cie {
 	}
 
 	public function __toString() {
-		return $this->getCodigo().' -- '.$this->getNombre();
+		return $this->getNombre().' -- '.$this->getCodigo();
 	}
 }
