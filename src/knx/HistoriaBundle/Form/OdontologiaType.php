@@ -17,38 +17,24 @@ class OdontologiaType extends AbstractType {
 								'repetida' => 'Repetida',),
 						'multiple' => false,))
 						
-		->add('dxPrin', 'entity',
-				array('mapped' => false,
-						'label' => 'Seleccione los dx:',
-						'class' => 'knx\\HistoriaBundle\\Entity\\Cie',
-						'required' => false,
-						'empty_value' => '--diagnosticos--',
-						'query_builder' => function (
-								EntityRepository $repositorio) {
-							return $repositorio
-							->createQueryBuilder('c')
-							->where('c.codigo LIKE :A OR
-									c.codigo LIKE :B OR 
-									c.codigo LIKE :C OR 
-									c.codigo LIKE :D OR 
-									c.codigo LIKE :E OR 
-									c.codigo LIKE :K OR 
-									c.codigo LIKE :O OR 
-									c.codigo LIKE :Q OR 
-									c.codigo LIKE :S OR 
-									c.codigo LIKE :T')
-							->setParameter('A', 'A%')
-							->setParameter('B', 'B%')
-							->setParameter('C', 'C%')
-							->setParameter('D', 'D%')
-							->setParameter('E', 'E%')
-							->setParameter('K', 'K%')
-							->setParameter('O', 'O%')
-							->setParameter('Q', 'Q%')
-							->setParameter('S', 'S%')
-							->setParameter('T', 'T%')
-							->orderBy('c.codigo', 'ASC');
-						}))
+		->add('dxPrin', 'text',
+						array(	'mapped' => false,
+								'label' => 'Seleccione los dx  :','required' => false,
+								'attr' => array(
+										'placeholder' => 'Codigo',
+										'class' => 'span1 search-query',										
+										'autocomplete' => 'off',
+								)))
+								
+		->add('nameDxPrin', 'text',
+				array(	'mapped' => false,
+						'label' => 'nombre del dx:','required' => false,
+						'attr' => array(
+								'placeholder' => 'Busquedad por el Nombre del CIE',
+								'class' => 'span6 search-query',
+								//'class' => 'ui-autocomplete-input',
+								'autocomplete' => 'off',
+						)))
 						
 		->add('causaExt', 'choice',
 				array('label' => 'Causa Externa: *',

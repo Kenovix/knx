@@ -144,9 +144,9 @@
 			~ Condición De Salida: {{ historia.condSalida }} <br/>
 			~ Manejo De Salida: {{ historia.manejoSalida }} <br/>
 		{% endif %}
-		~ Medicamentos: 	{{ historia.medicamentosS }} <br/>
-		~ Procedimientos: 	{{ historia.procedimientosS }} <br/>
-		~ Examenes:			{{ historia.examenesS }} <br/>
+		~ Medicamentos: 	{{ historia.medicamentosS | raw  }} <br/>
+		~ Procedimientos: 	{{ historia.procedimientosS | raw }} <br/>
+		~ Examenes:			{{ historia.examenesS | raw }} <br/>
 		~ Incapacidad:		{{ historia.incapacidad }}
 	</p>	
 	

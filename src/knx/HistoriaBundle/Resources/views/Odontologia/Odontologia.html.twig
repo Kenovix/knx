@@ -145,14 +145,17 @@
 	    	</div>      
       
          
-     		 <div id="ParteMedica">     		 
-	     		 <div class="control-group">
-						{{ form_label(edit_form.dxPrin) }}
-	    	    	<div class="controls">
+     		 	<div class="form-inline">
+					{{ form_label(edit_form.dxPrin) }}
+					<div class="controls">
 						{{ form_errors(edit_form.dxPrin) }}
-						{{ form_widget(edit_form.dxPrin) }} 
-					</div>
-	    	    </div>
+						{{ form_widget(edit_form.dxPrin) }}
+						
+						{{ form_errors(edit_form.nameDxPrin) }}
+						{{ form_widget(edit_form.nameDxPrin) }}
+					</div>										
+	    	     </div>
+	    	     
 	     		 <div id="dxSolicitados">
 	     		 	<div id="ajaxMsgCie"></div>
 		     		<table id="CieSolicitado" class="table table-striped">
@@ -192,46 +195,30 @@
 {% endblock %}
 
 {% block javascripts %}
+
+<script src="{{ asset('bundles/knx/js/HistoriaJS/Odontologia_edit.js') }}"></script>
 	
 <script type="text/javascript">
 
 	// funcion del onchange para el diagnostico
 	
-	$("#odontologiaType_dxPrin").change(function(){
-		
-		var url="{{ path('historia_dxHc') }}";
-		var cieId = $("#odontologiaType_dxPrin").val();
+	$("#odontologiaType_dxPrin").focusin(function()
+	{
+		var url = "{{ path('historia_dxCodeSearch') }}";
+		var ruta="{{ path('historia_dxHc') }}";
 		var hcId = {{ historia.id }};
 
-		if(cieId == ""){
-			   alert("Seleccione una opcion valida");
-			}
+		autocompleteDxCodeSearch(url,ruta,hcId);			    
+	});
 
-			$.post(url,{
-				hcId: hcId,
-				cieId : cieId
-				},function(data){
-					if(data.responseCode==200){
-
-						$('#ajaxMsgCie').empty();					
-						var tr = "";
-						tr += "<tr id='dx"+data.cie.id+"'>";
-						tr += "<td>"+data.cie.nombre+"</td>";
-						tr += "<td>"+data.cie.codigo+"</td>";						
-						tr += "<td><a class='btn' onClick='delCie("+data.cie.id+"); return false;' href='#' title='Eliminar'><i class='icon-remove'></i></a></td>";
-						tr += "</tr>";
-
-						$("#CieSolicitado tbody").append(tr);
-						}
-					else if(data.responseCode==400){
-		             	$('#ajaxMsgCie').html(data.msg);
-		                $('#ajaxMsgCie').css("color","red");
-		             }
-		             else{
-		         	    alert("Ha ocurrido un error en el sistema.");
-		             }
-		        })
-	 });
+	$("#odontologiaType_nameDxPrin").focusin(function()
+			{
+		    	var url = "{{ path('historia_dxNameSearch') }}";
+		    	var ruta = "{{ path('historia_dxHc') }}";
+		    	var hcId = {{ historia.id }};
+		    	
+		    	autocompleteNameDxCodeSearch(url,ruta,hcId);
+			 });
 		      
 	// cuncion para eliminar la relacion del diagnostico con la historia clinica
   function delCie(id){
