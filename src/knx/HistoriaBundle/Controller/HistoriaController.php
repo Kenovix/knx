@@ -62,21 +62,11 @@ class HistoriaController extends Controller
 		if ($historia->getServiEgre()) {
 			$serviEgre = $em->getRepository('ParametrizarBundle:Servicio')->find($historia->getServiEgre());
 		}
-		/*if($historia->getPDx())
-		{
-			$pdx = $em->getRepository('HistoriaBundle:Cie')->find($historia->getPDx());
-		}
-		if($historia->getPCausaM())
-		{
-			$pCausaM= $em->getRepository('HistoriaBundle:Cie')->find($historia->getPCausaM());
-		}*/
 		if($factura->getTipo() == 'C')
 			$historia->setDestino('1');
 	
 		// se cargan los respectivos objetos para que el formulario los visualice correctamente.
-		$historia->setServiEgre($serviEgre);		
-		/*$historia->setPCausaM($pCausaM);
-		$historia->setPDx($pdx);*/
+		$historia->setServiEgre($serviEgre);
 		$historia->setFechaEgre(new \DateTime('now'));		
 		$form_historia = $this->createForm(new HcType(), $historia);		
 		

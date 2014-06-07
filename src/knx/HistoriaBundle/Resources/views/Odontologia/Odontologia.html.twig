@@ -96,6 +96,11 @@
 	
      
 	      <div id="Anamnesis" style="padding:2px">
+	      
+	      	{% ui_expander expanded=false  %}
+  		{% ui_header label="Anamnesis" %}
+		    {% ui_content style="height:400px" %}      
+	      <div id="Anamnesis" style="padding:2px">
 	      	<div class="control-group">
 					{{ form_label(edit_form.tipoAtencion) }}
 				<div class="controls">
@@ -103,7 +108,6 @@
 					{{ form_widget(edit_form.tipoAtencion) }}
 				</div>
 			</div>
-			
 			<div class="control-group">
 					{{ form_label(edit_form.causaExt) }}
 				<div class="controls">
@@ -111,15 +115,6 @@
 					{{ form_widget(edit_form.causaExt) }}
 				</div>
 			</div>
-			
-			<div class="control-group">
-					{{ form_label(edit_form.tipoDx) }}
-	    	   	<div class="controls">
-					{{ form_errors(edit_form.tipoDx) }}
-					{{ form_widget(edit_form.tipoDx) }}
-				</div>
-	    	</div>
-	    	    
 			<div class="control-group">
 					{{ form_label(edit_form.motivo) }}
 				<div class="controls">
@@ -134,7 +129,95 @@
 					{{ form_errors(edit_form.enfermedad) }}
 					{{ form_widget(edit_form.enfermedad) }}
 				</div>
-			</div> 
+			</div>  
+    	{% if boolean %}
+    	
+    		<div class="control-group">
+ 					{{ form_label(edit_form.estadoGen) }}
+				<div class="controls">
+					{{ form_errors(edit_form.estadoGen) }}
+					{{ form_widget(edit_form.estadoGen) }}
+				</div>
+			</div>
+    	{% endif %}			    	
+	       </div>
+      {%  end_ui_content %}
+     {% end_ui_expander %}
+      
+      {% ui_expander expanded=false %}
+  		{% ui_header label="Antecedentes" %}
+		    {% ui_content style="height:800px" %}      
+	      <div id="Antecedentes">
+	      
+	      	<div class="control-group">
+	      			{{ form_label(edit_form.antecedentesGenerales) }}
+				<div class="controls">				
+					 {{ form_errors(edit_form.antecedentesGenerales) }}
+					 {{ form_widget(edit_form.antecedentesGenerales) }}					
+				</div>
+			</div>
+			<div class="control-group">
+					{{ form_label(edit_form.antecedentesFisio) }}
+				<div class="controls">
+					 {{ form_errors(edit_form.antecedentesFisio) }}
+					 {{ form_widget(edit_form.antecedentesFisio) }}
+				</div>
+			</div>
+			<div class="control-group">
+					{{ form_label(edit_form.antecedentesGine) }}
+				<div class="controls">	
+					{{ form_errors(edit_form.antecedentesGine) }}
+					{{ form_widget(edit_form.antecedentesGine) }}
+				</div>
+			</div>
+			<div class="control-group">
+					{{ form_label(edit_form.antecedentesPatologicos) }}
+				<div class="controls">
+					{{ form_errors(edit_form.antecedentesPatologicos) }}
+					{{ form_widget(edit_form.antecedentesPatologicos) }}
+				</div>
+			</div>
+			<div class="control-group">
+					{{ form_label(edit_form.antecedentesFami) }}
+				<div class="controls">
+					{{ form_errors(edit_form.antecedentesFami) }}
+					{{ form_widget(edit_form.antecedentesFami) }}
+				</div>
+			</div>
+			<div class="control-group">
+					{{ form_label(edit_form.habitosNocivos) }}
+				<div class="controls">
+					{{ form_errors(edit_form.habitosNocivos) }}
+					{{ form_widget(edit_form.habitosNocivos) }}
+				</div>
+			</div>
+			<div class="control-group">
+					{{ form_label(edit_form.inmunizaciones) }}
+				<div class="controls">
+					{{ form_errors(edit_form.inmunizaciones) }}
+					{{ form_widget(edit_form.inmunizaciones) }}
+				</div>
+			</div>
+			<div class="control-group">
+					{{ form_label(edit_form.alergias) }}
+				<div class="controls">
+					{{ form_errors(edit_form.alergias) }}
+					{{ form_widget(edit_form.alergias) }}
+				</div>
+			</div>				
+	    </div>
+      {%  end_ui_content %}
+     {% end_ui_expander %}
+			
+			<br/>
+			
+			<div class="control-group">
+					{{ form_label(edit_form.tipoDx) }}
+	    	   	<div class="controls">
+					{{ form_errors(edit_form.tipoDx) }}
+					{{ form_widget(edit_form.tipoDx) }}
+				</div>
+	    	</div>
 			
 			<div class="control-group">
 					{{ form_label(edit_form.conducta) }}

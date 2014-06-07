@@ -63,7 +63,7 @@
                 	{% elseif perfil %}
                 	    
                 		{% if entity.factura.servicio.id == '6' %}            	                	                           
-                			<td><a href="{{ path('odontologia_edit:', { 'factura': entity.factura.id }) }}" target="blank" class="btn"><i class="icon-edit"></i></a></td>
+                			<td><a href="{{ path('odontologia_edit', { 'factura': entity.factura.id }) }}" target="blank" class="btn"><i class="icon-edit"></i></a></td>
                 		{% else %}
                 			<td><a href="{{ path('historia_edit', { 'factura': entity.factura.id }) }}" target="blank" class="btn"><i class="icon-edit"></i></a></td>
                 		{% endif %} 
@@ -74,7 +74,7 @@
                  {% elseif perfil %}
                  
                  		{% if entity.factura.servicio.id == '6' %}            	                	                           
-                			<td><a href="{{ path('odontologia_edit:', { 'factura': entity.factura.id }) }}" target="blank" class="btn"><i class="icon-edit"></i></a></td>
+                			<td><a href="{{ path('odontologia_edit', { 'factura': entity.factura.id }) }}" target="blank" class="btn"><i class="icon-edit"></i></a></td>
                 		{% else %}
                 			<td><a href="{{ path('historia_edit', { 'factura': entity.factura.id }) }}" target="blank" class="btn"><i class="icon-edit"></i></a></td>
                 		{% endif %}                  	
