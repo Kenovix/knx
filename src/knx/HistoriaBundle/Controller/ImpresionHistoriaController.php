@@ -101,10 +101,24 @@ class ImpresionHistoriaController extends Controller
 		// se instancia el tcpdBundle
 		$pdf = $this->getPritTcpd();
 		
-		// se organiza la informacion de las evoluciones.
+		// se organiza la informacion de las evoluciones, medicamentos, examenes y procedimientos para que estos sean impresos con un slto de renglon.
+		// Evolucion.
 		$string = $historia->getEvolucion();
 		$newString = str_replace('::', '<br/>', $string);
 		$historia->setEvolucion($newString);
+		// Examenes.
+		$string = $historia->getExamenesS();
+		$newString = str_replace('::', '<br/>', $string);
+		$historia->setExamenesS($newString);
+		// Procedimientos.
+		$string = $historia->getProcedimientosS();
+		$newString = str_replace('::', '<br/>', $string);
+		$historia->setProcedimientosS($newString);
+		// Medicamentos
+		$string = $historia->getMedicamentosS();
+		$newString = str_replace('::', '<br/>', $string);
+		$historia->setMedicamentosS($newString);
+		
 		
 		// se genera el encabezado
 		$header = $this->getHeader($factura,$titulo);
@@ -226,7 +240,7 @@ class ImpresionHistoriaController extends Controller
 		$pdf = $this->get('white_october.tcpdf')->create();
 		
 		$pdf->setFontSubsetting(true);
-		$pdf->SetFont('dejavusans', '', 6, '', true);
+		$pdf->SetFont('dejavusans', '', 8, '', true);
 		
 		// set margins
 		$pdf->SetMargins(PDF_MARGIN_LEFT, 30, PDF_MARGIN_RIGHT);

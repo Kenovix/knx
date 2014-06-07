@@ -3,7 +3,7 @@
 {% block body %}
 <div>
 	<h1>Procedimientos:</h1>
-	<p>{{ historia.procedimientosS }}</p>
+	<p>{{ historia.procedimientosS | raw }}</p>
 	<p>
 		<b>Medico: </b> {{ usuario.nombre }} {{ usuario.apellido }} Especialidad: {{ usuario.especialidad }} <br/>
 		<b>Registro: </b>	<br/>

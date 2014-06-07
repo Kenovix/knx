@@ -136,6 +136,13 @@
 			}
 		});
 
+		// Frecuencia cardiaca y pulso son igual 
+		$("#newNotasType_fC").focusout(function() {
+			
+			$("#newNotasType_pulso").val($("#newNotasType_fC").val());
+			
+		});
+
 		// Cada vez q el usuario de clic sobre el campo este ingresara la info de ese usuario para ingresar la nota	
 		$('#newNotasType_resumenNota').click(function()
 		{			

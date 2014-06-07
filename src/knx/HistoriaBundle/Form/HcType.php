@@ -15,7 +15,7 @@ class HcType extends AbstractType {
 								'class' => 'knx\\ParametrizarBundle\\Entity\\Servicio',
 								'required' => true,
 								'empty_value' => 'Servicio de Egreso'))
-				/* Anamnesis */ 
+				/* Start Anamnesis */ 
 				->add('tipoAtencion', 'choice',
 						array('label' => 'Tipo Atencion:', 'required' => false,
 								'choices' => array('' => '--seleccione--',
@@ -54,9 +54,10 @@ class HcType extends AbstractType {
 				->add('estadoGen', 'textarea',
 						array('label' => 'Estado General:',
 								'required' => false,
-								'attr' => array('placeholder' => 'Estado Gen')))/* EndAnamnesis */ 
+								'attr' => array('placeholder' => 'Estado Gen')))
+				/* End Anamnesis */ 
 
-				/* Antecendentes*/
+				/* Start Antecendentes*/
 				->add('antecedentesGenerales', 'textarea',
 						array('label' => 'Antecedentes Generales: *',
 								'attr' => array(
@@ -93,9 +94,10 @@ class HcType extends AbstractType {
 										'placeholder' => 'Inmunizaciones')))
 				->add('alergias', 'textarea',
 						array('label' => 'Alergias:', 'required' => false,
-								'attr' => array('placeholder' => 'Alergias')))/* EndAntecendentes*/		
+								'attr' => array('placeholder' => 'Alergias')))
+				/* End Antecendentes*/		
 
-				/* ExamenFisico */
+				/* Start ExamenFisico */
 				->add('cabeza', 'textarea',
 						array('label' => 'Cabeza:', 'required' => false,
 								'attr' => array('placeholder' => 'Cabeza')))
@@ -134,10 +136,11 @@ class HcType extends AbstractType {
 								'attr' => array('placeholder' => 'Extremidades')))
 				->add('genitales', 'textarea',
 						array('label' => 'Genitales:', 'required' => false,
-								'attr' => array('placeholder' => 'Genitales')))/* EndExamenFisico */
+								'attr' => array('placeholder' => 'Genitales')))
+				/* End ExamenFisico */
 
-				/* Medico */
-				/* Diagnosticos */ 				
+				/* Start Medico */
+				/* Start Diagnosticos */ 				
 										
 				->add('dxPrin', 'text',
 						array(	'mapped' => false,
@@ -183,16 +186,18 @@ class HcType extends AbstractType {
 										'1' => 'Impresion diagnostica',
 										'2' => 'Confirmado nuevo',
 										'3' => 'Repetido',),
-								'multiple' => false,)) /* EndDiagnosticos */
+								'multiple' => false,)) 
+				/* End Diagnosticos */
 
 				->add('conducta', 'textarea',
 						array('label' => 'Conducta:', 'required' => true,
 								'attr' => array('placeholder' => 'Conducta')))
 				->add('evolucion', 'textarea',
 						array('label' => 'Evolucion:', 'required' => false,
-								'attr' => array('placeholder' => 'Evolucion')))/* EndMedico*/
+								'attr' => array('placeholder' => 'Evolucion')))
+				/* End Medico*/
 
-				/* Egreso */
+				/* Start Egreso */
 		
 				->add('dxSalida', 'text',
 						array(	
@@ -243,7 +248,7 @@ class HcType extends AbstractType {
 										'4' => 'Remision',
 										'3' => 'Otro',),
 								'multiple' => false,))
-				/* EndEgreso */
+				/* End Egreso */
 
 
 			 // opciones para cuando el usuario selecciona la opcion de remision y contraremision
@@ -362,40 +367,8 @@ class HcType extends AbstractType {
 										'placeholder' => 'Busquedad por el Nombre del examen',
 										'class' => 'span6 search-query',										
 										'autocomplete' => 'off',
-								)))		
+								)))					
 				
-				
-				/*->add('sal_examenes', 'entity',
-						array('mapped' => false,
-								'label' => 'Seleccione los examenes:',
-								'class' => 'knx\\HistoriaBundle\\Entity\\Examen',
-								'required' => false,
-								'empty_value' => '--examenes y laboratorio--',
-								'query_builder' => function (
-										EntityRepository $repositorio) {
-									return $repositorio
-									->createQueryBuilder('e')		
-									->where("e.tipo = :tipo")
-									->setParameter('tipo', 'LB')
-									->orderBy('e.nombre', 'ASC');
-								}))*/
-								
-				/*->add('sal_procedimientos', 'entity',
-						array('mapped' => false,
-								'label' => 'Seleccione los procedimientos:',
-								'class' => 'knx\\HistoriaBundle\\Entity\\Examen',
-								'required' => false,
-								'empty_value' => '--procedimientos--',
-								'query_builder' => function (EntityRepository $repositorio) 
-								{
-									return $repositorio
-									->createQueryBuilder('e')
-									->where("e.tipo = :tipo OR e.tipo = :tipo1")
-									->setParameter('tipo', 'P')
-									->setParameter('tipo1', 'ID')
-									->orderBy('e.nombre', 'ASC');
-								}))*/
-								
 								
 				->add('incapacidad', 'textarea',
 						array('label' => 'Incapacidad','required' => false,
@@ -461,19 +434,7 @@ class HcType extends AbstractType {
 										'class' => 'span6 search-query',
 										'autocomplete' => 'off',
 								)))
-				/*->add('pDx', 'entity',
-						array(  'attr' => array('class' => 'span4'),
-								'label' => 'Diagnóstico del recién nacido: ',
-								'class' => 'knx\\HistoriaBundle\\Entity\\Cie',
-								'required' => false,
-								'empty_value' => '--diagnosticos--',
-								'query_builder' => function (
-										EntityRepository $repositorio) {
-									return $repositorio
-									->createQueryBuilder('c')
-									->orderBy('c.nombre', 'ASC');
-								}))*/	
-					
+									
 				->add('p_fecha_m', 'text',
 						array('label' => 'Fecha Muerte: ','required' => false, 'mapped' => false,
 								'attr' => array('placeholder' => 'DD/MM/YYYY HH:MM', 'class' => 'span2')))
@@ -508,18 +469,7 @@ class HcType extends AbstractType {
 										'class' => 'span6 search-query',
 										'autocomplete' => 'off',
 								)))
-				/*->add('pCausaM', 'entity',
-						array(	'attr' => array('class' => 'span4'),								
-								'label' => 'Causa Muerte recién nacido: ',
-								'class' => 'knx\\HistoriaBundle\\Entity\\Cie',
-								'required' => false,
-								'empty_value' => '--diagnosticos--',
-								'query_builder' => function (
-										EntityRepository $repositorio) {
-									return $repositorio
-									->createQueryBuilder('c')
-									->orderBy('c.nombre', 'ASC');
-								}))*/				
+								
 								
 			// fin formulario documentacion para el parto	
 
