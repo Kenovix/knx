@@ -87,7 +87,18 @@ class PacienteController extends Controller
 			
 			// se optinen los objetos mupio y depto para agregar su respectivo id
 			$depto = $form->get('depto')->getData();
-			$mupio = $form->get('mupio')->getData();			
+			$mupio = $form->get('mupio')->getData();
+			
+			$identificacion = $form->get('identificacion')->getData();
+			$em = $this->getDoctrine()->getEntityManager();
+			$identificacion  = $em->getRepository('ParametrizarBundle:Paciente')->findByIdentificacion($identificacion);
+			if($identificacion)
+			{
+				$this->get('session')->setFlash('error', 'El paciente con este numero de identificacion ya existe.');
+				return $this->render('ParametrizarBundle:Paciente:new.html.twig', array(
+						'form'   => $form->createView()
+				));
+			}
 			
 			$paciente->setMupio($mupio->getId());
 			$paciente->setDepto($depto->getId());			
@@ -505,7 +516,7 @@ class PacienteController extends Controller
 		$perfil = null;
 		foreach ($usuario->getRoles() as $role)
 		{
-			if($role == 'ROLE_FACTURADOR' || $role == 'ROLE_ADMIN' || $role == 'ROLE_SUPER_ADMIN')
+			if( $role == 'ROLE_FACTURADOR' || $role == 'ROLE_ADMIN' || $role == 'ROLE_SUPER_ADMIN')
 			{
 				$perfil = $role;
 			}

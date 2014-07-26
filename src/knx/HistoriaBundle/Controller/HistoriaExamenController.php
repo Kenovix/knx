@@ -110,4 +110,25 @@ class HistoriaExamenController extends Controller {
 		$return = json_encode($response);
 		return new Response($return, 200,array('Content-Type' => 'application/json'));
 	}
+	
+	public function nameExamAutocompleteAction()
+	{
+		$response='';
+		if ( !isset($_REQUEST['term']) ){exit;}
+	
+		$em = $this->getDoctrine()->getEntityManager();
+		$dql = $em->getRepository('HistoriaBundle:Examen')->findByExamName($_REQUEST['term']);
+	
+		if($dql){
+			foreach ($dql as $data)
+				$response[] = array(
+						'label' => $data['nombre'].' - '.$data['tipo'],
+						'value' => $data['nombre'],
+						'id' 	=> $data['id']						
+				);
+		}
+	
+		$return = json_encode($response);
+		return new Response($return, 200,array('Content-Type' => 'application/json'));
+	}
 }

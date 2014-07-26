@@ -6,7 +6,7 @@
 
 {% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
 
-{% block titulo %}Menu Principal{% endblock %}
+{% block titulo %}Facturar consulta{% endblock %}
 
 {% block msg %}
 	{% if app.session.hasFlash('ok') %}
@@ -28,15 +28,22 @@
 {% endblock %}
 
 {% block cuerpo %}
-	<div class="row-fluid">
-		<ul class="thumbnails">
-    		
-    		<li class="span2">
-    			
-    				
-    			<p>Gestión para facturacion.</p>
-    				
-    		</li>
-    	</ul>
-	</div>
+                    
+       <form action="{{ path('facturas_anular', {'factura1':facturas.id}) }}" onSubmit="return confirm('Verificar antes de anular la factura?');"class="form-horizontal" method="post" {{ form_enctype(form) }}>
+	    <fieldset>
+	    	<legend>Datos del Traslado Desde:</legend>
+
+		   {{ form_widget(form) }}
+
+			<div class="form-actions">
+				<input class="btn btn-primary" name="guardar" type="submit" value="Guardar" />
+			    <a href="{{ path('facturas_search') }}" class="btn btn-danger">Cancelar</a>
+			</div>
+		</fieldset>
+	</form>
+	    
+	
+	
+
+
 {% endblock %}

@@ -296,7 +296,7 @@ class TrasladoController extends Controller
 
 
     						$imvfarmacia->setCant($cant_traslado + $cant_imvfarmacia);
-							$almacenimv->setCant($cant_almacenimv - $cant_traslado);
+						$almacenimv->setCant($cant_almacenimv - $cant_traslado);
     						$em->persist($imvfarmacia);
     						$em->persist($almacenimv);
     						$em->persist($traslado);

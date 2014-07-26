@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 use knx\HistoriaBundle\Entity\Hc;
 use knx\HistoriaBundle\Form\HcType;
+use knx\HistoriaBundle\Form\OdontologiaType;
 use knx\HistoriaBundle\Entity\Notas;
 use knx\HistoriaBundle\Form\NotasType;
 
@@ -33,8 +34,7 @@ class HistoriaController extends Controller
 			return $this->redirect($this->generateUrl('nota_list', array('historia' => $historia->getId() )));
 
 		// se instancian los atributos para evitar conflictos con otras versiones de php
-		$serviEgre = "";
-		$dxSalida = "";
+		$serviEgre = "";		
 		$pCausaM="";		
 		$pdx = "";
 		
@@ -62,26 +62,11 @@ class HistoriaController extends Controller
 		if ($historia->getServiEgre()) {
 			$serviEgre = $em->getRepository('ParametrizarBundle:Servicio')->find($historia->getServiEgre());
 		}
-		if($historia->getPDx())
-		{
-			$pdx = $em->getRepository('HistoriaBundle:Cie')->find($historia->getPDx());
-		}
-		if($historia->getPCausaM())
-		{
-			$pCausaM= $em->getRepository('HistoriaBundle:Cie')->find($historia->getPCausaM());
-		}
-		if($historia->getDxSalida())
-		{
-			$dxSalida = $em->getRepository('HistoriaBundle:Cie')->find($historia->getDxSalida());
-		}
 		if($factura->getTipo() == 'C')
 			$historia->setDestino('1');
 	
 		// se cargan los respectivos objetos para que el formulario los visualice correctamente.
 		$historia->setServiEgre($serviEgre);
-		$historia->setDxSalida($dxSalida);
-		$historia->setPCausaM($pCausaM);
-		$historia->setPDx($pdx);
 		$historia->setFechaEgre(new \DateTime('now'));		
 		$form_historia = $this->createForm(new HcType(), $historia);		
 		
@@ -159,10 +144,7 @@ class HistoriaController extends Controller
 		{			
 			/* Para el ingreso de los sevicios se trabaja con los IDs mas no con sus objetos ya q la informacion
 			 * que se almacena en la historia no son relaciones, pero el formulario si trabaja con objetos.
-			 */ 
-			if($historia->getDxSalida()){
-				$historia->setDxSalida($historia->getDxSalida()->getId());
-			}
+			 */ 			
 			if($historia->getServiEgre()){
 				$historia->setServiEgre($historia->getServiEgre()->getId());				
 			}		
@@ -372,5 +354,5 @@ class HistoriaController extends Controller
 		return $this->render('HistoriaBundle:Historia:urgencias_pendientes.html.twig',array(
 				'urgencias_hc' => $urgencias,
 		));
-	}
+	}	
 }

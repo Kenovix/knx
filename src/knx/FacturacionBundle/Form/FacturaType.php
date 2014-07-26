@@ -12,11 +12,11 @@ class FacturaType extends AbstractType
     {
         $builder
         	->add('paciente', 'text', array('attr' => array('placeholder' => 'Identificación', 'class' => 'span6'), 'property_path' => false))
-        	->add('cliente', 'choice', array('disabled' => true, 'choices' => array('' => 'Seleccione cliente'), 'property_path' => false))
+        	->add('cliente', 'choice', array('disabled' => true,'required'=>true, 'choices' => array('' => 'Seleccione cliente'), 'property_path' => false))
             ->add('pyp', 'choice', array('label' => 'Categoría de PYP', 'disabled' => true, 'choices' => array('' => 'Seleccione una categoría')))
             ->add('autorizacion')
             ->add('observacion')
-            ->add('profesional', 'choice', array('label' => 'Profesional', 'disabled' => true, 'choices' => array('' => 'Seleccione un profesional')))
+            ->add('profesional', 'choice', array('label' => 'Profesional', 'disabled' => true,'required'=>true , 'choices' => array('' => 'Seleccione un profesional')))
             ->add('servicio', 'entity', array('required' => true, 'label' => 'Centro de costo', 'class' => 'knx\ParametrizarBundle\Entity\Servicio', 'empty_value' => 'Elige un servicio'))
             ->add('farmacia', 'entity', array('required' => false, 'label' => 'Farmacia', 'class' => 'knx\FarmaciaBundle\Entity\Farmacia', 'empty_value' => 'Elige una farmacia'))
         ;

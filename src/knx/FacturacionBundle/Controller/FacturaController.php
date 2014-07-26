@@ -70,7 +70,7 @@ class FacturaController extends Controller
 		$factura->setPyp($pyp);
 		$factura->setEstado('A');
 		
-		if($factura->getServicio() == 'CONSULTA EXTERNA'){
+		if($factura->getServicio() == 'CONSULTA EXTERNA' || $factura->getServicio() == 'ODONTOLOGIA'){
 			$factura->setTipo('C');
 		}else{
 			$factura->setTipo('U');
@@ -662,20 +662,21 @@ class FacturaController extends Controller
     	
     	$factura = $em->getRepository('FacturacionBundle:Factura')->find($factura);
     	
+    	
     	if (!$factura) {
     		throw $this->createNotFoundException('La factura solicitada no existe');
-    	}else{    		
-    		
-    		$factura->setEstado('C');
-    		
+    	}else{    		    		
+    		$factura->setEstado('C');    		
     		$em->persist($factura);
-    		$em->flush();
-    		
+    		$em->flush();    		
     	}
     	
-    	$factura_cargo = $em->getRepository('FacturacionBundle:FacturaCargo')->findBy(array('factura' => $factura->getId()));
-    	
+    	$factura_cargo = $em->getRepository('FacturacionBundle:FacturaCargo')->findBy(array('factura' => $factura->getId()));    	
     	$mupio = $em->getRepository('ParametrizarBundle:Mupio')->find($factura->getPaciente()->getMupio());
+    	
+    	// se consulta por la informacion del profesional para ser visulizada en la factura.
+    	$profesional = $em->getRepository('UsuarioBundle:Usuario')->find($factura->getProfesional());
+    	$factura->setProfesional($profesional->getNombre().' '.$profesional->getApellido());
     	
     	$pdf = $this->get('white_october.tcpdf')->create();
     	
@@ -685,8 +686,7 @@ class FacturaController extends Controller
     								'mupio' => $mupio
     	));
     	
-    	return $pdf->quick_pdf($html, 'factura_venta_'.$factura->getId().'.pdf', 'I');    	
-    	
+    	return $pdf->quick_pdf($html, 'factura_venta_'.$factura->getId().'.pdf', 'D');    	    	
     }
     
     

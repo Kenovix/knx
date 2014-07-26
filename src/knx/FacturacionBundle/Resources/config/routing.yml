@@ -112,3 +112,26 @@ morbilidad_vista:
 morbilidad_list:
     pattern:  /morbilidad/list
     defaults: { _controller: FacturacionBundle:Morbilidad:list }
+
+#******************** FACTURA ANULAR/REIPRIMIR ***************************#
+
+facturas_search:
+    pattern:  /facturas/search
+    defaults: { _controller: FacturacionBundle:Facturas:search }
+    
+facturas_list:
+    pattern:  /facturas/list
+    defaults: { _controller: FacturacionBundle:Facturas:list } 
+    
+facturas_anular:
+    pattern:  /facturas/{factura1}/anular
+    defaults: { _controller: FacturacionBundle:Facturas:anular }
+    
+facturas_motivo:
+    pattern:  /facturas/{factura1}/motivo
+    defaults: { _controller: FacturacionBundle:Facturas:motivo }    
+    
+facturas_rimprimir:
+    pattern:  /facturas/{factura1}/rimprimir
+    defaults: { _controller: FacturacionBundle:Facturas:rimprimir }    
+    

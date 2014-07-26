@@ -100,9 +100,7 @@ class HcRepository extends EntityRepository
 								 FROM 
 									HistoriaBundle:Hc h
 								 WHERE
-									h.tipoDestino = '1' AND h.destino = '2'
-									OR
-									h.tipoDestino = '2' AND h.destino = '2'
+									h.destino = '2'
 								 ORDER BY
 									h.updated DESC");
 		return $dql->getResult();
@@ -182,7 +180,7 @@ class HcRepository extends EntityRepository
 		if($facturaCargo)
 			$facturaCargo = $em->getRepository('FacturacionBundle:FacturaCargo')->findOneBy(array('factura' => $facturaCargo[0]['factura'], 'cargo' => $facturaCargo[0]['cargo']));
 		else 
-			throw $this->createNotFoundException('Revise la factura y el tipo de cargo que ya que hay informacion no disponible.');
+			throw $this->createNotFoundException('Revise la factura y el tipo de cargo ya que hay informacion no disponible.');
 	
 		return $facturaCargo;
 	}

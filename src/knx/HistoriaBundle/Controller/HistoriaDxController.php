@@ -77,5 +77,51 @@ class HistoriaDxController extends Controller {
 		$return = json_encode($response);
 		return new Response($return, 200,array('Content-Type' => 'application/json'));
 	}
-
+	
+	
+	
+	// autocompletando para la busqueda de los diagnosticos en la historia
+	public function codeAutocompleteAction()
+	{			
+		$response='';				
+		if ( !isset($_REQUEST['term']) ){exit;}		
+		
+		$em = $this->getDoctrine()->getEntityManager();	
+		$dql = $em->getRepository('HistoriaBundle:Cie')->findByCieCode($_REQUEST['term']);		
+		
+		if($dql){
+			foreach ($dql as $data)
+				$response[] = array(
+						'label' => $data['codigo'].' - '.$data['nombre'],
+						'value' => $data['codigo'],
+						'id' 	=> $data['id'],
+						'name'  => $data['nombre']
+				);
+		}
+		
+		$return = json_encode($response);
+		return new Response($return, 200,array('Content-Type' => 'application/json'));
+	}
+	
+	public function nameAutocompleteAction()
+	{
+		$response='';
+		if ( !isset($_REQUEST['term']) ){exit;}
+		
+		$em = $this->getDoctrine()->getEntityManager();
+		$dql = $em->getRepository('HistoriaBundle:Cie')->findByCieName($_REQUEST['term']);
+		
+		if($dql){
+			foreach ($dql as $data)
+				$response[] = array(
+						'label' => $data['codigo'].' - '.$data['nombre'],
+						'value' => $data['nombre'],
+						'id' 	=> $data['id'],
+						'code'  => $data['codigo']
+				);
+		}
+		
+		$return = json_encode($response);
+		return new Response($return, 200,array('Content-Type' => 'application/json'));
+	}
 }

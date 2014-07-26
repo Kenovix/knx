@@ -19,7 +19,7 @@
 		~ Fisico:  			{{ historia.antecedentesGenerales }} <br/>
 		~ Ginecologicos: 	{{ historia.antecedentesGine }} <br/>
 		~ Patologicos:   	{{ historia.antecedentesPatologicos}}<br/>
-		~ Hbitos Nocivos:	{{ historia.habitosNocivos }}<br/>
+		~ Habitos Nocivos:	{{ historia.habitosNocivos }}<br/>
 		~ Inmunizaciones:	{{ historia.inmunizaciones }}<br/>
 		~ Alergias:			{{ historia.alergias }}<br/>
 		~ Familiares:		{{ historia.antecedentesFami }}<br/>
@@ -144,9 +144,9 @@
 			~ Condición De Salida: {{ historia.condSalida }} <br/>
 			~ Manejo De Salida: {{ historia.manejoSalida }} <br/>
 		{% endif %}
-		~ Medicamentos: 	{{ historia.medicamentosS }} <br/>
-		~ Procedimientos: 	{{ historia.procedimientosS }} <br/>
-		~ Examenes:			{{ historia.examenesS }} <br/>
+		~ Medicamentos: 	{{ historia.medicamentosS | raw  }} <br/>
+		~ Procedimientos: 	{{ historia.procedimientosS | raw }} <br/>
+		~ Examenes:			{{ historia.examenesS | raw }} <br/>
 		~ Incapacidad:		{{ historia.incapacidad }}
 	</p>	
 	

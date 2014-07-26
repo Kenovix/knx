@@ -88,6 +88,14 @@ class Ingreso
      * })
      */
     private $proveedor;
+    
+    
+    /**
+      * @var string estado
+      *
+      * @ORM\Column(name="estado", type="string", length=2, nullable=false)
+      */
+     private $estado;
 
      /**
      * 
@@ -284,7 +292,26 @@ class Ingreso
         return $this->updated;
     }
 
-    
+    /**
+	 * Set estado
+	 *
+	 * @param string $estado
+	 * @return Factura
+	 */
+	public function setEstado($estado) {
+		$this->estado = $estado;
+	
+		return $this;
+	}
+        
+        /**
+	 * Get estado
+	 *
+	 * @return string
+	 */
+	public function getEstado() {
+		return $this->estado;
+	}
     /**
      * Set proveedor
      *

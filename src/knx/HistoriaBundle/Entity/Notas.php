@@ -104,9 +104,9 @@ class Notas {
 	 *
 	 * @ORM\Column(name="peso", type="integer", nullable=true)	 
 	 * @Assert\Range(
-     *      min = "1",
+     *      min = "0",
      *      max = "499",
-     *      minMessage = "El menor número a ingresar es 1",
+     *      minMessage = "El menor número a ingresar es 0",
      *      maxMessage = "El mayor número a ingresar es 499"
      * )	 
 	 */
@@ -138,9 +138,9 @@ class Notas {
 	 *
 	 * @ORM\Column(name="imc", type="integer")
 	 * @Assert\Range(
-     *      min = "1",
+     *      min = "0",
      *      max = "399",
-     *      minMessage = "El menor número a ingresar es 1",
+     *      minMessage = "El menor número a ingresar es 0",
      *      maxMessage = "El mayor número a ingresar es 399"
      * )
 	 *

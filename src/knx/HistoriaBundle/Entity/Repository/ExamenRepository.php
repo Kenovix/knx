@@ -31,4 +31,21 @@ class ExamenRepository extends EntityRepository {
 		$dql->setParameter('id', $paciente);
 		return $dql->getResult();
 	}
+	
+	function findByExamName($chart)
+	{
+		$em = $this->getEntityManager();
+		$dql = $em->createQuery(
+								"SELECT
+									e.id, e.nombre, e.tipo
+								 FROM
+									HistoriaBundle:Examen e
+								 WHERE
+									e.nombre LIKE :exam
+								 ORDER BY
+									e.nombre ASC"
+		);
+		$dql->setParameter('exam', $chart.'%');
+		return $dql->getResult();
+	}
 }

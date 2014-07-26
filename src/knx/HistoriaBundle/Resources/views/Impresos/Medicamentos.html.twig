@@ -3,7 +3,7 @@
 {% block body %}
 <div>
 	<h1>Medicamentos:</h1>
-	<p>{{ historia.medicamentosS }}</p>
+	<p>{{ historia.medicamentosS | raw }}</p>
 	<p>
 		<b>Medico: </b> {{ usuario.nombre }} {{ usuario.apellido }} Especialidad: {{ usuario.especialidad }} <br/>
 		<b>Registro: </b>	<br/>

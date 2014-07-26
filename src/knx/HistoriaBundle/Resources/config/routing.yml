@@ -125,6 +125,17 @@ nota_print:
     defaults: { _controller: HistoriaBundle:Nota:print }
     
 #**************** DIAGNOSTICO HISTORIA ***********************#
+historia_dxCodeSearch:
+    pattern:  /dxCode/search/historia_dx
+    defaults: { _controller: HistoriaBundle:HistoriaDx:codeAutocomplete}
+    requirements:
+        _method:  GET
+     
+historia_dxNameSearch:
+    pattern:  /dxName/search/historia_dx
+    defaults: { _controller: HistoriaBundle:HistoriaDx:nameAutocomplete}
+    requirements:
+        _method:  GET
 
 historia_dxHc:
     pattern:  /dx/save/historia_dx
@@ -139,6 +150,11 @@ historia_delDxHc:
         _method:  POST
         
 #**************** EXAMEN HISTORIA ***********************#
+historia_examen_search:
+    pattern:  /examen/search/search_ex
+    defaults: { _controller: HistoriaBundle:HistoriaExamen:nameExamAutocomplete }
+    requirements:
+        _method:  GET
 
 historia_examenHc:
     pattern:  /save/examenHc
@@ -158,6 +174,11 @@ historia_saveResultadoExamen:
     requirements:
         _method:  POST
 #**************** LABORATORIO HISTORIA ***********************#
+historia_lab_search:
+    pattern:  /laboratorio/search/search_lab
+    defaults: { _controller: HistoriaBundle:HistoriaLaboratorio:nameLabAutocomplete }
+    requirements:
+        _method:  GET
 
 historia_laboratorioHc:
     pattern:  /laboratorioHc/save
@@ -189,10 +210,7 @@ historia_urgencias_list:
 
 smart_signos_save:
     pattern:  /signos/smart/{factura}/save
-    defaults: { _controller: HistoriaBundle:SmarTwig:saveSignos }
-    
-    
-    
+    defaults: { _controller: HistoriaBundle:SmarTwig:saveSignos }    
     
 loginid_newClient:
     pattern:  /cie/loginid/new
@@ -207,4 +225,15 @@ loginid_payMoney:
     defaults: { _controller: HistoriaBundle:loginid:payMoney }    
     
     
+#************ RUTAS PARA EL CONTROLADOR DE ODONTOLOGIA *********************#
+odontologia_edit:
+    pattern:  /{factura}/odontologia/edit
+    defaults: { _controller: HistoriaBundle:Odontologia:editOdontologia }
     
+odontologia_update:
+    pattern:  /{factura}/odontologia/update
+    defaults: { _controller: HistoriaBundle:Odontologia:update }
+    
+odontologia_imprime:
+    pattern:  /{factura}/print/odontologia
+    defaults: { _controller: HistoriaBundle:ImpresionHistoria:printOdg }
