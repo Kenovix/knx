@@ -87,7 +87,6 @@ class OdontologiaController extends Controller
 			$historia->setFactura($factura);
 			$historia->setDestino('1');
 			$em->persist($historia);		
-			//die(var_dump($historia->getFechaEgre()));
 			$em->flush();		
 
 			$this->get('session')->setFlash('ok','La historia clinica ha sido modificada éxitosamente.');
