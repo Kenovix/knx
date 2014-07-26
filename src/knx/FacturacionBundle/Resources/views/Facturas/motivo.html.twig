@@ -1,0 +1,49 @@
+{% extends "::admin_layout.html.twig" %}
+
+{% block menu %}
+	{{ knp_menu_render('FacturacionBundle:Builder:facturaMenu') }}
+{% endblock %}
+
+{% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
+
+{% block titulo %}Facturar consulta{% endblock %}
+
+{% block msg %}
+	{% if app.session.hasFlash('ok') %}
+	    <div class="alert alert-success">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('ok') }}</span>
+	    </div>
+	{% elseif app.session.hasFlash('info') %}
+		<div class="alert alert-info">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('info') }}</span>
+	    </div>
+	{% elseif app.session.hasFlash('error') %}
+		<div class="alert alert-error">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('error') }}</span>
+	    </div>
+	{% endif %}
+{% endblock %}
+
+{% block cuerpo %}
+                    
+       <form action="{{ path('facturas_anular', {'factura1':facturas.id}) }}" onSubmit="return confirm('Verificar antes de anular la factura?');"class="form-horizontal" method="post" {{ form_enctype(form) }}>
+	    <fieldset>
+	    	<legend>Datos del Traslado Desde:</legend>
+
+		   {{ form_widget(form) }}
+
+			<div class="form-actions">
+				<input class="btn btn-primary" name="guardar" type="submit" value="Guardar" />
+			    <a href="{{ path('facturas_search') }}" class="btn btn-danger">Cancelar</a>
+			</div>
+		</fieldset>
+	</form>
+	    
+	
+	
+
+
+{% endblock %}

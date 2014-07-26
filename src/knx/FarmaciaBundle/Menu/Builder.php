@@ -58,6 +58,7 @@ class Builder extends ContainerAware
 			$menu['Facturación']['Facturar']->addChild('Medicamento', array('route' => 'facturacion_insumo_new', 'routeParameters' => array('tipo' => 'A')));
 			$menu['Facturación']['Facturar']->addChild('Reportes', array('route' => 'reporte_cargo_new'));
 			$menu['Facturación']['Facturar']->addChild('Morbilidad', array('route' => 'morbilidad_vista'));
+                        $menu['Facturación']['Facturar']->addChild('Anular/Reimprimir', array('route' => 'facturas_search'));
 
 			$menu->addChild('Historia', array('uri' => '#'));
 			$menu['Historia']->addChild('Diagnosticos', array('route' => 'cie_list'));
@@ -132,7 +133,8 @@ class Builder extends ContainerAware
 			$menu['Facturación']['Facturar']->addChild('Medicamento', array('route' => 'facturacion_insumo_new', 'routeParameters' => array('tipo' => 'A')));
 			$menu['Facturación']['Facturar']->addChild('Reportes', array('route' => 'reporte_cargo_new'));
 			$menu['Facturación']['Facturar']->addChild('Morbilidad', array('route' => 'morbilidad_vista'));
-                        
+                        $menu['Facturación']['Facturar']->addChild('Anular/Reimprimir', array('route' => 'facturas_search'));
+
 			$menu->addChild('Usuarios', array('uri' => '#'));
 			$menu['Usuarios']->addChild('Listar', array('route' => 'usuario_list'));
 			$menu['Usuarios']->addChild('Crear', array('route' => 'fos_user_registration_register'));

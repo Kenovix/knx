@@ -109,6 +109,13 @@ class Factura {
 	 * @ORM\Column(name="farmacia", type="integer", nullable=true)
 	 */
 	private $farmacia;
+        
+        /**
+	 * @var Motivo
+	 *
+	 * @ORM\Column(name="motivo", type="string", nullable=true)
+	 */
+	private $motivo;
 
 	/**
 	 * @var servicio
@@ -404,6 +411,28 @@ class Factura {
 	 */
 	public function getProfesional() {
 		return $this->profesional;
+	}
+        
+        /**
+	 * Set motivo
+	 *
+	 * @param integer $motivo
+	 * @return Factura
+	 */
+	public function setMotivo($motivo){
+		
+		$this->motivo = $motivo;
+			
+		return $this;
+	}
+
+	/**
+	 * Get motivo
+	 *
+	 * @return integer 
+	 */
+	public function getMotivo() {
+		return $this->motivo;
 	}
 	
 	/**
