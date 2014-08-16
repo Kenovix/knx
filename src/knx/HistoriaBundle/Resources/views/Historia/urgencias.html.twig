@@ -34,6 +34,7 @@
 	    <table class="table table-hover">
 	        <thead>
 	            <tr>
+                        <th>Factura</th>
 	                <th>Ultima Actulaización</th>
 	                <th>Paciente</th>
 	                <th>Cedula</th>
@@ -46,6 +47,7 @@
 	        <tbody>
 	        {% for hc in urgencias_hc%}
 	            <tr>
+                        <td>{{ hc.factura.id}}</td>
 	                <td>{{ hc.updated | date('H:m d/m/Y')}}</td>
 	                <td>{{ hc.factura.paciente.priNombre }} {{ hc.factura.paciente.priApellido }}</td>
 	                <td>{{ hc.factura.paciente.identificacion }}</td>

@@ -117,6 +117,14 @@ class Factura {
 	 */
 	private $motivo;
 
+        /**
+	 * @var Nfactura
+	 *
+	 * @ORM\Column(name="nfcatura", type="string", nullable=true)
+	 */
+	private $nfactura;
+        
+         
 	/**
 	 * @var servicio
 	 *
@@ -433,6 +441,29 @@ class Factura {
 	 */
 	public function getMotivo() {
 		return $this->motivo;
+	}
+        
+        
+        /**
+	 * Set nfactura
+	 *
+	 * @param integer $nfactura
+	 * @return Factura
+	 */
+	public function setNfactura($nfactura){
+		
+		$this->nfactura = $nfactura;
+			
+		return $this;
+	}
+
+	/**
+	 * Get nfactura
+	 *
+	 * @return integer 
+	 */
+	public function getNfactura() {
+		return $this->nfactura;
 	}
 	
 	/**

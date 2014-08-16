@@ -160,7 +160,9 @@ class FacturasController extends Controller
                     $request = $this->getRequest();
                     $form->bind($request);
                     $motivo = $form->get('motivo')->getData();
-                    //die(var_dump($motivo));
+                    $nfactura = $form->get('nfactura')->getData();
+
+                    //die(var_dump($nfactura));
                     
                 if ($facturas and $fact_cargo==NULL and $fact_imv) {
                                        
@@ -168,7 +170,7 @@ class FacturasController extends Controller
                        // $fact_cargo->setEstado('X');
                         $fact_imv->setEstado('X');
                         $facturas->setMotivo($motivo);
-
+                        $facturas->setNfactura($nfactura);    
                         $em->persist($facturas);
                         //$em->persist($fact_cargo);
                         $em->persist($fact_imv);
@@ -181,6 +183,8 @@ class FacturasController extends Controller
                     
                      $facturas->setEstado('X');
                      $facturas->setMotivo($motivo);
+                     $facturas->setNfactura($nfactura);    
+
                      $fact_cargo->setEstado('X');
                         //$fact_imv->setEstado('X');
 
@@ -198,6 +202,8 @@ class FacturasController extends Controller
                     
                     $facturas->setEstado('X');
                     $facturas->setMotivo($motivo);
+                    $facturas->setNfactura($nfactura);    
+
                     $fact_cargo->setEstado('X');
                     $fact_imv->setEstado('X');
 
@@ -216,6 +222,8 @@ class FacturasController extends Controller
                     
                     $facturas->setEstado('X');
                     $facturas->setMotivo($motivo);
+                    $facturas->setNfactura($nfactura);    
+
                     $em->persist($facturas);
                     
                     $em->flush();

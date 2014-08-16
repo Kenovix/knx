@@ -6,7 +6,7 @@
 
 {% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
 
-{% block titulo %}Facturar consulta{% endblock %}
+{% block titulo %}Anular Facturas{% endblock %}
 
 {% block msg %}
 	{% if app.session.hasFlash('ok') %}
@@ -31,7 +31,7 @@
                     
        <form action="{{ path('facturas_anular', {'factura1':facturas.id}) }}" onSubmit="return confirm('Verificar antes de anular la factura?');"class="form-horizontal" method="post" {{ form_enctype(form) }}>
 	    <fieldset>
-	    	<legend>Datos del Traslado Desde:</legend>
+	    	<legend>Moivos Anulacion:</legend>
 
 		   {{ form_widget(form) }}
 
