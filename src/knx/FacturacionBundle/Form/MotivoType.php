@@ -13,12 +13,10 @@ class MotivoType extends AbstractType
                         
 		->add('id', 'text', array('label' => 'Factura :','disabled' =>true))										
 		->add('motivo', 'choice', array('empty_value' => 'Seleccione un motivo', 'choices' => array('Cantidad Erronea' => 'Cantidad Erronea', 'Error Digitacion' => 'Error Digitacion', 'Paciente No Asiste' => 'Paciente No Asiste', 'Doble Facturaciòn' => 'Doble Facturaciòn',
-                                                'Actividad Erronea' => 'Actividad Erronea')));									
-		
-		
-		
-		
-		
+                                                'Actividad Erronea' => 'Actividad Erronea')))								
+		->add('nfactura', 'text', array('label' => 'Factura Reemplaza :','attr' => array('placeholder' => 'Digite # Factura','class' => 'span3')));										
+
+								
 	}
 	
 	public function getName()
