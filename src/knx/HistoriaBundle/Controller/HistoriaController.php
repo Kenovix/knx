@@ -46,7 +46,7 @@ class HistoriaController extends Controller
 		'3' => 'Otro');					
 		
 		$paciente = $factura->getPaciente();
-
+                
 		/* No se verifica la existencia del paciente y los servicios porque si existe la factura existe el paciente
 		 * y si existe la historia existen los servicios.
 		 */
