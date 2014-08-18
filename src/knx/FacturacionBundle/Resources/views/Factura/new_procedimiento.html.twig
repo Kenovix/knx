@@ -6,7 +6,7 @@
 
 {% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
 
-{% block titulo %}Nueva factura de procedimiento{% endblock %}
+{% block titulo %}Facturar procedimiento {% if tipo == 'A' %} ambulatorio {% endif %}{% endblock %}
 
 {% block msg %}
 	{% if app.session.hasFlash('ok') %}
@@ -57,11 +57,9 @@
 	    				{{ form_widget(form.paciente) }}
     					<button id="buscar_paciente" class="btn" type="button">Buscar</button>
     					<button id="btnIframe" href="{{ path('paciente_jx_new') }}" class="fancybox.iframe btn btn-success" type="link" disabled="disabled">Crear</button>
-    				</div>
+    				</div>    				
     				
-    				
-    				<span id="msg" class="label"></span>
-    				
+    				<span id="msg" class="label"></span>    				
 					
 					{% ui_box for="#btnIframe" id="frame-fijo" %}
 	   
@@ -226,14 +224,14 @@
 
 			if(tipo == "A"){
 
-				if(sel == 'URGENCIAS' || sel == 'HOSPITALIZACION'){
+				if(sel == 'URGENCIAS' || sel == 'HOSPITALIZACION' || sel == 'OBSERVACION'){
 	
 					alert('Por favor selecciona un servicio valido');
 	
 					$("#knx_facturacionbundle_facturatype_servicio").val('');
 				}
 			}else{
-				if(sel != 'URGENCIAS' || sel != 'HOSPITALIZACION'){
+				if(sel != 'URGENCIAS' || sel != 'HOSPITALIZACION' || sel == 'OBSERVACION'){
 					
 					alert('Por favor selecciona un servicio valido');
 	

@@ -300,4 +300,11 @@ almacenimv_printa:
 almacenimv_searcha:
     pattern:  /almacenimv/searcha
     defaults: { _controller: FarmaciaBundle:AlmacenImv:searchprint }    
-    
+
+#************** IMV-FARMACIA ***************#
+
+imv_farmacia_existencia:
+    pattern:  /imvfarmacia/existencia
+    defaults: { _controller: FarmaciaBundle:Inventario:jxBuscarExistencia }
+    requirements:
+        _method: POST

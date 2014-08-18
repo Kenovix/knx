@@ -33,7 +33,7 @@
 		<tr>
 			<td><strong>Autorización:</strong> {{ factura.autorizacion }}</td>
 			<td><strong>Profesional:</strong> {{ factura.profesional }}</td>			
-			<td>  </td>
+			<td><strong>Tipo actividad:</strong> {% if factura.pyp is empty %} Normal {% else %} PYP {% endif %}</td>
 		</tr>
 	</tbody>
 </table>

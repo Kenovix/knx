@@ -91,6 +91,10 @@ facturacion_fv_imprimir:
 facturacion_urgencias_list:
     pattern:  /urgencias/list
     defaults: { _controller: FacturacionBundle:Factura:urgenciasList }
+    
+facturacion_insumo_urg_new:
+    pattern:  /urgencias/list/medicamentos
+    defaults: { _controller: FacturacionBundle:Factura:urgenciasImvList }
 
         
 #******************** FACTURA CARGO ***************************#

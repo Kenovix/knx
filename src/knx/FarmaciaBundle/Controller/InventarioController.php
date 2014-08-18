@@ -11,6 +11,7 @@ use knx\FarmaciaBundle\Entity\Devolucion;
 use knx\FarmaciaBundle\Entity\AlmacenImv;
 use knx\FarmaciaBundle\Form\UpdateInventarioType;
 use knx\FarmaciaBundle\Form\InventarioType;
+use Symfony\Component\HttpFoundation\Response;
 
 
 
@@ -379,7 +380,7 @@ class InventarioController extends Controller
     	}
     }
 
-public function deleteAction($ingreso,$imv)
+	public function deleteAction($ingreso,$imv)
     {
 
     	$em = $this->getDoctrine()->getEntityManager();
@@ -444,5 +445,29 @@ public function deleteAction($ingreso,$imv)
 
     	}
       }
+      
+      public function jxBuscarExistenciaAction() {
+      
+      	$request = $this->get('request');
+      	 
+      	$imv = $request->request->get('imv');
+      	$farmacia = $request->request->get('farmacia');
+      
+      	if(is_numeric($imv) && is_numeric($farmacia)){
+      		 
+      		$em = $this->getDoctrine()->getEntityManager();
+      		$existencias = $em->getRepository('FarmaciaBundle:ImvFarmacia')->findOneBy(array('imv' => $imv, 'farmacia' => $farmacia));
+      		 
+      		if ($existencias){
+      			$response=array("responseCode"=>200, "existencia"=>$existencias->getCant());
+      		}else{
+      			$response=array("responseCode"=>400, "msg"=>'No hay existencias del medicamento en la farmacia seleccionada');
+      		}
+      	}else{
+      		$response=array("responseCode"=>400, "msg"=>"Por favor ingrese un valor valido.");
+      	}
+      	 
+      	$return=json_encode($response);
+      	return new Response($return,200,array('Content-Type'=>'application/json'));
+      }
     }
-

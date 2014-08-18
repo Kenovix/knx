@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\SecurityContext;
 use knx\FacturacionBundle\Entity\FacturaCargo;
 use knx\FacturacionBundle\Entity\FacturaImv;
+use knx\FarmaciaBundle\Entity\ImvFarmacia;
 
 class FacturaController extends Controller
 {
@@ -124,7 +125,7 @@ class FacturaController extends Controller
     			$tipo_cargo = 'CE';
     		}else{
     			$tipo_cargo = 'CU';
-    		}    		
+    		}
 
     		$dql = $em->createQuery( "SELECT
 										c.id,
@@ -400,12 +401,7 @@ class FacturaController extends Controller
     	$factura->setProfesional($entity['profesional']);
     	$factura->setPyp($pyp);
     	$factura->setEstado('A');
-    
-    	if($factura->getServicio() == 'CONSULTA EXTERNA'){
-    		$factura->setTipo('C');
-    	}else{
-    		$factura->setTipo('U');
-    	}
+    	$factura->setTipo('M');
     
     	$em->persist($factura);
     	$em->flush();
@@ -427,6 +423,16 @@ class FacturaController extends Controller
     	}
     
     	$factura_imv = $em->getRepository('FacturacionBundle:FacturaImv')->findBy(array('factura' => $factura->getId()));
+    	
+    	if ($factura->getFarmacia()) {
+    		$farmacia = $em->getRepository('FarmaciaBundle:Farmacia')->find($factura->getFarmacia());
+    	}else{
+    		$factura->setFarmacia(2);
+    		$em->persist($factura);
+    		$em->flush();
+    		
+    		$farmacia = $em->getRepository('FarmaciaBundle:Farmacia')->find($factura->getFarmacia());
+    	}
 
     	if($factura->getPyp()){
     		$pyp = $em->getRepository('ParametrizarBundle:Pyp')->find($factura->getPyp());
@@ -485,10 +491,11 @@ class FacturaController extends Controller
     
     	return $this->render('FacturacionBundle:Factura:show_insumo.html.twig', array(
     			'factura'  => $factura,
-    			'cargos' => $factura_imv,
+    			'imv' => $factura_imv,
     			'pyp' => $pyp,
     			'consultas' => $consultas,
-    			'profesional' => $profesional
+    			'profesional' => $profesional,
+    			'farmacia' => $farmacia
     	));
     }
     
@@ -763,8 +770,8 @@ class FacturaController extends Controller
      *
      * @param ninguno
      */
-    public function jxImvSaveAction() {
-    
+	public function jxImvSaveAction() {
+
     	$request = $this->get('request');
     
     	$factura = $request->request->get('factura');
@@ -780,17 +787,19 @@ class FacturaController extends Controller
     
     	$em = $this->getDoctrine()->getEntityManager();
     	 
-    	$f_i = $em->getRepository('FacturacionBundle:FacturaImv')->findBy(array('factura' => $factura, 'imv' => $imv));
+    	$f_i = $em->getRepository('FacturacionBundle:FacturaImv')->findOneBy(array('factura' => $factura, 'imv' => $imv));
     
+    	$factura = $em->getRepository('FacturacionBundle:Factura')->find($factura);
+    	$imv = $em->getRepository('FarmaciaBundle:Imv')->find($imv);    	
+    	
     	if (!$f_i){
-    
-    		$factura = $em->getRepository('FacturacionBundle:Factura')->find($factura);
-    		$imv = $em->getRepository('FarmaciaBundle:Imv')->find($imv);
-    
+    		
     		$factura_imv = new FacturaImv();
-    
+    		 
     		if($factura && $imv){
-    
+    				
+    			$imv_farmacia = $em->getRepository('FarmaciaBundle:ImvFarmacia')->findOneBy(array('farmacia' => $factura->getFarmacia(), 'imv' => $imv));
+    			 
     			$factura_imv->setFactura($factura);
     			$factura_imv->setImv($imv);
     			$factura_imv->setCantidad($cantidad);
@@ -800,30 +809,32 @@ class FacturaController extends Controller
     			$factura_imv->setPagoPte($pagoPte);
     			$factura_imv->setRecoIps($recoIps);
     			$factura_imv->setValorTotal((($cantidad*$vrUnitario)-$cobrarPte));
-    	   
+    			 
     			if (trim($estado)){
     				$factura_imv->setEstado($estado);
     			}else{
     				$factura_imv->setEstado('A');
     			}
-    	   
+    			 
     			if($factura->getTipo() == 'U'){
-
+    				 
     				$factura->setEstado('A');
-    
+    				 
     			}elseif($factura->getTipo() == 'H'){
-    
+    				 
     				$factura->setEstado('A');
-    
+    				 
     			}else{
     				$factura->setEstado('C');
     			}
-    			
+    				
     			$imv->setCantT($imv->getCantT()-$cantidad);
-    	   
+    			$imv_farmacia->setCant($imv_farmacia->getCant()-$cantidad);
+    			 
     			$em->persist($factura_imv);
     			$em->persist($factura);
     			$em->persist($imv);
+    			$em->persist($imv_farmacia);
     			$em->flush();
     			 
     			$response=array("responseCode" => 200,
@@ -834,15 +845,97 @@ class FacturaController extends Controller
     					"unitario" => $factura_imv->getVrUnitario(),
     					"cobro" => $factura_imv->getCobrarPte(),
     					"total" => $factura_imv->getValorTotal());
-    		}
-    		else{
+    		
+    		}else{
     			$response=array("responseCode"=>400, "msg"=>"La actividad no se ha cargado.");
-    		}
-    	}else {
-    		$response=array("responseCode"=>400, "msg"=>"La actividad ya ha sido cargada.");
+    		}   		
+		}else {
+			
+			if ($factura->getTipo() == 'U') {
+				 
+				$f_i->setCantidad($f_i->getCantidad()+$cantidad);
+				$f_i->setVrUnitario($vrUnitario);
+				$f_i->setVrFacturado($f_i->getVrFacturado()+$vrFacturado);
+				$f_i->setValorTotal($f_i->getValorTotal()+$valorTotal);
+				 
+				$em->persist($f_i);
+				$em->flush();
+				
+				$response=array("responseCode" => 200,
+    					"msg" => 'La actividad se ha cargado correctamente.',
+    					"codigo" => $imv->getCodCups(),
+    					"nombre" => $imv->getNombre(),
+    					"cantidad" => $f_i->getCantidad(),
+    					"unitario" => $f_i->getVrUnitario(),
+    					"cobro" => $f_i->getCobrarPte(),
+    					"total" => $f_i->getValorTotal());
+				 
+			}else{
+				$response=array("responseCode"=>400, "msg"=>"La actividad ya ha sido cargada.");
+			}    		
     	}
     	 
     	$return=json_encode($response);
     	return new Response($return,200,array('Content-Type'=>'application/json'));
+    }
+    
+    
+    /**
+     * @uses Función que elimina un cargo de una factura abierta.
+     *
+     * @param ninguno
+     */
+    public function jxImvDeleteAction() {
+    
+    	$request = $this->get('request');
+    
+    	$factura = $request->request->get('factura');
+    	$imv = $request->request->get('imv');
+    	 
+    
+    	$em = $this->getDoctrine()->getEntityManager();
+    
+    	$f_i = $em->getRepository('FacturacionBundle:FacturaImv')->findOneBy(array('factura' => $factura, 'imv' => $imv));
+    
+    	if ($f_i){
+    
+    		$em->remove($f_i);
+    		$em->flush();
+    
+    		$response=array("responseCode" => 200, "msg" => 'La actividad se ha eliminado correctamente.');
+    	}
+    	else{
+    		$response=array("responseCode"=>400, "msg"=>"La actividad no existe en el sistema.");
+    	}
+    	 
+    
+    	$return=json_encode($response);
+    	return new Response($return,200,array('Content-Type'=>'application/json'));
+    }
+    
+    public function urgenciasImvListAction()
+    {
+    	$breadcrumbs = $this->get("white_october_breadcrumbs");
+    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
+    	$breadcrumbs->addItem("Urgencias");
+    	 
+    	$em = $this->getDoctrine()->getEntityManager();
+    	 
+    	$dql = $em->createQuery( "SELECT
+										f
+									 FROM
+										FacturacionBundle:Factura f
+									 WHERE
+										f.estado = 'A' AND
+    									f.tipo = 'U' OR
+    									f.tipo = 'H'
+									 ORDER BY
+										f.fecha ASC");
+    	 
+    	$factura = $dql->getResult();
+    	 
+    	return $this->render('FacturacionBundle:Factura:urgencias_imv_list.html.twig', array(
+    			'facturas'  => $factura
+    	));
     }
 }
