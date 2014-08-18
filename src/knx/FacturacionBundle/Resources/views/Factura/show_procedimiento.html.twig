@@ -32,7 +32,9 @@
 	<table class="table table-bordered">
         <tbody>
         	<tr>
-                <td colspan="5"></td>                
+                <td><strong>Fecha</strong></td>
+                <td>{{ factura.fecha | date('d-m-Y H:i') }}</td>
+                <td colspan="3"></td>                
                 <td colspan="2"><strong>FACTURA No.</strong></td>
                 <td colspan="3" ><span class="badge badge-important">{{ factura.id }}</span></td>
             </tr>
@@ -166,8 +168,13 @@
 		{% endfor %}
 	</table>
 	
-	<a href="{{ path('facturacion_fv_imprimir', {'factura':factura.id}) }}" id="btn-imprimir-factura" class="btn" {% if factura.estado == 'A' and factura.tipo != 'U' %} style="display:none" {% endif %}><i class="icon-print"></i> Imprimir</a>
-	<a href="{{ path('facturacion_procedimiento_new', {'tipo':'A'}) }}" id="btn-nueva-factura" class="btn" {% if factura.estado == 'A' and factura.tipo != 'U' %} style="display:none" {% endif %}><i class="icon-print"></i> Nueva factura</a>
+	{% if cargos is empty %}	
+		<a href="{{ path('facturacion_fv_imprimir', {'factura':factura.id}) }}" id="btn-imprimir-factura" class="btn" style="display:none"><i class="icon-print"></i> Imprimir</a>
+		<a href="{{ path('facturacion_procedimiento_new', {'tipo':'A'}) }}" id="btn-nueva-factura" class="btn" style="display:none"><i class="icon-repeat"></i> Nueva factura</a>		
+	{% else %}
+		<a href="{{ path('facturacion_fv_imprimir', {'factura':factura.id}) }}" id="btn-imprimir-factura" class="btn" {% if factura.tipo == 'U' %} style="display:none" {% endif %}><i class="icon-print"></i> Imprimir</a>
+		<a href="{{ path('facturacion_procedimiento_new', {'tipo':'A'}) }}" id="btn-nueva-factura" class="btn"><i class="icon-repeat"></i> Nueva factura</a>
+	{% endif %}
 
 {% endblock %}
 
@@ -179,6 +186,8 @@
 			var cargo = $("#actividad").val();
 	
 			if ( cargo > 0 && cargo != "" ) {
+
+				$("#cantidad").val("1");
 				
 				var url="{{ path('contrato_buscar_tarifa') }}";
 	
@@ -203,6 +212,9 @@
 		         	    alert("Ha ocurrido un error en el sistema.");
 		             }
 		      	});
+			}else{
+				alert('Debes seleccionar una actividad valida.');
+				return false;
 			}
 		});
 
@@ -229,16 +241,31 @@
 
 		$("#cantidad").change(function() {
 
+			var cargo = $("#actividad").val();
+
 			var valor = $("#valor").val();
 			var cantidad = $("#cantidad").val();
 
-			$("#vr_facturado").val(valor * cantidad);
+			if(!isNaN(cantidad)){
 
-			var cobro = $("#cobrar_pte").val();
+				if(cargo != ''){
+					$("#vr_facturado").val(valor * cantidad);
 
-			var v_f = $("#vr_facturado").val();
+					var cobro = $("#cobrar_pte").val();
 
-			$("#valor_total").val(v_f - cobro);
+					var v_f = $("#vr_facturado").val();
+
+					$("#valor_total").val(v_f - cobro);
+				}else{
+					alert('Primero debes seleccionar una actividad');
+					return false;
+				}
+
+				
+			}else{
+				alert('Por favor ingrese un valor valido en la cantidad de procedimientos');
+				return false;
+			}			
 		});
 
 		$("#agregar").click(function() {
@@ -287,8 +314,13 @@
 	
 		            	 $("#facturado").append(html);
 
-		            	 $("#btn-imprimir-factura, #btn-nueva-factura").removeAttr('style');
+		            	 var tipo = "{{ factura.tipo }}";
 
+		            	 if(tipo == 'U'){
+		            		 $("#btn-nueva-factura").removeAttr('style');
+			           	 }else{
+			           		 $("#btn-imprimir-factura, #btn-nueva-factura").removeAttr('style');
+				         }
 		             }
 		             else if(data.responseCode==400){
 		            	$('#jxMsg > span').prepend(data.msg);

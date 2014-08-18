@@ -1,0 +1,63 @@
+{% extends "::admin_layout.html.twig" %}
+
+{% block menu %}
+	{{ knp_menu_render('FacturacionBundle:Builder:facturaMenu') }}
+{% endblock %}
+
+{% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
+
+{% block titulo %}Pacientes en urgencias{% endblock %}
+
+{% block msg %}
+	{% if app.session.hasFlash('ok') %}
+	    <div class="alert alert-success">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('ok') }}</span>
+	    </div>
+	{% elseif app.session.hasFlash('info') %}
+		<div class="alert alert-info">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('info') }}</span>
+	    </div>
+	{% elseif app.session.hasFlash('error') %}
+		<div class="alert alert-error">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span id="jxError">{{ app.session.flash('error') }}</span>
+	    </div>
+	{% endif %}
+{% endblock %}
+
+{% block cuerpo %}
+	{% if facturas %}
+	    <table class="table">
+	        <thead>
+	            <tr>
+	                <th>No.</th>
+	                <th>Cedula</th>
+	                <th>Nombre</th>
+	                <th>Cliente</th>
+	                <th>Fecha ingreso</th>
+	                <th>Opciones</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	        {% for factura in facturas %}
+	            <tr>
+	                <td>{{ loop.index }}</td>
+	                <td>{{ factura.paciente.identificacion }}</td>
+	                <td>{{ factura.paciente.priNombre | capitalize }} {{ factura.paciente.segNombre | capitalize }} {{ factura.paciente.priApellido | capitalize }} {{ factura.paciente.segApellido | capitalize }}</td>
+	                <td>{{ factura.cliente.nombre }}</td>
+	                <td>{{ factura.fecha | date('d-m-Y H:i') }}</td>
+	                <td><a href="{{ path('facturacion_insumo_show', {'factura':factura.id}) }}" id="btn-cargar" class="btn" title="Facturar medicamento"><i class="icon-edit"></i></a></td>
+	            </tr>
+	        {% endfor %}
+	        </tbody>
+	    </table>
+	{% else %}
+		<div class="alert alert-success">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>No existen pacientes en urgencias ni hospitalizados</span>
+	    </div>
+	{% endif %}
+    
+{% endblock %}

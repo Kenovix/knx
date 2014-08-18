@@ -213,6 +213,12 @@ imv_contrato_update:
     pattern:  /imv/contrato/{contrato}/{imv}/update
     defaults: { _controller: ParametrizarBundle:ImvContrato:update }
     
+imv_contrato_buscar_tarifa:
+    pattern:  /imv/contrato/buscar/tarifa
+    defaults: { _controller: ParametrizarBundle:ImvContrato:jxBuscarTarifaImv }
+    requirements:
+        _method:  POST
+    
 #************** Proveedor ***************#
 
 proveedor_list:

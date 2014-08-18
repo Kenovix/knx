@@ -5,6 +5,7 @@ namespace knx\ParametrizarBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use knx\ParametrizarBundle\Entity\ImvContrato;
 use knx\ParametrizarBundle\Form\ImvContratoType;
+use Symfony\Component\HttpFoundation\Response;
 
 class ImvContratoController extends Controller
 {
@@ -194,5 +195,62 @@ class ImvContratoController extends Controller
     			'contratado' => $imv_contrato,
     			'form' => $form->createView()
     	));
+    }
+    
+    /**
+     * @uses Función que consulta la tarifa pactada para los medicamentos.
+     *
+     * @param ninguno
+     */
+    public function jxBuscarTarifaImvAction() {
+    
+    	$request = $this->get('request');
+    
+    	$cliente = $request->request->get('cliente');
+    	$cargo = $request->request->get('cargo');
+    	 
+    	$em = $this->getDoctrine()->getEntityManager();
+    	 
+    	$dql = $em->createQuery("SELECT
+    								c
+    							FROM
+    								knx\ParametrizarBundle\Entity\Contrato c
+    							WHERE
+    								c.cliente = :cliente AND
+    								c.fechaInicio <= :fecha AND
+    								c.fechaFin >= :fecha AND
+    								c.tipo = 'M' AND
+    								c.estado = 'A'");
+    	 
+    	$hoy = new \DateTime('now');
+    	 
+    	$dql->setParameter("cliente", $cliente);
+    	$dql->setParameter("fecha", $hoy);
+    	 
+    	$contrato = $dql->getSingleResult();
+    	 
+    	if($contrato){
+    		 
+    		$imv_contrato = $em->getRepository('ParametrizarBundle:ImvContrato')->findOneBy(array('imv' => $cargo, 'contrato' => $contrato->getId(), 'estado' => 'A'));
+    
+    		if ($imv_contrato) {
+    			
+    			if($imv_contrato->getPrecio() != 0){
+    				$precio = $imv_contrato->getPrecio();
+    			}else{
+    				$precio = ($imv_contrato->getImv()->getPrecioVenta() + ($imv_contrato->getImv()->getPrecioVenta() * $contrato->getPorcentaje()));
+    			}
+    			 
+    			$response=array("responseCode" => 200, "precio" => $precio);
+    		}
+    		else{
+    			$response=array("responseCode"=>400, "msg"=>"La actividad solicitada no se encuentra parametrizada en el sistema");
+    		}
+    	}else{
+    		$response=array("responseCode"=>400, "msg"=>"No hay contrato vigente para la actividad.");
+    	}
+    
+    	$return=json_encode($response);
+    	return new Response($return,200,array('Content-Type'=>'application/json'));
     }
 }
