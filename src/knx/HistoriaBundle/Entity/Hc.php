@@ -561,7 +561,7 @@ class Hc {
 	/** @var date $created
 	 *
 	 * @Gedmo\Timestampable(on="create")
-	 * @ORM\Column(name="created", type="date")
+	 * @ORM\Column(name="created", type="datetime")
 	 */
 	private $created;
 

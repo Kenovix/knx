@@ -25,7 +25,7 @@
 		  	<td width="750px" align="left">Servi Ingreso: {{ factura.servicio.nombre }}</td>
 		  	<td width="800px" align="left">F/H Ingreso: {{ historia.created | date('d/m/Y H:i') }}</td>
 		  	<td width="750px" align="left">Servi Egreso: {{ historia.serviEgre.nombre }}</td>
-		  	<td align="left">F/ Egreso: {{ historia.updated | date('d/m/Y') }}</td>
+		  	<td align="left">F/ Egreso: {{ historia.updated | date('d/m/Y H:i' ) }}</td>
 	 	</tr>
 	 </table>
 {% endblock %}
