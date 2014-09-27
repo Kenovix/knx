@@ -4,11 +4,14 @@ namespace knx\FacturacionBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use knx\FacturacionBundle\Entity\FacturaCargo;
+use knx\ParametrizarBundle\Entity\Cliente;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\SecurityContext;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 use knx\FacturacionBundle\Form\FacturaCargoType;
+use knx\FacturacionBundle\Form\ConsolidadoType;
+
 
 class FacturaCargoController extends Controller
 {
@@ -223,4 +226,149 @@ class FacturaCargoController extends Controller
 
 		return $pdf;
 	}
+        
+        
+        
+        public function generarConsolidadoAction()
+    {
+    	$em = $this->getDoctrine()->getEntityManager();
+    	 
+    	$clientes = $em->getRepository("ParametrizarBundle:Cliente")->findAll();
+    	 
+    	$plantilla = 'FacturacionBundle:Consolidado:consolidado_final.html.twig';
+    	
+    
+    	return $this->render($plantilla, array(
+    			'clientes' => $clientes,
+    	));
+    }
+    
+    
+    
+    public function resultConsolidadoAction()
+    {
+    	 
+    	$request = $this->get('request');
+    	 
+    	$cliente = $request->request->get('cliente');
+    	$f_inicio = $request->request->get('f_inicio');
+    	$f_fin = $request->request->get('f_fin');
+    	
+    	$url = 'consolidados_vista';
+    	 
+    	if(trim($f_inicio)){
+    		$desde = explode('/',$f_inicio);
+    
+    		if(!checkdate($desde[1],$desde[0],$desde[2])){
+    			$this->get('session')->setFlash('info', 'La fecha de inicio ingresada es incorrecta.');
+    			return $this->redirect($this->generateUrl($url));
+    		}
+    	}else{
+    		$this->get('session')->setFlash('info', 'La fecha de inicio no puede estar en blanco.');
+    		return $this->redirect($this->generateUrl($url));
+    	}
+    	 
+    	if(trim($f_fin)){
+    		$hasta = explode('/',$f_fin);
+    
+    		if(!checkdate($hasta[1],$hasta[0],$hasta[2])){
+    			$this->get('session')->setFlash('info', 'La fecha de finalización ingresada es incorrecta.');
+    			return $this->redirect($this->generateUrl($url));
+    		}
+    	}else{
+    		$this->get('session')->setFlash('info', 'La fecha de finalización no puede estar en blanco.');
+    		return $this->redirect($this->generateUrl($url));
+    	}
+    	 
+    	$em = $this->getDoctrine()->getEntityManager();
+    	 
+    	
+    	if(is_numeric(trim($cliente))){
+    		$obj_cliente = $em->getRepository("ParametrizarBundle:Cliente")->find($cliente);
+    	}else{
+    		$obj_cliente['nombre'] = 'Todos los clientes.';
+    		$obj_cliente['id'] = '';
+    	}    	
+    	 
+    	if(!$obj_cliente){
+    		$this->get('session')->setFlash('info', 'El cliente seleccionado no existe.');
+    		return $this->redirect($this->generateUrl($url));
+    	}
+    	
+    	
+    	
+    	 
+    	$dql= " SELECT
+			    	f.id,
+			    	p.id as paciente,
+			    	p.tipoId,
+			    	p.identificacion,
+			    	f.fecha,
+			    	f.autorizacion,
+			    	p.priNombre,
+			    	p.segNombre,
+			    	p.priApellido,
+			    	p.segApellido,
+			    	fc.pagoPte,
+			    	fc.recoIps,
+                                SUM(fc.valorTotal) AS total,
+                                SUM(fc.pagoPte) AS copago,
+                                SUM(fc.recoIps) AS asumido
+
+
+    			FROM
+    				FacturacionBundle:FacturaCargo fc
+    			JOIN
+    				fc.factura f
+    			JOIN
+    				f.paciente p
+    			JOIN
+    				f.cliente c
+    			WHERE
+                                c.id = :cliente
+			    	AND f.fecha > :inicio
+			    	AND f.fecha <= :fin
+                                AND f.estado != 'X'
+                        GROUP BY fc.factura
+		    	ORDER BY
+		    		fc.factura ASC";
+    
+    	$query = $em->createQuery($dql);
+    	 
+    	$query->setParameter('inicio', $desde[2]."/".$desde[1]."/".$desde[0].' 00:00:00');
+    	$query->setParameter('fin', $hasta[2]."/".$hasta[1]."/".$hasta[0].' 23:59:00');
+    	$query->setParameter('cliente', $cliente);
+    	 
+    	$consolidado = $query->getResult();
+        
+                                
+           //die(var_dump($consolidado));                     
+        if(!$consolidado)
+    	{
+    		$this->get('session')->setFlash('info', 'La consulta no ha arrojado ningún resultado para los parametros de busqueda ingresados.');
+
+    		return $this->redirect($this->generateUrl('consolidados_vista'));
+    	}
+
+
+    	$pdf = $this->get('white_october.tcpdf')->create();
+    	
+        
+        
+         $html = $this->renderView('FacturacionBundle:Consolidado:listado.html.twig',array(
+                            'cliente' =>$obj_cliente,
+                            'f_inicio' =>$f_inicio,
+                            'f_fin'    => $f_fin,
+                            'consolidado' => $consolidado
+                ));
+        
+         return $pdf->quick_pdf($html, 'consolidado'.$obj_cliente->getNombre().'.pdf', 'D');  
+
+    	
+    	
+    }
+    
+    
+    
+    
 }

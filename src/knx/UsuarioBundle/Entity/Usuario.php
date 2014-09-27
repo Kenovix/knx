@@ -113,6 +113,10 @@ class Usuario extends BaseUser
 		else if($rol == 7) {
 			array_push($this->roles, 'ROLE_ODONTOLOGO');
 		}
+                
+		else if($rol == 8) {
+			array_push($this->roles, 'ROLE_ESTADISTICO');
+		}
 	}
 
 

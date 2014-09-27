@@ -256,8 +256,8 @@ class FacturasController extends Controller
                 $mupio = $em->getRepository('ParametrizarBundle:Mupio')->find($factura->getPaciente()->getMupio());
 
                 // se consulta por la informacion del profesional para ser visulizada en la factura.
-                $profesional = $em->getRepository('UsuarioBundle:Usuario')->find($factura->getProfesional());
-                $factura->setProfesional($profesional->getNombre().' '.$profesional->getApellido());
+                //$profesional = $em->getRepository('UsuarioBundle:Usuario')->find($factura->getProfesional());
+                //$factura->setProfesional($profesional->getNombre().' '.$profesional->getApellido());
 
                 $pdf = $this->get('white_october.tcpdf')->create();
 

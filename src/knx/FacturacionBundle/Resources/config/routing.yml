@@ -139,3 +139,12 @@ facturas_rimprimir:
     pattern:  /facturas/{factura1}/rimprimir
     defaults: { _controller: FacturacionBundle:Facturas:rimprimir }    
     
+#******************** MORBILIDAD ***************************#
+
+consolidados_vista:
+    pattern:  /consolidado/search
+    defaults: { _controller: FacturacionBundle:FacturaCargo:generarConsolidado }
+    
+consolidados_result:
+    pattern:  /consolidado/result
+    defaults: { _controller: FacturacionBundle:FacturaCargo:resultConsolidado }    
