@@ -139,12 +139,86 @@ facturas_rimprimir:
     pattern:  /facturas/{factura1}/rimprimir
     defaults: { _controller: FacturacionBundle:Facturas:rimprimir }    
     
-#******************** MORBILIDAD ***************************#
+#******************** Consolidado ***************************#
 
 consolidados_vista:
     pattern:  /consolidado/search
     defaults: { _controller: FacturacionBundle:FacturaCargo:generarConsolidado }
     
-consolidados_result:
+consolidados_resultado:
     pattern:  /consolidado/result
-    defaults: { _controller: FacturacionBundle:FacturaCargo:resultConsolidado }    
+    defaults: { _controller: FacturacionBundle:FacturaCargo:resultConsolidado }
+    
+consolidados_vista_imprimir:
+    pattern:  /consolidado/search/print
+    defaults: { _controller: FacturacionBundle:FacturaCargo:searchConsolidado }
+    
+consolidados_imprimir:
+    pattern:  /consolidado/print
+    defaults: { _controller: FacturacionBundle:FacturaCargo:printConsolidado }
+        
+    
+    
+#******************** Cierre de caja ***************************#
+
+cierre_vista:
+    pattern:  /cierre/search
+    defaults: { _controller: FacturacionBundle:FacturaCargo:cierreCaja }
+    
+cierre_result:
+    pattern:  /cierre/result
+    defaults: { _controller: FacturacionBundle:FacturaCargo:resultCierre }
+    
+cierre_vista_imprimir:
+    pattern:  /cierre/search/print
+    defaults: { _controller: FacturacionBundle:FacturaCargo:searchCierre }
+    
+cierre_imprimir:
+    pattern:  /cierre/print
+    defaults: { _controller: FacturacionBundle:FacturaCargo:printCierre }    
+    
+    
+    
+#******************** Factura final ***************************#
+
+factura_final_vista:
+    pattern:  /factfinal/search
+    defaults: { _controller: FacturacionBundle:FacturaCargo:facturaFinal }
+    
+factura_final_result:
+    pattern:  /factfinal/result
+    defaults: { _controller: FacturacionBundle:FacturaCargo:resultFactfinal }
+    requirements:
+        _method:  POST
+    
+factura_final_save:
+    pattern:  /factfinal/save/{cliente}
+    defaults: { _controller: FacturacionBundle:FacturaCargo:saveFactfinal }  
+    
+factura_final_show:
+    pattern:  /factura/final/show/{id}
+    defaults: { _controller: FacturacionBundle:FacturaCargo:showFactfinal } 
+    
+factura_final_imprimir:
+    pattern:  /factura/final/imprimir/{id}
+    defaults: { _controller: FacturacionBundle:FacturaCargo:imprimirFactfinal }    
+ 
+facturas_final_search:
+    pattern:  /factfinal/searchFinal
+    defaults: { _controller: FacturacionBundle:FacturaCargo:searchFinal }
+    
+facturas_final_list:
+    pattern:  /factfinal/list
+    defaults: { _controller: FacturacionBundle:FacturaCargo:list }  
+ 
+facturas_final_anular:
+    pattern:  /factfinal/{factura1}/anular
+    defaults: { _controller: FacturacionBundle:FacturaCargo:anularFactfinal }
+    
+facturas_final_motivo:
+    pattern:  /factfinal/{factura1}/motivo
+    defaults: { _controller: FacturacionBundle:FacturaCargo:motivoFactfinal }    
+    
+facturas_final_rimprimir:
+    pattern:  /factfinal/{factura1}/rimprimir
+    defaults: { _controller: FacturacionBundle:FacturaCargo:rimprimirFactfinal }    

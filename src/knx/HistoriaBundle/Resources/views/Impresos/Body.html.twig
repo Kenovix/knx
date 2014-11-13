@@ -170,9 +170,11 @@
 			</p>
 	{% endif %}			
 	<p>
-		<b>Medico: </b> {{ usuario.nombre }} {{ usuario.apellido }} Especialidad: {{ usuario.especialidad }} <br/>
-		<b>Registro:</b><br/>
-		<b>Firma: </b>
+		 <b>Medico: </b> {{ usuario.nombre }} {{ usuario.apellido }} Especialidad: {{ usuario.especialidad }} <br/>
+		 <b>Registro:</b>{{ usuario.rm }}<br/>
+		 <b>Firma: </b><br/>
+                 <b>Factura:</b> {{factura.id}}
+
 	</p>
 </div>
 {% endblock %}
