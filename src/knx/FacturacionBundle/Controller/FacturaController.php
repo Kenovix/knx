@@ -22,7 +22,12 @@ class FacturaController extends Controller
     	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
     	$breadcrumbs->addItem("Nueva factura", $this->get("router")->generate("facturacion_consulta_new"));
     	
+    	$fecha = new \DateTime('now');
+    	
     	$factura = new Factura();
+    	
+    	$factura->setFecha($fecha);
+    	
     	$form = $this->createForm(new FacturaType(), $factura);
     	
     	$form_afiliacion = $this->createForm(new AfiliacionType()); 
@@ -60,11 +65,15 @@ class FacturaController extends Controller
 			$pyp = null;
 		}
 		
+		$str_fecha = $entity['fecha']['date']['year'].'-'.$entity['fecha']['date']['month'].'-'.$entity['fecha']['date']['day'].' '.$entity['fecha']['time']['hour'].':'.$entity['fecha']['time']['minute'];
+		
+		$fecha = new \DateTime($str_fecha);
+		
 		$factura->setPaciente($paciente);
 		$factura->setCliente($cliente);
 		$factura->setServicio($servicio);
 		$factura->setUsuario($usuario);
-		$factura->setFecha(new \DateTime());
+		$factura->setFecha($fecha);
 		$factura->setAutorizacion($entity['autorizacion']);
 		$factura->setObservacion($entity['observacion']);
 		$factura->setProfesional($entity['profesional']);
@@ -438,10 +447,10 @@ class FacturaController extends Controller
     		$pyp = $em->getRepository('ParametrizarBundle:Pyp')->find($factura->getPyp());
     
     		$dql = $em->createQuery( "SELECT
-										c.id,
-    									c.nombre
+										i.id,
+    									i.nombre
 									 FROM
-										ParametrizarBundle:ImvPyp ip
+										FarmaciaBundle:ImvPyp ip
 									 JOIN
 										ip.imv i
 									 WHERE
