@@ -62,12 +62,34 @@ class Builder extends ContainerAware
 			$menu['Facturación']['Facturar']->addChild('Morbilidad', array('route' => 'morbilidad_vista'));
                         $menu['Facturación']['Facturar']->addChild('Anular/Reimprimir', array('route' => 'facturas_search'));
 
+
+                        $menu->addChild('Informes', array('uri' => '#'));
+			$menu['Informes']->addChild('Reportes', array('route' => 'reporte_cargo_new'));
+                        $menu->addChild('Informes', array('uri' => '#'));
+			$menu['Informes']->addChild('Reportes', array('route' => 'reporte_cargo_new'));
+                        $menu['Informes']->addChild('Facturación', array('uri' => '#'));
+                        $menu['Informes']['Facturación']->addChild('Cierre Caja', array('uri' => '#'));
+                        $menu['Informes']['Facturación']['Cierre Caja']->addChild('Consultar', array('route' => 'cierre_vista'));
+			$menu['Informes']['Facturación']['Cierre Caja']->addChild('Imprimir', array('route' => 'cierre_vista_imprimir'));
+                        $menu['Informes']['Facturación']->addChild('Consolidados', array('uri' => '#'));
+                        $menu['Informes']['Facturación']['Consolidados']->addChild('Consultar', array('route' => 'consolidados_vista'));
+			$menu['Informes']['Facturación']['Consolidados']->addChild('Imprimir', array('route' => 'consolidados_vista_imprimir'));
+                        $menu['Informes']['Facturación']->addChild('Factura Final', array('route' => 'factura_final_vista'));
+                        $menu['Informes']['Facturación']->addChild('Factura Final', array('uri' => '#'));
+                        $menu['Informes']['Facturación']['Factura Final']->addChild('Generar', array('route' => 'factura_final_vista'));
+                        $menu['Informes']['Facturación']['Factura Final']->addChild('Anular/Reimprimir', array('route' => 'facturas_final_search'));
+                        
+                        $menu->addChild('Estadistica', array('uri' => '#'));
+			$menu['Estadistica']->addChild('Reportes', array('route' => 'reporte_cargo_new'));
+			$menu['Estadistica']->addChild('Morbilidad', array('route' => 'morbilidad_vista'));
+                        
+
 			$menu->addChild('Historia', array('uri' => '#'));
 			$menu['Historia']->addChild('Diagnosticos', array('route' => 'cie_list'));
 			$menu['Historia']->addChild('Examenes', array('route' => 'examen_list'));
 			$menu['Historia']->addChild('Medicamentos', array('route' => 'medicamento_list'));
 			$menu['Historia']->addChild('Busqueda', array('route' => 'paciente_filtro'));
-	
+
 			$menu->addChild('Usuarios', array('uri' => '#'));
 			$menu['Usuarios']->addChild('Listar', array('route' => 'usuario_list'));
 			$menu['Usuarios']->addChild('Crear', array('route' => 'fos_user_registration_register'));
@@ -138,6 +160,22 @@ class Builder extends ContainerAware
 			$menu['Facturación']['Facturar']->addChild('Reportes', array('route' => 'reporte_cargo_new'));
 			$menu['Facturación']['Facturar']->addChild('Morbilidad', array('route' => 'morbilidad_vista'));
                         $menu['Facturación']['Facturar']->addChild('Anular/Reimprimir', array('route' => 'facturas_search'));
+
+
+                        $menu->addChild('Informes', array('uri' => '#'));
+			$menu['Informes']->addChild('Reportes', array('route' => 'reporte_cargo_new'));
+                        $menu['Informes']->addChild('Facturación', array('uri' => '#'));
+                        $menu['Informes']['Facturación']->addChild('Cierre Caja', array('uri' => '#'));
+                        $menu['Informes']['Facturación']['Cierre Caja']->addChild('Consultar', array('route' => 'cierre_vista'));
+			$menu['Informes']['Facturación']['Cierre Caja']->addChild('Imprimir', array('route' => 'cierre_vista_imprimir'));
+                        $menu['Informes']['Facturación']->addChild('Consolidados', array('uri' => '#'));
+                        $menu['Informes']['Facturación']['Consolidados']->addChild('Consultar', array('route' => 'consolidados_vista'));
+			$menu['Informes']['Facturación']['Consolidados']->addChild('Imprimir', array('route' => 'consolidados_vista_imprimir'));
+                        $menu['Informes']['Facturación']->addChild('Factura Final', array('route' => 'factura_final_vista'));
+                        $menu['Informes']['Facturación']->addChild('Factura Final', array('uri' => '#'));
+                        $menu['Informes']['Facturación']['Factura Final']->addChild('Generar', array('route' => 'factura_final_vista'));
+                        $menu['Informes']['Facturación']['Factura Final']->addChild('Anular/Reimprimir', array('route' => 'facturas_final_search'));
+                        
 
 			$menu->addChild('Usuarios', array('uri' => '#'));
 			$menu['Usuarios']->addChild('Listar', array('route' => 'usuario_list'));

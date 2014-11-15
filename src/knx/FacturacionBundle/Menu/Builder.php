@@ -117,11 +117,14 @@ class Builder extends ContainerAware
 			$menu['Facturación']['Facturar']['Medicamento']->addChild('Ambulatorio', array('route' => 'facturacion_insumo_new', 'routeParameters' => array('tipo' => 'A')));
 			$menu['Facturación']['Facturar']['Medicamento']->addChild('Urgencias', array('route' => 'facturacion_insumo_urg_new'));
 			$menu['Facturación']['Facturar']->addChild('Anular/Reimprimir', array('route' => 'facturas_search'));
-
-                        $menu->addChild('Informes', array('uri' => '#'));
-                        $menu['Informes']->addChild('Cierre Caja', array('route' => 'cierre_vista'));
                         
-			$menu->addChild($usuario->getUsername(), array('uri' => '#'));
+                        $menu->addChild('Informes', array('uri' => '#'));
+                        $menu['Informes']->addChild('Facturación', array('uri' => '#'));
+                        $menu['Informes']['Facturación']->addChild('Cierre Caja', array('uri' => '#'));
+                        $menu['Informes']['Facturación']['Cierre Caja']->addChild('Consultar', array('route' => 'cierre_vista'));
+			$menu['Informes']['Facturación']['Cierre Caja']->addChild('Imprimir', array('route' => 'cierre_vista_imprimir'));                        
+			
+                        $menu->addChild($usuario->getUsername(), array('uri' => '#'));
 			$menu[$usuario->getUsername()]->addChild('Salir', array('route' => 'logout'));
 			
                 }elseif($security->isGranted('ROLE_ADMIN')){
@@ -162,22 +165,29 @@ class Builder extends ContainerAware
 			$menu['Facturación']['Facturar']['Medicamento']->addChild('Urgencias', array('route' => 'facturacion_insumo_urg_new'));
 			$menu['Facturación']['Facturar']->addChild('Anular/Reimprimir', array('route' => 'facturas_search'));
                                       
-                                        $menu->addChild('Informes', array('uri' => '#'));
-                                        $menu['Informes']->addChild('Reportes', array('route' => 'reporte_cargo_new'));
-                                         $menu['Informes']['Facturación']->addChild('Consolidados', array('route' => 'consolidados_vista'));
-              
-                                       $menu['Informes']['Facturación']->addChild('Factura Final', array('uri' => '#'));
-                                        $menu['Informes']['Facturación']['Factura Final']->addChild('Generar', array('route' => 'factura_final_vista'));
-                                        $menu['Informes']['Facturación']['Factura Final']->addChild('Anular/Reimprimir', array('route' => 'facturas_final_search'));
+
+                                       $menu->addChild('Informes', array('uri' => '#'));
+			$menu['Informes']->addChild('Reportes', array('route' => 'reporte_cargo_new'));
+                        $menu['Informes']->addChild('Facturación', array('uri' => '#'));
+                        $menu['Informes']['Facturación']->addChild('Cierre Caja', array('uri' => '#'));
+                        $menu['Informes']['Facturación']['Cierre Caja']->addChild('Consultar', array('route' => 'cierre_vista'));
+			$menu['Informes']['Facturación']['Cierre Caja']->addChild('Imprimir', array('route' => 'cierre_vista_imprimir'));
+                        $menu['Informes']['Facturación']->addChild('Consolidados', array('uri' => '#'));
+                        $menu['Informes']['Facturación']['Consolidados']->addChild('Consultar', array('route' => 'consolidados_vista'));
+			$menu['Informes']['Facturación']['Consolidados']->addChild('Imprimir', array('route' => 'consolidados_vista_imprimir'));
+                        $menu['Informes']['Facturación']->addChild('Factura Final', array('route' => 'factura_final_vista'));
+                        $menu['Informes']['Facturación']->addChild('Factura Final', array('uri' => '#'));
+                        $menu['Informes']['Facturación']['Factura Final']->addChild('Generar', array('route' => 'factura_final_vista'));
+                        $menu['Informes']['Facturación']['Factura Final']->addChild('Anular/Reimprimir', array('route' => 'facturas_final_search'));
+
+
                                        
-                                        $menu->addChild('Usuarios', array('uri' => '#'));
+                        $menu->addChild('Usuarios', array('uri' => '#'));
+		        $menu['Usuarios']->addChild('Listar', array('route' => 'usuario_list'));
+			$menu['Usuarios']->addChild('Crear', array('route' => 'fos_user_registration_register'));
 
-					$menu['Usuarios']->addChild('Listar', array('route' => 'usuario_list'));
-					$menu['Usuarios']->addChild('Crear', array('route' => 'fos_user_registration_register'));
-
-					$menu->addChild($usuario->getUsername(), array('uri' => '#'));
-
-					$menu[$usuario->getUsername()]->addChild('Salir', array('route' => 'logout'));
+			$menu->addChild($usuario->getUsername(), array('uri' => '#'));
+			$menu[$usuario->getUsername()]->addChild('Salir', array('route' => 'logout'));
 
 			}elseif ($security->isGranted('ROLE_ESTADISTICO')){
                     			
