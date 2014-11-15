@@ -18,14 +18,14 @@ class FacturaCargoRepository extends EntityRepository
 	{
 		$em = $this->getEntityManager();		
 		$dql = $em->createQuery("SELECT c.nombre AS cliente,
-										ca.soat, ca.nombre AS cargo,
+										ca.soat,ca.cups, ca.nombre AS cargo,
 										COUNT(fc.factura) AS cantidad,
 										fc.vrUnitario, SUM(fc.vrFacturado) AS total 
 								 FROM FacturacionBundle:FacturaCargo fc 
 									JOIN fc.factura f
 									JOIN fc.cargo ca 
 									JOIN f.cliente c
-								 WHERE fc.created >= :dateStart
+								 WHERE  fc.estado!='X' AND fc.created >= :dateStart
 									AND fc.created <= :dateEnd 
 								 GROUP BY fc.cargo, f.cliente ORDER BY c.nombre, ca.soat ASC");
 
@@ -39,7 +39,7 @@ class FacturaCargoRepository extends EntityRepository
 	{
 		$em = $this->getEntityManager();
 		$dql = $em->createQuery("SELECT c.nombre AS cliente,
-										ca.soat, ca.nombre AS cargo,
+										ca.soat,ca.cups, ca.nombre AS cargo,
 										COUNT(fc.factura) AS cantidad,
 										fc.vrUnitario, SUM(fc.vrFacturado) AS total
 								 FROM FacturacionBundle:FacturaCargo fc
@@ -47,6 +47,8 @@ class FacturaCargoRepository extends EntityRepository
 									JOIN fc.cargo ca
 									JOIN f.cliente c
 								 WHERE c.id = :cliente 
+                                                                        AND fc.estado!='X' 
+                                                                        
 									AND fc.created >= :dateStart
 									AND fc.created <= :dateEnd
 								 GROUP BY fc.cargo, f.cliente ORDER BY c.nombre, ca.soat ASC");
@@ -63,7 +65,7 @@ class FacturaCargoRepository extends EntityRepository
 	{
 		$em = $this->getEntityManager();
 		$dql = $em->createQuery("SELECT c.nombre AS cliente, c.tipo AS regimen,
-										ca.soat, ca.nombre AS cargo,
+										ca.soat,ca.cups, ca.nombre AS cargo,
 										COUNT(fc.factura) AS cantidad,
 										fc.vrUnitario, SUM(fc.vrFacturado) AS total
 								 FROM FacturacionBundle:FacturaCargo fc
@@ -71,6 +73,7 @@ class FacturaCargoRepository extends EntityRepository
 									JOIN fc.cargo ca
 									JOIN f.cliente c
 								 WHERE fc.created >= :dateStart
+                                                                        AND fc.estado!='X'
 									AND fc.created <= :dateEnd
 								 GROUP BY fc.cargo, f.cliente ORDER BY c.tipo, ca.soat ASC");
 	
@@ -84,7 +87,7 @@ class FacturaCargoRepository extends EntityRepository
 	{
 		$em = $this->getEntityManager();
 		$dql = $em->createQuery("SELECT c.nombre AS cliente, c.tipo AS regimen,
-										ca.soat, ca.nombre AS cargo,
+										ca.soat,ca.cups, ca.nombre AS cargo,
 										COUNT(fc.factura) AS cantidad,
 										fc.vrUnitario, SUM(fc.vrFacturado) AS total
 								 FROM FacturacionBundle:FacturaCargo fc
@@ -92,6 +95,7 @@ class FacturaCargoRepository extends EntityRepository
 									JOIN fc.cargo ca
 									JOIN f.cliente c
 								 WHERE c.tipo = :regimen
+                                                                        AND fc.estado!='X'
 									AND fc.created >= :dateStart
 									AND fc.created <= :dateEnd
 								 GROUP BY fc.cargo, f.cliente ORDER BY c.tipo, ca.soat ASC");
@@ -109,7 +113,7 @@ class FacturaCargoRepository extends EntityRepository
 	{
 		$em = $this->getEntityManager();
 		$dql = $em->createQuery("SELECT s.nombre AS servicio,
-										ca.soat, ca.nombre AS cargo,
+										ca.soat,ca.cups, ca.nombre AS cargo,
 										COUNT(fc.factura) AS cantidad,
 										fc.vrUnitario, SUM(fc.vrFacturado) AS total
 								 FROM FacturacionBundle:FacturaCargo fc
@@ -117,6 +121,7 @@ class FacturaCargoRepository extends EntityRepository
 									JOIN fc.cargo ca									
 									JOIN f.servicio s
 								 WHERE fc.created >= :dateStart
+                                                                        AND fc.estado!='X'
 									AND fc.created <= :dateEnd
 								 GROUP BY f.servicio, fc.cargo ORDER BY s.nombre, ca.soat ASC");
 	
@@ -130,7 +135,7 @@ class FacturaCargoRepository extends EntityRepository
 	{
 		$em = $this->getEntityManager();
 		$dql = $em->createQuery("SELECT s.nombre AS servicio,
-										ca.soat, ca.nombre AS cargo,
+										ca.soat,ca.cups, ca.nombre AS cargo,
 										COUNT(fc.factura) AS cantidad,
 										fc.vrUnitario, SUM(fc.vrFacturado) AS total
 								 FROM FacturacionBundle:FacturaCargo fc
@@ -138,6 +143,7 @@ class FacturaCargoRepository extends EntityRepository
 									JOIN fc.cargo ca
 									JOIN f.servicio s
 								 WHERE s.id = :servicio
+                                                                        AND fc.estado!='X'
 									AND fc.created >= :dateStart
 									AND fc.created <= :dateEnd
 								 GROUP BY f.servicio, fc.cargo ORDER BY s.nombre, ca.soat ASC");
@@ -166,7 +172,9 @@ class FacturaCargoRepository extends EntityRepository
 									JOIN f.servicio s,									
 									UsuarioBundle:Usuario u
 								 WHERE 
+                                                                 
 									fc.created >= :dateStart
+                                                                        AND fc.estado!='X'
 									AND fc.created <= :dateEnd
 									AND f.profesional = u.id
 									AND u.roles LIKE :roles
@@ -195,6 +203,7 @@ class FacturaCargoRepository extends EntityRepository
 									UsuarioBundle:Usuario u
 								 WHERE
 									fc.created >= :dateStart
+                                                                        AND fc.estado!='X'
 									AND fc.created <= :dateEnd
 									AND f.profesional = :usuario
 									AND u.id = :usuario
@@ -268,6 +277,7 @@ class FacturaCargoRepository extends EntityRepository
 									".$dqlServicio."
 									AND f.created >= :dateStart
 									AND f.created <= :dateEnd
+                                                                        AND f.estado!='X'
 								 GROUP BY c.nombre, c.codigo ORDER BY c.nombre ASC");
 		
 		

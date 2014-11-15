@@ -107,7 +107,7 @@
     
 		<form class="form-inline">
 			
-			<select name="actividad" id="actividad" class="input-xxlarge" {% if (factura.estado == 'C' or factura.tipo == 'U' ) %} disabled="disabled" {% endif %}>
+			<select name="actividad" id="actividad" class="input-xxlarge" {% if (factura.estado == 'C') %} disabled="disabled" {% endif %}>
 				<option value="">Seleccione una actividad</option>
 				{% for consulta in consultas %}
 					<option value="{{ consulta.id }}">{{ consulta.nombre }}</option>

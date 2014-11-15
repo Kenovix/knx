@@ -6,8 +6,9 @@
 	<p>{{ historia.procedimientosS | raw }}</p>
 	<p>
 		<b>Medico: </b> {{ usuario.nombre }} {{ usuario.apellido }} Especialidad: {{ usuario.especialidad }} <br/>
-		<b>Registro: </b>	<br/>
+		<b>Registro:{{usuario.rm}}</b><br/>
 		<b>Firma: </b>
+                <b>Factura:{{factura.id}}</b>
 	</p>
 </div>
 {% endblock %}

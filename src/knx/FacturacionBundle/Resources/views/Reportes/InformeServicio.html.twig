@@ -4,12 +4,19 @@
 {% endblock %}
 
 {% block body %}
+
+{% set cant = 0 %}
+{% set vrunitario = 0 %}
+{% set vrtotal = 0 %}
 	<div>
+            <p><b>Desde:</b> {{ dateStart | date('d-M-Y') }} <b>Hasta:</b> {{ dateEnd | date('d-M-Y') }}</p><br/>
+
 		<table border="1">
 			<thead>
 				<tr>
-					<th><b>Servicio			</b></th>		
+					<th><b>Servicio			</b></th>
 					<th><b>Codigo Cargo		</b></th>
+                                        <th><b>Cups		</b></th>
 					<th><b>Nombre Cargo		</b></th>
 					<th><b>Cantidad			</b></th>
 					<th><b>Valor Unitario	</b></th>
@@ -18,15 +25,26 @@
 			</thead>
 			<tbody>
 				{% for entity in facturaCargo %}
+                                {% set cant = cant + entity.cantidad %}
+                                {% set vrunitario = vrunitario + entity.vrUnitario %}
+                                {% set vrtotal = vrtotal + entity.total %}
 					<tr>
 						<td>{{ entity.servicio }}</td>
-						<td>{{ entity.soat}}</td>
+                                                <td>{{ entity.soat}}</td>
+						<td>{{ entity.cups}}</td>
 						<td>{{ entity.cargo}}</td>
 						<td>{{ entity.cantidad }}</td>
 						<td>{{ entity.vrUnitario}}</td>
 						<td>{{ entity.total }}</td>
 					</tr>
 				{% endfor %}
+                                <tr>
+						<td colspan="4"><b>Totales</b></td>
+                                                <td><b>{{ cant|number_format(0) }}</b></td>
+                                                <td><b>{{ vrunitario|number_format(0)}}</b></td>
+                                                <td><b>{{ vrtotal|number_format(0)}}</b></td>
+				</tr>    
+                                        
 			</tbody>
 		</table>
 	</div>

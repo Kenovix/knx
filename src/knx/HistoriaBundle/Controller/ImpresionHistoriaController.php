@@ -157,7 +157,8 @@ class ImpresionHistoriaController extends Controller
 		if($historia->getIncapacidad() != '')
 		{
 			$incapacidad = $this->renderView('HistoriaBundle:Impresos:Incapacidad.html.twig',array(
-					'historia' 	 => $historia,
+					'factura'        => $factura,
+                                         'historia' 	 => $historia,
 					'usuario'  	 => $usuario,
 			));
 		
@@ -168,7 +169,8 @@ class ImpresionHistoriaController extends Controller
 		if($historia->getMedicamentosS() != '')
 		{
 			$medicamentos = $this->renderView('HistoriaBundle:Impresos:Medicamentos.html.twig',array(
-					'historia' 	 => $historia,
+					'factura'        => $factura,
+                                        'historia' 	 => $historia,
 					'usuario'  	 => $usuario,
 			));
 		
@@ -179,7 +181,8 @@ class ImpresionHistoriaController extends Controller
 		if($historia->getProcedimientosS() != '')
 		{
 			$procedimientos = $this->renderView('HistoriaBundle:Impresos:Procedimientos.html.twig',array(
-					'historia' 	 => $historia,
+					'factura'        => $factura,
+                                        'historia' 	 => $historia,
 					'usuario'  	 => $usuario,
 			));
 		
@@ -190,7 +193,8 @@ class ImpresionHistoriaController extends Controller
 		if($historia->getExamenesS() != '')
 		{
 			$examenes = $this->renderView('HistoriaBundle:Impresos:Examenes.html.twig',array(
-					'historia' 	 => $historia,
+					'factura'        => $factura,
+                                        'historia' 	 => $historia,
 					'usuario'  	 => $usuario,
 			));
 		
@@ -209,7 +213,8 @@ class ImpresionHistoriaController extends Controller
 			$historia->setPDx($pdx);
 				
 			$parto = $this->renderView('HistoriaBundle:Impresos:Parto.html.twig',array(
-					'historia' 	 => $historia,
+					'factura'        => $factura,
+                                        'historia' 	 => $historia,
 					'usuario'  	 => $usuario,
 			));
 		
