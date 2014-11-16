@@ -329,6 +329,7 @@ class FacturaCargoController extends Controller
     		 
     	$dql= " SELECT
 			    	f.id,
+                                f.estado,
 			    	p.id as paciente,
 			    	p.tipoId,
 			    	p.identificacion,
@@ -357,7 +358,6 @@ class FacturaCargoController extends Controller
 			        c.id = :cliente
 			    	AND f.fecha > :inicio
 			    	AND f.fecha <= :fin
-                                AND f.estado != 'X'
                         GROUP BY fc.factura
 		    	ORDER BY
 		    		fc.factura ASC";
@@ -624,7 +624,7 @@ class FacturaCargoController extends Controller
 
     	 
     	$dql= " SELECT
-			    	f.id,
+			    	f.id AS factura,
 			    	p.id as paciente,
 			    	p.tipoId,
 			    	p.identificacion,
@@ -777,7 +777,7 @@ class FacturaCargoController extends Controller
 
     	 
     	$dql= " SELECT
-			    	f.id,
+			    	f.id AS factura,
 			    	p.id as paciente,
 			    	p.tipoId,
 			    	p.identificacion,

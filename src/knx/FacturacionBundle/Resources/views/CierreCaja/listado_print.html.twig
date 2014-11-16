@@ -45,7 +45,7 @@
                         {% set copago1 = copago1 + cierre.copago %}
 	            <tr>
 	                <td width="70px"> {{  cierre.fecha|date('d-m-Y')}}</td>
-                        <td width="50px"> {{  cierre.id}}</td>
+                        <td width="50px"> {{  cierre.factura}}</td>
 	                <td width="30px"> {{  cierre.tipoId }}</td>
 	             	<td width="80px"> {{  cierre.identificacion}}</td>
             		<td width="190px"> {{ cierre.priNombre|capitalize }} {{ cierre.segNombre|capitalize }} {{ cierre.priApellido|capitalize }} {{ cierre.segApellido|capitalize }}</td>
