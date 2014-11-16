@@ -291,6 +291,7 @@ class FacturaController extends Controller
 										cp.cargo c
 									 WHERE
 										c.tipoCargo = 'OS' OR
+    									c.tipoCargo = 'LB' OR
     									c.tipoCargo = 'P' AND
     									cp.pyp = :categoria
 									 ORDER BY

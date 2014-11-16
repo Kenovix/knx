@@ -101,7 +101,7 @@ class ContratoController extends Controller
     	
     	$cliente = $contrato->getCliente();
     	
-    	if($contrato->getTipo() == 'P'){
+    	if($contrato->getTipo() == 'PP' || $contrato->getTipo() == 'P' ){
     		$contratado = $em->getRepository('ParametrizarBundle:ContratoCargo')->findBy(array('contrato' => $contrato->getId()));
     	}else{
     		$contratado = $em->getRepository('ParametrizarBundle:ImvContrato')->findBy(array('contrato' => $contrato->getId()));

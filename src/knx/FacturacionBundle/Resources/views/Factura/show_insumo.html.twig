@@ -200,6 +200,9 @@
 				var url="{{ path('imv_contrato_buscar_tarifa') }}";
 	
 				var cliente = "{{ factura.cliente.id }}";
+
+				$('#jxMsg').css('display', 'none');
+				$('#jxMsg > span').empty();
 				
 	    		$.post(url,{
 	    			cliente: cliente,
