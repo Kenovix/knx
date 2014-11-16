@@ -408,12 +408,8 @@ class Builder extends ContainerAware
                         $menu['Informes']['Facturación']->addChild('Factura Final', array('uri' => '#'));
                         $menu['Informes']['Facturación']['Factura Final']->addChild('Generar', array('route' => 'factura_final_vista'));
                         $menu['Informes']['Facturación']['Factura Final']->addChild('Anular/Reimprimir', array('route' => 'facturas_final_search'));			
-<<<<<<< HEAD
-                        $menu->addChild('Usuarios', array('uri' => '#'));
-=======
                         
-            $menu->addChild('Usuarios', array('uri' => '#'));
->>>>>>> 8ec83f0d7bb326e29b54a30750061aaf1b832d22
+                        $menu->addChild('Usuarios', array('uri' => '#'));
 			$menu['Usuarios']->addChild('Listar', array('route' => 'usuario_list'));
 			$menu['Usuarios']->addChild('Crear', array('route' => 'fos_user_registration_register'));
 		
