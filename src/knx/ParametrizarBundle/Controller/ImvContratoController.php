@@ -247,7 +247,7 @@ class ImvContratoController extends Controller
     			$response=array("responseCode"=>400, "msg"=>"La actividad solicitada no se encuentra parametrizada en el sistema");
     		}
     	}else{
-    		$response=array("responseCode"=>400, "msg"=>"No hay contrato vigente para la actividad.");
+    		$response=array("responseCode"=>400, "msg"=>"No hay contrato vigente para la actividad. Por favor comuniquese con el administrador.");
     	}
     
     	$return=json_encode($response);

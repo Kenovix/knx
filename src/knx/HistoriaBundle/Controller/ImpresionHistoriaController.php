@@ -31,8 +31,9 @@ class ImpresionHistoriaController extends Controller
 		if(!$factura){
 			throw $this->createNotFoundException('Error!! La información solicitada es incorrecta.');
 		}
-				
-		$this->setUsuario($this->get('security.context')->getToken()->getUser());
+
+		//$this->setUsuario($this->get('security.context')->getToken()->getUser());
+		$this->setUsuario($em->getRepository('UsuarioBundle:Usuario')->find($factura->getProfesional()));
 		$this->setHistoria($factura->getHc());
 		$this->setPaciente($factura->getPaciente());
 		$this->setCliente($factura->getCliente());

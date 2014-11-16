@@ -302,6 +302,9 @@
 		         },function(data){
 		             if(data.responseCode==200 ){
 
+		            	 $("#cobrar_pte").val(0);
+		            	 $("#pago_pct").val(0);
+
 			             html += "<tr id='"+factura+"-"+cargo+"'>";
 			             html += "<td>" + data.codigo + "</td>";
 			             html += "<td>" + data.nombre + "</td>";
