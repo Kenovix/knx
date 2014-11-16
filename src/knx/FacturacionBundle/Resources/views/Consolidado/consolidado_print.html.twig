@@ -47,9 +47,9 @@
 	                <td width="30px"> {{  consolidados.tipoId }}</td>
 	             	<td width="90px"> {{  consolidados.identificacion}}</td>
             		<td width="200px"> {{ consolidados.priNombre|capitalize }} {{ consolidados.segNombre|capitalize }} {{ consolidados.priApellido|capitalize }} {{ consolidados.segApellido|capitalize }}</td>
-            		<td width="50px"> {{  consolidados.asumido }}</td>
-            		<td width="60px"> {{  consolidados.copago}}</td>
-                        <td width="80px"> {{  consolidados.total}}</td>
+            		<td width="50px"> ${{  consolidados.asumido|number_format(0) }}</td>
+            		<td width="60px"> ${{  consolidados.copago|number_format(0)}}</td>
+                        <td width="80px"> ${{  consolidados.total|number_format(0)}}</td>
 	            </tr>
                     
                       {% else %}

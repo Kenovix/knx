@@ -884,7 +884,7 @@ class FacturaCargoController extends Controller
     	
     	$url = 'factura_final_vista';
     	$em = $this->getDoctrine()->getEntityManager();
-
+        //die(var_dump($f_inicio));
     	if(trim($f_inicio)){
     		$desde = explode('/',$f_inicio);
     
@@ -1007,14 +1007,13 @@ class FacturaCargoController extends Controller
     	if ($form->isValid()) {
     		
     		$datos = $form->getData();
-               // die(var_dump($datos));
     		$em = $this->getDoctrine()->getEntityManager();
-    		    
+    		  die(var_dump($datos))  ;
     		$cliente = $em->getRepository('ParametrizarBundle:Cliente')->find($cliente);
     		
     		$inicio = new \DateTime($datos->getInicio());
     		$fin = new \DateTime($datos->getFin());
-   
+
     		$entity->setFecha(new \DateTime('now'));
                 $entity->setFR(new \DateTime('now'));
     		$entity->setInicio($inicio);
@@ -1175,7 +1174,7 @@ class FacturaCargoController extends Controller
 	 		$dql->setParameter('id', $factura->getId());
 	 		$dql->getSql();
 	 		$facturas = $dql->getResult();
-	 		
+	 		die(var_dump($facturas));
 	 		if(!$facturas)
 	 		{
 	 			$this->get('session')->setFlash('info', 'La consulta no ha arrojado ningún resultado para los parametros de busqueda ingresados.');

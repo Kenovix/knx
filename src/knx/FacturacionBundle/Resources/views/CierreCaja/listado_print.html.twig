@@ -49,9 +49,9 @@
 	                <td width="30px"> {{  cierre.tipoId }}</td>
 	             	<td width="80px"> {{  cierre.identificacion}}</td>
             		<td width="190px"> {{ cierre.priNombre|capitalize }} {{ cierre.segNombre|capitalize }} {{ cierre.priApellido|capitalize }} {{ cierre.segApellido|capitalize }}</td>
-            		<td width="50px"> {{  cierre.copago}}</td>
-                        <td width="50px"> {{  cierre.asumido}}</td>
-                        <td width="80px"> {{  cierre.total}}</td>
+            		<td width="50px"> ${{  cierre.copago|number_format(0)}}</td>
+                        <td width="50px"> ${{  cierre.asumido|number_format(0)}}</td>
+                        <td width="80px"> ${{  cierre.total|number_format(0)}}</td>
                         <td width="80px"> {{  cierre.nombre}}</td>
 	            </tr>
                     

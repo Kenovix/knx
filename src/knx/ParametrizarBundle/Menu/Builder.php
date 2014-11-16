@@ -197,7 +197,6 @@ class Builder extends ContainerAware
                         $menu['Informes']['Facturación']->addChild('Factura Final', array('uri' => '#'));
                         $menu['Informes']['Facturación']['Factura Final']->addChild('Generar', array('route' => 'factura_final_vista'));
                         $menu['Informes']['Facturación']['Factura Final']->addChild('Anular/Reimprimir', array('route' => 'facturas_final_search'));
->>>>>>> 3b4141c2f494bdf27013c122b5f211344c2539c8
 
 			$menu->addChild('Usuarios', array('uri' => '#'));
 			$menu['Usuarios']->addChild('Listar', array('route' => 'usuario_list'));
@@ -315,7 +314,6 @@ class Builder extends ContainerAware
 			$menu['Estadistica']->addChild('Morbilidad', array('route' => 'morbilidad_vista'));
 			
                         $menu->addChild('Historia', array('uri' => '#'));
->>>>>>> 3b4141c2f494bdf27013c122b5f211344c2539c8
 			$menu['Historia']->addChild('Diagnosticos', array('route' => 'cie_list'));
 			$menu['Historia']->addChild('Examenes', array('route' => 'examen_list'));
 			$menu['Historia']->addChild('Medicamentos', array('route' => 'medicamento_list'));
@@ -411,7 +409,6 @@ class Builder extends ContainerAware
                         $menu['Informes']['Facturación']['Factura Final']->addChild('Generar', array('route' => 'factura_final_vista'));
                         $menu['Informes']['Facturación']['Factura Final']->addChild('Anular/Reimprimir', array('route' => 'facturas_final_search'));			
                         $menu->addChild('Usuarios', array('uri' => '#'));
->>>>>>> 3b4141c2f494bdf27013c122b5f211344c2539c8
 			$menu['Usuarios']->addChild('Listar', array('route' => 'usuario_list'));
 			$menu['Usuarios']->addChild('Crear', array('route' => 'fos_user_registration_register'));
 		

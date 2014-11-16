@@ -1,0 +1,79 @@
+{% extends "::admin_layout.html.twig" %}
+
+{% block menu %}
+	{{ knp_menu_render('FacturacionBundle:Builder:facturaMenu') }}
+{% endblock %}
+
+{% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
+
+{% block titulo %}Imprimir Consolidado De Facturaciòn Final{% endblock %}
+
+{% block msg %}
+	{% if app.session.hasFlash('ok') %}
+	    <div class="alert alert-success">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('ok') }}</span>
+	    </div>
+	{% elseif app.session.hasFlash('info') %}
+		<div class="alert alert-info">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('info') }}</span>
+	    </div>
+	{% elseif app.session.hasFlash('error') %}
+		<div class="alert alert-error">
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>{{ app.session.flash('error') }}</span>
+	    </div>
+	{% endif %}
+{% endblock %}
+
+{% block cuerpo %}
+
+<form action="{{ path('consolidados_imprimir') }}" onSubmit="return confirm('Seguro de querer generar el reporte?');" method="post">
+    <fieldset>
+    	<legend>Datos del informe</legend>
+
+  
+    
+    <div class="control-group">
+    	<label class="control-label" for="cliente">Cliente:</label>
+    	<select id="cliente" name="cliente">
+    	    <option value="TC">Seleccione un Cliente</option>
+    	    {% for cliente in clientes %}
+      			<option value="{{ cliente.id }}">{{ cliente.nombre }}</option>
+       		{% endfor %}
+      	</select>
+    </div>
+    
+    <div class="control-group">
+    	<label for="f_inicio">Desde:</label>
+    	    <input type="date" name="f_inicio" id="f_inicio" placeholder="DD/MM/AAAA" />
+    	    <span>*</span>
+    </div>
+    
+    <div class="control-group">
+    	<label for="f_fin">Hasta:</label>
+    	    <input type="date" name="f_fin" id="f_fin" placeholder="DD/MM/AAAA" />
+    	    <span>*</span>
+    </div>
+    
+    </fieldset>
+    
+    <div class="form-actions">
+	<input class="btn btn-primary" name="guardar" type="submit" value="Imprimir" />
+        <a href="#" class="btn btn-danger">Cancelar</a>
+	</div>
+    
+</form>
+	      		
+{% endblock %}
+
+{% block javascripts %}
+		    <script language="javascript" type="text/javascript">
+   $(function() {
+       $( "#f_inicio" ).datepicker({ dateFormat: 'dd/mm/yy' })
+       ;
+       $( "#f_fin" ).datepicker({ dateFormat: 'dd/mm/yy' });
+     });
+   </script>
+{% endblock %}
