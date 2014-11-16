@@ -12,6 +12,7 @@ class FacturaType extends AbstractType
     {
         $builder
         	->add('paciente', 'text', array('attr' => array('placeholder' => 'Identificación', 'class' => 'span6'), 'property_path' => false))
+        	->add('fecha', 'datetime', array('attr' => array('label' => 'Fecha')))
         	->add('cliente', 'choice', array('disabled' => true,'required'=>true, 'choices' => array('' => 'Seleccione cliente'), 'property_path' => false))
             ->add('pyp', 'choice', array('label' => 'Categoría de PYP', 'disabled' => true, 'choices' => array('' => 'Seleccione una categoría')))
             ->add('autorizacion')
