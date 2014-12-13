@@ -625,6 +625,7 @@ class FacturaCargoController extends Controller
     	 
     	$dql= " SELECT
 			    	f.id AS factura,
+                                f.estado,
 			    	p.id as paciente,
 			    	p.tipoId,
 			    	p.identificacion,

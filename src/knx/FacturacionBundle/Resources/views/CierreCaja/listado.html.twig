@@ -50,6 +50,7 @@
                         <th width="50px"><b>CargoIps</b></th>
                         <th width="80px"><b>Valor Total</b></th>
                         <th width="80px"><b>Cliente</b></th>
+                        <th width="80px"><b>Estado</b></th>
 
 
 	            </tr>
@@ -75,6 +76,8 @@
                         <td width="50px"> ${{  cierre.asumido|number_format(0)}}</td>
                         <td width="80px"> ${{  cierre.total|number_format(0)}}</td>
                         <td width="80px"> {{  cierre.nombre}}</td>
+                        <td width="80px"> {{  cierre.estado}}</td>
+
 	            </tr>
                     
                       {% else %}
