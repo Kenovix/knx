@@ -137,7 +137,7 @@ class FacturaController extends Controller
     		}
 
     		$dql = $em->createQuery( "SELECT
-										c.id,
+									c.id,
     									c.nombre
 									 FROM
 										ParametrizarBundle:ContratoCargo cc
@@ -148,8 +148,8 @@ class FacturaController extends Controller
     								 JOIN
     									ct.cliente cli
 									 WHERE
-										c.tipoCargo = :tipoCargo AND
-    									cli.id = :cliente
+									c.tipoCargo = :tipoCargo AND
+    									cli.id = :cliente AND 
 									 ORDER BY
 										c.nombre ASC");
 
@@ -157,6 +157,7 @@ class FacturaController extends Controller
     		$dql->setParameter('cliente', $factura->getCliente()->getId());
     		
     		$consultas = $dql->getResult();
+                die(var_dump($consultas));
     	}
     	
     	if($factura->getProfesional()){
