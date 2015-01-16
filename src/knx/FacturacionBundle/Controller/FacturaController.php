@@ -149,7 +149,7 @@ class FacturaController extends Controller
     									ct.cliente cli
 									 WHERE
 									c.tipoCargo = :tipoCargo AND
-    									cli.id = :cliente AND 
+    									cli.id = :cliente 
 									 ORDER BY
 										c.nombre ASC");
 
@@ -157,7 +157,7 @@ class FacturaController extends Controller
     		$dql->setParameter('cliente', $factura->getCliente()->getId());
     		
     		$consultas = $dql->getResult();
-                die(var_dump($consultas));
+                //die(var_dump($consultas));
     	}
     	
     	if($factura->getProfesional()){

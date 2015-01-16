@@ -32,8 +32,10 @@ class Builder extends ContainerAware
 			$menu['farmacia']->addChild('Nueva', array('uri' => '#'));
 			$menu['farmacia']->addChild('Ingresos', array('route' => 'ingreso_list'));
 			$menu['farmacia']->addChild('Movimientos', array('uri' => '#'));
-			$menu['farmacia']->addChild('Pyp', array('route' => 'imvpyp_search'));
-			$menu['farmacia']['Movimientos']->addChild('Traslados', array('uri' => '#'));
+			$menu['farmacia']->addChild('Almacen', array('uri' => '#'));
+                        $menu['farmacia']->addChild('Existencias', array('uri' => '#'));
+                        $menu['farmacia']->addChild('Pyp', array('route' => 'imvpyp_search'));
+		        $menu['farmacia']['Movimientos']->addChild('Traslados', array('uri' => '#'));
 			$menu['farmacia']['Movimientos']['Traslados']->addChild('Listar/Nuevo', array('route' => 'traslado_list', 'routeParameters' => array('char' => 'A')));
 			$menu['farmacia']['Movimientos']['Traslados']->addChild('Imprimir', array('route' => 'traslado_searchprint'));
 			$menu['farmacia']['Movimientos']->addChild('Devoluciones Proveedor', array('uri' => '#'));
@@ -41,10 +43,9 @@ class Builder extends ContainerAware
 			$menu['farmacia']['Movimientos']['Devoluciones Proveedor']->addChild('Imprimir', array('route' => 'devolucion_searchprint'));
 			$menu['farmacia']['Nueva']->addChild('Farmacia', array('route' => 'farmacia_list', 'routeParameters' => array('char' => 'A')));
 			$menu['farmacia']['Nueva']->addChild('Categoria', array('route' => 'categoria_list', 'routeParameters' => array('char' => 'A')));
-			$menu['farmacia']['Nueva']->addChild('Existencia', array('uri' => '#'));
-			$menu['farmacia']['Nueva']['Existencia']->addChild('Listar/Nueva', array('route' => 'imv_search'));
-			$menu['farmacia']['Nueva']['Existencia']->addChild('Imprimir', array('route' => 'imv_searchimprimir'));
-			$menu['farmacia']->addChild('Almacen', array('uri' => '#'));
+			$menu['farmacia']['Existencias']->addChild('Existencia-Farmacia', array('route' => 'farmacia_list', 'routeParameters' => array('char' => 'A')));
+			$menu['farmacia']['Existencias']->addChild('Listar/Nueva-General', array('route' => 'imv_search'));
+			$menu['farmacia']['Existencias']->addChild('Imprimir', array('route' => 'imv_searchimprimir'));
 			$menu['farmacia']['Almacen']->addChild('Consultar', array('route' => 'almacenimv_search'));
 			$menu['farmacia']['Almacen']->addChild('Imprimir', array('route' => 'almacenimv_searcha'));
 
@@ -152,8 +153,10 @@ class Builder extends ContainerAware
 			$menu['farmacia']->addChild('Nueva', array('uri' => '#'));
 			$menu['farmacia']->addChild('Ingresos', array('route' => 'ingreso_list'));
 			$menu['farmacia']->addChild('Movimientos', array('uri' => '#'));
-			$menu['farmacia']->addChild('Pyp', array('route' => 'imvpyp_search'));
-			$menu['farmacia']['Movimientos']->addChild('Traslados', array('uri' => '#'));
+			$menu['farmacia']->addChild('Almacen', array('uri' => '#'));
+                        $menu['farmacia']->addChild('Existencias', array('uri' => '#'));
+                        $menu['farmacia']->addChild('Pyp', array('route' => 'imvpyp_search'));
+		        $menu['farmacia']['Movimientos']->addChild('Traslados', array('uri' => '#'));
 			$menu['farmacia']['Movimientos']['Traslados']->addChild('Listar/Nuevo', array('route' => 'traslado_list', 'routeParameters' => array('char' => 'A')));
 			$menu['farmacia']['Movimientos']['Traslados']->addChild('Imprimir', array('route' => 'traslado_searchprint'));
 			$menu['farmacia']['Movimientos']->addChild('Devoluciones Proveedor', array('uri' => '#'));
@@ -161,10 +164,9 @@ class Builder extends ContainerAware
 			$menu['farmacia']['Movimientos']['Devoluciones Proveedor']->addChild('Imprimir', array('route' => 'devolucion_searchprint'));
 			$menu['farmacia']['Nueva']->addChild('Farmacia', array('route' => 'farmacia_list', 'routeParameters' => array('char' => 'A')));
 			$menu['farmacia']['Nueva']->addChild('Categoria', array('route' => 'categoria_list', 'routeParameters' => array('char' => 'A')));
-			$menu['farmacia']['Nueva']->addChild('Existencia', array('uri' => '#'));
-			$menu['farmacia']['Nueva']['Existencia']->addChild('Listar/Nueva', array('route' => 'imv_search'));
-			$menu['farmacia']['Nueva']['Existencia']->addChild('Imprimir', array('route' => 'imv_searchimprimir'));
-			$menu['farmacia']->addChild('Almacen', array('uri' => '#'));
+			$menu['farmacia']['Existencias']->addChild('Existencia-Farmacia', array('route' => 'farmacia_list', 'routeParameters' => array('char' => 'A')));
+			$menu['farmacia']['Existencias']->addChild('Listar/Nueva-General', array('route' => 'imv_search'));
+			$menu['farmacia']['Existencias']->addChild('Imprimir', array('route' => 'imv_searchimprimir'));
 			$menu['farmacia']['Almacen']->addChild('Consultar', array('route' => 'almacenimv_search'));
 			$menu['farmacia']['Almacen']->addChild('Imprimir', array('route' => 'almacenimv_searcha'));
 		
@@ -260,8 +262,10 @@ class Builder extends ContainerAware
 			$menu['farmacia']->addChild('Nueva', array('uri' => '#'));
 			$menu['farmacia']->addChild('Ingresos', array('route' => 'ingreso_list'));
 			$menu['farmacia']->addChild('Movimientos', array('uri' => '#'));
-			$menu['farmacia']->addChild('Pyp', array('route' => 'imvpyp_search'));
-			$menu['farmacia']['Movimientos']->addChild('Traslados', array('uri' => '#'));
+			$menu['farmacia']->addChild('Almacen', array('uri' => '#'));
+                        $menu['farmacia']->addChild('Existencias', array('uri' => '#'));
+                        $menu['farmacia']->addChild('Pyp', array('route' => 'imvpyp_search'));
+		        $menu['farmacia']['Movimientos']->addChild('Traslados', array('uri' => '#'));
 			$menu['farmacia']['Movimientos']['Traslados']->addChild('Listar/Nuevo', array('route' => 'traslado_list', 'routeParameters' => array('char' => 'A')));
 			$menu['farmacia']['Movimientos']['Traslados']->addChild('Imprimir', array('route' => 'traslado_searchprint'));
 			$menu['farmacia']['Movimientos']->addChild('Devoluciones Proveedor', array('uri' => '#'));
@@ -269,10 +273,9 @@ class Builder extends ContainerAware
 			$menu['farmacia']['Movimientos']['Devoluciones Proveedor']->addChild('Imprimir', array('route' => 'devolucion_searchprint'));
 			$menu['farmacia']['Nueva']->addChild('Farmacia', array('route' => 'farmacia_list', 'routeParameters' => array('char' => 'A')));
 			$menu['farmacia']['Nueva']->addChild('Categoria', array('route' => 'categoria_list', 'routeParameters' => array('char' => 'A')));
-			$menu['farmacia']['Nueva']->addChild('Existencia', array('uri' => '#'));
-			$menu['farmacia']['Nueva']['Existencia']->addChild('Listar/Nueva', array('route' => 'imv_search'));
-			$menu['farmacia']['Nueva']['Existencia']->addChild('Imprimir', array('route' => 'imv_searchimprimir'));
-			$menu['farmacia']->addChild('Almacen', array('uri' => '#'));
+			$menu['farmacia']['Existencias']->addChild('Existencia-Farmacia', array('route' => 'farmacia_list', 'routeParameters' => array('char' => 'A')));
+			$menu['farmacia']['Existencias']->addChild('Listar/Nueva-General', array('route' => 'imv_search'));
+			$menu['farmacia']['Existencias']->addChild('Imprimir', array('route' => 'imv_searchimprimir'));
 			$menu['farmacia']['Almacen']->addChild('Consultar', array('route' => 'almacenimv_search'));
 			$menu['farmacia']['Almacen']->addChild('Imprimir', array('route' => 'almacenimv_searcha'));			
 			
@@ -364,8 +367,10 @@ class Builder extends ContainerAware
 			$menu['farmacia']->addChild('Nueva', array('uri' => '#'));
 			$menu['farmacia']->addChild('Ingresos', array('route' => 'ingreso_list'));
 			$menu['farmacia']->addChild('Movimientos', array('uri' => '#'));
-			$menu['farmacia']->addChild('Pyp', array('route' => 'imvpyp_search'));
-			$menu['farmacia']['Movimientos']->addChild('Traslados', array('uri' => '#'));
+			$menu['farmacia']->addChild('Almacen', array('uri' => '#'));
+                        $menu['farmacia']->addChild('Existencias', array('uri' => '#'));
+                        $menu['farmacia']->addChild('Pyp', array('route' => 'imvpyp_search'));
+		        $menu['farmacia']['Movimientos']->addChild('Traslados', array('uri' => '#'));
 			$menu['farmacia']['Movimientos']['Traslados']->addChild('Listar/Nuevo', array('route' => 'traslado_list', 'routeParameters' => array('char' => 'A')));
 			$menu['farmacia']['Movimientos']['Traslados']->addChild('Imprimir', array('route' => 'traslado_searchprint'));
 			$menu['farmacia']['Movimientos']->addChild('Devoluciones Proveedor', array('uri' => '#'));
@@ -373,10 +378,9 @@ class Builder extends ContainerAware
 			$menu['farmacia']['Movimientos']['Devoluciones Proveedor']->addChild('Imprimir', array('route' => 'devolucion_searchprint'));
 			$menu['farmacia']['Nueva']->addChild('Farmacia', array('route' => 'farmacia_list', 'routeParameters' => array('char' => 'A')));
 			$menu['farmacia']['Nueva']->addChild('Categoria', array('route' => 'categoria_list', 'routeParameters' => array('char' => 'A')));
-			$menu['farmacia']['Nueva']->addChild('Existencia', array('uri' => '#'));
-			$menu['farmacia']['Nueva']['Existencia']->addChild('Listar/Nueva', array('route' => 'imv_search'));
-			$menu['farmacia']['Nueva']['Existencia']->addChild('Imprimir', array('route' => 'imv_searchimprimir'));
-			$menu['farmacia']->addChild('Almacen', array('uri' => '#'));
+			$menu['farmacia']['Existencias']->addChild('Existencia-Farmacia', array('route' => 'farmacia_list', 'routeParameters' => array('char' => 'A')));
+			$menu['farmacia']['Existencias']->addChild('Listar/Nueva-General', array('route' => 'imv_search'));
+			$menu['farmacia']['Existencias']->addChild('Imprimir', array('route' => 'imv_searchimprimir'));
 			$menu['farmacia']['Almacen']->addChild('Consultar', array('route' => 'almacenimv_search'));
 			$menu['farmacia']['Almacen']->addChild('Imprimir', array('route' => 'almacenimv_searcha'));
 		

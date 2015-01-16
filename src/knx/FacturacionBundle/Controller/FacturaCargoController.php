@@ -929,7 +929,7 @@ class FacturaCargoController extends Controller
     	
     	 
     	$dql= " SELECT
-			    	
+                                
                                 SUM(fc.valorTotal) AS total,
                                 SUM(fc.pagoPte) AS copago,
                                 SUM(fc.recoIps) AS asumido
@@ -937,6 +937,8 @@ class FacturaCargoController extends Controller
 
     			FROM
     				FacturacionBundle:FacturaCargo fc
+                                
+                         
     			JOIN
     				fc.factura f
     			JOIN
