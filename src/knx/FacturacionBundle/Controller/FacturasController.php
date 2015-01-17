@@ -21,16 +21,16 @@ class FacturasController extends Controller
             
             $breadcrumbs = $this->get("white_october_breadcrumbs");
             $breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
-    	    $breadcrumbs->addItem("Buscar_Factura", $this->get("router")->generate("facturas_search"));
+    	    $breadcrumbs->addItem("Buscar factura", $this->get("router")->generate("facturas_search"));
     	
             $form   = $this->createForm(new FacturasType());
 
             $em = $this->getDoctrine()->getEntityManager();
-            $facturas = $em->getRepository('FacturacionBundle:Factura')->findAll();
+            /*$facturas = $em->getRepository('FacturacionBundle:Factura')->findAll();
 
             if (!$facturas) {
     		$this->get('session')->setFlash('info', 'Stock sin ingresos');
-            }
+            }*/
 
             return $this->render('FacturacionBundle:Facturas:search.html.twig', array(
     			'form'   => $form->createView()
@@ -39,53 +39,45 @@ class FacturasController extends Controller
 	
 	public function listAction()
 	{
-            
-                
 		$request = $this->getRequest();
 		$form    = $this->createForm(new FacturasType());
 		$form->bindRequest($request);
 		
 		if ($form->isValid()) 
 		{
-			// se optienen todos los datos del formulario para ser procesado de forma individual 
-			
-			
-		$idfactura = $form->get('factura')->getData();
+			$idfactura = $form->get('factura')->getData();
 	 	
-	 	if(((trim($idfactura) && is_numeric($idfactura)))){
+	 		if(((trim($idfactura) && is_numeric($idfactura)))){
 	 	
 	 		$em = $this->getDoctrine()->getEntityManager();
 	 		$factura = $em->getRepository('FacturacionBundle:Factura')->findOneBy(array('id' => $idfactura));
-                        //die(var_dump($est_fact));
-                        $breadcrumbs = $this->get("white_october_breadcrumbs");
-                        $breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
-                        $breadcrumbs->addItem("Buscar_Factura", $this->get("router")->generate("facturas_search"));
-                        $breadcrumbs->addItem($idfactura);
+            
+            $breadcrumbs = $this->get("white_october_breadcrumbs");
+            $breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
+            $breadcrumbs->addItem("Buscar factura", $this->get("router")->generate("facturas_search"));
+            $breadcrumbs->addItem($idfactura);
 
-                        
 	 		if(!$factura){
 	 			$this->get('session')->setFlash('info', 'El número de factura no se encuentra.');
 	 				
 	 			return $this->redirect($this->generateUrl('facturas_search'));
 	 		}
                         
-                        $est_fact = $factura->getEstado();
+				$est_fact = $factura->getEstado();
 
-                        if ($est_fact=='X'){
+                if ($est_fact=='X'){
                             
-                            $this->get('session')->setFlash('info', 'Factura ya Anulada.');
+                	$this->get('session')->setFlash('info', 'Factura ya Anulada.');
 	 				
-	 		     return $this->redirect($this->generateUrl('facturas_search'));
+	 		     	return $this->redirect($this->generateUrl('facturas_search'));
                             
-                        }
+                }
 	 			
 	 		$dql = $em->createQuery("SELECT f
 										FROM
-											FacturacionBundle:Factura f 
-											
+											FacturacionBundle:Factura f 											
 										WHERE 
-											f.id = :id
-											");	 			
+											f.id = :id");	 			
                         	 			
 	 		$dql->setParameter('id', $factura->getId());
 	 		$dql->getSql();

@@ -205,8 +205,10 @@
 	
 		             }
 		             else if(data.responseCode==400){
-		            	$('#jxMsg > span').prepend(data.msg);
+		            	 $('#jxMsg > span').empty();
+			            $('#jxMsg > span').prepend(data.msg);
 		         		$('#jxMsg').css('display', 'block');
+		         		$("#agregar").attr('disabled', 'disabled');		         		
 		             }
 		             else{
 		         	    alert("Ha ocurrido un error en el sistema.");
