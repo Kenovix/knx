@@ -114,6 +114,7 @@ class HcRepository extends EntityRepository
 		
 		$dql = $em->createQuery("SELECT
 									fc
+                                                                        
 								 FROM
 									FacturacionBundle:FacturaCargo fc
 								 JOIN

@@ -625,6 +625,7 @@ class FacturaCargoController extends Controller
     	 
     	$dql= " SELECT
 			    	f.id AS factura,
+                                f.estado,
 			    	p.id as paciente,
 			    	p.tipoId,
 			    	p.identificacion,
@@ -928,7 +929,7 @@ class FacturaCargoController extends Controller
     	
     	 
     	$dql= " SELECT
-			    	
+                                
                                 SUM(fc.valorTotal) AS total,
                                 SUM(fc.pagoPte) AS copago,
                                 SUM(fc.recoIps) AS asumido
@@ -936,6 +937,8 @@ class FacturaCargoController extends Controller
 
     			FROM
     				FacturacionBundle:FacturaCargo fc
+                                
+                         
     			JOIN
     				fc.factura f
     			JOIN
@@ -1007,17 +1010,26 @@ class FacturaCargoController extends Controller
     	if ($form->isValid()) {
     		
     		$datos = $form->getData();
+                $inicio = $datos->getInicio();
+                $fin = $datos->getFin();
+
     		$em = $this->getDoctrine()->getEntityManager();
-    		  die(var_dump($datos))  ;
+    		//die(var_dump($datos));
     		$cliente = $em->getRepository('ParametrizarBundle:Cliente')->find($cliente);
-    		
-    		$inicio = new \DateTime($datos->getInicio());
-    		$fin = new \DateTime($datos->getFin());
+    		$desde = explode('/',$inicio);
+                $hasta = explode('/',$fin);
+                $inicio_ord = $desde[2]."/".$desde[1]."/".$desde[0];
+                $fin_ord = $hasta[2]."/".$hasta[1]."/".$hasta[0];
+                
+
+    		$iniciob = new \DateTime($inicio_ord);
+    		$finb = new \DateTime($fin_ord);
+                //die(var_dump($finb));                
 
     		$entity->setFecha(new \DateTime('now'));
                 $entity->setFR(new \DateTime('now'));
-    		$entity->setInicio($inicio);
-    		$entity->setFin($fin);
+    		$entity->setInicio($iniciob);
+    		$entity->setFin($finb);
     		$entity->setEstado('G');
     		$entity->setTipo('F');
     		$entity->setCopago($datos->getCopago());
@@ -1037,9 +1049,8 @@ class FacturaCargoController extends Controller
     
     	 return $this->render('FacturacionBundle:FacturaFinal:print_factura.html.twig',array(
                             'cliente' =>$obj_cliente,
-                            'f_inicio' =>$f_inicio,
-                            'f_fin'    => $f_fin,
-                            'final' => $final,
+                            'f_inicio' =>$iniciob,
+                            'f_fin'    => $finb,
                             'form'   => $form->createView()
 
                 ));  
@@ -1135,12 +1146,13 @@ class FacturaCargoController extends Controller
 			
 			
 		$idfactura = $form->get('factura')->getData();
-	 	//die(var_dump($idfactura));
+
 	 	if(((trim($idfactura) && is_numeric($idfactura)))){
-	 	
+
 	 		$em = $this->getDoctrine()->getEntityManager();
 	 		$factura = $em->getRepository('FacturacionBundle:FacturaFinal')->findOneBy(array('id' => $idfactura));
-                        //die(var_dump($est_fact));
+                        //die(var_dump($factura));
+
                         $breadcrumbs = $this->get("white_october_breadcrumbs");
                         $breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
                         $breadcrumbs->addItem("Buscar_Factura", $this->get("router")->generate("facturas_search"));
@@ -1164,17 +1176,17 @@ class FacturaCargoController extends Controller
                         }
 	 			
 	 		$dql = $em->createQuery("SELECT f
-										FROM
-											FacturacionBundle:FacturaFinal f 
+						  FROM
+						  FacturacionBundle:FacturaFinal f 
 											
-										WHERE 
-											f.id = :id
+						  WHERE 
+	         				  f.id = :id
 											");	 			
                         	 			
 	 		$dql->setParameter('id', $factura->getId());
 	 		$dql->getSql();
 	 		$facturas = $dql->getResult();
-	 		die(var_dump($facturas));
+	 		//die(var_dump($facturas));
 	 		if(!$facturas)
 	 		{
 	 			$this->get('session')->setFlash('info', 'La consulta no ha arrojado ningún resultado para los parametros de busqueda ingresados.');

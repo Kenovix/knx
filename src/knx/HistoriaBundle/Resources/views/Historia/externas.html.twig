@@ -50,7 +50,7 @@
 	                <td>{{ hc.factura.paciente.priNombre | capitalize }} {{ hc.factura.paciente.segNombre | capitalize }} {{ hc.factura.paciente.priApellido | capitalize }} {{ hc.factura.paciente.segApellido | capitalize }}</td>
 	                <td>{{ hc.factura.cliente.nombre | capitalize }}</td>
 	                <td>{{ hc.factura.fecha | date('d-m-Y H:i') }}</td>
-	                <td>{{ hc.factura.observacion }}</td>
+	                <td>{{ hc.Cargo.nombre }}</td>
 	                <td><a class="btn" href="{{ path('nota_validaHcRuta', {'factura':hc.factura.id}) }}"><i class="icon-edit"></i></a></td>
 	            </tr>
 	        {% endfor %}

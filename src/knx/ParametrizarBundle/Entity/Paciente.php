@@ -146,7 +146,7 @@ class Paciente
     /**
      * @var string $telefono      
      * 
-     * @ORM\Column(name="telefono", type="string", length=7, nullable=true)
+     * @ORM\Column(name="telefono", type="string", length=10, nullable=true)
      */
     private $telefono;
 

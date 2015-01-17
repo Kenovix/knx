@@ -51,19 +51,19 @@
             </tr>
             <tr>
             	<th><b>SubTotal:</b></th>
-                <td>{{ entity.valor }}</td>
+                <td>${{ entity.valor|number_format(0) }}</td>
             </tr>
             <tr>
             	<th><b>Copago:</b></th>
-                <td>{{entity.copago}}</td>
+                <td>${{entity.copago|number_format(0)}}</td>
             </tr>
            <tr>
             	<th><b>Asumido:</b></th>
-                <td>{{entity.asumido}}</td>
+                <td>${{entity.asumido|number_format(0)}}</td>
             </tr> 
             <tr>
             	<th><b>Total:</b></th>
-                <td>{{entity.Cobrar}}</td>
+                <td>${{entity.Cobrar|number_format(0)}}</td>
             </tr>            
             <tr>
             	<th><b>Nota:</b></th>
