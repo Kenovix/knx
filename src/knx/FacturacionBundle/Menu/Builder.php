@@ -67,6 +67,7 @@ class Builder extends ContainerAware
                         $menu->addChild('Informes', array('uri' => '#'));
 			$menu['Informes']->addChild('Reportes', array('route' => 'reporte_cargo_new'));
                         $menu['Informes']->addChild('Facturación', array('uri' => '#'));
+                        $menu['Informes']->addChild('Cambiar Factura', array('uri' => '#'));
                         $menu['Informes']['Facturación']->addChild('Cierre Caja', array('uri' => '#'));
                         $menu['Informes']['Facturación']['Cierre Caja']->addChild('Consultar', array('route' => 'cierre_vista'));
 			$menu['Informes']['Facturación']['Cierre Caja']->addChild('Imprimir', array('route' => 'cierre_vista_imprimir'));
@@ -77,7 +78,8 @@ class Builder extends ContainerAware
                         $menu['Informes']['Facturación']->addChild('Factura Final', array('uri' => '#'));
                         $menu['Informes']['Facturación']['Factura Final']->addChild('Generar', array('route' => 'factura_final_vista'));
                         $menu['Informes']['Facturación']['Factura Final']->addChild('Anular/Reimprimir', array('route' => 'facturas_final_search'));
-
+                        $menu['Informes']['Cambiar Factura']->addChild('Cliente', array('route' => 'facturas_searchcf'));
+                        $menu['Informes']['Cambiar Factura']->addChild('Medico', array('route' => 'facturas_searchpro'));
                         
                         $menu->addChild('Estadistica', array('uri' => '#'));
 			$menu['Estadistica']->addChild('Morbilidad', array('route' => 'morbilidad_vista'));
@@ -177,7 +179,9 @@ class Builder extends ContainerAware
                         $menu['Informes']['Facturación']->addChild('Factura Final', array('uri' => '#'));
                         $menu['Informes']['Facturación']['Factura Final']->addChild('Generar', array('route' => 'factura_final_vista'));
                         $menu['Informes']['Facturación']['Factura Final']->addChild('Anular/Reimprimir', array('route' => 'facturas_final_search'));
-
+                        $menu['Informes']->addChild('Cambiar Factura', array('uri' => '#'));
+                        $menu['Informes']['Cambiar Factura']->addChild('Cliente', array('route' => 'facturas_searchcf'));
+                        $menu['Informes']['Cambiar Factura']->addChild('Medico', array('route' => 'facturas_searchpro'));
 
                                        
                         $menu->addChild('Usuarios', array('uri' => '#'));

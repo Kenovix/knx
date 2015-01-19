@@ -6,7 +6,7 @@
 
 {% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
 
-{% block titulo %}Consultar Factura Final{% endblock %}
+{% block titulo %}Cambiar Cliente{% endblock %}
 
 {% block msg %}
 	{% if app.session.hasFlash('ok') %}
@@ -33,7 +33,7 @@
 {% block cuerpo %}
 
 
-		<form name="consultafacturas" id="consultaFacturas" class="form-horizontal" method="post" action="{{ path('facturas_final_list') }}" {{ form_enctype(form) }}>
+		<form name="consultafacturas" id="consultaFacturas" class="form-horizontal" method="post" action="{{ path('facturas_listcf') }}" {{ form_enctype(form) }}>
 			</fieldset>
 		    	<legend>Busqueda</legend>
 					{{ form_widget(form) }}

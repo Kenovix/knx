@@ -53,6 +53,7 @@ class Builder extends ContainerAware
                         $menu->addChild('Informes', array('uri' => '#'));
 			$menu['Informes']->addChild('Reportes', array('route' => 'reporte_cargo_new'));
                         $menu['Informes']->addChild('Facturación', array('uri' => '#'));
+                        $menu['Informes']->addChild('Cambiar Factura', array('uri' => '#'));
                         $menu['Informes']['Facturación']->addChild('Cierre Caja', array('uri' => '#'));
                         $menu['Informes']['Facturación']['Cierre Caja']->addChild('Consultar', array('route' => 'cierre_vista'));
 			$menu['Informes']['Facturación']['Cierre Caja']->addChild('Imprimir', array('route' => 'cierre_vista_imprimir'));
@@ -63,7 +64,8 @@ class Builder extends ContainerAware
                         $menu['Informes']['Facturación']->addChild('Factura Final', array('uri' => '#'));
                         $menu['Informes']['Facturación']['Factura Final']->addChild('Generar', array('route' => 'factura_final_vista'));
                         $menu['Informes']['Facturación']['Factura Final']->addChild('Anular/Reimprimir', array('route' => 'facturas_final_search'));
-
+                        $menu['Informes']['Cambiar Factura']->addChild('Cliente', array('route' => 'facturas_final_search'));
+                        $menu['Informes']['Cambiar Factura']->addChild('Medico', array('route' => 'facturas_final_search'));
 
                         $menu->addChild('Estadistica', array('uri' => '#'));
 			$menu['Estadistica']->addChild('Morbilidad', array('route' => 'morbilidad_vista'));
@@ -199,7 +201,9 @@ class Builder extends ContainerAware
                         $menu['Informes']['Facturación']->addChild('Factura Final', array('uri' => '#'));
                         $menu['Informes']['Facturación']['Factura Final']->addChild('Generar', array('route' => 'factura_final_vista'));
                         $menu['Informes']['Facturación']['Factura Final']->addChild('Anular/Reimprimir', array('route' => 'facturas_final_search'));
-
+                        $menu['Informes']->addChild('Cambiar Factura', array('uri' => '#'));
+                        $menu['Informes']['Cambiar Factura']->addChild('Cliente', array('route' => 'facturas_searchcf'));
+                        $menu['Informes']['Cambiar Factura']->addChild('Medico', array('route' => 'facturas_searchpro'));
 			$menu->addChild('Usuarios', array('uri' => '#'));
 			$menu['Usuarios']->addChild('Listar', array('route' => 'usuario_list'));
 			$menu['Usuarios']->addChild('Crear', array('route' => 'fos_user_registration_register'));
@@ -310,7 +314,9 @@ class Builder extends ContainerAware
                         $menu['Informes']['Facturación']->addChild('Factura Final', array('uri' => '#'));
                         $menu['Informes']['Facturación']['Factura Final']->addChild('Generar', array('route' => 'factura_final_vista'));
                         $menu['Informes']['Facturación']['Factura Final']->addChild('Anular/Reimprimir', array('route' => 'facturas_final_search'));
-                       
+                        $menu['Informes']->addChild('Cambiar Factura', array('uri' => '#'));
+                        $menu['Informes']['Cambiar Factura']->addChild('Cliente', array('route' => 'facturas_searchcf'));
+                        $menu['Informes']['Cambiar Factura']->addChild('Medico', array('route' => 'facturas_searchpro'));
                         
                         
                         
@@ -393,7 +399,7 @@ class Builder extends ContainerAware
 			$menu['Facturación']['Facturar']->addChild('Medicamento', array('uri' => '#'));
 			$menu['Facturación']['Facturar']['Medicamento']->addChild('Ambulatorio', array('route' => 'facturacion_insumo_new', 'routeParameters' => array('tipo' => 'A')));
 			$menu['Facturación']['Facturar']['Medicamento']->addChild('Urgencias', array('route' => 'facturacion_insumo_urg_new'));
-            $menu['Facturación']['Facturar']->addChild('Reportes', array('route' => 'reporte_cargo_new'));
+                        $menu['Facturación']['Facturar']->addChild('Reportes', array('route' => 'reporte_cargo_new'));
 			$menu['Facturación']['Facturar']->addChild('Morbilidad', array('route' => 'morbilidad_vista'));
 			$menu['Facturación']['Facturar']->addChild('Anular/Reimprimir', array('route' => 'facturas_search'));
 
@@ -403,6 +409,7 @@ class Builder extends ContainerAware
                         $menu->addChild('Informes', array('uri' => '#'));
 			$menu['Informes']->addChild('Reportes', array('route' => 'reporte_cargo_new'));
                         $menu['Informes']->addChild('Facturación', array('uri' => '#'));
+                        $menu['Informes']->addChild('Cambiar Factura', array('uri' => '#'));
                         $menu['Informes']['Facturación']->addChild('Cierre Caja', array('uri' => '#'));
                         $menu['Informes']['Facturación']['Cierre Caja']->addChild('Consultar', array('route' => 'cierre_vista'));
 			$menu['Informes']['Facturación']['Cierre Caja']->addChild('Imprimir', array('route' => 'cierre_vista_imprimir'));
@@ -413,7 +420,9 @@ class Builder extends ContainerAware
                         $menu['Informes']['Facturación']->addChild('Factura Final', array('uri' => '#'));
                         $menu['Informes']['Facturación']['Factura Final']->addChild('Generar', array('route' => 'factura_final_vista'));
                         $menu['Informes']['Facturación']['Factura Final']->addChild('Anular/Reimprimir', array('route' => 'facturas_final_search'));			
-                        
+                        $menu['Informes']['Cambiar Factura']->addChild('Cliente', array('route' => 'facturas_final_search'));
+                        $menu['Informes']['Cambiar Factura']->addChild('Medico', array('route' => 'facturas_final_search'));
+
                         $menu->addChild('Usuarios', array('uri' => '#'));
 			$menu['Usuarios']->addChild('Listar', array('route' => 'usuario_list'));
 			$menu['Usuarios']->addChild('Crear', array('route' => 'fos_user_registration_register'));
