@@ -221,4 +221,12 @@ facturas_final_motivo:
     
 facturas_final_rimprimir:
     pattern:  /factfinal/{factura1}/rimprimir
-    defaults: { _controller: FacturacionBundle:FacturaCargo:rimprimirFactfinal }    
+    defaults: { _controller: FacturacionBundle:FacturaCargo:rimprimirFactfinal }
+    
+facturas_final_rips:
+    pattern:  /factfinal/{factura}/rips
+    defaults: { _controller: FacturacionBundle:Factura:rips }
+    
+facturas_download_rips:
+    pattern:  /factfinal/download/{factura_final}/rips
+    defaults: { _controller: FacturacionBundle:Factura:downloadRips } 

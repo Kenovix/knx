@@ -885,7 +885,7 @@ class FacturaCargoController extends Controller
     	
     	$url = 'factura_final_vista';
     	$em = $this->getDoctrine()->getEntityManager();
-        //die(var_dump($f_inicio));
+
     	if(trim($f_inicio)){
     		$desde = explode('/',$f_inicio);
     
@@ -1251,10 +1251,6 @@ class FacturaCargoController extends Controller
                     $form->bind($request);
                     $motivo = $form->get('motivo')->getData();
                     $nfactura = $form->get('nfactura')->getData();
-
-                    //die(var_dump($nfactura));
-                    
-                
                 
                  if($facturas){
                     

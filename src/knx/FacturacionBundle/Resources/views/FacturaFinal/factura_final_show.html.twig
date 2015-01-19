@@ -74,5 +74,6 @@
     </table>
 
 <a href="{{ path('factura_final_imprimir', { 'id': entity.id }) }}" class="btn btn-primary">Imprimir</span></a>
+<a href="{{ path('facturas_final_rips', { 'factura': entity.id }) }}" class="btn btn-primary">Generar RIPS</span></a>
 
 {% endblock %}
