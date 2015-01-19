@@ -229,4 +229,40 @@ facturas_final_rips:
     
 facturas_download_rips:
     pattern:  /factfinal/download/{factura_final}/rips
-    defaults: { _controller: FacturacionBundle:Factura:downloadRips } 
+    defaults: { _controller: FacturacionBundle:Factura:downloadRips }
+    
+#******************** FACTURA CAMBIAR CLIENTE ***************************#
+
+facturas_searchcf:
+    pattern:  /facturas/searchcf
+    defaults: { _controller: FacturacionBundle:Facturas:searchcf }
+    
+facturas_listcf:
+    pattern:  /facturas/listcf
+    defaults: { _controller: FacturacionBundle:Facturas:listcf } 
+    
+facturas_cambiarcf:
+    pattern:  /facturas/{factura1}/cambiarcf
+    defaults: { _controller: FacturacionBundle:Facturas:cambiarcf }
+    
+facturas_confirmarcf:
+    pattern:  /facturas/{factura1}/confirmarcf
+    defaults: { _controller: FacturacionBundle:Facturas:confirmarcf }    
+    
+#******************** FACTURA CAMBIAR PROFESIONAL ***************************#
+
+facturas_searchpro:
+    pattern:  /facturas/searchpro
+    defaults: { _controller: FacturacionBundle:Facturas:searchpro }
+    
+facturas_listpro:
+    pattern:  /facturas/listpro
+    defaults: { _controller: FacturacionBundle:Facturas:listpro } 
+    
+facturas_cambiarpro:
+    pattern:  /facturas/{factura1}/cambiarpro
+    defaults: { _controller: FacturacionBundle:Facturas:cambiarpro }
+    
+facturas_confirmarpro:
+    pattern:  /facturas/{factura1}/confirmarpro
+    defaults: { _controller: FacturacionBundle:Facturas:confirmarpro }

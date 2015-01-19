@@ -57,7 +57,7 @@ class MorbilidadController extends Controller
 							'atencion' 	=> 	$atencion,
 							'genero' 	=> 	$genero,	
 							'oldStart' 	=>	$oldStart,
-							'oldEnd' 	=> 	$oldEnd,	
+							'oldEnd' 	=> 	$oldEnd,
 							'servicio' 	=> 	$centroCostos,
 							'informe' 	=>  $informeMorvilidad,
 					));

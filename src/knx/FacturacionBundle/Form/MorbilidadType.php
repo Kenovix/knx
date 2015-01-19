@@ -50,15 +50,21 @@ class MorbilidadType extends AbstractType
 										'label' => 'Edad Inicial :',
 										'attr' => array(
 														'placeholder' => '###',
-														'class' => 'span3'),										
+														'class' => 'span3',
+                                                                                                                'required'=>'false'),										
 		))
 		
 		->add('edadFinal', 'text', array(
 										'label' => 'Edad Final :',
 										'attr' => array(
 														'placeholder' => '###',
-														'class' => 'span3'),										
+														'class' => 'span3',
+                                                                                                                'required'=>false),										
 		))
+                        
+                									
+                        
+                        
 		
 		->add('clinica', 'choice',
 				array('label' => 'Clinica :',

@@ -239,7 +239,7 @@ class FacturaCargoRepository extends EntityRepository
 //------ Generar las respectivas consultas para los informes de morbilidad ---------------//
 	public function findMorbilidad($atencion,$genero,$oldStart,$oldEnd,$centroCostos,$dateStart,$dateEnd)
 	{
-		$oldStart = date('Y-m-d', strtotime('-'.$oldStart.' year')) ;
+		$oldStart = date('Y-m-d', strtotime('-'.$oldStart.'year')) ;
 		$oldEnd = date('Y-m-d', strtotime('-'.$oldEnd.' year')) ;
 		
 		// se instancian los atributos en null
