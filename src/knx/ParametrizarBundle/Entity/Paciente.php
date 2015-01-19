@@ -41,13 +41,6 @@ class Paciente
      * @var string $identificacion
      * 
      * @ORM\Column(name="identificacion", type="string", length=13, unique=true)
-     * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
-     * @Assert\Range(
-     *      min = "10000",
-     *      max = "9999999999999",
-     *      minMessage = "El menor número a ingresar es 10000",
-     *      maxMessage = "El mayor número a ingresar es 9999999999999"
-     * )
      */
     private $identificacion;
 

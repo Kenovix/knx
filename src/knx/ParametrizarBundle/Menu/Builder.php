@@ -77,6 +77,7 @@ class Builder extends ContainerAware
 			$menu['Historia']->addChild('Busqueda', array('route' => 'paciente_filtro'));
                         
                         $menu->addChild('Estadistica', array('uri' => '#'));
+			$menu['Estadistica']->addChild('Reportes', array('route' => 'reporte_cargo_new'));
 			$menu['Estadistica']->addChild('Morbilidad', array('route' => 'morbilidad_vista'));
                         
                         $menu->addChild('Usuarios', array('uri' => '#'));
@@ -422,6 +423,8 @@ class Builder extends ContainerAware
                         $menu['Informes']['Facturación']['Factura Final']->addChild('Anular/Reimprimir', array('route' => 'facturas_final_search'));			
                         $menu['Informes']['Cambiar Factura']->addChild('Cliente', array('route' => 'facturas_final_search'));
                         $menu['Informes']['Cambiar Factura']->addChild('Medico', array('route' => 'facturas_final_search'));
+
+                        $menu->addChild('Usuarios', array('uri' => '#'));
 
                         $menu->addChild('Usuarios', array('uri' => '#'));
 			$menu['Usuarios']->addChild('Listar', array('route' => 'usuario_list'));

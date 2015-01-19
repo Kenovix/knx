@@ -219,7 +219,7 @@ class ContratoController extends Controller
     	$dql->setParameter("cliente", $cliente);
     	$dql->setParameter("fecha", $hoy);
     	
-    	$contrato = $dql->getSingleResult();
+    	$contrato = $dql->getOneOrNullResult();
     		 
     	if($contrato){
     			
