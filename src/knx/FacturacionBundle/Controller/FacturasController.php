@@ -11,6 +11,7 @@ use knx\FacturacionBundle\Form\FacturasType;
 use knx\FacturacionBundle\Entity\Factura;
 use knx\FacturacionBundle\Entity\FacturaCargo;
 use knx\ParametrizarBundle\Entity\Cliente;
+use knx\FacturacionBundle\Form\FacturascfType;
 use knx\FacturacionBundle\Form\CambioCfType;
 use knx\FacturacionBundle\Form\CambioProType;
 use knx\UsuarioBundle\Entity\Usuario;
@@ -276,15 +277,11 @@ class FacturasController extends Controller
             $breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
     	    $breadcrumbs->addItem("Buscar_Factura", $this->get("router")->generate("facturas_searchcf"));
     	
-            $form   = $this->createForm(new FacturasType());
+            $form   = $this->createForm(new FacturascfType());
 
             $em = $this->getDoctrine()->getEntityManager();
-            $facturas = $em->getRepository('FacturacionBundle:Factura')->findAll();
 
-            if (!$facturas) {
-    		$this->get('session')->setFlash('info', 'Stock sin ingresos');
-            }
-
+            
             return $this->render('FacturacionBundle:Facturas:searchcf.html.twig', array(
     			'form'   => $form->createView()
             ));
@@ -449,12 +446,6 @@ class FacturasController extends Controller
     	
             $form   = $this->createForm(new FacturasType());
 
-            $em = $this->getDoctrine()->getEntityManager();
-            $facturas = $em->getRepository('FacturacionBundle:Factura')->findAll();
-
-            if (!$facturas) {
-    		$this->get('session')->setFlash('info', 'Stock sin ingresos');
-            }
 
             return $this->render('FacturacionBundle:Facturas:searchpro.html.twig', array(
     			'form'   => $form->createView()
@@ -560,7 +551,7 @@ class FacturasController extends Controller
             $fact_num = $facturas->getId();
            // $cliente = $facturas->getCliente();
             //$clienten = $cliente->getNombre(); 
-           die(var_dump(    $est_fact));
+           //die(var_dump(    $est_fact));
 
             $breadcrumbs = $this->get("white_october_breadcrumbs");
             $breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));

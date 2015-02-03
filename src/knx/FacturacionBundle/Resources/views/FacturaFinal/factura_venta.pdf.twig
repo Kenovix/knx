@@ -4,23 +4,23 @@
 <style>
 		
 	table.cliente {
-    	font-size: 7pt;
+    	font-size: 9pt;
     }
     
     table.descripcion {
-    	font-size: 7pt;
+    	font-size: 12pt;
         
     }
     
     table.valores{
-    	font-size:7pt;
+    	font-size:12pt;
     }
 </style>     
 {% endblock %}
 
 {% block body %}
 	
-	<table border="1" CELLPADDING="4" class="cliente">
+	<table border="1" CELLPADDING="5" class="cliente">
  		<tbody>
             <tr>
             	<td width="15%"><strong>FECHA:</strong></td>                
@@ -54,7 +54,7 @@
             	<td width="20%" align="center"><strong>VALOR</strong></td>            	              
             </tr>
             <tr>
-            	<td width="80%" height="120">
+            	<td width="80%" height="450">
             		<br /><br />{{ entity.concepto }}
             		{% if entity.observacion %}
             			<br /><br /><br /><br />Nota: {{ entity.observacion }}
@@ -67,11 +67,25 @@
 	
 	<table border="1" CELLPADDING="5" class="valores">
  		<tbody>
+            <tr >
+                <td width="50%"  height="10"></td>
+                <td width="30%" align="left" height="10"><b>COPAGO</b></td>
+            	<td width="20%" align="center" height="10">${{ entity.copago }}</td>                
+            </tr>  
+            <tr >
+                <td width="50%"  height="10"></td>
+                <td width="30%" align="left" height="10"><b>ASUMIDO</b></td>
+            	<td width="20%" align="center" height="10">${{ entity.asumido }}</td>                
+            </tr>  
+            <tr >
+                <td width="50%"  height="10"><b></b></td>
+                <td width="30%" align="left" height="10"><b>VALOR TOTAL</b></td>
+            	<td width="20%" align="center" height="10">${{ (entity.valor - entity.copago - entity.asumido)|number_format(0) }}</td>                
+            </tr>        
             <tr>
-            	<td width="30%" height="60">Recibi Conforme:</td>
-            	<td width="30%" height="60">Entrega:</td>                
-            	<td width="20%" align="center" height="60">Copago<br />Asumido<br />__________<br />Valor Total</td>
-            	<td width="20%" align="center" height="60">${{ entity.copago }}<br />${{ entity.asumido }}<br />__________<br />${{ (entity.valor - entity.copago - entity.asumido)|number_format(0) }}</td>                
+            	<td width="50%" height="80">Recibi Conforme:</td>
+            	<td width="50%" height="80">Entrega:</td>                
+            	
             </tr>                    	       
         </tbody>             
 	</table>
