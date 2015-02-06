@@ -1223,6 +1223,7 @@ class FacturaController extends Controller
     				c.id AS cargo,
 			    	fc.vrUnitario,
     				fc.ambito,
+    				fc.cantidad,
     				c.tipoProc
 		    	FROM
 		    		FacturacionBundle:FacturaCargo fc
@@ -1280,6 +1281,8 @@ class FacturaController extends Controller
     	$query->setParameter('rips', 'AP');
     	 
     	$cp = $query->getArrayResult();
+    	
+    	$num_registros = 0;
     
     	foreach ($entity as $value){
     		
@@ -1293,12 +1296,25 @@ class FacturaController extends Controller
     			$finalidad = $value['tipoProc'];
     		}
     
-    		$fecha = new \DateTime($value['fecha']->format('Y-m-d'));
-    
-    		fwrite($gestor, "".$value['factura'].",".$empresa->getHabilitacion().",".$value['tipoId'].",".$value['id'].",".$fecha->format('d/m/Y').",".$value['autorizacion'].",".$value['cups'].",".$value['ambito'].",".$finalidad.",,,,,,".$value['vrUnitario']."\r\n");
+    		if ($value['cantidad'] == 1) {
+    			
+    			$num_registros += 1;
+    			$fecha = new \DateTime($value['fecha']->format('Y-m-d'));
+    			fwrite($gestor, "".$value['factura'].",".$empresa->getHabilitacion().",".$value['tipoId'].",".$value['id'].",".$fecha->format('d/m/Y').",".$value['autorizacion'].",".$value['cups'].",".$value['ambito'].",".$finalidad.",,,,,,".$value['vrUnitario']."\r\n");
+    			
+    		}else{
+
+    			$fecha = new \DateTime($value['fecha']->format('Y-m-d'));
+    			
+    			for($i = 1; $i <= $value['cantidad']; $i++){
+    				
+    				$num_registros += 1;    				
+    				fwrite($gestor, "".$value['factura'].",".$empresa->getHabilitacion().",".$value['tipoId'].",".$value['id'].",".$fecha->format('d/m/Y').",".$value['autorizacion'].",".$value['cups'].",".$value['ambito'].",".$finalidad.",,,,,,".$value['vrUnitario']."\r\n");
+    			}
+    		}    		
     	}
     
-    	return count($entity);
+    	return $num_registros;
     }
     
     private function fileAF($cliente, $f_inicio, $f_fin){
