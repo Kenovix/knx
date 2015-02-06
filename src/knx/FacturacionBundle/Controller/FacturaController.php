@@ -1034,7 +1034,18 @@ class FacturaController extends Controller
     	$query->setParameter('estado', 'C');
     
     	$entity = $query->getArrayResult();
-    	 
+    	
+    	$depto = $em->getRepository('ParametrizarBundle:Depto')->findAll();
+    	$mupio = $em->getRepository('ParametrizarBundle:Mupio')->findAll();
+
+    	foreach ($depto as $value){
+    		$dus[$value->getId()] = $value->getCodigo();
+    	}
+    	
+    	foreach ($mupio as $value){
+    		$mus[$value->getId()] = $value->getCodigo();
+    	}
+
     	$periodo = explode("-", $f_fin);
     	$subfijo = $periodo[1].$periodo[0];
     	 
@@ -1050,7 +1061,7 @@ class FacturaController extends Controller
     	foreach ($entity as $value){
     		$fn = new \DateTime($value['fN']->format('Y-m-d'));
     		$interval = $fn->diff($date2);
-    		fwrite($gestor, "".$value['tipoId'].",".$value['id'].",".$value['codigo'].",1,".$value['priApellido'].",".$value['segApellido'].",".$value['priNombre'].",".$value['segNombre'].",".$interval->format('%y').",1,".$value['sexo'].",".$value['depto'].",".$value['mupio'].",".$value['zona']."\r\n");
+    		fwrite($gestor, "".$value['tipoId'].",".$value['id'].",".$value['codigo'].",1,".$value['priApellido'].",".$value['segApellido'].",".$value['priNombre'].",".$value['segNombre'].",".$interval->format('%y').",1,".$value['sexo'].",".$dus[$value['depto']].",".$mus[$value['mupio']].",".$value['zona']."\r\n");
     	}
     	 
     	return count($entity);
@@ -1188,7 +1199,9 @@ class FacturaController extends Controller
     			}
     		}
     		
-    		if($num_dx == 1){
+    		if($num_dx == 0){
+    			$dx .=",,,,";
+    		}elseif($num_dx == 1){
     			$dx .=",,,";
     		}elseif($num_dx == 2){
     			$dx .=",,";
@@ -1375,7 +1388,7 @@ class FacturaController extends Controller
     		
     		$fecha = new \DateTime($value['fecha']->format('Y-m-d'));
     		
-    		fwrite($gestor, "".$empresa->getHabilitacion().",".$empresa->getNombre().",NI,".$empresa->getNit().",".$value['factura'].",".$fecha->format('d/m/Y').",".$inicio->format('d/m/Y').",".$fin->format('d/m/Y').",".$cliente->getCodigo().",".$cliente->getNombre().",,".$beneficios[$cliente->getTipo()].",,".$value['copago'].".00,0.00,0.00,".($value['valor']-$value['copago']).".00\r\n");
+    		fwrite($gestor, "".$empresa->getHabilitacion().",".$empresa->getNombre().",NI,".$empresa->getNit().",".$value['factura'].",".$fecha->format('d/m/Y').",".$inicio->format('d/m/Y').",".$fin->format('d/m/Y').",".$cliente->getCodigo().",".$cliente->getNombre().",,".$beneficios[$cliente->getTipo()].",,".$value['copago'].",0,0,".($value['valor']-$value['copago'])."\r\n");
     	}
     
     	return count($entity);
