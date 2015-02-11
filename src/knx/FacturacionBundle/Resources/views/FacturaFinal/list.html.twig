@@ -42,19 +42,18 @@
 	{% if facturas1 %}
 	    <table class="table">
 	        <thead>
-	            <tr>
-	                <th>Factura.</th>
+	        	<tr>
+	            	<th>Factura.</th>
 	              	<th>fecha</th>
 	                <th>Cliente</th>
 	                <th>Concepto</th>
-                        <th>Valor</th>
-                        <th>Copago</th>
+                    <th>Valor</th>
+                    <th>Copago</th>
 	                <th>Asumido</th>
 	                <th>Valor Cobrar</th>
-                        <th>Anular</th>
-                        <th>Reimprimir</th>
-                        
-
+                    <th>Anular</th>
+                    <th>Reimprimir</th>
+                    <th>RIPS</th>
 	            </tr>
 	        </thead>
 	        <tbody>
@@ -62,20 +61,20 @@
 	            <tr>
 	                <td>{{ facturas.id }}</td>
 	                <td>{{ facturas.fecha|date('Y-m-d') }}</td>
-	             	 <td>{{ facturas.cliente }}</td>
-	             	 <td>{{ facturas.concepto }}</td>
+	             	<td>{{ facturas.cliente }}</td>
+	             	<td>{{ facturas.concepto }}</td>
                          <td>${{ facturas.valor |number_format(0)}}</td>
                          <td>${{ facturas.copago |number_format(0)}}</td>
-	             	 <td>${{ facturas.asumido |number_format(0)}}</td>
+	             	<td>${{ facturas.asumido |number_format(0)}}</td>
                          <td>${{ facturas.cobrar |number_format(0)}}</td>
                          {% if is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_ADMIN')%}
-	            	 <td><a class="btn btn-danger" href="{{ path('facturas_final_motivo', {'factura1':facturas.id })}} "onClick="return confirm('Seguro que quieres Anular la Factura')"><i class="icon-remove"></i></a></td>
+	            	<td><a class="btn btn-danger" href="{{ path('facturas_final_motivo', {'factura1':facturas.id })}} "onClick="return confirm('Seguro que quieres Anular la Factura')"><i class="icon-remove"></i></a></td>
                         {%else%}
                                  <td>N/A</td>       
                         {%endif%}
                       
-                         <td><a class="btn btn-success" href="{{ path('facturas_final_rimprimir', {'factura1':facturas.id })}} "onClick="return confirm('Seguro que quieres Reimprimir')"><i class="icon-ok"></i></a></td>
-                       
+                 	<td><a class="btn btn-success" href="{{ path('facturas_final_rimprimir', {'factura1':facturas.id })}} "onClick="return confirm('Seguro que quieres Reimprimir')"><i class="icon-ok"></i></a></td>
+                    <td><a class="btn btn-info" href="{{ path('factura_final_show', {'id':facturas.id })}}">Descargar</a></td>                       
 	            </tr>
 	        {% endfor %}
 	        </tbody>
