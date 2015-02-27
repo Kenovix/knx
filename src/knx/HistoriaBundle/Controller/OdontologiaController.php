@@ -81,9 +81,11 @@ class OdontologiaController extends Controller
 			
 			$historia->setServiEgre($factura->getServicio()->getId());						
 			$facturaCargo = $em->getRepository('HistoriaBundle:Hc')->closeFacturaCargoHc($factura->getId(),'CE');							
-			$facturaCargo->setEstado('C');			
+			$facturaCargo->setEstado('C');	
 			$em->persist($facturaCargo);
-						
+			$factura->setEstado('C');
+		        $em->persist($factura);
+
 			$historia->setFactura($factura);
 			$historia->setDestino('1');
 			$em->persist($historia);		

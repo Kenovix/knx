@@ -208,7 +208,12 @@ class FacturaController extends Controller
     	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
     	$breadcrumbs->addItem("Nueva factura");
     
+        $fecha = new \DateTime('now');
+    	
     	$factura = new Factura();
+    	
+    	$factura->setFecha($fecha);
+        
     	$form = $this->createForm(new FacturaType(), $factura);
     
     	$form_afiliacion = $this->createForm(new AfiliacionType());
@@ -247,11 +252,14 @@ class FacturaController extends Controller
     		$pyp = null;
     	}
     
+        $str_fecha = $entity['fecha']['date']['year'].'-'.$entity['fecha']['date']['month'].'-'.$entity['fecha']['date']['day'].' '.$entity['fecha']['time']['hour'].':'.$entity['fecha']['time']['minute'];
+		
+	$fecha = new \DateTime($str_fecha);
     	$factura->setPaciente($paciente);
     	$factura->setCliente($cliente);
     	$factura->setServicio($servicio);
     	$factura->setUsuario($usuario);
-    	$factura->setFecha(new \DateTime());
+    	$factura->setFecha($fecha);
     	$factura->setAutorizacion($entity['autorizacion']);
     	$factura->setObservacion($entity['observacion']);
     	$factura->setProfesional($entity['profesional']);
@@ -363,7 +371,12 @@ class FacturaController extends Controller
     	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
     	$breadcrumbs->addItem("Nueva factura");
     
+        $fecha = new \DateTime('now');
+    	
     	$factura = new Factura();
+    	
+    	$factura->setFecha($fecha);
+        
     	$form = $this->createForm(new FacturaType(), $factura);
     	
     	$form_afiliacion = $this->createForm(new AfiliacionType());
@@ -401,12 +414,16 @@ class FacturaController extends Controller
     	}else{
     		$pyp = null;
     	}
+        
+        $str_fecha = $entity['fecha']['date']['year'].'-'.$entity['fecha']['date']['month'].'-'.$entity['fecha']['date']['day'].' '.$entity['fecha']['time']['hour'].':'.$entity['fecha']['time']['minute'];
+		
+	$fecha = new \DateTime($str_fecha);
     
     	$factura->setPaciente($paciente);
     	$factura->setCliente($cliente);
     	$factura->setFarmacia($entity['farmacia']);
     	$factura->setUsuario($usuario);
-    	$factura->setFecha(new \DateTime());
+    	$factura->setFecha($fecha);
     	$factura->setAutorizacion($entity['autorizacion']);
     	$factura->setObservacion($entity['observacion']);
     	$factura->setProfesional($entity['profesional']);
@@ -621,11 +638,11 @@ class FacturaController extends Controller
 	    		$factura_cargo->setCargo($cargo);
 	    		$factura_cargo->setCantidad($cantidad);
 	    		$factura_cargo->setVrUnitario($vrUnitario);
-	    		$factura_cargo->setVrFacturado($vrFacturado);
+	    		$factura_cargo->setVrFacturado($cantidad*$vrUnitario);
 	    		$factura_cargo->setCobrarPte($cobrarPte);
 	    		$factura_cargo->setPagoPte($pagoPte);
 	    		$factura_cargo->setRecoIps($recoIps);
-	    		$factura_cargo->setValorTotal((($cantidad*$vrUnitario)-$cobrarPte));
+	    		$factura_cargo->setValorTotal(((($cantidad*$vrUnitario)-$cobrarPte)));
 	    		
 	    		if (trim($estado)){
 	    			$factura_cargo->setEstado($estado);
@@ -642,6 +659,11 @@ class FacturaController extends Controller
 	    		}elseif($factura->getTipo() == 'H'){
 	    			
 	    			$factura_cargo->setAmbito(2);
+	    			$factura->setEstado('A');
+	    			
+	    		}elseif($factura->getTipo() == 'C'){
+	    			
+	    			$factura_cargo->setAmbito(1);
 	    			$factura->setEstado('A');
 	    			
 	    		}else{
@@ -683,11 +705,27 @@ class FacturaController extends Controller
     	
     	if (!$factura) {
     		throw $this->createNotFoundException('La factura solicitada no existe');
-    	}else{    		    		
-    		$factura->setEstado('C');    		
-    		$em->persist($factura);
-    		$em->flush();    		
     	}
+        
+        if($factura->getTipo() == 'C'){
+	    			
+	    			
+	    			$factura->setEstado('A');
+	    			
+	    		}elseif($factura->getTipo() == 'H'){
+	    			
+	    			$factura->setEstado('A');
+	    			
+	    		}elseif($factura->getTipo() == 'U'){
+	    			
+	    			$factura->setEstado('A');
+	    			
+	    		}else{
+	    			$factura->setEstado('C');
+	    		}
+                        
+                        $em->persist($factura);
+	    		$em->flush();  
     	
     	$factura_cargo = $em->getRepository('FacturacionBundle:FacturaCargo')->findBy(array('factura' => $factura->getId()));    	
     	$mupio = $em->getRepository('ParametrizarBundle:Mupio')->find($factura->getPaciente()->getMupio());
@@ -815,7 +853,7 @@ class FacturaController extends Controller
     			$factura_imv->setImv($imv);
     			$factura_imv->setCantidad($cantidad);
     			$factura_imv->setVrUnitario($vrUnitario);
-    			$factura_imv->setVrFacturado($vrFacturado);
+    			$factura_imv->setVrFacturado($vrUnitario*$cantidad);
     			$factura_imv->setCobrarPte($cobrarPte);
     			$factura_imv->setPagoPte($pagoPte);
     			$factura_imv->setRecoIps($recoIps);
@@ -1179,7 +1217,9 @@ class FacturaController extends Controller
     		
     		$num_dx = 0;
     		$dx = "";
-    		
+    		$ce = "";
+                $tdx = "";
+                
     		if (trim($value['pyp'])){
     			foreach ($cp as $c){
     				if ($c['cargo'] == $value['cargo'] && $c['cargo'] == $value['cargo']) {
@@ -1343,8 +1383,10 @@ class FacturaController extends Controller
     				f.fecha,
     				p.identificacion AS id,
 			    	p.tipoId,
-    				SUM (fc.valorTotal) AS valor,
-			    	SUM (fc.cobrarPte) AS copago
+    				SUM (fc.vrFacturado) AS valor,
+			    	SUM (fc.pagoPte) AS copago,
+                                SUM (fc.recoIps) AS ips
+                                
 		    	FROM
 		    		FacturacionBundle:FacturaCargo fc
     			JOIN
@@ -1388,7 +1430,7 @@ class FacturaController extends Controller
     		
     		$fecha = new \DateTime($value['fecha']->format('Y-m-d'));
     		
-    		fwrite($gestor, "".$empresa->getHabilitacion().",".$empresa->getNombre().",NI,".$empresa->getNit().",".$value['factura'].",".$fecha->format('d/m/Y').",".$inicio->format('d/m/Y').",".$fin->format('d/m/Y').",".$cliente->getCodigo().",".$cliente->getNombre().",,".$beneficios[$cliente->getTipo()].",,".$value['copago'].",0,0,".($value['valor']-$value['copago'])."\r\n");
+    		fwrite($gestor, "".$empresa->getHabilitacion().",".$empresa->getNombre().",NI,".$empresa->getNit().",".$value['factura'].",".$fecha->format('d/m/Y').",".$inicio->format('d/m/Y').",".$fin->format('d/m/Y').",".$cliente->getCodigo().",".$cliente->getNombre().",,".$beneficios[$cliente->getTipo()].",,".($value['copago']+$value['ips']).",0,0,".($value['valor']-$value['copago']-$value['ips'])."\r\n");
     	}
     
     	return count($entity);

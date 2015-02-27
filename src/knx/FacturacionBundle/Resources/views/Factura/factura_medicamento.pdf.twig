@@ -50,10 +50,12 @@
 	<tbody>
 		{% set total = 0 %}
 		{% set copago = 0 %}
+                {% set pagar = 0 %}
 		{% set perdida = 0 %}
 		{% for imv in imvs %}
 		
-			{% set total = (total + (imv.cantidad * imv.vrUnitario)) %}
+			{% set total = (total + imv.vrFacturado) %}
+                        {% set pagar = (pagar + imv.cobrarPte) %}
 			{% set copago = (copago + imv.pagoPte) %}
 			{% set perdida = (perdida + imv.recoIps) %}
 			
@@ -78,9 +80,10 @@
 			<td width="570">Total</td>
 			<td width="80">${{ total | number_format(0) }}</td>
 		</tr>
-		<tr>
-			<td width="570">Valor total servicios prestado</td>
-			<td width="80">${{ total | number_format(0) }}</td>
+		
+                <tr>
+			<td width="570">Valor cuota de recuperación a pagar por el usuario</td>
+			<td width="80">${{ pagar | number_format(0) }}</td>
 		</tr>
 		<tr>
 			<td width="570">Valor cuota de recuperación pagada por el usuario</td>

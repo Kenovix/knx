@@ -13,7 +13,7 @@ class OdontologiaType extends AbstractType {
 		
 		/* Start Anamnesis */ 
 				->add('tipoAtencion', 'choice',
-						array('label' => 'Tipo Atencion:', 'required' => false,
+						array('label' => 'Tipo Atencion:', 'required' => true,
 								'choices' => array('' => '--seleccione--',
 										'primera_vez' => 'Primera vez',
 										'repetida' => 'Repetida',),
@@ -95,7 +95,7 @@ class OdontologiaType extends AbstractType {
 						
 		->add('dxPrin', 'text',
 						array(	'mapped' => false,
-								'label' => 'Seleccione los dx  :','required' => false,
+								'label' => 'Seleccione los dx  :','required' => true,
 								'attr' => array(
 										'placeholder' => 'Codigo',
 										'class' => 'span1 search-query',										
@@ -104,7 +104,7 @@ class OdontologiaType extends AbstractType {
 								
 		->add('nameDxPrin', 'text',
 				array(	'mapped' => false,
-						'label' => 'nombre del dx:','required' => false,
+						'label' => 'nombre del dx:','required' => true,
 						'attr' => array(
 								'placeholder' => 'Busquedad por el Nombre del CIE',
 								'class' => 'span6 search-query',
