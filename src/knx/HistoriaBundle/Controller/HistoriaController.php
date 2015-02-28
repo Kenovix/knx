@@ -170,6 +170,7 @@ class HistoriaController extends Controller
                         if($historia->getDestino()=='1' || $historia->getDestino()=='4')
 			{
 				$factura->setEstado('C');
+				$factura->setProfesional($this->get('security.context')->getToken()->getUser()->getId());
 				$em->persist($factura);
                         }else{
                             
