@@ -161,7 +161,7 @@ class HistoriaController extends Controller
 				$em->persist($facturaCargo);
 			}
                         
-                        if($factura)
+            if($factura)
 			{
 				$factura->setEstado('C');
 				$factura->setProfesional($this->get('security.context')->getToken()->getUser()->getId());
