@@ -1179,6 +1179,8 @@ class FacturaController extends Controller
     		
     		$num_dx = 0;
     		$dx = "";
+    		$tdx = "";
+    		$ce = "";
     		
     		if (trim($value['pyp'])){
     			foreach ($cp as $c){
@@ -1343,8 +1345,8 @@ class FacturaController extends Controller
     				f.fecha,
     				p.identificacion AS id,
 			    	p.tipoId,
-    				SUM (fc.valorTotal) AS valor,
-			    	SUM (fc.cobrarPte) AS copago
+    				SUM (fc.vrFacturado) AS valor,
+			    	SUM (fc.pagoPte) AS copago
 		    	FROM
 		    		FacturacionBundle:FacturaCargo fc
     			JOIN
