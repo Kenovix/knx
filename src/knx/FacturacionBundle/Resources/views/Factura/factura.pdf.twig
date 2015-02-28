@@ -55,10 +55,12 @@
 	<tbody>
 		{% set total = 0 %}
 		{% set copago = 0 %}
+                {% set pagar = 0 %}
 		{% set perdida = 0 %}
 		{% for cargo in cargos %}
 		
-			{% set total = (total + (cargo.cantidad * cargo.vrUnitario)) %}
+                        {% set total = (total + cargo.vrFacturado) %}
+                        {% set pagar = (pagar + cargo.cobrarPte) %}
 			{% set copago = (copago + cargo.pagoPte) %}
 			{% set perdida = (perdida + cargo.recoIps) %}
 			
@@ -83,9 +85,10 @@
 			<td width="570">Total</td>
 			<td width="80">${{ total | number_format(0) }}</td>
 		</tr>
-		<tr>
-			<td width="570">Valor total servicios prestado</td>
-			<td width="80">${{ total | number_format(0) }}</td>
+		
+                <tr>
+			<td width="570">Valor cuota de recuperación a pagar por el usuario</td>
+			<td width="80">${{ pagar | number_format(0) }}</td>
 		</tr>
 		<tr>
 			<td width="570">Valor cuota de recuperación pagada por el usuario</td>

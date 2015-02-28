@@ -30,8 +30,8 @@ class Imv
      * @var string $codCups
      *
      * @ORM\Column(name="cod_cups", type="string", length=100, nullable=false, unique=true)
-     * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
-     * @Assert\Range(min=1,max=999999)
+     * 
+     *
      */
     private $codCups;
 

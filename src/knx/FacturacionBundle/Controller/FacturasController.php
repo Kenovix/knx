@@ -252,6 +252,8 @@ class FacturasController extends Controller
                 }
     	
                 $factura_cargo = $em->getRepository('FacturacionBundle:FacturaCargo')->findBy(array('factura' => $factura->getId()));    	
+                $factura_imv = $em->getRepository('FacturacionBundle:FacturaImv')->findBy(array('factura' => $factura->getId()));    	
+
                 $mupio = $em->getRepository('ParametrizarBundle:Mupio')->find($factura->getPaciente()->getMupio());
 
                 // se consulta por la informacion del profesional para ser visulizada en la factura.
@@ -259,12 +261,25 @@ class FacturasController extends Controller
                 $factura->setProfesional($profesional->getNombre().' '.$profesional->getApellido());
 
                 $pdf = $this->get('white_october.tcpdf')->create();
-
+                if($factura_cargo)
+                {    
                 $html = $this->renderView('FacturacionBundle:Factura:factura.pdf.twig',array(
                                                                         'factura' => $factura,
                                                                         'cargos' => $factura_cargo,
                                                                         'mupio' => $mupio
                 ));
+                }
+                
+                if($factura_imv){
+                    
+                    $html = $this->renderView('FacturacionBundle:Factura:factura_medicamento.pdf.twig',array(
+                                                                        'factura' => $factura,
+                                                                        'imvs' => $factura_imv,
+                                                                        'mupio' => $mupio
+                ));
+                    
+                    
+                }
 
                 return $pdf->quick_pdf($html, 'factura_venta_'.$factura->getId().'.pdf', 'D');  
 }
@@ -549,6 +564,7 @@ class FacturasController extends Controller
             $facturas = $em->getRepository('FacturacionBundle:Factura')->findoneBy(array('id'=> $factura1));
 
             $fact_num = $facturas->getId();
+            $est_fact = $facturas->getEstado();
            // $cliente = $facturas->getCliente();
             //$clienten = $cliente->getNombre(); 
            //die(var_dump(    $est_fact));
@@ -558,9 +574,9 @@ class FacturasController extends Controller
             $breadcrumbs->addItem("Buscar_Factura", $this->get("router")->generate("facturas_searchpro"));
             $breadcrumbs->addItem($fact_num,$this->get("router")->generate('facturas_searchpro'));
             $breadcrumbs->addItem("Cambiar");
-            if($est_fact == 'C' or $est_fact == "X")
+            if( $est_fact == "X" or $est_fact =="C")
                     {
-                        $this->get('session')->setFlash('info', 'Factura no se encuentra cerrada o anulada');
+                        $this->get('session')->setFlash('info', 'Factura  se encuentra cerrada o anulada');
     			return $this->redirect($this->generateUrl('facturas_searchpro'));
                         
                     }

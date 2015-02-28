@@ -160,6 +160,12 @@ class HistoriaController extends Controller
 				$facturaCargo->setEstado('C');
 				$em->persist($facturaCargo);
 			}
+                        
+                        if($factura)
+			{
+				$factura->setEstado('C');
+				$em->persist($factura);
+			}
 				
 			
 			$historia->setFactura($factura);			

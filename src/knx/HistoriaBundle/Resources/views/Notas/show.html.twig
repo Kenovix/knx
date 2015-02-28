@@ -106,13 +106,11 @@
     		{% if historia.serviEgre %}
     			{% if historia.destino == '1' or historia.destino == '3' or historia.destino == '4'%}
     				<a href="{{ path('nota_print', { 'historia': historia.id }) }}" target='blank' class="btn"><i class="icon-print"></i></a>
-    			 {% else %}
-    			    <a href="{{ path('nota_edit', { 'nota': nota.id }) }}" class="btn">Modificar nota</a>
+    			
     			{% endif %}
-    		  {% else %}
-    			    <a href="{{ path('nota_edit', { 'nota': nota.id }) }}" class="btn">Modificar nota</a>
+    		 
     		{% endif %}		    
-		    <a href="{{ path('paciente_filtro') }}" class="btn">Regresar</a>
+		    <a href="{{ path('historia_urgencias_list') }}" class="btn">Regresar</a>
 	 </div>   
 	     
     <div id="listDetalleNotas">

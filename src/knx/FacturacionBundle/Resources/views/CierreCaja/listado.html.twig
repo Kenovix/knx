@@ -46,6 +46,7 @@
                 	<th width="30px"><b>Tipo</b></th>
                 	<th width="90px"><b>Identificación</b></th>
                 	<th width="200px"><b>Paciente</b></th>
+                        <th width="50px"><b>Facturado</b></th>
 	                <th width="50px"><b>Copago</b></th>
                         <th width="50px"><b>CargoIps</b></th>
                         <th width="80px"><b>Valor Total</b></th>
@@ -63,7 +64,7 @@
                         
 	        {% for cierre in cierre %}
                         {% set ips = ips + cierre.asumido %}
-                        {% set valor = valor + cierre.total %}
+                        {% set valor = valor + cierre.facturado%}
                         {% set copago1 = copago1 + cierre.copago %}
 	            <tr>
 	                <td width="30px"> {{  loop.index }}</td>
@@ -72,7 +73,8 @@
 	                <td width="30px"> {{  cierre.tipoId }}</td>
 	             	<td width="90px"> {{  cierre.identificacion}}</td>
             		<td width="200px"> {{ cierre.priNombre|capitalize }} {{ cierre.segNombre|capitalize }} {{ cierre.priApellido|capitalize }} {{ cierre.segApellido|capitalize }}</td>
-            		<td width="50px"> ${{  cierre.copago|number_format(0)}}</td>
+            		<td width="80px"> ${{  cierre.facturado|number_format(0)}}</td>
+                        <td width="50px"> ${{  cierre.copago|number_format(0)}}</td>
                         <td width="50px"> ${{  cierre.asumido|number_format(0)}}</td>
                         <td width="80px"> ${{  cierre.total|number_format(0)}}</td>
                         <td width="80px"> {{  cierre.nombre}}</td>

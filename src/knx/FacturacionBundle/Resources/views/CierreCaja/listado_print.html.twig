@@ -1,6 +1,15 @@
 {% extends "::simple.html.twig" %}
 
 {% block stylesheets %}
+
+<style>
+		
+	table.cierre {
+    	font-size: 7pt;
+    }
+    
+ 
+</style> 
 {% endblock %}
 
 {% block head %}
@@ -16,20 +25,20 @@
 	      {% if cierre %}
          
 
-	       <table border="1">
+	       <table border="1" class="cierre">
 
 	        <thead>
-	            <tr>
-                	<th width="70px"><b>Fecha.</b></th>
-                        <th width="50px"><b>Factura</b></th>
-                	<th width="30px"><b>Tipo</b></th>
-                	<th width="80px"><b>Identificación</b></th>
-                	<th width="190px"><b>Paciente</b></th>
-	                <th width="50px"><b>Copago</b></th>
-                        <th width="50px"><b>CargoIps</b></th>
-                        <th width="80px"><b>Valor Total</b></th>
+	           <tr>
+                	<th width="65px" align="left"><b>Fecha.</b></th>
+                        <th width="45px" align="left"><b>Factura</b></th>
+                	<th width="30px" align="left"><b>Tipo</b></th>
+                	<th width="90px" align="left"><b>Identificación</b></th>
+                	<th width="150px" align="left"><b>Paciente</b></th>
+                        <th width="60px" align="left"><b>Facturado</b></th>
+               	 	<th width="50px" align="left"><b>Copago</b></th>
+	                <th width="50px" align="left"><b>CargoIps</b></th>
+                        <th width="60px" align="left"><b>Valor Total</b></th>
                         <th width="80px"><b>Cliente</b></th>
-
 
 	            </tr>
 	        </thead>
@@ -41,18 +50,25 @@
                         
 	        {% for cierre in cierre %}
                         {% set ips = ips + cierre.asumido %}
-                        {% set valor = valor + cierre.total %}
+                        {% set valor = valor + cierre.facturado %}
                         {% set copago1 = copago1 + cierre.copago %}
 	            <tr>
-	                <td width="70px"> {{  cierre.fecha|date('d-m-Y')}}</td>
-                        <td width="50px"> {{  cierre.factura}}</td>
-	                <td width="30px"> {{  cierre.tipoId }}</td>
-	             	<td width="80px"> {{  cierre.identificacion}}</td>
-            		<td width="190px"> {{ cierre.priNombre|capitalize }} {{ cierre.segNombre|capitalize }} {{ cierre.priApellido|capitalize }} {{ cierre.segApellido|capitalize }}</td>
-            		<td width="50px"> ${{  cierre.copago|number_format(0)}}</td>
-                        <td width="50px"> ${{  cierre.asumido|number_format(0)}}</td>
-                        <td width="80px"> ${{  cierre.total|number_format(0)}}</td>
-                        <td width="80px"> {{  cierre.nombre}}</td>
+                        
+                        
+                        
+                        
+	                <td width="65px" align="left"> {{  cierre.fecha|date('d-m-Y')}}</td>
+                        <td width="45px" align="left"> {{  cierre.factura}}</td>
+	                <td width="30px" align="left"> {{  cierre.tipoId }}</td>
+	             	<td width="90px" align="left"> {{  cierre.identificacion}}</td>
+            		<td width="150px" align="left"> {{ cierre.priNombre|capitalize }} {{ cierre.segNombre|capitalize }} {{ cierre.priApellido|capitalize }} {{ cierre.segApellido|capitalize }}</td>
+            		<td width="60px" align="left"> ${{  cierre.facturado|number_format(0) }}</td>
+                        <td width="50px" align="left"> ${{  cierre.asumido|number_format(0) }}</td>
+            		<td width="50px" align="left"> ${{  cierre.asumido|number_format(0)}}</td>
+                        <td width="60px" align="left"> ${{  cierre.total|number_format(0)}}</td>
+	                <td width="80px"> {{  cierre.nombre}}</td>
+                        
+                        
 	            </tr>
                     
                       {% else %}

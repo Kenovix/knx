@@ -341,6 +341,7 @@ class FacturaCargoController extends Controller
 			    	p.segApellido,
 			    	fc.pagoPte,
 			    	fc.recoIps,
+                                SUM(fc.vrFacturado) AS facturado,
                                 SUM(fc.valorTotal) AS total,
                                 SUM(fc.pagoPte) AS copago,
                                 SUM(fc.recoIps) AS asumido
@@ -490,6 +491,7 @@ class FacturaCargoController extends Controller
 			    	fc.pagoPte,
 			    	fc.recoIps,
                                 SUM(fc.valorTotal) AS total,
+                                SUM(fc.vrFacturado) AS facturado,
                                 SUM(fc.pagoPte) AS copago,
                                 SUM(fc.recoIps) AS asumido
 
@@ -638,6 +640,7 @@ class FacturaCargoController extends Controller
 			    	fc.recoIps,
                                 u.id,
                                 c.nombre,
+                                SUM(fc.vrFacturado) AS facturado,
                                 SUM(fc.valorTotal) AS total,
                                 SUM(fc.pagoPte) AS copago,
                                 SUM(fc.recoIps) AS asumido
@@ -791,9 +794,10 @@ class FacturaCargoController extends Controller
 			    	fc.recoIps,
                                 u.id,
                                 c.nombre,
-                                SUM(fc.valorTotal) AS total,
+                                SUM(fc.vrFacturado) AS facturado,
                                 SUM(fc.pagoPte) AS copago,
-                                SUM(fc.recoIps) AS asumido
+                                SUM(fc.recoIps) AS asumido,
+                                SUM(fc.valorTotal) AS total
 
 
     			FROM
@@ -929,7 +933,7 @@ class FacturaCargoController extends Controller
     	
     	 
     	$dql= " SELECT
-                                
+                                SUM(fc.vrFacturado) AS facturado,
                                 SUM(fc.valorTotal) AS total,
                                 SUM(fc.pagoPte) AS copago,
                                 SUM(fc.recoIps) AS asumido
@@ -965,7 +969,7 @@ class FacturaCargoController extends Controller
     	$entity->setInicio($f_inicio);
     	$entity->setFin($f_fin);
     	$entity->setConcepto('');
-        $entity->setValor($final['total']);
+        $entity->setValor($final['facturado']);
     	$entity->setCopago($final['copago']);
         $entity->setAsumido($final['asumido']);
     	$entity->setIva(0); 

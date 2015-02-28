@@ -57,7 +57,14 @@
 	    				{{ form_widget(form.paciente) }}
     					<button id="buscar_paciente" class="btn" type="button">Buscar</button>
     					<button id="btnIframe" href="{{ path('paciente_jx_new') }}" class="fancybox.iframe btn btn-success" type="link" disabled="disabled">Crear</button>
-    				</div>    				
+    				</div>   
+
+                                <div class="input-append">
+    					<div class="fecha">
+		    				{{ form_label(form.fecha) }}
+		    				{{ form_widget(form.fecha) }}
+	    				</div>
+	    			</div>
     				
     				<span id="msg" class="label"></span>    				
 					

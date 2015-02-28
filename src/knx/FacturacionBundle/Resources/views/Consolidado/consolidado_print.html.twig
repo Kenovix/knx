@@ -1,7 +1,16 @@
 {% extends "::simple.html.twig" %}
 
 {% block stylesheets %}
+<style>
+		
+	table.consolidado {
+    	font-size: 7pt;
+    }
+    
+ 
+</style>     
 {% endblock %}
+
 
 {% block head %}
 {% endblock %}
@@ -14,19 +23,20 @@
 	      {% if consolidado %}
          
 
-	       <table border="1">
+	       <table border="1" class = "consolidado" >
 
 	        <thead>
 	            <tr>
-	                <th width="30px"><b>No.</b></th>
-                	<th width="80px"><b>Fecha.</b></th>
-                        <th width="50px"><b>Factura</b></th>
-                	<th width="30px"><b>Tipo</b></th>
-                	<th width="90px"><b>Identificación</b></th>
-                	<th width="200px"><b>Paciente</b></th>
-               	 	<th width="50px"><b>CargoIps</b></th>
-	                <th width="60px"><b>Copago</b></th>
-                        <th width="80px"><b>Valor Total</b></th>
+	                <th width="30px" align="left"><b>No.</b></th>
+                	<th width="65px" align="left"><b>Fecha.</b></th>
+                        <th width="45px" align="left"><b>Factura</b></th>
+                	<th width="30px" align="left"><b>Tipo</b></th>
+                	<th width="90px" align="left"><b>Identificación</b></th>
+                	<th width="190px" align="left"><b>Paciente</b></th>
+                        <th width="60px" align="left"><b>Facturado</b></th>
+               	 	<th width="50px" align="left"><b>CargoIps</b></th>
+	                <th width="50px" align="left"><b>Copago</b></th>
+                        <th width="60px" align="left"><b>Valor Total</b></th>
 
 	            </tr>
 	        </thead>
@@ -38,18 +48,19 @@
                         
 	        {% for consolidados in consolidado %}
                         {% set ips = ips + consolidados.asumido %}
-                        {% set valor = valor + consolidados.total %}
+                        {% set valor = valor + consolidados.facturado %}
                         {% set copago1 = copago1 + consolidados.copago %}
 	            <tr>
-	                <td width="30px"> {{  loop.index }}</td>
-	                <td width="80px"> {{  consolidados.fecha|date('d-m-Y')}}</td>
-                        <td width="50px"> {{  consolidados.id}}</td>
-	                <td width="30px"> {{  consolidados.tipoId }}</td>
-	             	<td width="90px"> {{  consolidados.identificacion}}</td>
-            		<td width="200px"> {{ consolidados.priNombre|capitalize }} {{ consolidados.segNombre|capitalize }} {{ consolidados.priApellido|capitalize }} {{ consolidados.segApellido|capitalize }}</td>
-            		<td width="50px"> ${{  consolidados.asumido|number_format(0) }}</td>
-            		<td width="60px"> ${{  consolidados.copago|number_format(0)}}</td>
-                        <td width="80px"> ${{  consolidados.total|number_format(0)}}</td>
+	                <td width="30px" align="left"> {{  loop.index }}</td>
+	                <td width="65px" align="left"> {{  consolidados.fecha|date('d-m-Y')}}</td>
+                        <td width="45px" align="left"> {{  consolidados.id}}</td>
+	                <td width="30px" align="left"> {{  consolidados.tipoId }}</td>
+	             	<td width="90px" align="left"> {{  consolidados.identificacion}}</td>
+            		<td width="190px" align="left"> {{ consolidados.priNombre|capitalize }} {{ consolidados.segNombre|capitalize }} {{ consolidados.priApellido|capitalize }} {{ consolidados.segApellido|capitalize }}</td>
+            		<td width="60px" align="left"> ${{  consolidados.facturado|number_format(0) }}</td>
+                        <td width="50px" align="left"> ${{  consolidados.asumido|number_format(0) }}</td>
+            		<td width="50px" align="left"> ${{  consolidados.copago|number_format(0)}}</td>
+                        <td width="60px" align="left"> ${{  consolidados.total|number_format(0)}}</td>
 	            </tr>
                     
                       {% else %}
