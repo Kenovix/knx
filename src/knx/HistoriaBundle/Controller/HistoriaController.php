@@ -155,19 +155,40 @@ class HistoriaController extends Controller
 			elseif($factura->getTipo() == 'U' || $factura->getTipo() == 'H')			
 				$facturaCargo = $em->getRepository('HistoriaBundle:Hc')->closeFacturaCargoHc($factura->getId(),'CU');	
 			
-			if($facturaCargo)
-			{
-				$facturaCargo->setEstado('C');
-				$em->persist($facturaCargo);
-			}
+			//if($facturaCargo)
+			//{
+			//	$facturaCargo->setEstado('C');
+			//	$em->persist($facturaCargo);
+			//}
                         
-            if($factura)
+
+            // if($factura)
+			//{
+			//	$factura->setEstado('C');
+			//	$em->persist($factura);
+			//}
+                        
+            if($historia->getDestino()=='1' || $historia->getDestino()=='4')
 			{
 				$factura->setEstado('C');
 				$factura->setProfesional($this->get('security.context')->getToken()->getUser()->getId());
 				$em->persist($factura);
-			}
-				
+                        }else{
+                            
+                            $factura->setEstado('A');
+			    $em->persist($factura);
+                        }
+                        
+                        
+                        if($historia->getDestino()=='1' || $historia->getDestino()=='4')
+			{
+				$facturaCargo->setEstado('C');
+				$em->persist($facturaCargo);
+                        }else{
+                            
+                                $facturaCargo->setEstado('A');
+				$em->persist($facturaCargo);
+                        }
 			
 			$historia->setFactura($factura);			
 			$em->persist($historia);			
