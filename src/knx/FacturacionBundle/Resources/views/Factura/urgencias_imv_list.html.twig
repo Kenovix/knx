@@ -33,6 +33,7 @@
 	        <thead>
 	            <tr>
 	                <th>No.</th>
+                        <th>Factura</th>
 	                <th>Cedula</th>
 	                <th>Nombre</th>
 	                <th>Cliente</th>
@@ -44,6 +45,7 @@
 	        {% for factura in facturas %}
 	            <tr>
 	                <td>{{ loop.index }}</td>
+                        <td>{{ factura.id}}</td>
 	                <td>{{ factura.paciente.identificacion }}</td>
 	                <td>{{ factura.paciente.priNombre | capitalize }} {{ factura.paciente.segNombre | capitalize }} {{ factura.paciente.priApellido | capitalize }} {{ factura.paciente.segApellido | capitalize }}</td>
 	                <td>{{ factura.cliente.nombre }}</td>

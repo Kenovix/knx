@@ -32,7 +32,8 @@
 {% if urgencias_hc %}
 	    <table class="table table-hover">
 	        <thead>
-	            <tr>
+	            <tr>           
+                        <th>Factura</th>
 	                <th>C&eacute;dula</th>
 	                <th>Nombre</th>
 	                <th>Entidad</th>
@@ -44,6 +45,7 @@
 	        <tbody>
 	        {% for hc in urgencias_hc%}
 	            <tr>
+                        <td>{{ hc.factura.id }}</td>
 	                <td>{{ hc.factura.paciente.identificacion }}</td>
 	                <td>{{ hc.factura.paciente.priNombre | capitalize }} {{ hc.factura.paciente.segNombre | capitalize }} {{ hc.factura.paciente.priApellido | capitalize }} {{ hc.factura.paciente.segApellido | capitalize }}</td>
 	                <td>{{ hc.factura.cliente.nombre | capitalize }}</td>
