@@ -84,7 +84,7 @@ class FacturaController extends Controller
 			$factura->setTipo('C');
 		}else{
 			$factura->setTipo('U');
-		}		
+		}
     	  
     	$em->persist($factura);
     	$em->flush();
@@ -323,7 +323,7 @@ class FacturaController extends Controller
     		    		
     
     		$dql = $em->createQuery( "SELECT
-										c.id,
+    									distinct(c.id),
     									c.nombre
 									 FROM
 										ParametrizarBundle:ContratoCargo cc
@@ -334,7 +334,8 @@ class FacturaController extends Controller
     								 JOIN
     									ct.cliente cli
 									 WHERE
-										c.tipoCargo = :tipoCargo AND
+										c.tipoCargo = :tipoCargo OR
+    									c.tipoCargo = 'OS' AND
     									cli.id = :cliente
 									 ORDER BY
 										c.nombre ASC");
@@ -540,7 +541,7 @@ class FacturaController extends Controller
 									 FROM
 										FacturacionBundle:Factura f
 									 WHERE
-										f.estado = 'A' AND
+										f.estado IN ('C', 'A') AND
     									f.tipo = 'U' OR
     									f.tipo = 'H'
 									 ORDER BY
