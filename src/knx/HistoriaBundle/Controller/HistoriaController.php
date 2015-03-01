@@ -161,13 +161,14 @@ class HistoriaController extends Controller
 			//	$em->persist($facturaCargo);
 			//}
                         
-                       // if($factura)
+
+            // if($factura)
 			//{
 			//	$factura->setEstado('C');
 			//	$em->persist($factura);
 			//}
                         
-                        if($historia->getDestino()=='1' || $historia->getDestino()=='4')
+            if($historia->getDestino()=='1' || $historia->getDestino()=='4')
 			{
 				$factura->setEstado('C');
 				$factura->setProfesional($this->get('security.context')->getToken()->getUser()->getId());
