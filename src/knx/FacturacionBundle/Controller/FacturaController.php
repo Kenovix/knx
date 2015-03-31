@@ -3,7 +3,10 @@
 namespace knx\FacturacionBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use knx\FacturacionBundle\Entity\Factura;
+use knx\HistoriaBundle\Entity\Hc;
+
 use knx\FacturacionBundle\Form\FacturaType;
 
 use knx\ParametrizarBundle\Form\AfiliacionType;
@@ -541,7 +544,7 @@ class FacturaController extends Controller
 									 FROM
 										FacturacionBundle:Factura f
 									 WHERE
-										f.estado IN ('C', 'A') AND
+										f.estado =  'A' AND
     									f.tipo = 'U' OR
     									f.tipo = 'H'
 									 ORDER BY
@@ -553,6 +556,140 @@ class FacturaController extends Controller
     			'facturas'  => $factura
     	));
     }
+    
+    
+    public function urgenciasPrintAction()
+    {
+    	$breadcrumbs = $this->get("white_october_breadcrumbs");
+    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
+    	$breadcrumbs->addItem("Urgencias");
+    	
+    	$em = $this->getDoctrine()->getEntityManager();
+    	
+    	$dql = $em->createQuery( "SELECT
+										f
+                                                                                
+									 FROM
+										FacturacionBundle:Factura f
+                                                                                
+                                                                     
+                                                                                
+									 WHERE
+										f.estado =  'A' AND
+    									f.tipo = 'U' OR
+    									f.tipo = 'H'
+									 ORDER BY
+										f.fecha ASC");
+    	
+    	$factura = $dql->getResult();
+        
+       
+    	
+    	
+    	return $this->render('FacturacionBundle:Factura:urgencias_print.html.twig', array(
+    			'facturas'  => $factura,
+    	));
+    }
+    
+    
+    public function facturaPrintAction($factura)
+	{
+		$em = $this->getDoctrine()->getEntityManager();
+    	
+                $factura = $em->getRepository('FacturacionBundle:Factura')->find($factura);
+    	
+                if (!$factura) {
+                        throw $this->createNotFoundException('La factura solicitada no existe');
+                }
+                
+               
+	    		if($factura->getTipo() == 'H'){
+	    			
+	    			$factura->setEstado('C');
+
+	    			
+	    		}elseif($factura->getTipo() == 'U'){
+	    			
+	    			$factura->setEstado('C');
+
+	    			
+	    		}
+                        
+                        $em->persist($factura);
+	    		$em->flush(); 
+                $factura_cargo = $em->getRepository('FacturacionBundle:FacturaCargo')->findoneBy(array('factura' => $factura->getId()));    	
+                //die(var_dump($cargo));
+                
+                if ( $factura_cargo->getAmbito()=='3' ){
+
+                    
+                    $factura_cargo->setEstado('C');
+                }
+                 
+                $em->persist($factura_cargo);
+                $em->flush();
+                
+                
+                $factura_cargo1 = $em->getRepository('FacturacionBundle:FacturaCargo')->findBy(array('factura' => $factura->getId()));    	
+
+                $factura_imv = $em->getRepository('FacturacionBundle:FacturaImv')->findBy(array('factura' => $factura->getId()));    	
+                //$historia = $em->getRepository('HisotoriaBundle:Hc')->findBy(array('factura' => $factura->getId()));
+
+                $mupio = $em->getRepository('ParametrizarBundle:Mupio')->find($factura->getPaciente()->getMupio());
+                
+                // se consulta por la informacion del profesional para ser visulizada en la factura.
+                $profesional = $em->getRepository('UsuarioBundle:Usuario')->find($factura->getProfesional());
+                $factura->setProfesional($profesional->getNombre().' '.$profesional->getApellido());
+
+                $pdf = $this->get('white_october.tcpdf')->create();
+               
+                
+                
+                
+                  
+                $html = $this->renderView('FacturacionBundle:Factura:facturau.pdf.twig',array(
+                                                                        'factura' => $factura,
+                                                                        'cargos' => $factura_cargo1,
+                                                                        'imvs' => $factura_imv,
+                                                                        'mupio' => $mupio
+                ));
+                
+
+                return $pdf->quick_pdf($html, 'factura_venta_'.$factura->getId().'.pdf', 'D');  
+}
+
+    public function facturaShowAction($factura)
+	{
+		$em = $this->getDoctrine()->getEntityManager();
+    	
+                $factura = $em->getRepository('FacturacionBundle:Factura')->find($factura);
+    	
+                if (!$factura) {
+                        throw $this->createNotFoundException('La factura solicitada no existe');
+                }
+    	
+                $factura_cargo = $em->getRepository('FacturacionBundle:FacturaCargo')->findBy(array('factura' => $factura->getId()));    	
+                $factura_imv = $em->getRepository('FacturacionBundle:FacturaImv')->findBy(array('factura' => $factura->getId()));    	
+
+                $mupio = $em->getRepository('ParametrizarBundle:Mupio')->find($factura->getPaciente()->getMupio());
+
+                // se consulta por la informacion del profesional para ser visulizada en la factura.
+                $profesional = $em->getRepository('UsuarioBundle:Usuario')->find($factura->getProfesional());
+                $factura->setProfesional($profesional->getNombre().' '.$profesional->getApellido());
+
+                $pdf = $this->get('white_october.tcpdf')->create();
+                
+                $html = $this->renderView('FacturacionBundle:Factura:facturau.pdf.twig',array(
+                                                                        'factura' => $factura,
+                                                                        'cargos' => $factura_cargo,
+                                                                        'imvs' => $factura_imv,
+                                                                        'mupio' => $mupio
+                ));
+                
+                
+
+                return $pdf->quick_pdf($html,'factura_venta_'.$factura->getId().'.pdf', 'I');  
+}
     
     /**
      * @uses Función que consulta la información del paciente por tipo y número de identificación.
@@ -716,10 +853,12 @@ class FacturaController extends Controller
 	    		}elseif($factura->getTipo() == 'H'){
 	    			
 	    			$factura->setEstado('A');
+
 	    			
 	    		}elseif($factura->getTipo() == 'U'){
 	    			
 	    			$factura->setEstado('A');
+
 	    			
 	    		}else{
 	    			$factura->setEstado('C');

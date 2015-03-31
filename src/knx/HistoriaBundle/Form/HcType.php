@@ -144,7 +144,7 @@ class HcType extends AbstractType {
 										
 				->add('dxPrin', 'text',
 						array(	'mapped' => false,
-								'label' => 'Seleccione los dx  :','required' => false,
+								'label' => 'Seleccione los dx  :','required' => true,
 								'attr' => array(
 										'placeholder' => 'Codigo',
 										'class' => 'span1 search-query',										

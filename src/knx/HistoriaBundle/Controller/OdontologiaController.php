@@ -88,6 +88,8 @@ class OdontologiaController extends Controller
 
 			$historia->setFactura($factura);
 			$historia->setDestino('1');
+                        $historia->setEstado('CO');
+
 			$em->persist($historia);		
 			$em->flush();		
 

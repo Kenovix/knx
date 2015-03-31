@@ -167,8 +167,43 @@ class HistoriaController extends Controller
 			//	$factura->setEstado('C');
 			//	$em->persist($factura);
 			//}
+                        if($factura->getTipo()=='C')
+                        {
+                            $historia->setEstado('CM');
+		            $factura->setProfesional($this->get('security.context')->getToken()->getUser()->getId());
+		            $em->persist($historia);
+                            
+                            $factura->setEstado('C');
+		            $factura->setProfesional($this->get('security.context')->getToken()->getUser()->getId());
+		            $em->persist($factura);
+                            
+                            $facturaCargo->setEstado('C');
+		            $em->persist($facturaCargo);
+                            
+                        }
                         
-            if($historia->getDestino()=='1' || $historia->getDestino()=='4')
+                        
+                        
+                        
+                        if( $historia->getDestino()=='1' || $historia->getDestino()=='4')
+			{
+				$historia->setEstado('CH');
+				$factura->setProfesional($this->get('security.context')->getToken()->getUser()->getId());
+				$em->persist($historia);
+                                
+                                
+                        }else{
+                            
+                            $historia->setEstado('A');
+			    $em->persist($historia);
+                            
+                           
+                            
+                        }
+                        
+                        
+                       
+                        /*if($historia->getEstado()=='C')
 			{
 				$factura->setEstado('C');
 				$factura->setProfesional($this->get('security.context')->getToken()->getUser()->getId());
@@ -177,10 +212,10 @@ class HistoriaController extends Controller
                             
                             $factura->setEstado('A');
 			    $em->persist($factura);
-                        }
+                        }*/
                         
                         
-                        if($historia->getDestino()=='1' || $historia->getDestino()=='4')
+                        /*if($historia->getEstado()=='C')
 			{
 				$facturaCargo->setEstado('C');
 				$em->persist($facturaCargo);
@@ -188,7 +223,7 @@ class HistoriaController extends Controller
                             
                                 $facturaCargo->setEstado('A');
 				$em->persist($facturaCargo);
-                        }
+                        }*/
 			
 			$historia->setFactura($factura);			
 			$em->persist($historia);			

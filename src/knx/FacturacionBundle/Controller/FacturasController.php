@@ -280,6 +280,18 @@ class FacturasController extends Controller
                     
                     
                 }
+                
+                
+                 if($factura_cargo and $factura_imv)
+                {    
+                $html = $this->renderView('FacturacionBundle:Factura:facturau.pdf.twig',array(
+                                                                        'factura' => $factura,
+                                                                        'cargos' => $factura_cargo,
+                                                                        'imvs' => $factura_imv,
+                                                                        'mupio' => $mupio
+                ));
+                }
+                
 
                 return $pdf->quick_pdf($html, 'factura_venta_'.$factura->getId().'.pdf', 'D');  
 }
