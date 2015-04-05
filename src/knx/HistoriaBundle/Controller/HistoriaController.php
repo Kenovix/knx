@@ -191,12 +191,16 @@ class HistoriaController extends Controller
 				$factura->setProfesional($this->get('security.context')->getToken()->getUser()->getId());
 				$em->persist($historia);
                                 
+                              
+                                
                                 
                         }else{
                             
                             $historia->setEstado('A');
 			    $em->persist($historia);
                             
+                            $facturaCargo->setEstado('P');
+		            $em->persist($facturaCargo);
                            
                             
                         }
@@ -364,7 +368,10 @@ class HistoriaController extends Controller
 		$breadcrumbs = $this->get("white_october_breadcrumbs");
 		$breadcrumbs->addItem("Inicio",$this->get("router")->generate("paciente_filtro"));
 		$breadcrumbs->addItem("Urgencias");
-		
+		if (!$urgencias) {
+			$this->get('session')->setFlash('info','No pacientes facturados');
+			return $this->redirect($this->generateUrl('paciente_filtro'));
+		}
 		$usuario = $this->get('security.context')->getToken()->getUser();
 		$perfil = null;
 		foreach ($usuario->getRoles() as $role)
