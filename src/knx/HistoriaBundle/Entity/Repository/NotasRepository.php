@@ -83,4 +83,6 @@ class NotasRepository extends EntityRepository {
 		$dql->setParameter('user', $usuario->getId());
 		return $dql->getResult();
 	}
+        
+        
 }

@@ -593,11 +593,18 @@
 						{{ form_errors(edit_form.evolucion) }}
 						{{ form_widget(edit_form.evolucion) }}
 					</div>
+	    	    </div>
+                    <div class="control-group">
+						{{ form_label(edit_form.ordenmedica) }}
+	    	    	<div class="controls">
+						{{ form_errors(edit_form.ordenmedica) }}
+						{{ form_widget(edit_form.ordenmedica) }}
+					</div>
 	    	    </div>	     		
     		 </div>
       {%  end_ui_tab %}
 	
-      {% ui_tab label="Parte Medica Examen" %}     	       
+      {% ui_tab label="Laboratorios/Procedimientos" %}     	       
       
       			 <div class="control-group">
 		     		{{ form_label(edit_form.examenes) }}		     		
@@ -683,7 +690,7 @@
 	     		 </div>	     
       {%  end_ui_tab %}       
       
-	  {% ui_tab label="Parte Medica medicamento" %}	  	
+	  {% ui_tab label="Medicamentos" %}	  	
 	  		  
 	  		  	<div class="control-group">
 		     		{{ form_label(edit_form.laboratorio) }}					
@@ -1158,6 +1165,14 @@
 		var usuario = "{{ usuario.nombre }} {{ usuario.apellido }}";
 		var date = "{{ today | date("d/m/Y H:i") }}";			 
 			$('#newHcType_evolucion').append("\n::Evolución["+date+"], Dr[ "+usuario+"]: ");
+			return false; 
+		});
+                
+                $('#newHcType_ordenmedica').click(function()
+	{			
+		var usuario = "{{ usuario.nombre }} {{ usuario.apellido }}";
+		var date = "{{ today | date("d/m/Y H:i") }}";			 
+			$('#newHcType_ordenmedica').append("\n::OrdenMedica["+date+"], Dr[ "+usuario+"]: ");
 			return false; 
 		});
 	$('#newNotasType_resumenNota').click(function()

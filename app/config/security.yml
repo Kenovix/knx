@@ -32,8 +32,8 @@ security:
         - { path: ^/usuario/resetting, role: [ROLE_SUPER_ADMIN,ROLE_ADMIN] }
         - { path: ^/usuario/buscar/porcargo, role: [ROLE_USER] }
         - { path: ^/usuario/profile, role: IS_AUTHENTICATED_FULLY }
-        - { path: ^/admin/, role: [ROLE_SUPER_ADMIN,ROLE_MEDICO,ROLE_AUXILIAR,ROLE_FACTURADOR,ROLE_ODONTOLOGO,ROLE_ESTADISTICO] }
-        - { path: ^/farmacia/, role: [ROLE_SUPER_ADMIN,ROLE_FARMACIA,ROLE_ADMIN] }
+        - { path: ^/admin/, role: [ROLE_SUPER_ADMIN,ROLE_MEDICO,ROLE_AUXILIAR,ROLE_FACTURADOR,ROLE_ODONTOLOGO,ROLE_ESTADISTICO,ROLE_ADMIN] }
+        - { path: ^/farmacia/, role: [ROLE_SUPER_ADMIN,ROLE_FARMACIA,ROLE_ADMIN,ROLE_FACTURADOR] }
         - { path: ^/usuario/, role: [ROLE_SUPER_ADMIN,ROLE_ADMIN] }
         - { path: ^/historia/, role: [ROLE_MEDICO,ROLE_AUXILIAR,ROLE_SUPER_ADMIN,ROLE_ODONTOLOGO,ROLE_ESTADISTICO] }
         - { path: ^/facturacion/, role: [ROLE_SUPER_ADMIN,ROLE_FACTURADOR,ROLE_ADMIN,ROLE_ESTADISTICO] }
