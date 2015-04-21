@@ -22,7 +22,7 @@
 	{% elseif app.session.hasFlash('error') %}
 		<div class="alert alert-error">
 	    	<button data-dismiss="alert" class="close" type="button">×</button>
-	        <span>{{ app.session.flash('error') }}</span>
+	        <span id="jxError">{{ app.session.flash('error') }}</span>
 	    </div>
 	{% endif %}
 {% endblock %}
@@ -71,8 +71,8 @@
 		</div>
 	{% else %}
 		<div class="alert alert-success">
-	    	<button data-dismiss="alert" class="close" type="button">X</button>
-	        <span>No historias de urgencias disponibles</span>
+	    	<button data-dismiss="alert" class="close" type="button">×</button>
+	        <span>No existen pacientes en urgencias ni hospitalizados</span>
 	    </div>
 	{% endif %}
 	

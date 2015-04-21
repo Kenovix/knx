@@ -56,7 +56,7 @@
 	        </tbody>
 	    </table>
    </div>
-
+            
 	<form action="{{ path('nota_save', {'factura':factura.id}) }}" class="form-inline" method="post" {{ form_enctype(form) }} {{ form_enctype(form) }}>
 	  <fieldset>
 		<div>
@@ -108,9 +108,10 @@
 
 			<div class="form-actions">
 				<input class="btn btn-primary" name="guardar" type="submit" value="Guardar" />
-			    <a href="{{ path('paciente_filtro') }}" class="btn btn-danger">Cancelar</a>
+			    <a href="{{ path('historia_urgencias_list') }}"class="btn btn-danger">Cancelar</a>
 			    {% if historia %}
 			    	<a href="{{ path('nota_list', {'historia': historia.id}) }}" class="btn">Listar notas</a>
+
 			    {% endif %}
 			</div>
 	 	</div>

@@ -8,6 +8,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 use knx\HistoriaBundle\Entity\Notas;
+use knx\HistoriaBundle\Entity\Hc;
+
 use knx\HistoriaBundle\Form\NotasType;
 
 class NotaController extends Controller 
@@ -308,6 +310,49 @@ class NotaController extends Controller
 
 		return $this->render('HistoriaBundle:Notas:list.html.twig',array(
 				'listNotas'=> $listNotas,
+				'factura'  => $factura,
+				'paciente' => $paciente,
+                                'historia' => $historia
+			));
+	}
+        
+        
+        public function listmAction($historia) 
+	{
+		$em = $this->getDoctrine()->getEntityManager();
+
+		// se filtran las notas para los auxiliares "se visualizan las notas de cada auxiliar"
+		//$usuario = $this->get('security.context')->getToken()->getUser();
+		//$listOrdenes = $em->getRepository('HistoriaBundle:Hc')->findListAuxNotas($historia,$usuario);
+
+			
+			$historia = $em->getRepository('HistoriaBundle:Hc')->find($historia);
+			if(!$historia){
+				$this->get('session')->setFlash('error','La historia clinica no existe.');
+				return $this->redirect($this->generateUrl('paciente_filtro'));
+			}
+			$factura = $historia->getFactura();
+			$this->get('session')->setFlash('error','La historia clinica seleccionada no tiene notas creadas, ingrese la informacion necesaria');
+			return $this->redirect($this->generateUrl('nota_new',array('factura' => $factura->getId())));
+		
+
+		// se optiene la historia q corresponde a esa nota.
+		//$orden = $listOrdenes[0];
+		//$historia = $nota->getHc();
+
+		
+		// visualizacion del rastro de miga
+		$breadcrumbs = $this->get("white_october_breadcrumbs");
+		$breadcrumbs->addItem("Inicio",$this->get("router")->generate("paciente_filtro"));
+		$breadcrumbs->addItem("Notas",$this->get("router")->generate("nota_new", array('factura' => $factura->getId() )));
+		$breadcrumbs->addItem("Listado");		
+
+		// Se realiza la respectiva paginacion
+		$paginator = $this->get('knp_paginator');
+		$listNotas = $paginator->paginate($listNotas,$this->getRequest()->query->get('page', 1), 10);
+
+		return $this->render('HistoriaBundle:Notas:listm.html.twig',array(
+				'ordenes'=> $historia,
 				'factura'  => $factura,
 				'paciente' => $paciente,				
 			));

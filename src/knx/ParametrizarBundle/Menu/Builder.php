@@ -136,7 +136,7 @@ class Builder extends ContainerAware
 			$menu['Facturación']['Facturar']['Medicamento']->addChild('Ambulatorio', array('route' => 'facturacion_insumo_new', 'routeParameters' => array('tipo' => 'A')));
 			$menu['Facturación']['Facturar']['Medicamento']->addChild('Urgencias', array('route' => 'facturacion_insumo_urg_new'));
 			$menu['Facturación']['Facturar']->addChild('Anular/Reimprimir', array('route' => 'facturas_search'));
-                        
+                        $menu['Facturación']['Facturar']->addChild('Imprimir Urgencias', array('route' => 'facturacion_urgenciasprint_list'));
                         $menu->addChild('Informes', array('uri' => '#'));
                         $menu['Informes']->addChild('Facturación', array('uri' => '#'));
                         $menu['Informes']['Facturación']->addChild('Cierre Caja', array('uri' => '#'));
@@ -183,7 +183,7 @@ class Builder extends ContainerAware
 			$menu['Facturación']['Facturar']['Medicamento']->addChild('Ambulatorio', array('route' => 'facturacion_insumo_new', 'routeParameters' => array('tipo' => 'A')));
 			$menu['Facturación']['Facturar']['Medicamento']->addChild('Urgencias', array('route' => 'facturacion_insumo_urg_new'));
                         $menu['Facturación']['Facturar']->addChild('Anular/Reimprimir', array('route' => 'facturas_search'));
-
+                        $menu['Facturación']['Facturar']->addChild('Imprimir Urgencias', array('route' => 'facturacion_urgenciasprint_list'));
                        
                         $menu->addChild('Informes', array('uri' => '#'));
 			$menu['Informes']->addChild('Reportes', array('route' => 'reporte_cargo_new'));
@@ -294,7 +294,7 @@ class Builder extends ContainerAware
 			$menu['Facturación']['Facturar']['Medicamento']->addChild('Ambulatorio', array('route' => 'facturacion_insumo_new', 'routeParameters' => array('tipo' => 'A')));
 			$menu['Facturación']['Facturar']['Medicamento']->addChild('Urgencias', array('route' => 'facturacion_insumo_urg_new'));
 			$menu['Facturación']['Facturar']->addChild('Anular/Reimprimir', array('route' => 'facturas_search'));
-
+                        $menu['Facturación']['Facturar']->addChild('Imprimir Urgencias', array('route' => 'facturacion_urgenciasprint_list'));
             $menu['Facturación']['Facturar']->addChild('Reportes', array('route' => 'reporte_cargo_new'));
 			$menu['Facturación']['Facturar']->addChild('Morbilidad', array('route' => 'morbilidad_vista'));
 			$menu['Facturación']['Facturar']->addChild('Anular/Reimprimir', array('route' => 'facturas_search'));
@@ -403,7 +403,7 @@ class Builder extends ContainerAware
                         $menu['Facturación']['Facturar']->addChild('Reportes', array('route' => 'reporte_cargo_new'));
 			$menu['Facturación']['Facturar']->addChild('Morbilidad', array('route' => 'morbilidad_vista'));
 			$menu['Facturación']['Facturar']->addChild('Anular/Reimprimir', array('route' => 'facturas_search'));
-
+                        $menu['Facturación']['Facturar']->addChild('Imprimir Urgencias', array('route' => 'facturacion_urgenciasprint_list'));
 
                         $menu->addChild('Informes', array('uri' => '#'));
 			$menu['Informes']->addChild('Reportes', array('route' => 'reporte_cargo_new'));

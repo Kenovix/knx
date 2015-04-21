@@ -274,6 +274,13 @@ class Hc {
 	 * @ORM\Column(name="evolucion", type="text", nullable=true)
 	 */
 	private $evolucion;
+        
+        /**
+	 * @var text $ordenmedica
+	 *
+	 * @ORM\Column(name="ordenmedica", type="text", nullable=true)
+	 */
+	private $ordenmedica;
 
 	/**
 	 * @var text $dxSalida
@@ -1257,6 +1264,27 @@ class Hc {
 	 */
 	public function getEvolucion() {
 		return $this->evolucion;
+	}
+        
+        /**
+	 * Set ordenmedica
+	 *
+	 * @param string $ordenmedica
+	 * @return Hc
+	 */
+	public function setOrdenmedica($ordenmedica) {
+		$this->ordenmedica = $ordenmedica;
+
+		return $this;
+	}
+
+	/**
+	 * Get ordenmedica
+	 *
+	 * @return string 
+	 */
+	public function getOrdenmedica() {
+		return $this->ordenmedica;
 	}
 
 	/**
