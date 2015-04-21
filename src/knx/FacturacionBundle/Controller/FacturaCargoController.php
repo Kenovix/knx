@@ -329,7 +329,7 @@ class FacturaCargoController extends Controller
     		 
     	$dql= " SELECT
 			    	f.id,
-                                f.estado,
+                    f.estado,
 			    	p.id as paciente,
 			    	p.tipoId,
 			    	p.identificacion,
@@ -339,14 +339,10 @@ class FacturaCargoController extends Controller
 			    	p.segNombre,
 			    	p.priApellido,
 			    	p.segApellido,
-			    	fc.pagoPte,
-			    	fc.recoIps,
-                                SUM(fc.vrFacturado) AS facturado,
-                                SUM(fc.valorTotal) AS total,
-                                SUM(fc.pagoPte) AS copago,
-                                SUM(fc.recoIps) AS asumido
-
-
+                    SUM(fc.vrFacturado) AS facturado,
+                    SUM(fc.valorTotal) AS total,
+                    SUM(fc.pagoPte) AS copago,
+                    SUM(fc.recoIps) AS asumido
     			FROM
     				FacturacionBundle:FacturaCargo fc
     			JOIN
@@ -359,7 +355,7 @@ class FacturaCargoController extends Controller
 			        c.id = :cliente
 			    	AND f.fecha > :inicio
 			    	AND f.fecha <= :fin
-                        GROUP BY fc.factura
+                    GROUP BY fc.factura
 		    	ORDER BY
 		    		fc.factura ASC";
     
@@ -369,41 +365,59 @@ class FacturaCargoController extends Controller
     	$query->setParameter('fin', $hasta[2]."/".$hasta[1]."/".$hasta[0].' 23:59:00');
     	$query->setParameter('cliente', $cliente);
     	 
-    	$consolidado = $query->getResult();
-        
-                                
-           //die(var_dump($consolidado));                     
-        if(!$consolidado)
+    	$consolidado_cargos = $query->getArrayResult();
+    	
+    	$dql= " SELECT
+			    	f.id,			    	
+                    SUM(fi.vrFacturado) AS facturado,
+                    SUM(fi.valorTotal) AS total,
+                    SUM(fi.pagoPte) AS copago,
+                    SUM(fi.recoIps) AS asumido
+    			FROM
+    				FacturacionBundle:FacturaImv fi
+    			JOIN
+    				fi.factura f
+    			JOIN
+    				f.cliente c
+    			WHERE
+			        c.id = :cliente
+			    	AND f.fecha > :inicio
+			    	AND f.fecha <= :fin
+                    GROUP BY fi.factura
+		    	ORDER BY
+		    		fi.factura ASC";
+    	
+    	$query = $em->createQuery($dql);
+    	
+    	$query->setParameter('inicio', $desde[2]."/".$desde[1]."/".$desde[0].' 00:00:00');
+    	$query->setParameter('fin', $hasta[2]."/".$hasta[1]."/".$hasta[0].' 23:59:00');
+    	$query->setParameter('cliente', $cliente);
+    	
+    	$consolidado_imv = $query->getArrayResult();
+
+        if(!$consolidado_cargos && $consolidado_imv )
     	{
     		$this->get('session')->setFlash('info', 'La consulta no ha arrojado ningún resultado para los parametros de busqueda ingresados.');
 
     		return $this->redirect($this->generateUrl('consolidados_vista'));
     	}
-
-
     	
         $breadcrumbs = $this->get("white_october_breadcrumbs");
     	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
     	$breadcrumbs->addItem("consolidado Consulta", $this->get("router")->generate("consolidados_vista"));
         $breadcrumbs->addItem("Resultado");
 
-            return $this->render('FacturacionBundle:Consolidado:consolidado_list.html.twig',array(
-                            'cliente' =>$obj_cliente,
-                            'f_inicio' =>$f_inicio,
-                            'f_fin'    => $f_fin,
-                            'consolidado' => $consolidado
-                ));
-        
-
-    	
-    	
-    }
+        return $this->render('FacturacionBundle:Consolidado:consolidado_list.html.twig',array(
+        		               'cliente' =>$obj_cliente,
+                	           'f_inicio' =>$f_inicio,
+                    	       'f_fin'    => $f_fin,
+                        	   'consolidado_cargos' => $consolidado_cargos,
+        					   'consolidadoImv' => $consolidado_imv
+        ));
+    }    
     
     
-    
-    
-     public function searchConsolidadoAction()
-                
+	public function searchConsolidadoAction()
     {
             
         $breadcrumbs = $this->get("white_october_breadcrumbs");
@@ -474,11 +488,9 @@ class FacturaCargoController extends Controller
     		return $this->redirect($this->generateUrl($url));
     	}
     	
-    	
-    	
-    	 
     	$dql= " SELECT
 			    	f.id,
+                    f.estado,
 			    	p.id as paciente,
 			    	p.tipoId,
 			    	p.identificacion,
@@ -488,14 +500,10 @@ class FacturaCargoController extends Controller
 			    	p.segNombre,
 			    	p.priApellido,
 			    	p.segApellido,
-			    	fc.pagoPte,
-			    	fc.recoIps,
-                                SUM(fc.valorTotal) AS total,
-                                SUM(fc.vrFacturado) AS facturado,
-                                SUM(fc.pagoPte) AS copago,
-                                SUM(fc.recoIps) AS asumido
-
-
+                    SUM(fc.vrFacturado) AS facturado,
+                    SUM(fc.valorTotal) AS total,
+                    SUM(fc.pagoPte) AS copago,
+                    SUM(fc.recoIps) AS asumido
     			FROM
     				FacturacionBundle:FacturaCargo fc
     			JOIN
@@ -505,42 +513,65 @@ class FacturaCargoController extends Controller
     			JOIN
     				f.cliente c
     			WHERE
-                                c.id = :cliente
+			        c.id = :cliente
 			    	AND f.fecha > :inicio
 			    	AND f.fecha <= :fin
-                                AND f.estado != 'X'
-                        GROUP BY fc.factura
+                    GROUP BY fc.factura
 		    	ORDER BY
 		    		fc.factura ASC";
-    
+    	
+    	$query = $em->createQuery($dql);
+    	
+    	$query->setParameter('inicio', $desde[2]."/".$desde[1]."/".$desde[0].' 00:00:00');
+    	$query->setParameter('fin', $hasta[2]."/".$hasta[1]."/".$hasta[0].' 23:59:00');
+    	$query->setParameter('cliente', $cliente);
+    	
+    	$consolidado_cargos = $query->getArrayResult();
+    	 
+    	$dql= " SELECT
+			    	f.id,
+                    SUM(fi.vrFacturado) AS facturado,
+                    SUM(fi.valorTotal) AS total,
+                    SUM(fi.pagoPte) AS copago,
+                    SUM(fi.recoIps) AS asumido
+    			FROM
+    				FacturacionBundle:FacturaImv fi
+    			JOIN
+    				fi.factura f
+    			JOIN
+    				f.cliente c
+    			WHERE
+			        c.id = :cliente
+			    	AND f.fecha > :inicio
+			    	AND f.fecha <= :fin
+                    GROUP BY fi.factura
+		    	ORDER BY
+		    		fi.factura ASC";
+    	 
     	$query = $em->createQuery($dql);
     	 
     	$query->setParameter('inicio', $desde[2]."/".$desde[1]."/".$desde[0].' 00:00:00');
     	$query->setParameter('fin', $hasta[2]."/".$hasta[1]."/".$hasta[0].' 23:59:00');
     	$query->setParameter('cliente', $cliente);
     	 
-    	$consolidado = $query->getResult();
-        
-                                
-          //die(var_dump($consolidado));                     
-        if(!$consolidado)
+    	$consolidado_imv = $query->getArrayResult();
+    	
+    	if(!$consolidado_cargos && $consolidado_imv )
     	{
     		$this->get('session')->setFlash('info', 'La consulta no ha arrojado ningún resultado para los parametros de busqueda ingresados.');
-
-    		return $this->redirect($this->generateUrl('consolidados_vista_imprimir'));
-    	}
-
-
-    	$pdf = $this->get('white_october.tcpdf')->create();
     	
+    		return $this->redirect($this->generateUrl('consolidados_vista'));
+    	}   	 
+
+		$pdf = $this->get('white_october.tcpdf')->create();       
         
-        
-         $html = $this->renderView('FacturacionBundle:Consolidado:consolidado_print.html.twig',array(
-                            'cliente' =>$obj_cliente,
-                            'f_inicio' =>$f_inicio,
-                            'f_fin'    => $f_fin,
-                            'consolidado' => $consolidado
-                ));
+        $html = $this->render('FacturacionBundle:Consolidado:consolidado_print.html.twig',array(
+				    			'cliente' =>$obj_cliente,
+				    			'f_inicio' =>$f_inicio,
+				    			'f_fin'    => $f_fin,
+				    			'consolidado_cargos' => $consolidado_cargos,
+				    			'consolidadoImv' => $consolidado_imv
+				    	));
         
          return $pdf->quick_pdf($html, 'consolidado'.$obj_cliente->getNombre().'.pdf', 'D');  
 
@@ -549,19 +580,16 @@ class FacturaCargoController extends Controller
     }
     
     public function cierreCajaAction()
-            
     {
         
         $breadcrumbs = $this->get("white_october_breadcrumbs");
     	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
     	$breadcrumbs->addItem("Cierre", $this->get("router")->generate("cierre_vista"));
         $breadcrumbs->addItem("Consultar");
-
         
     	$em = $this->getDoctrine()->getEntityManager();
     	 
     	$facturadores = $em->getRepository("UsuarioBundle:Usuario")->findBy(array('cargo' => 'FACTURADOR'), array('nombre' => 'ASC'));
-    	//die(var_dump($facturadores));
     	    
     	return $this->render('FacturacionBundle:CierreCaja:cierreFinal.html.twig', array(
     			'facturadores' => $facturadores
@@ -577,8 +605,7 @@ class FacturaCargoController extends Controller
 
     	$facturador = $request->request->get('facturador');
     	$f_inicio = $request->request->get('f_inicio');
-    	$f_fin = $request->request->get('f_fin');
-    	//die(var_dump($facturador));                     
+    	$f_fin = $request->request->get('f_fin');                  
 
     	$url = 'cierre_vista';
     	 
@@ -619,15 +646,12 @@ class FacturaCargoController extends Controller
     	if(!$obj_facturador){
     		$this->get('session')->setFlash('info', 'El facturador seleccionado no existe.');
     		return $this->redirect($this->generateUrl($url));
-    	}
-    	
-    	
-    	    	//die(var_dump($obj_facturador));                     
+    	}                   
 
     	 
     	$dql= " SELECT
 			    	f.id AS factura,
-                                f.estado,
+                    f.estado,
 			    	p.id as paciente,
 			    	p.tipoId,
 			    	p.identificacion,
@@ -636,16 +660,12 @@ class FacturaCargoController extends Controller
 			    	p.segNombre,
 			    	p.priApellido,
 			    	p.segApellido,
-			    	fc.pagoPte,
-			    	fc.recoIps,
-                                u.id,
-                                c.nombre,
-                                SUM(fc.vrFacturado) AS facturado,
-                                SUM(fc.valorTotal) AS total,
-                                SUM(fc.pagoPte) AS copago,
-                                SUM(fc.recoIps) AS asumido
-
-
+					u.id,
+                    c.nombre,
+                    SUM(fc.vrFacturado) AS facturado,
+                    SUM(fc.valorTotal) AS total,
+                    SUM(fc.pagoPte) AS copago,
+                    SUM(fc.recoIps) AS asumido
     			FROM
     				FacturacionBundle:FacturaCargo fc
     			JOIN
@@ -654,14 +674,15 @@ class FacturaCargoController extends Controller
     				f.paciente p
     			JOIN
     				f.usuario u
-                        JOIN
+              	JOIN
     				f.cliente c        
     			WHERE
-                                u.id = :facturador
+                    u.id = :facturador
 			    	AND f.fecha > :inicio
 			    	AND f.fecha <= :fin
-                                AND f.estado != 'X'
-                        GROUP BY fc.factura
+                    AND f.estado != 'X'
+                GROUP BY 
+    				fc.factura
 		    	ORDER BY
 		    		fc.factura ASC";
     
@@ -670,20 +691,60 @@ class FacturaCargoController extends Controller
     	$query->setParameter('inicio', $desde[2]."/".$desde[1]."/".$desde[0].' 00:00:00');
     	$query->setParameter('fin', $hasta[2]."/".$hasta[1]."/".$hasta[0].' 23:59:00');
     	$query->setParameter('facturador', $facturador);
-    	 
-    	$cierre = $query->getResult();
+
+    	$cierre = $query->getArrayResult();
+
+    	$dql= " SELECT
+    				f.id AS factura,
+                    f.estado,
+			    	p.id as paciente,
+			    	p.tipoId,
+			    	p.identificacion,
+			    	f.fecha,
+			    	p.priNombre,
+			    	p.segNombre,
+			    	p.priApellido,
+			    	p.segApellido,
+					u.id,
+                    c.nombre,
+                    SUM(fi.vrFacturado) AS facturado,
+                    SUM(fi.valorTotal) AS total,
+                    SUM(fi.pagoPte) AS copago,
+                    SUM(fi.recoIps) AS asumido
+    			FROM
+    				FacturacionBundle:FacturaImv fi
+    			JOIN
+    				fi.factura f
+    			JOIN
+    				f.paciente p
+    			JOIN
+    				f.usuario u
+    			JOIN
+    				f.cliente c
+    			WHERE
+			        u.id = :facturador
+			    	AND f.fecha > :inicio
+			    	AND f.fecha <= :fin
+    				AND f.estado != 'X'
+               	GROUP BY 
+    				fi.factura
+		    	ORDER BY
+		    		fi.factura ASC";
+    	
+    	$query = $em->createQuery($dql);
+    	
+    	$query->setParameter('inicio', $desde[2]."/".$desde[1]."/".$desde[0].' 00:00:00');
+    	$query->setParameter('fin', $hasta[2]."/".$hasta[1]."/".$hasta[0].' 23:59:00');
+    	$query->setParameter('facturador', $facturador);
+    	
+    	$consolidado_imv = $query->getArrayResult();
         
-                                
-        //die(var_dump($cierre));                     
-        if(!$cierre)
+        if(!$cierre && !$consolidado_imv)
     	{
     		$this->get('session')->setFlash('info', 'La consulta no ha arrojado ningún resultado para los parametros de busqueda ingresados.');
 
     		return $this->redirect($this->generateUrl('cierre_vista'));
     	}
-
-
-    	//$pdf = $this->get('white_october.tcpdf')->create();
     	
         $breadcrumbs = $this->get("white_october_breadcrumbs");
     	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("parametrizar_index"));
@@ -695,14 +756,10 @@ class FacturaCargoController extends Controller
                             'facturas'  =>$obj_facturador,
                             'f_inicio' =>$f_inicio,
                             'f_fin'    => $f_fin,
-                            'cierre' => $cierre
+                            'cierre' => $cierre,
+            				'cierreImv' => $consolidado_imv
                 ));
-        
-         //return $pdf->quick_pdf($html, 'RECUADO_'.$obj_facturador->getNombre().'.pdf', 'D');  
-
-    	
-    	
-    } 
+    }
     
     
     public function searchCierreAction()

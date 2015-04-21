@@ -550,7 +550,7 @@ class Hc {
 	/**
 	 * @var string estado
 	 *
-	 * @ORM\Column(name="estado", type="string", length=2, nullable=false)
+	 * @ORM\Column(name="estado", type="string", length=2, nullable=true)
 	 */
 	private $estado;
 

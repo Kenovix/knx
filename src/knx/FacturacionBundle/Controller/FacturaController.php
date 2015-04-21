@@ -322,8 +322,7 @@ class FacturaController extends Controller
     			$tipo_cargo = 'PO';
     		}else{
     			$tipo_cargo = 'P';
-    		}
-    		    		
+    		}	
     
     		$dql = $em->createQuery( "SELECT
     									distinct(c.id),
@@ -338,7 +337,8 @@ class FacturaController extends Controller
     									ct.cliente cli
 									 WHERE
 										c.tipoCargo = :tipoCargo OR
-    									c.tipoCargo = 'OS' AND
+    									c.tipoCargo = 'OS' OR
+    									c.tipoCargo = 'LB' AND
     									cli.id = :cliente
 									 ORDER BY
 										c.nombre ASC");
@@ -1044,9 +1044,12 @@ class FacturaController extends Controller
 				 
 				$f_i->setCantidad($f_i->getCantidad()+$cantidad);
 				$f_i->setVrUnitario($vrUnitario);
-				$f_i->setVrFacturado($f_i->getVrFacturado()+$vrFacturado);
-				$f_i->setValorTotal($f_i->getValorTotal()+$valorTotal);
-				 
+				$f_i->setCobrarPte($f_i->getCobrarPte()+$cobrarPte);
+				$f_i->setPagoPte($f_i->getPagoPte()+$pagoPte);
+				$f_i->setRecoIps($f_i->getRecoIps()+$recoIps);
+				$f_i->setVrFacturado($f_i->getVrFacturado()+($vrFacturado*$cantidad));
+				$f_i->setValorTotal($f_i->getValorTotal()+($valorTotal));
+
 				$em->persist($f_i);
 				$em->flush();
 				
