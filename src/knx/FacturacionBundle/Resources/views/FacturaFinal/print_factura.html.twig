@@ -53,10 +53,10 @@
 	        <tbody>
                      
 	            <tr>
-                        <td> ${{final.facturado|number_format(0) }}</td>
-                        <td> ${{final.copago|number_format(0) }}</td>
-                        <td> ${{ final.asumido|number_format(0) }}</td>
-                        <td> ${{(final.facturado-final.copago-final.asumido)|number_format(0) }}</td>
+                        <td> ${{(final.facturado + final_imv.facturado) | number_format(0) }}</td>
+                        <td> ${{(final.copago + final_imv.copago) | number_format(0) }}</td>
+                        <td> ${{(final.asumido + final_imv.asumido) | number_format(0) }}</td>
+                        <td> ${{(((final.facturado + final_imv.facturado) - (final.copago + final_imv.copago)) - (final.asumido + final_imv.asumido)) | number_format(0) }}</td>
 	            </tr>               
                     
                

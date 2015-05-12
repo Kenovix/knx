@@ -160,7 +160,6 @@ class FacturaController extends Controller
     		$dql->setParameter('cliente', $factura->getCliente()->getId());
     		
     		$consultas = $dql->getResult();
-                //die(var_dump($consultas));
     	}
     	
     	if($factura->getProfesional()){
@@ -615,8 +614,7 @@ class FacturaController extends Controller
                         
                         $em->persist($factura);
 	    		$em->flush(); 
-                $factura_cargo = $em->getRepository('FacturacionBundle:FacturaCargo')->findoneBy(array('factura' => $factura->getId()));    	
-                //die(var_dump($cargo));
+                $factura_cargo = $em->getRepository('FacturacionBundle:FacturaCargo')->findoneBy(array('factura' => $factura->getId()));
                 
                 if ( $factura_cargo->getAmbito()=='3' ){
 
@@ -1156,8 +1154,10 @@ class FacturaController extends Controller
    		$ap = $this->fileAP($cliente, $f_inicio, $f_fin);
    		$af = $this->fileAF($cliente, $f_inicio, $f_fin);
    		$ad = $this->fileAD($cliente, $f_inicio, $f_fin);
+   		$am = $this->fileAM($cliente, $f_inicio, $f_fin);
+   		$at = $this->fileAT($cliente, $f_inicio, $f_fin);
     
-   		$this->fileCt($us, $ap, $ac, $ad, $af, $f_fin);
+   		$this->fileCt($us, $ap, $ac, $ad, $af, $am, $at, $f_fin);
     
    		// Genaramos la el nombre que contendra el archivo comprimido
    		$nameFile = 'san-agustin-rips-'.$entity->getId().".zip";
@@ -1179,7 +1179,7 @@ class FacturaController extends Controller
     	 
     	$dql= " SELECT
     				DISTINCT
-    					p.identificacion AS id,
+    				p.identificacion AS id,
 			    	p.tipoId,
 			    	p.priApellido,
 			    	p.segApellido,
@@ -1511,6 +1511,150 @@ class FacturaController extends Controller
     	return $num_registros;
     }
     
+    private function fileAM($cliente, $f_inicio, $f_fin){
+    
+    	$dir = $this->container->getParameter('knx.directorio.rips')."src/";
+    
+    	$em = $this->getDoctrine()->getEntityManager();
+    	 
+    	$empresa = $em->getRepository('ParametrizarBundle:Empresa')->find(1);
+    
+    	$dql= " SELECT
+			    	p.identificacion AS id,
+			    	p.tipoId,
+    				p.fN,
+    				f.id AS factura,
+			    	f.fecha,
+			    	f.autorizacion,
+    				f.pyp,
+    				c.codigo as cliente,
+			    	i.cums,
+    				fi.cantidad,
+			    	fi.vrUnitario,
+    				fi.valorTotal
+		    	FROM
+		    		FacturacionBundle:FacturaImv fi
+		    	JOIN
+		    		fi.factura f
+    			JOIN
+		    		f.paciente p
+		    	JOIN
+		    		fi.imv i
+    			JOIN
+		    		f.cliente c
+		    	WHERE
+			    	f.fecha > :inicio AND
+			    	f.fecha <= :fin AND
+			    	f.estado = :estado AND
+			    	f.cliente = :cliente AND
+    				f.tipo = 'M' AND
+    				i.tipoImv = 'M'
+		    	ORDER BY
+		    		f.fecha ASC";
+    
+    	$query = $em->createQuery($dql);
+    
+    	$query->setParameter('inicio', $f_inicio.' 00:00:00');
+    	$query->setParameter('fin', $f_fin.' 23:59:00');
+    	$query->setParameter('cliente', $cliente->getId());
+    	$query->setParameter('estado', 'C');
+    
+    	$entity = $query->getArrayResult();
+    
+    	$periodo = explode("-", $f_fin);
+    	$subfijo = $periodo[1].$periodo[0];
+    
+    	$gestor = fopen($dir."AM".$subfijo.".txt", "w+");
+    
+    	if (!$gestor){
+    		$this->get('session')->setFlash('info', 'No se puede crear txt.');
+    		return $this->redirect($this->generateUrl('factura_cliente_list'));
+    	}    	 
+    	    	 
+    	$num_registros = 0;
+    
+    	foreach ($entity as $value){
+    		
+    		$num_registros += 1;
+    		fwrite($gestor, "".$value['factura'].",".$empresa->getHabilitacion().",".$value['tipoId'].",".$value['id'].",".$value['autorizacion'].",".$value['cums'].",1,,,,,".$value['cantidad'].",".$value['vrUnitario'].",".$value['valorTotal']."\r\n");
+
+    	}
+    
+    	return $num_registros;
+    }
+    
+    private function fileAT($cliente, $f_inicio, $f_fin){
+    
+    	$dir = $this->container->getParameter('knx.directorio.rips')."src/";
+    
+    	$em = $this->getDoctrine()->getEntityManager();
+    
+    	$empresa = $em->getRepository('ParametrizarBundle:Empresa')->find(1);
+    
+    	$dql= " SELECT
+			    	p.identificacion AS id,
+			    	p.tipoId,
+    				p.fN,
+    				f.id AS factura,
+			    	f.fecha,
+			    	f.autorizacion,
+    				f.pyp,
+    				c.codigo as cliente,
+			    	i.cums,
+    				i.nombre,
+    				fi.cantidad,
+			    	fi.vrUnitario,
+    				fi.valorTotal
+		    	FROM
+		    		FacturacionBundle:FacturaImv fi
+		    	JOIN
+		    		fi.factura f
+    			JOIN
+		    		f.paciente p
+		    	JOIN
+		    		fi.imv i
+    			JOIN
+		    		f.cliente c
+		    	WHERE
+			    	f.fecha > :inicio AND
+			    	f.fecha <= :fin AND
+			    	f.estado = :estado AND
+			    	f.cliente = :cliente AND
+    				f.tipo = 'M' AND
+    				i.tipoImv = 'I'
+		    	ORDER BY
+		    		f.fecha ASC";
+    
+    	$query = $em->createQuery($dql);
+    
+    	$query->setParameter('inicio', $f_inicio.' 00:00:00');
+    	$query->setParameter('fin', $f_fin.' 23:59:00');
+    	$query->setParameter('cliente', $cliente->getId());
+    	$query->setParameter('estado', 'C');
+    
+    	$entity = $query->getArrayResult();
+    
+    	$periodo = explode("-", $f_fin);
+    	$subfijo = $periodo[1].$periodo[0];
+    
+    	$gestor = fopen($dir."AT".$subfijo.".txt", "w+");
+    
+    	if (!$gestor){
+    		$this->get('session')->setFlash('info', 'No se puede crear txt.');
+    		return $this->redirect($this->generateUrl('factura_cliente_list'));
+    	}
+    	 
+    	$num_registros = 0;
+    
+    	foreach ($entity as $value){
+    
+    		$num_registros += 1;
+    		fwrite($gestor, "".$value['factura'].",".$empresa->getHabilitacion().",".$value['tipoId'].",".$value['id'].",".$value['autorizacion'].",1,".$value['cums'].",".$value['nombre'].",".$value['cantidad'].",".$value['vrUnitario'].",".$value['valorTotal']."\r\n");
+    	}
+    
+    	return $num_registros;
+    }
+    
     private function fileAF($cliente, $f_inicio, $f_fin){
     
     	$dir = $this->container->getParameter('knx.directorio.rips')."src/";
@@ -1549,6 +1693,43 @@ class FacturaController extends Controller
     	$query->setParameter('estado', 'C');
     
     	$entity = $query->getArrayResult();
+    	
+    	$dql= " SELECT
+			    	f.id AS factura,
+    				f.fecha,
+    				p.identificacion AS id,
+			    	p.tipoId,
+    				SUM (fi.vrFacturado) AS valor,
+			    	SUM (fi.pagoPte) AS copago,
+                    SUM (fi.recoIps) AS ips
+		    	FROM
+		    		FacturacionBundle:FacturaImv fi
+    			JOIN
+    				fi.factura f
+    			JOIN
+    				f.paciente p
+		    	WHERE
+			    	f.fecha > :inicio AND
+			    	f.fecha <= :fin AND
+			    	f.estado = :estado AND
+			    	f.cliente = :cliente
+    			GROUP BY
+    				f.id";
+    	
+    	$query = $em->createQuery($dql);
+
+    	$query->setParameter('inicio', $f_inicio.' 00:00:00');
+    	$query->setParameter('fin', $f_fin.' 23:59:00');
+    	$query->setParameter('cliente', $cliente->getId());
+    	$query->setParameter('estado', 'C');
+    	
+    	$imv = $query->getArrayResult();
+    	
+    	foreach ($imv as $value){
+    		$entity[] = $value;
+    	}
+    	 
+    	sort($entity);
     	 
     	$periodo = explode("-", $f_fin);
     	$subfijo = $periodo[1].$periodo[0];
@@ -1611,6 +1792,40 @@ class FacturaController extends Controller
     	$query->setParameter('estado', 'C');
     
     	$entity = $query->getArrayResult();
+    	
+    	$dql= " SELECT
+			    	f.id AS factura,
+			    	i.tipoImv as tipoCargo,
+			    	SUM(fi.cantidad) AS cantidad,
+			    	SUM(fi.valorTotal) AS valor
+		    	FROM
+		    		FacturacionBundle:FacturaImv fi
+		    	JOIN
+		    		fi.factura f
+    			JOIN
+		    		fi.imv i
+		    	WHERE
+			    	f.fecha > :inicio AND
+			    	f.fecha <= :fin AND
+			    	f.estado = :estado AND
+			    	f.cliente = :cliente
+			    GROUP BY
+    				i.tipoImv, f.id";
+    	
+    	$query = $em->createQuery($dql);
+    	
+    	$query->setParameter('inicio', $f_inicio.' 00:00:00');
+    	$query->setParameter('fin', $f_fin.' 23:59:00');
+    	$query->setParameter('cliente', $cliente->getId());
+    	$query->setParameter('estado', 'C');
+    	
+    	$medicamentos = $query->getArrayResult();
+    	
+    	foreach ($medicamentos as $value){
+    		$entity[] = $value;
+    	}
+    	
+    	sort($entity);
     	 
     	$periodo = explode("-", $f_fin);
     	$subfijo = $periodo[1].$periodo[0];
@@ -1622,8 +1837,7 @@ class FacturaController extends Controller
     		return $this->redirect($this->generateUrl('factura_cliente_list'));
     	}
     	
-    	$concepto = array('P' => '03','LB' => '02','CE' => '01');
-    	 
+    	$concepto = array('P' => '03','LB' => '02','CE' => '01','OS' => '09','M' => '12','I' => '09','V' => '09','MP' => '09');
     	
 		foreach ($entity as $value){
 			fwrite($gestor, "".$value["factura"].",".$empresa->getHabilitacion().",".$concepto[$value['tipoCargo']].",".$value["cantidad"].",0,".$value["valor"].".00\r\n");
@@ -1632,7 +1846,7 @@ class FacturaController extends Controller
     	return count($entity);
     }
     
-    private function fileCt($us, $ap, $ac, $ad, $af, $f_fin){
+    private function fileCt($us, $ap, $ac, $ad, $af, $am, $at, $f_fin){
     
     	$dir = $this->container->getParameter('knx.directorio.rips')."src/";
     	
@@ -1657,6 +1871,8 @@ class FacturaController extends Controller
     	fwrite($gestor, "".$empresa->getHabilitacion().",".$fecha->format('d/m/Y').",AD".$subfijo.",".$ad."\r\n");
     	fwrite($gestor, "".$empresa->getHabilitacion().",".$fecha->format('d/m/Y').",AC".$subfijo.",".$ac."\r\n");
     	fwrite($gestor, "".$empresa->getHabilitacion().",".$fecha->format('d/m/Y').",AP".$subfijo.",".$ap."\r\n");
+    	fwrite($gestor, "".$empresa->getHabilitacion().",".$fecha->format('d/m/Y').",AM".$subfijo.",".$am."\r\n");
+    	fwrite($gestor, "".$empresa->getHabilitacion().",".$fecha->format('d/m/Y').",AT".$subfijo.",".$at."\r\n");
     
     	return true;
     }
