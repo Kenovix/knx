@@ -195,6 +195,9 @@ class HcType extends AbstractType {
 				->add('evolucion', 'textarea',
 						array('label' => 'Evolucion:', 'required' => false,
 								'attr' => array('placeholder' => 'Evolucion')))
+                                ->add('ordenmedica', 'textarea',
+						array('label' => 'Ordenes Medicas:', 'required' => false,
+								'attr' => array('placeholder' => 'Orden Medica')))
 				/* End Medico*/
 
 				/* Start Egreso */

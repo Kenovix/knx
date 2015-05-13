@@ -477,7 +477,6 @@ class FacturaController extends Controller
 									 JOIN
 										ip.imv i
 									 WHERE
-										i.tipoImv = 'MP' AND
     									ip.pyp = :categoria
 									 ORDER BY
 										i.nombre ASC");
@@ -500,8 +499,7 @@ class FacturaController extends Controller
     									ic.contrato ct
     								 JOIN
     									ct.cliente cli
-									 WHERE
-										i.tipoImv != 'MP' AND
+									 WHERE										
     									cli.id = :cliente
 									 ORDER BY
 										i.nombre ASC");

@@ -124,6 +124,8 @@ nota_print:
     pattern:  /nota/{historia}/print
     defaults: { _controller: HistoriaBundle:Nota:print }
     
+   
+    
 #**************** DIAGNOSTICO HISTORIA ***********************#
 historia_dxCodeSearch:
     pattern:  /dxCode/search/historia_dx
