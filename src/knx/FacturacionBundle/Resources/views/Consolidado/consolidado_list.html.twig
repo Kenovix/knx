@@ -6,7 +6,7 @@
 
 {% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
 
-{% block titulo %}Informe Facturación{% endblock %}
+{% block titulo %}Informe de facturación{% endblock %}
 
 {% block msg %}
 	{% if app.session.hasFlash('ok') %}
@@ -29,61 +29,54 @@
 
 {% block cuerpo %}
 
-<p align="left">Consolidado Cliente:<b>{{ cliente.nombre }}</b></p>
+<p align="left">Consolidado cliente:<b>{{ cliente.nombre }}</b></p>
 <p align="left">Fecha Inicial:<b>{{ f_inicio}}</b> - Fecha Final:<b>{{ f_fin}}</b></p>
+	<table border="1">
+	    <thead>
+		    <tr>
+	    	    <th width="30px"><b>No.</b></th>
+               	<th width="80px"><b>Fecha.</b></th>
+                <th width="50px"><b>Factura</b></th>
+              	<th width="30px"><b>Tipo</b></th>
+              	<th width="90px"><b>Identificación</b></th>
+               	<th width="200px"><b>Paciente</b></th>
+                <th width="80px"><b>Facturado</b></th>
+             	<th width="50px"><b>CargoIps</b></th>
+	            <th width="60px"><b>Copago</b></th>
+                <th width="80px"><b>Valor Total</b></th>
+                <th width="50px"><b>Estado</b></th>
+	     	</tr>
+		</thead>
+	    <tbody>
+        	
+			{% set ips = 0 %}
+            {% set copago1 = 0 %}
+            {% set valor = 0 %}
 
-
-	      {% if consolidado %}
-         
-
-	       <table border="1">
-
-	        <thead>
-	            <tr>
-	                <th width="30px"><b>No.</b></th>
-                	<th width="80px"><b>Fecha.</b></th>
-                        <th width="50px"><b>Factura</b></th>
-                	<th width="30px"><b>Tipo</b></th>
-                	<th width="90px"><b>Identificación</b></th>
-                	<th width="200px"><b>Paciente</b></th>
-                        <th width="80px"><b>Facturado</b></th>
-               	 	<th width="50px"><b>CargoIps</b></th>
-	                <th width="60px"><b>Copago</b></th>
-                        <th width="80px"><b>Valor Total</b></th>
-                        <th width="50px"><b>Estado</b></th>
-
-
-	            </tr>
-	        </thead>
-	        <tbody>
-                     {% set ips = 0 %}
-                     {% set copago1 = 0 %}
-                     {% set valor = 0 %}
-                        
-                        
-	        {% for consolidados in consolidado %}
-                        {% set ips = ips + consolidados.asumido %}
-                        {% set valor = valor + consolidados.facturado %}
-                        {% set copago1 = copago1 + consolidados.copago %}
-	            <tr>
-	                <td width="30px"> {{  loop.index }}</td>
-	                <td width="80px"> {{  consolidados.fecha|date('d-m-Y')}}</td>
-                        <td width="50px"> {{  consolidados.id}}</td>
-	                <td width="30px"> {{  consolidados.tipoId }}</td>
-	             	<td width="90px"> {{  consolidados.identificacion}}</td>
-            		<td width="200px"> {{ consolidados.priNombre|capitalize }} {{ consolidados.segNombre|capitalize }} {{ consolidados.priApellido|capitalize }} {{ consolidados.segApellido|capitalize }}</td>
-            		<td width="50px"> ${{  consolidados.facturado |number_format(0)}}</td>
-                        <td width="50px"> ${{  consolidados.asumido |number_format(0)}}</td>
-            		<td width="60px"> ${{  consolidados.copago|number_format(0)}}</td>
-                        <td width="80px"> ${{  consolidados.total|number_format(0)}}</td>
-                        <td width="80px"> {{  consolidados.estado}}</td>
-
-	            </tr>
-                    
-                      {% else %}
-         	<tr>
-         		<td colspan="8">No tenemos actividades realizadas en este periodo de tiempo.</td>
-         	</tr>
+	        {% for consolidados in consolidado_cargos %}
+            	
+	        	{% set ips = ips + consolidados.asumido %}
+                {% set valor = valor + consolidados.facturado %}
+                {% set copago1 = copago1 + consolidados.copago %}                
+                
+                <tr>
+			    	<td width="30px"> {{  loop.index }}</td>
+		            <td width="80px"> {{  consolidados.fecha|date('d-m-Y')}}</td>
+	                <td width="50px"> {{  consolidados.id}}</td>
+		            <td width="30px"> {{  consolidados.tipoId }}</td>
+		            <td width="90px"> {{  consolidados.identificacion}}</td>
+	            	<td width="200px"> {{ consolidados.priNombre|capitalize }} {{ consolidados.segNombre|capitalize }} {{ consolidados.priApellido|capitalize }} {{ consolidados.segApellido|capitalize }}</td>
+	            	<td width="50px"> ${{ (consolidados.facturado) | number_format(0)}}</td>
+	                <td width="50px"> ${{  (consolidados.asumido) | number_format(0)}}</td>
+	            	<td width="60px"> ${{  (consolidados.copago) | number_format(0)}}</td>
+	                <td width="80px"> ${{  (consolidados.total) | number_format(0)}}</td>
+	                <td width="80px"> {{  consolidados.estado}}</td>
+		    	</tr>
+	            
+			{% else %}
+         		<tr>
+         			<td colspan="8">No tenemos actividades realizadas en este periodo de tiempo.</td>
+         		</tr>
 	        {% endfor %}
                 <tr>
         		<td colspan="9"><br /><br />VALOR ACTIVIDADES: <b>${{ (valor)|number_format(0) }}</b></td>
@@ -99,7 +92,17 @@
         	</tr>    
 	        </tbody>
 	    </table>
-	    {% endif %}
+	    
+	    <br /><br />
+	    
+	    <form action={{ path('consolidados_imprimir') }} method="post">
+	    	<input name="cliente" id="cliente" type="hidden" value="{{ cliente.id }}" />
+	    	<input name="f_inicio" id="f_inicio" type="hidden" value="{{ f_inicio }}" />
+	    	<input name="f_fin" id="f_fin" type="hidden" value="{{ f_fin }}" />
+	    	
+	    	<input class="btn btn-primary" name="guardar" type="submit" value="Exportar" />
+	    </form>
+
 {% endblock %}
 
 

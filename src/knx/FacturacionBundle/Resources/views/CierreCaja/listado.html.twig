@@ -6,7 +6,7 @@
 
 {% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
 
-{% block titulo %}Cierre Caja{% endblock %}
+{% block titulo %}Cierre de caja{% endblock %}
 
 {% block msg %}
 	{% if app.session.hasFlash('ok') %}
@@ -27,83 +27,71 @@
 	{% endif %}
 {% endblock %}
 
-
 {% block cuerpo %}
-<p align="left">Facturador:<b>{{facturas.nombre }} {{ facturas.apellido|capitalize }} </b></p>
+<p align="left">Facturador:<b>{{facturas.nombre | capitalize }} {{ facturas.apellido | capitalize }} </b></p>
 <p align="left">Fecha Inicial:<b>{{ f_inicio}}</b> - Fecha Final:<b>{{ f_fin}}</b></p>
 
-
-	      {% if cierre %}
-         
-
-	       <table border="1">
-
-	        <thead>
-	            <tr>
-	                <th width="30px"><b>No.</b></th>
-                	<th width="70px"><b>Fecha.</b></th>
-                        <th width="50px"><b>Factura</b></th>
-                	<th width="30px"><b>Tipo</b></th>
-                	<th width="90px"><b>Identificación</b></th>
-                	<th width="200px"><b>Paciente</b></th>
-                        <th width="50px"><b>Facturado</b></th>
-	                <th width="50px"><b>Copago</b></th>
-                        <th width="50px"><b>CargoIps</b></th>
-                        <th width="80px"><b>Valor Total</b></th>
-                        <th width="80px"><b>Cliente</b></th>
-                        <th width="80px"><b>Estado</b></th>
-
-
-	            </tr>
-	        </thead>
-	        <tbody>
-                     {% set ips = 0 %}
-                     {% set copago1 = 0 %}
-                     {% set valor = 0 %}
+	<table border="1">
+	    <thead>
+		    <tr>
+	    	    <th width="30px"><b>No.</b></th>
+               	<th width="70px"><b>Fecha.</b></th>
+                <th width="50px"><b>Factura</b></th>
+               	<th width="30px"><b>Tipo</b></th>
+               	<th width="90px"><b>Identificación</b></th>
+               	<th width="200px"><b>Paciente</b></th>
+                <th width="50px"><b>Facturado</b></th>
+	            <th width="50px"><b>Copago</b></th>
+                <th width="50px"><b>CargoIps</b></th>
+                <th width="80px"><b>Valor Total</b></th>
+                <th width="80px"><b>Cliente</b></th>
+                <th width="80px"><b>Estado</b></th>
+			</tr>
+		</thead>
+		<tbody>
+	
+		{% set ips = 0 %}
+    	{% set copago1 = 0 %}
+    	{% set valor = 0 %}
                         
-                        
-	        {% for cierre in cierre %}
-                        {% set ips = ips + cierre.asumido %}
-                        {% set valor = valor + cierre.facturado%}
-                        {% set copago1 = copago1 + cierre.copago %}
-	            <tr>
-	                <td width="30px"> {{  loop.index }}</td>
-	                <td width="70px"> {{  cierre.fecha|date('d-m-Y')}}</td>
-                        <td width="50px"> {{  cierre.factura}}</td>
-	                <td width="30px"> {{  cierre.tipoId }}</td>
-	             	<td width="90px"> {{  cierre.identificacion}}</td>
-            		<td width="200px"> {{ cierre.priNombre|capitalize }} {{ cierre.segNombre|capitalize }} {{ cierre.priApellido|capitalize }} {{ cierre.segApellido|capitalize }}</td>
-            		<td width="80px"> ${{  cierre.facturado|number_format(0)}}</td>
-                        <td width="50px"> ${{  cierre.copago|number_format(0)}}</td>
-                        <td width="50px"> ${{  cierre.asumido|number_format(0)}}</td>
-                        <td width="80px"> ${{  cierre.total|number_format(0)}}</td>
-                        <td width="80px"> {{  cierre.nombre}}</td>
-                        <td width="80px"> {{  cierre.estado}}</td>
+		{% for cierre in cierre %}
+		    
+		   	{% set ips = ips + cierre.asumido %}
+		    {% set valor = valor + cierre.facturado%}
+		   	{% set copago1 = copago1 + cierre.copago %}
+				            
+	      	<tr>
+		    	<td width="30px"> {{  loop.index }}</td>
+		        <td width="70px"> {{  cierre.fecha|date('d-m-Y')}}</td>
+	            <td width="50px"> {{  cierre.factura}}</td>
+		        <td width="30px"> {{  cierre.tipoId }}</td>
+		        <td width="90px"> {{  cierre.identificacion}}</td>
+	            <td width="200px"> {{ cierre.priNombre|capitalize }} {{ cierre.segNombre|capitalize }} {{ cierre.priApellido|capitalize }} {{ cierre.segApellido|capitalize }}</td>
+	            <td width="80px"> ${{ (cierre.facturado) | number_format(0)}}</td>
+	            <td width="50px"> ${{ (cierre.copago) | number_format(0)}}</td>
+	            <td width="50px"> ${{ (cierre.asumido) | number_format(0)}}</td>
+	            <td width="80px"> ${{ (cierre.total) | number_format(0)}}</td>
+	            <td width="80px"> {{  cierre.nombre}}</td>
+	            <td width="80px"> {{  cierre.estado}}</td>
+			</tr>			            
 
-	            </tr>
-                    
-                      {% else %}
-         	<tr>
-         		<td colspan="9">No tenemos actividades realizadas en este periodo de tiempo.</td>
-         	</tr>
-	        {% endfor %}
-                <tr>
-        		<td colspan="10"><br /><br />VALOR ACTIVIDADES: <b>${{ (valor)|number_format(0) }}</b></td>
-        	</tr>
-        	<tr>
-        		<td colspan="10"><br /><br />RECUADOS: <b>${{ (copago1)|number_format(0) }}</b></td>
-        	</tr> 
-                <tr>
-        		<td colspan="10"><br /><br />Cargado a IPS: <b>${{ (ips)|number_format(0) }}</b></td>
-        	</tr> 
-        	<tr>
-                    <td colspan="10"><br /><br />TOTAL A COBRAR: <b>${{ (valor-copago1-ips)|number_format(0) }}</b></td>
-        	</tr>    
-	        </tbody>
-	    </table>
-	    {% endif %}
-{% endblock %}
-
-
-{% block footer %}
+		{% else %}
+			<tr>
+	    		<td colspan="10">No tenemos actividades realizadas en este periodo de tiempo.</td>
+	        </tr>
+		{% endfor %}
+	        <tr>
+	    		<td colspan="10"><br /><br />VALOR ACTIVIDADES: <b>${{ (valor)|number_format(0) }}</b></td>
+	        </tr>
+	        <tr>
+	        	<td colspan="10"><br /><br />RECUADOS: <b>${{ (copago1)|number_format(0) }}</b></td>
+	        </tr> 
+	        <tr>
+	        	<td colspan="10"><br /><br />Cargado a IPS: <b>${{ (ips)|number_format(0) }}</b></td>
+	        </tr> 
+	        <tr>
+	        	<td colspan="10"><br /><br />TOTAL A COBRAR: <b>${{ (valor-copago1-ips)|number_format(0) }}</b></td>
+	        </tr>    
+		</tbody>
+	</table>
 {% endblock %}
