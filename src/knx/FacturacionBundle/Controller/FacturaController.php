@@ -1528,7 +1528,11 @@ class FacturaController extends Controller
 			    	f.autorizacion,
     				f.pyp,
     				c.codigo as cliente,
-			    	i.cums,
+			    	i.codAdmin,
+    				i.nombre,
+    				i.formaFarmaceutica,
+    				i.concentracion,
+    				i.uniMedida,
     				fi.cantidad,
 			    	fi.vrUnitario,
     				fi.valorTotal
@@ -1576,7 +1580,7 @@ class FacturaController extends Controller
     	foreach ($entity as $value){
     		
     		$num_registros += 1;
-    		fwrite($gestor, "".$value['factura'].",".$empresa->getHabilitacion().",".$value['tipoId'].",".$value['id'].",".$value['autorizacion'].",".$value['cums'].",1,,,,,".$value['cantidad'].",".$value['vrUnitario'].",".$value['valorTotal']."\r\n");
+    		fwrite($gestor, "".$value['factura'].",".$empresa->getHabilitacion().",".$value['tipoId'].",".$value['id'].",".$value['autorizacion'].",".$value['codAdmin'].",1,".$value['nombre'].",".$value['formaFarmaceutica'].",".$value['concentracion'].",".$value['uniMedida'].",".$value['cantidad'].",".$value['vrUnitario'].",".$value['valorTotal']."\r\n");
 
     	}
     

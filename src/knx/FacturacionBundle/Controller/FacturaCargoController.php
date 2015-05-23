@@ -1021,6 +1021,7 @@ class FacturaCargoController extends Controller
     	$em = $this->getDoctrine()->getEntityManager();
 
     	if(trim($f_inicio)){
+    		
     		$desde = explode('/',$f_inicio);
     
     		if(!checkdate($desde[1],$desde[0],$desde[2])){
@@ -1033,6 +1034,7 @@ class FacturaCargoController extends Controller
     	}
     	 
     	if(trim($f_fin)){
+    		
     		$hasta = explode('/',$f_fin);
     
     		if(!checkdate($hasta[1],$hasta[0],$hasta[2])){
