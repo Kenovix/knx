@@ -355,7 +355,6 @@ class FacturaCargoController extends Controller
 			        c.id = :cliente
 			    	AND f.fecha > :inicio
 			    	AND f.fecha <= :fin
-    				AND f.estado != 'X'
                     GROUP BY fc.factura
 		    	ORDER BY
 		    		fc.factura ASC";
@@ -396,7 +395,6 @@ class FacturaCargoController extends Controller
 			        c.id = :cliente
 			    	AND f.fecha > :inicio
 			    	AND f.fecha <= :fin
-    				AND f.estado != 'X'
                     GROUP BY fi.factura
 		    	ORDER BY
 		    		fi.factura ASC";
@@ -535,7 +533,7 @@ class FacturaCargoController extends Controller
 			        c.id = :cliente
 			    	AND f.fecha > :inicio
 			    	AND f.fecha <= :fin
-    				AND f.estado != 'X'
+    				AND f.estado = 'C'
                     GROUP BY fc.factura
 		    	ORDER BY
 		    		fc.factura ASC";
@@ -576,7 +574,7 @@ class FacturaCargoController extends Controller
 			        c.id = :cliente
 			    	AND f.fecha > :inicio
 			    	AND f.fecha <= :fin
-    				AND f.estado != 'X'
+    				AND f.estado = 'C'
                     GROUP BY fi.factura
 		    	ORDER BY
 		    		fi.factura ASC";
@@ -1076,7 +1074,7 @@ class FacturaCargoController extends Controller
 					c.id = :cliente
 			    	AND f.fecha > :inicio
 			    	AND f.fecha <= :fin
-                    AND f.estado != 'X'";
+                    AND f.estado = 'C'";
                        
     
     	$query = $em->createQuery($dql);
@@ -1104,7 +1102,7 @@ class FacturaCargoController extends Controller
 					c.id = :cliente
 			    	AND f.fecha > :inicio
 			    	AND f.fecha <= :fin
-                    AND f.estado != 'X'";
+                    AND f.estado = 'C'";
     	 
     	
     	$query = $em->createQuery($dql);
