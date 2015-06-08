@@ -9,7 +9,7 @@
 		<tr>
 			<td><h4 align="left">{{ factura.fecha | date('d-m-Y H:i') }}</h4></td>
 			<td></td>
-			<td><h3 align="right">FACTURA DE VENTA No. {{ factura.id }}</h3></td>
+			<td><h4 align="right">FACTURA DE VENTA No. {{ factura.id }}</h4></td>
 		</tr>
 		<tr>
 			<td><strong>Identificación:</strong> {{ factura.paciente.identificacion }}</td>
@@ -34,6 +34,11 @@
 			<td><strong>Autorización:</strong> {{ factura.autorizacion }}</td>
 			<td><strong>Profesional:</strong> {{ factura.profesional }}</td>			
 			<td><strong>Tipo actividad:</strong> {% if factura.pyp is empty %} Normal {% else %} PYP {% endif %}</td>
+		</tr>
+                <tr>
+			<td></td>
+			<td></td>			
+                        <td><strong>Nombre Pyp:</strong>  {% if factura.pyp is empty %}  {%else%} {{pyp.nombre}} {%endif%} </td>
 		</tr>
 	</tbody>
 </table>

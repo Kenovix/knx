@@ -866,17 +866,41 @@ class FacturaController extends Controller
     	$factura_cargo = $em->getRepository('FacturacionBundle:FacturaCargo')->findBy(array('factura' => $factura->getId()));    	
     	$mupio = $em->getRepository('ParametrizarBundle:Mupio')->find($factura->getPaciente()->getMupio());
     	
+        
     	// se consulta por la informacion del profesional para ser visulizada en la factura.
     	$profesional = $em->getRepository('UsuarioBundle:Usuario')->find($factura->getProfesional());
     	$factura->setProfesional($profesional->getNombre().' '.$profesional->getApellido());
     	
     	$pdf = $this->get('white_october.tcpdf')->create();
-    	
-    	$html = $this->renderView('FacturacionBundle:Factura:factura.pdf.twig',array(
+        
+        if ($factura->getPyp()){
+                  $pyp = $em->getRepository('ParametrizarBundle:Pyp')->find($factura->getPyp());
+                    $html = $this->renderView('FacturacionBundle:Factura:factura.pdf.twig',array(
     								'factura' => $factura,
+                                                                'pyp' => $pyp,
     								'cargos' => $factura_cargo,
-    								'mupio' => $mupio
-    	));
+    								'mupio' => $mupio));
+            
+            
+        }else{
+            
+            
+             $html = $this->renderView('FacturacionBundle:Factura:factura.pdf.twig',array(
+    								'factura' => $factura,
+                                                               // 'pyp' => $pyp,
+    								'cargos' => $factura_cargo,
+    								'mupio' => $mupio));
+            
+            
+            
+        }
+       
+     
+            
+    
+        
+    	
+    	
     	
     	return $pdf->quick_pdf($html, 'factura_venta_'.$factura->getId().'.pdf', 'D');    	    	
     }
