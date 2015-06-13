@@ -1579,7 +1579,8 @@ class FacturaController extends Controller
 			    	f.estado = :estado AND
 			    	f.cliente = :cliente AND
     				f.tipo = 'M' AND
-    				i.tipoImv = 'M'
+    				i.tipoImv = 'M' OR
+                                i.tipoImv = 'MP'
 		    	ORDER BY
 		    		f.fecha ASC";
     
