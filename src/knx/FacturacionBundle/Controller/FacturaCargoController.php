@@ -260,9 +260,7 @@ class FacturaCargoController extends Controller
     	$em = $this->getDoctrine()->getEntityManager();
     	 
     	$clientes = $em->getRepository("ParametrizarBundle:Cliente")->findAll();
-    	 
-    	  	
-    
+
     	return $this->render('FacturacionBundle:Consolidado:consolidado_final.html.twig', array(
     			'clientes' => $clientes,
     	));
@@ -278,6 +276,7 @@ class FacturaCargoController extends Controller
     	$cliente = $request->request->get('cliente');
     	$f_inicio = $request->request->get('f_inicio');
     	$f_fin = $request->request->get('f_fin');
+    	$tipos = $request->request->get('tipo');
     	
     	$url = 'consolidados_vista';
     	 
@@ -307,7 +306,6 @@ class FacturaCargoController extends Controller
     	 
     	$em = $this->getDoctrine()->getEntityManager();
     	 
-    	
     	if(is_numeric(trim($cliente))){
     		$obj_cliente = $em->getRepository("ParametrizarBundle:Cliente")->find($cliente);
     	}else{
@@ -318,13 +316,18 @@ class FacturaCargoController extends Controller
     	if(!$obj_cliente){
     		$this->get('session')->setFlash('info', 'El cliente seleccionado no existe.');
     		return $this->redirect($this->generateUrl($url));
-    	}
-    	 
+    	}    	 
     	
     	if(is_object($obj_cliente)){
     		$con_cliente = "AND f.cliente =".$cliente;
     	}else{
     		$con_cliente = "";
+    	}
+    	
+    	if(trim($tipos) == 'P'){
+    		$tipo = " AND f.pyp != 'NULL' ";
+    	}else{
+    		$tipo = " AND f.pyp = 'NULL' ";
     	}
     		 
     	$dql= " SELECT
@@ -354,8 +357,9 @@ class FacturaCargoController extends Controller
     			WHERE
 			        c.id = :cliente
 			    	AND f.fecha > :inicio
-			    	AND f.fecha <= :fin
-                    GROUP BY fc.factura
+			    	AND f.fecha <= :fin".
+    				$tipo
+                    ."GROUP BY fc.factura
 		    	ORDER BY
 		    		fc.factura ASC";
     
@@ -394,8 +398,9 @@ class FacturaCargoController extends Controller
     			WHERE
 			        c.id = :cliente
 			    	AND f.fecha > :inicio
-			    	AND f.fecha <= :fin
-                    GROUP BY fi.factura
+			    	AND f.fecha <= :fin".
+    				$tipo
+                    ."GROUP BY fi.factura
 		    	ORDER BY
 		    		fi.factura ASC";
     	
@@ -429,6 +434,7 @@ class FacturaCargoController extends Controller
         		               'cliente' =>$obj_cliente,
                 	           'f_inicio' =>$f_inicio,
                     	       'f_fin'    => $f_fin,
+        					   'tipo' => $tipos,
                         	   'consolidado_cargos' => $consolidado_cargos
         ));
     }    
@@ -463,6 +469,7 @@ class FacturaCargoController extends Controller
     	$cliente = $request->request->get('cliente');
     	$f_inicio = $request->request->get('f_inicio');
     	$f_fin = $request->request->get('f_fin');
+    	$tipos = $request->request->get('tipo');
     	
     	$url = 'consolidados_vista_imprimir';
     	 
@@ -505,6 +512,12 @@ class FacturaCargoController extends Controller
     		return $this->redirect($this->generateUrl($url));
     	}
     	
+    	if(trim($tipos) == 'P'){
+    		$tipo = " AND f.pyp != 'NULL' ";
+    	}else{
+    		$tipo = " AND f.pyp = 'NULL' ";
+    	}
+    	
     	$dql= " SELECT
 			    	f.id,
                     f.estado,
@@ -533,8 +546,9 @@ class FacturaCargoController extends Controller
 			        c.id = :cliente
 			    	AND f.fecha > :inicio
 			    	AND f.fecha <= :fin
-    				AND f.estado = 'C'
-                    GROUP BY fc.factura
+    				AND f.estado = 'C'".
+    				$tipo
+                    ."GROUP BY fc.factura
 		    	ORDER BY
 		    		fc.factura ASC";
     	
@@ -574,8 +588,9 @@ class FacturaCargoController extends Controller
 			        c.id = :cliente
 			    	AND f.fecha > :inicio
 			    	AND f.fecha <= :fin
-    				AND f.estado = 'C'
-                    GROUP BY fi.factura
+    				AND f.estado = 'C'".
+    				$tipo
+                    ."GROUP BY fi.factura
 		    	ORDER BY
 		    		fi.factura ASC";
     	
@@ -606,6 +621,7 @@ class FacturaCargoController extends Controller
 				    			'cliente' =>$obj_cliente,
 				    			'f_inicio' =>$f_inicio,
 				    			'f_fin'    => $f_fin,
+        						'tipo'    => $tipos,
 				    			'consolidado_cargos' => $consolidado_cargos
 				    	));
         
@@ -1014,6 +1030,7 @@ class FacturaCargoController extends Controller
     	$cliente = $request->request->get('cliente');
     	$f_inicio = $request->request->get('f_inicio');
     	$f_fin = $request->request->get('f_fin');
+    	$tipos = $request->request->get('tipo');
     	
     	$url = 'factura_final_vista';
     	$em = $this->getDoctrine()->getEntityManager();
@@ -1058,6 +1075,12 @@ class FacturaCargoController extends Controller
     		$this->get('session')->setFlash('info', 'El cliente seleccionado no existe.');
     		return $this->redirect($this->generateUrl($url));
     	}
+    	
+    	if(trim($tipos) == 'P'){
+    		$tipo = " AND f.pyp != 'NULL' ";
+    	}else{
+    		$tipo = " AND f.pyp = 'NULL' ";
+    	}
 
     	$dql= " SELECT
                 	SUM(fc.vrFacturado) AS facturado,
@@ -1075,8 +1098,9 @@ class FacturaCargoController extends Controller
     			WHERE
 					c.id = :cliente
 			    	AND f.fecha > :inicio
-			    	AND f.fecha <= :fin
-                    AND f.estado = 'C'";
+			    	AND f.fecha <= :fin".
+			    	$tipo
+			    	."AND f.estado = 'C'";
                        
     
     	$query = $em->createQuery($dql);
@@ -1103,8 +1127,9 @@ class FacturaCargoController extends Controller
     			WHERE
 					c.id = :cliente
 			    	AND f.fecha > :inicio
-			    	AND f.fecha <= :fin
-                    AND f.estado = 'C'";
+			    	AND f.fecha <= :fin".
+			    	$tipo
+			    	."AND f.estado = 'C'";
     	 
     	
     	$query = $em->createQuery($dql);
@@ -1130,6 +1155,10 @@ class FacturaCargoController extends Controller
     	$entity->setIva(0); 
         $entity->setCobrar(0);
         
+        if(trim($tipos) == 'P'){
+        	$entity->setObservacion('Actividades de Promoción y Prevención');
+        }
+        
         $form   = $this->createForm(new FacturacionType(), $entity);
 
         if(!$final)
@@ -1149,13 +1178,11 @@ class FacturaCargoController extends Controller
                             'cliente' =>$obj_cliente,
                             'f_inicio' =>$f_inicio,
                             'f_fin'    => $f_fin,
+            				'tipo'    => $tipos,
                             'final' => $final,
             				'final_imv' => $final_imv,
                             'form'   => $form->createView()
-                ));  
-
-    	
-    	
+                ));
     }
     
     public function saveFactfinalAction($cliente){
@@ -1163,14 +1190,24 @@ class FacturaCargoController extends Controller
         $entity  = new FacturaFinal();
     
     	$request = $this->getRequest();
+    	
+    	$tipos = $request->request->get('tipo');
+    	
     	$form    = $this->createForm(new FacturacionType(), $entity);
     	$form->bindRequest($request);
     
     	if ($form->isValid()) {
     		
+    		if(trim($tipos) == 'P'){
+    			$tipo = 'P';
+    		}else{
+    			$tipo = 'F';
+    		}
+    		
     		$datos = $form->getData();
-                $inicio = $datos->getInicio();
-                $fin = $datos->getFin();
+           	
+    		$inicio = $datos->getInicio();
+            $fin = $datos->getFin();
 
     		$em = $this->getDoctrine()->getEntityManager();
 
@@ -1189,7 +1226,7 @@ class FacturaCargoController extends Controller
     		$entity->setInicio($iniciob);
     		$entity->setFin($finb);
     		$entity->setEstado('G');
-    		$entity->setTipo('F');
+    		$entity->setTipo($tipo);
     		$entity->setCopago($datos->getCopago());
                 $entity->setAsumido($datos->getAsumido());
                 $entity->setCobrar($datos->getValor()-$datos->getCopago()-$datos->getAsumido());

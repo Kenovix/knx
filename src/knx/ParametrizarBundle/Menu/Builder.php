@@ -59,7 +59,6 @@ class Builder extends ContainerAware
 			$menu['Informes']['Facturación']['Cierre Caja']->addChild('Imprimir', array('route' => 'cierre_vista_imprimir'));
                         $menu['Informes']['Facturación']->addChild('Consolidados', array('uri' => '#'));
                         $menu['Informes']['Facturación']['Consolidados']->addChild('Consultar', array('route' => 'consolidados_vista'));
-			$menu['Informes']['Facturación']['Consolidados']->addChild('Imprimir', array('route' => 'consolidados_vista_imprimir'));
                         $menu['Informes']['Facturación']->addChild('Factura Final', array('route' => 'factura_final_vista'));
                         $menu['Informes']['Facturación']->addChild('Factura Final', array('uri' => '#'));
                         $menu['Informes']['Facturación']['Factura Final']->addChild('Generar', array('route' => 'factura_final_vista'));
@@ -197,11 +196,11 @@ class Builder extends ContainerAware
 			$menu['Informes']['Facturación']['Cierre Caja']->addChild('Imprimir', array('route' => 'cierre_vista_imprimir'));
                         $menu['Informes']['Facturación']->addChild('Consolidados', array('uri' => '#'));
                         $menu['Informes']['Facturación']['Consolidados']->addChild('Consultar', array('route' => 'consolidados_vista'));
-			$menu['Informes']['Facturación']['Consolidados']->addChild('Imprimir', array('route' => 'consolidados_vista_imprimir'));
                         $menu['Informes']['Facturación']->addChild('Factura Final', array('route' => 'factura_final_vista'));
                         $menu['Informes']['Facturación']->addChild('Factura Final', array('uri' => '#'));
                         $menu['Informes']['Facturación']['Factura Final']->addChild('Generar', array('route' => 'factura_final_vista'));
                         $menu['Informes']['Facturación']['Factura Final']->addChild('Anular/Reimprimir', array('route' => 'facturas_final_search'));
+                        
                         $menu['Informes']->addChild('Cambiar Factura', array('uri' => '#'));
                         $menu['Informes']['Cambiar Factura']->addChild('Cliente', array('route' => 'facturas_searchcf'));
                         $menu['Informes']['Cambiar Factura']->addChild('Medico', array('route' => 'facturas_searchpro'));
@@ -310,7 +309,6 @@ class Builder extends ContainerAware
 			$menu['Informes']['Facturación']['Cierre Caja']->addChild('Imprimir', array('route' => 'cierre_vista_imprimir'));
                         $menu['Informes']['Facturación']->addChild('Consolidados', array('uri' => '#'));
                         $menu['Informes']['Facturación']['Consolidados']->addChild('Consultar', array('route' => 'consolidados_vista'));
-			$menu['Informes']['Facturación']['Consolidados']->addChild('Imprimir', array('route' => 'consolidados_vista_imprimir'));
                         $menu['Informes']['Facturación']->addChild('Factura Final', array('route' => 'factura_final_vista'));
                         $menu['Informes']['Facturación']->addChild('Factura Final', array('uri' => '#'));
                         $menu['Informes']['Facturación']['Factura Final']->addChild('Generar', array('route' => 'factura_final_vista'));
@@ -416,7 +414,6 @@ class Builder extends ContainerAware
 			$menu['Informes']['Facturación']['Cierre Caja']->addChild('Imprimir', array('route' => 'cierre_vista_imprimir'));
                         $menu['Informes']['Facturación']->addChild('Consolidados', array('uri' => '#'));
                         $menu['Informes']['Facturación']['Consolidados']->addChild('Consultar', array('route' => 'consolidados_vista'));
-			$menu['Informes']['Facturación']['Consolidados']->addChild('Imprimir', array('route' => 'consolidados_vista_imprimir'));
                         $menu['Informes']['Facturación']->addChild('Factura Final', array('route' => 'factura_final_vista'));
                         $menu['Informes']['Facturación']->addChild('Factura Final', array('uri' => '#'));
                         $menu['Informes']['Facturación']['Factura Final']->addChild('Generar', array('route' => 'factura_final_vista'));
