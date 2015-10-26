@@ -29,7 +29,7 @@
 
 {% block cuerpo %}
 
-<form action="{{ path('paciente_save') }}" method="post" {{ form_enctype(form) }} >
+<form id="gst_new_pac" action="{{ path('paciente_save') }}" method="post" {{ form_enctype(form) }} >
     <fieldset>
     	<legend>Datos del paciente</legend>
     	<div>
@@ -37,7 +37,7 @@
     			<label class="control-label" for="tipoid">
     				<p>Tipo Id (*):
     				<span style='display:inline; white-space:pre; padding-right: 0em;'>	</span>
-    				Numero de Indetificación (*):</p>
+    				Numero de Identificación (*):</p>
     			</label>
 	    	    <div class="controls controls-row">
 	    	    	
@@ -211,6 +211,38 @@
 
 {% block javascripts %}
 <script type="text/javascript">
+
+$("#knxPacientetype_identificacion").change(function(){
+
+	var m = $("#knxPacientetype_identificacion").val().toString().trim();
+	var tipo = $("#knxPacientetype_tipoId").val();
+
+	if (tipo == 'MS' && m != '' ){
+
+		var expreg = new RegExp(/^(\d{5,10})\-([0-9]{1}$)/);
+	
+		if(!expreg.test(m)){
+			alert("Identificación Incorrecta");
+		}
+	}
+});
+
+$("#knxPacientetype_tipoId").change(function(){
+
+	var tipo = $("#knxPacientetype_tipoId").val();
+	var m = $("#knxPacientetype_identificacion").val().toString().trim();
+
+	if (tipo == 'MS' && m != '' ){
+
+		var expreg = new RegExp(/^(\d{5,10})\-([0-9]{1}$)/);
+	
+		if(!expreg.test(m)){
+			alert("Identificación Incorrecta");
+		}
+	}
+});
+
+
 
 $("#knxPacientetype_depto").change(function(){
 		

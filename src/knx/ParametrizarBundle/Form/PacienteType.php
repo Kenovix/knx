@@ -23,10 +23,10 @@ class PacienteType extends AbstractType {
 										'NV' => 'NV',
 										),
 								 'multiple' => false,))
-				->add('identificacion', 'integer',
+				->add('identificacion', 'text',
 						array('required' => true, 'label' => 'Identificación:',
 								'attr' => array(
-										'placeholder' => 'numero de identificación')))
+										'placeholder' => 'número de identificación')))
 				->add('priNombre', 'text',
 						array('required' => true, 'label' => 'Prim. Nombre:',
 								'attr' => array(

@@ -256,86 +256,177 @@
 	        var identificacion = $("#knx_facturacionbundle_facturatype_paciente").val();
 
 	        $("#msg").empty();
+
+	        if(tipoid == 'MS'){
+
+				var m = $("#knx_facturacionbundle_facturatype_paciente").val().toString().trim();
+
+				if (m != '' ){
+	
+					var expreg = new RegExp(/^(\d{5,10})\-([0-9]{1}$)/);
+				
+					if(!expreg.test(m)){
+						alert("Identificación Incorrecta");
+						return false;
+					}else{
+						$("#buscar_paciente").attr('disabled', 'disabled');
+						
+			    		var url="{{ path('facturacion_paciente_buscar') }}";
+			
+			    		$.post(url,{
+			    			tipoid: tipoid,
+			    			identificacion: identificacion
+				         },function(data){
+				             if(data.responseCode==200 ){
+		
+					            $("#msg").removeClass("label-important");
+				            	$("#msg").addClass("label-success");
+								$("#msg").html("Creado el "+data.creado);
+								$("#datos-paciente").html(data.nombre);
+								$("#fn").html(data.nacimiento);
+								$("#edad").html(data.edad);
+								$("#sexo").html(data.sexo);
+								$("#rango").html(data.rango);
+								$("#ta").html(data.afiliacion);
+		
+								var select = $('#knx_facturacionbundle_facturatype_cliente');
+		                		if(select.prop) {
+		                		  var options = select.prop('options');
+		                		}
+		                		else {
+		                		  var options = select.attr('options');
+		                		}
+		                		$('option', select).remove();
+		
+		                	    if(data.cliente){
+		                	    	options[options.length] = new Option('Seleccione cliente', '');
+		
+		                	    	$.each(data.cliente, function(val, text) {
+		                    		    options[options.length] = new Option(text, val);
+		                    		});
+		
+		                    	}else{
+		                    		options[options.length] = new Option('--', '');
+		                        }
+		
+		                		select.val('');
+		                		select.removeAttr('disabled');
+		
+		                		$('#new_afiliacion').removeAttr('disabled');
+		                		$('#new_afiliacion').removeClass('ui-state-disabled');
+		
+		                		$("#btnIframe").attr('disabled', 'disabled');
+		                		
+				             }
+				             else if(data.responseCode==400){
+		
+					            $("#msg").removeClass("label-success");
+								$("#msg").addClass("label-important");
+								$("#msg").html("El paciente con "+tipoid+" número "+identificacion+" no existe en la base de datos, verifique datos e intente nuevamente.");
+								$("#datos-paciente").empty();
+								$("#fn").empty();
+								$("#edad").empty();
+								$("#sexo").empty();
+								$("#rango").empty();
+								$("#ta").empty();
+								$('#knx_facturacionbundle_facturatype_cliente').attr('disabled','disabled');
+		
+								$("#btnIframe").removeAttr('disabled');
+		
+		
+								$('#new_afiliacion').attr('disabled', 'disabled');
+		                		$('#new_afiliacion').addClass('ui-state-disabled');			
+				             }
+				             else{
+				         	    alert("Ha ocurrido un error en el sistema.");
+				             }
+				      	});
+		
+			    		$("#buscar_paciente").removeAttr('disabled');
+					}
+				}
+	        }else{
 	        
-	    	if($.isNumeric(identificacion)){
-
-	    		$("#buscar_paciente").attr('disabled', 'disabled');
+		    	if($.isNumeric(identificacion)){
 	
-	    		var url="{{ path('facturacion_paciente_buscar') }}";
+		    		$("#buscar_paciente").attr('disabled', 'disabled');
+		
+		    		var url="{{ path('facturacion_paciente_buscar') }}";
+		
+		    		$.post(url,{
+		    			tipoid: tipoid,
+		    			identificacion: identificacion
+			         },function(data){
+			             if(data.responseCode==200 ){
 	
-	    		$.post(url,{
-	    			tipoid: tipoid,
-	    			identificacion: identificacion
-		         },function(data){
-		             if(data.responseCode==200 ){
-
-			            $("#msg").removeClass("label-important");
-		            	$("#msg").addClass("label-success");
-						$("#msg").html("Creado el "+data.creado);
-						$("#datos-paciente").html(data.nombre);
-						$("#fn").html(data.nacimiento);
-						$("#edad").html(data.edad);
-						$("#sexo").html(data.sexo);
-						$("#rango").html(data.rango);
-						$("#ta").html(data.afiliacion);
-
-						var select = $('#knx_facturacionbundle_facturatype_cliente');
-                		if(select.prop) {
-                		  var options = select.prop('options');
-                		}
-                		else {
-                		  var options = select.attr('options');
-                		}
-                		$('option', select).remove();
-
-                	    if(data.cliente){
-                	    	options[options.length] = new Option('Seleccione cliente', '');
-
-                	    	$.each(data.cliente, function(val, text) {
-                    		    options[options.length] = new Option(text, val);
-                    		});
-
-                    	}else{
-                    		options[options.length] = new Option('--', '');
-                        }
-
-                		select.val('');
-                		select.removeAttr('disabled');
-
-                		$('#new_afiliacion').removeAttr('disabled');
-                		$('#new_afiliacion').removeClass('ui-state-disabled');
-
-                		$("#btnIframe").attr('disabled', 'disabled');
-                		
-		             }
-		             else if(data.responseCode==400){
-
-			            $("#msg").removeClass("label-success");
-						$("#msg").addClass("label-important");
-						$("#msg").html("El paciente con "+tipoid+" número "+identificacion+" no existe en la base de datos, verifique datos e intente nuevamente.");
-						$("#datos-paciente").empty();
-						$("#fn").empty();
-						$("#edad").empty();
-						$("#sexo").empty();
-						$("#rango").empty();
-						$("#ta").empty();
-						$('#knx_facturacionbundle_facturatype_cliente').attr('disabled','disabled');
-
-						$("#btnIframe").removeAttr('disabled');
-
-
-						$('#new_afiliacion').attr('disabled', 'disabled');
-                		$('#new_afiliacion').addClass('ui-state-disabled');			
-		             }
-		             else{
-		         	    alert("Ha ocurrido un error en el sistema.");
-		             }
-		      	});
-
-	    		$("#buscar_paciente").removeAttr('disabled');
-		    }else{
-			    alert("Por favor ingrese un valor valido.");
-			}
+				            $("#msg").removeClass("label-important");
+			            	$("#msg").addClass("label-success");
+							$("#msg").html("Creado el "+data.creado);
+							$("#datos-paciente").html(data.nombre);
+							$("#fn").html(data.nacimiento);
+							$("#edad").html(data.edad);
+							$("#sexo").html(data.sexo);
+							$("#rango").html(data.rango);
+							$("#ta").html(data.afiliacion);
+	
+							var select = $('#knx_facturacionbundle_facturatype_cliente');
+	                		if(select.prop) {
+	                		  var options = select.prop('options');
+	                		}
+	                		else {
+	                		  var options = select.attr('options');
+	                		}
+	                		$('option', select).remove();
+	
+	                	    if(data.cliente){
+	                	    	options[options.length] = new Option('Seleccione cliente', '');
+	
+	                	    	$.each(data.cliente, function(val, text) {
+	                    		    options[options.length] = new Option(text, val);
+	                    		});
+	
+	                    	}else{
+	                    		options[options.length] = new Option('--', '');
+	                        }
+	
+	                		select.val('');
+	                		select.removeAttr('disabled');
+	
+	                		$('#new_afiliacion').removeAttr('disabled');
+	                		$('#new_afiliacion').removeClass('ui-state-disabled');
+	
+	                		$("#btnIframe").attr('disabled', 'disabled');
+	                		
+			             }
+			             else if(data.responseCode==400){
+	
+				            $("#msg").removeClass("label-success");
+							$("#msg").addClass("label-important");
+							$("#msg").html("El paciente con "+tipoid+" número "+identificacion+" no existe en la base de datos, verifique datos e intente nuevamente.");
+							$("#datos-paciente").empty();
+							$("#fn").empty();
+							$("#edad").empty();
+							$("#sexo").empty();
+							$("#rango").empty();
+							$("#ta").empty();
+							$('#knx_facturacionbundle_facturatype_cliente').attr('disabled','disabled');
+	
+							$("#btnIframe").removeAttr('disabled');
+	
+	
+							$('#new_afiliacion').attr('disabled', 'disabled');
+	                		$('#new_afiliacion').addClass('ui-state-disabled');			
+			             }
+			             else{
+			         	    alert("Ha ocurrido un error en el sistema.");
+			             }
+			      	});
+	
+		    		$("#buscar_paciente").removeAttr('disabled');
+			    }else{
+				    alert("Por favor ingrese un valor valido.");
+				}
+	        }
 		});
 
 		function afiliar(){

@@ -211,6 +211,37 @@
 {% block javascripts %}
 <script type="text/javascript">
 
+$("#knxPacientetype_identificacion").change(function(){
+
+	var m = $("#knxPacientetype_identificacion").val().toString().trim();
+	var tipo = $("#knxPacientetype_tipoId").val();
+
+	if (tipo == 'MS' && m != '' ){
+
+		var expreg = new RegExp(/^(\d{5,10})\-([0-9]{1}$)/);
+	
+		if(!expreg.test(m)){
+			alert("Identificación Incorrecta");
+		}
+	}
+});
+
+$("#knxPacientetype_tipoId").change(function(){
+
+	var tipo = $("#knxPacientetype_tipoId").val();
+	var m = $("#knxPacientetype_identificacion").val().toString().trim();
+
+	if (tipo == 'MS' && m != '' ){
+
+		var expreg = new RegExp(/^(\d{5,10})\-([0-9]{1}$)/);
+	
+		if(!expreg.test(m)){
+			alert("Identificación Incorrecta");
+		}
+	}
+});
+
+
 $("#knxPacientetype_depto").change(function(){
 		
 	var url="{{ path('paciente_findDepto') }}";
