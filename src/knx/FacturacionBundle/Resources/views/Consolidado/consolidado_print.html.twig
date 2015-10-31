@@ -13,6 +13,15 @@
 {% block body %}
 <p align="left">Consolidado cliente:<b>{{ cliente.nombre }}</b></p>
 <p align="left">Fecha Inicial:<b>{{ f_inicio}}</b> - Fecha Final:<b>{{ f_fin}}</b></p>
+<p align="left">Tipo:
+	<b>
+		{% if(tipo == 'P') %}
+			Promoción y Prevención
+		{% else %}
+			Baja Complejidad
+		{% endif %}
+	</b>
+</p>
 	<table border="1">
 	    <thead>
 		    <tr>

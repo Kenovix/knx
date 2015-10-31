@@ -1166,19 +1166,20 @@ class FacturaController extends Controller
     	
     	$f_inicio = $entity->getInicio()->format("Y-m-d");
     	$f_fin = $entity->getFin()->format("Y-m-d");
+    	$tipo = $entity->getTipo();
 
     	$factura = $entity->getId();
     
    		// Se eliminan todos los archivos txt que se encuentran la carpeta para crear unos nuevos
    		exec("rm -rf ".$dir."src/*.txt");
     
-   		$us = $this->fileUS($cliente, $f_inicio, $f_fin);
-   		$ac = $this->fileAC($cliente, $f_inicio, $f_fin);
-   		$ap = $this->fileAP($cliente, $f_inicio, $f_fin);
-   		$af = $this->fileAF($cliente, $f_inicio, $f_fin);
-   		$ad = $this->fileAD($cliente, $f_inicio, $f_fin);
-   		$am = $this->fileAM($cliente, $f_inicio, $f_fin);
-   		$at = $this->fileAT($cliente, $f_inicio, $f_fin);
+   		$us = $this->fileUS($cliente, $f_inicio, $f_fin, $tipo);
+   		$ac = $this->fileAC($cliente, $f_inicio, $f_fin, $tipo);
+   		$ap = $this->fileAP($cliente, $f_inicio, $f_fin, $tipo);
+   		$af = $this->fileAF($cliente, $f_inicio, $f_fin, $tipo);
+   		$ad = $this->fileAD($cliente, $f_inicio, $f_fin, $tipo);
+   		$am = $this->fileAM($cliente, $f_inicio, $f_fin, $tipo);
+   		$at = $this->fileAT($cliente, $f_inicio, $f_fin, $tipo);
     
    		$this->fileCt($us, $ap, $ac, $ad, $af, $am, $at, $f_fin);
     
@@ -1194,11 +1195,17 @@ class FacturaController extends Controller
     	return $this->redirect($this->generateUrl('factura_final_show', array("id" => $factura)));
     }
     
-    private function fileUS($cliente, $f_inicio, $f_fin){
+    private function fileUS($cliente, $f_inicio, $f_fin, $tipo){
     	 
     	$dir = $this->container->getParameter('knx.directorio.rips')."src/";
     	 
     	$em = $this->getDoctrine()->getEntityManager();
+    	
+    	if(trim($tipo) == 'P'){
+    		$tipo = " f.pyp != 'NULL' AND ";
+    	}else{
+    		$tipo = " f.pyp = 'NULL' AND  ";
+    	}
     	 
     	$dql= " SELECT
     				DISTINCT
@@ -1223,8 +1230,9 @@ class FacturaController extends Controller
 		    	WHERE
 			    	f.fecha > :inicio AND
 			    	f.fecha <= :fin AND
-			    	f.estado = :estado AND
-			    	f.cliente = :cliente
+			    	f.estado = :estado AND".
+			    	$tipo
+			    	."f.cliente = :cliente
 		    	ORDER BY
 		    		f.fecha ASC";
     
@@ -1269,11 +1277,17 @@ class FacturaController extends Controller
     	return count($entity);
     }
     
-    private function fileAC($cliente, $f_inicio, $f_fin){
+    private function fileAC($cliente, $f_inicio, $f_fin, $tipo){
     
     	$dir = $this->container->getParameter('knx.directorio.rips')."src/";
     
     	$em = $this->getDoctrine()->getEntityManager();
+    	
+    	if(trim($tipo) == 'P'){
+    		$tipo = " f.pyp != 'NULL' AND ";
+    	}else{
+    		$tipo = " f.pyp = 'NULL' AND  ";
+    	}
     	
     	$empresa = $em->getRepository('ParametrizarBundle:Empresa')->find(1);
     
@@ -1301,8 +1315,9 @@ class FacturaController extends Controller
 			    	f.fecha > :inicio AND
 			    	f.fecha <= :fin AND
 			    	f.estado = :estado AND
-			    	f.cliente = :cliente AND
-			    	c.rips = :rips
+			    	f.cliente = :cliente AND".
+			    	$tipo
+			    	."c.rips = :rips
 		    	ORDER BY
 		    		f.fecha ASC";
     
@@ -1342,8 +1357,9 @@ class FacturaController extends Controller
 		    	WHERE
 			    	f.fecha > :inicio AND
 			    	f.fecha <= :fin AND
-			    	f.estado = :estado AND
-			    	f.cliente = :cliente
+			    	f.estado = :estado AND".
+			    	$tipo
+			    	."f.cliente = :cliente
 		    	ORDER BY
 		    		f.fecha ASC";
     	
@@ -1421,13 +1437,19 @@ class FacturaController extends Controller
     	return count($entity);
     }
     
-    private function fileAP($cliente, $f_inicio, $f_fin){
+    private function fileAP($cliente, $f_inicio, $f_fin, $tipo){
     
     	$dir = $this->container->getParameter('knx.directorio.rips')."src/";
     
     	$em = $this->getDoctrine()->getEntityManager();
     	
     	$empresa = $em->getRepository('ParametrizarBundle:Empresa')->find(1);
+    	
+    	if(trim($tipo) == 'P'){
+    		$tipo = " f.pyp != 'NULL' AND ";
+    	}else{
+    		$tipo = " f.pyp = 'NULL' AND  ";
+    	}
     
     	$dql= " SELECT
 			    	p.identificacion AS id,
@@ -1454,8 +1476,9 @@ class FacturaController extends Controller
 			    	f.fecha > :inicio AND
 			    	f.fecha <= :fin AND
 			    	f.estado = :estado AND
-			    	f.cliente = :cliente AND
-			    	c.rips = :rips
+			    	f.cliente = :cliente AND".
+			    	$tipo
+			    	."c.rips = :rips
 		    	ORDER BY
 		    		f.fecha ASC";
     
@@ -1534,13 +1557,19 @@ class FacturaController extends Controller
     	return $num_registros;
     }
     
-    private function fileAM($cliente, $f_inicio, $f_fin){
+    private function fileAM($cliente, $f_inicio, $f_fin, $tipo){
     
     	$dir = $this->container->getParameter('knx.directorio.rips')."src/";
     
     	$em = $this->getDoctrine()->getEntityManager();
     	 
     	$empresa = $em->getRepository('ParametrizarBundle:Empresa')->find(1);
+    	
+    	if(trim($tipo) == 'P'){
+    		$tipo = " f.pyp != 'NULL' AND ";
+    	}else{
+    		$tipo = " f.pyp = 'NULL' AND  ";
+    	}
     
     	$dql= " SELECT
 			    	p.identificacion AS id,
@@ -1615,13 +1644,19 @@ class FacturaController extends Controller
     	return $num_registros;
     }
     
-    private function fileAT($cliente, $f_inicio, $f_fin){
+    private function fileAT($cliente, $f_inicio, $f_fin, $tipo){
     
     	$dir = $this->container->getParameter('knx.directorio.rips')."src/";
     
     	$em = $this->getDoctrine()->getEntityManager();
     
     	$empresa = $em->getRepository('ParametrizarBundle:Empresa')->find(1);
+    	
+    	if(trim($tipo) == 'P'){
+    		$tipo = " f.pyp != 'NULL' AND ";
+    	}else{
+    		$tipo = " f.pyp = 'NULL' AND  ";
+    	}
     
     	$dql= " SELECT
 			    	p.identificacion AS id,
@@ -1652,8 +1687,9 @@ class FacturaController extends Controller
 			    	f.fecha <= :fin AND
 			    	f.estado = :estado AND
 			    	f.cliente = :cliente AND
-    				f.tipo = 'M' AND
-    				i.tipoImv = 'I'
+    				f.tipo = 'M' AND".
+			    	$tipo
+			    	."i.tipoImv = 'I'
 		    	ORDER BY
 		    		f.fecha ASC";
     
@@ -1736,13 +1772,19 @@ class FacturaController extends Controller
     	return $num_registros;
     }
     
-    private function fileAF($cliente, $f_inicio, $f_fin){
+    private function fileAF($cliente, $f_inicio, $f_fin, $tipo){
     
     	$dir = $this->container->getParameter('knx.directorio.rips')."src/";
     
     	$em = $this->getDoctrine()->getEntityManager();
     	
     	$empresa = $em->getRepository('ParametrizarBundle:Empresa')->find(1);
+    	
+    	if(trim($tipo) == 'P'){
+    		$tipo = " f.pyp != 'NULL' AND ";
+    	}else{
+    		$tipo = " f.pyp = 'NULL' AND  ";
+    	}
     
     	$dql= " SELECT
 			    	f.id AS factura,
@@ -1761,8 +1803,9 @@ class FacturaController extends Controller
 		    	WHERE
 			    	f.fecha > :inicio AND
 			    	f.fecha <= :fin AND
-			    	f.estado = :estado AND
-			    	f.cliente = :cliente 
+			    	f.estado = :estado AND".
+			    	$tipo
+			    	."f.cliente = :cliente 
     			GROUP BY
     				f.id";
     
@@ -1792,8 +1835,9 @@ class FacturaController extends Controller
 		    	WHERE
 			    	f.fecha > :inicio AND
 			    	f.fecha <= :fin AND
-			    	f.estado = :estado AND
-			    	f.cliente = :cliente
+			    	f.estado = :estado AND".
+			    	$tipo
+			    	."f.cliente = :cliente
     			GROUP BY
     				f.id";
     	
@@ -1838,13 +1882,19 @@ class FacturaController extends Controller
     	return count($entity);
     }
     
-    private function fileAD($cliente, $f_inicio, $f_fin){
+    private function fileAD($cliente, $f_inicio, $f_fin, $tipo){
     
     	$dir = $this->container->getParameter('knx.directorio.rips')."src/";
     
     	$em = $this->getDoctrine()->getEntityManager();
     	 
     	$empresa = $em->getRepository('ParametrizarBundle:Empresa')->find(1);
+    	
+    	if(trim($tipo) == 'P'){
+    		$tipo = " f.pyp != 'NULL' AND ";
+    	}else{
+    		$tipo = " f.pyp = 'NULL' AND  ";
+    	}
     
     	$dql= " SELECT
 			    	f.id AS factura,
@@ -1860,8 +1910,9 @@ class FacturaController extends Controller
 		    	WHERE
 			    	f.fecha > :inicio AND
 			    	f.fecha <= :fin AND
-			    	f.estado = :estado AND
-			    	f.cliente = :cliente
+			    	f.estado = :estado AND".
+			    	$tipo
+			    	."f.cliente = :cliente
 			    GROUP BY
     				c.tipoCargo, f.id";
     
@@ -1888,8 +1939,9 @@ class FacturaController extends Controller
 		    	WHERE
 			    	f.fecha > :inicio AND
 			    	f.fecha <= :fin AND
-			    	f.estado = :estado AND
-			    	f.cliente = :cliente
+			    	f.estado = :estado AND".
+			    	$tipo
+			    	."f.cliente = :cliente
 			    GROUP BY
     				i.tipoImv, f.id";
     	

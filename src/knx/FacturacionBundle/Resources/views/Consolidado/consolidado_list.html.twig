@@ -31,6 +31,15 @@
 
 <p align="left">Consolidado cliente:<b>{{ cliente.nombre }}</b></p>
 <p align="left">Fecha Inicial:<b>{{ f_inicio}}</b> - Fecha Final:<b>{{ f_fin}}</b></p>
+<p align="left">Tipo:
+	<b>
+		{% if(tipo == 'P') %}
+			Promoción y Prevención
+		{% else %}
+			Baja Complejidad
+		{% endif %}
+	</b>
+</p>
 	<table border="1">
 	    <thead>
 		    <tr>
@@ -99,6 +108,7 @@
 	    	<input name="cliente" id="cliente" type="hidden" value="{{ cliente.id }}" />
 	    	<input name="f_inicio" id="f_inicio" type="hidden" value="{{ f_inicio }}" />
 	    	<input name="f_fin" id="f_fin" type="hidden" value="{{ f_fin }}" />
+	    	<input name="tipo" id="tipo" type="hidden" value="{{ tipo }}" />
 	    	
 	    	<input class="btn btn-primary" name="guardar" type="submit" value="Exportar" />
 	    </form>
