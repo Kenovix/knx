@@ -259,18 +259,12 @@ class FacturasController extends Controller
                 // se consulta por la informacion del profesional para ser visulizada en la factura.
                 $profesional = $em->getRepository('UsuarioBundle:Usuario')->find($factura->getProfesional());
                 $factura->setProfesional($profesional->getNombre().' '.$profesional->getApellido());
-
+                $pyp1 = $factura->getPyp();
+                $tipo_factura = $factura->getTipo();
                 $pdf = $this->get('white_october.tcpdf')->create();
-                if($factura_cargo)
-                {    
-                $html = $this->renderView('FacturacionBundle:Factura:factura.pdf.twig',array(
-                                                                        'factura' => $factura,
-                                                                        'cargos' => $factura_cargo,
-                                                                        'mupio' => $mupio
-                ));
-                }
+               
                 
-                if($factura_imv){
+                if( $tipo_factura == 'M'){
                     
                     $html = $this->renderView('FacturacionBundle:Factura:factura_medicamento.pdf.twig',array(
                                                                         'factura' => $factura,
@@ -290,6 +284,31 @@ class FacturasController extends Controller
                                                                         'imvs' => $factura_imv,
                                                                         'mupio' => $mupio
                 ));
+                }
+                
+                 if($factura->getPyp() )
+                {    
+                $pyp = $em->getRepository('ParametrizarBundle:Pyp')->find($factura->getPyp());
+               // die(var_dump($pyp));
+                $html = $this->renderView('FacturacionBundle:Factura:factura.pdf.twig',array(
+                                                                        'factura' => $factura,
+                                                                        'pyp' =>$pyp,
+                                                                        'cargos' => $factura_cargo,
+                                                                        'mupio' => $mupio
+                ));
+                }
+                
+                if( $tipo_factura != 'M' AND $tipo_factura != 'U' ){
+                    //$factura->getPyp();
+                    //$pyp = $em->getRepository('ParametrizarBundle:Pyp')->find($factura->getPyp());
+
+                     $html = $this->renderView('FacturacionBundle:Factura:factura.pdf.twig',array(
+    								'factura' => $factura,
+    								'cargos' => $factura_cargo,
+                                                               // 'pyp' => $pyp,
+    								'mupio' => $mupio));
+                    
+                    
                 }
                 
 

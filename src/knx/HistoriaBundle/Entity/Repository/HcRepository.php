@@ -121,10 +121,13 @@ class HcRepository extends EntityRepository
 									fc.factura f
 								 JOIN
 									fc.cargo c
+                                                                
 								 WHERE
 									c.tipoCargo = :tipoCargo AND
 									fc.estado = :estado AND								
-									f.profesional = :profesional
+									f.profesional = :profesional 
+                                                                        
+                                                                        
                                                                  ORDER BY f.fecha ASC"          
                                                                             );
 		

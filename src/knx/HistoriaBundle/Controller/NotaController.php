@@ -124,7 +124,6 @@ class NotaController extends Controller
 		$notas->setFecha(new \DateTime('now'));			
 		$form = $this->createForm(new NotasType(), $notas);			
 		$form->bindRequest($request);
-
 		if($form->isValid()){
 
 			$em = $this->getDoctrine()->getEntityManager();

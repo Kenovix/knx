@@ -887,7 +887,6 @@ class FacturaController extends Controller
             
              $html = $this->renderView('FacturacionBundle:Factura:factura.pdf.twig',array(
     								'factura' => $factura,
-                                                               // 'pyp' => $pyp,
     								'cargos' => $factura_cargo,
     								'mupio' => $mupio));
             
@@ -1579,8 +1578,7 @@ class FacturaController extends Controller
 			    	f.estado = :estado AND
 			    	f.cliente = :cliente AND
     				f.tipo = 'M' AND
-    				i.tipoImv = 'M' OR
-                                i.tipoImv = 'MP'
+    				i.tipoImv IN ('M', 'MP')
 		    	ORDER BY
 		    		f.fecha ASC";
     
@@ -1601,7 +1599,8 @@ class FacturaController extends Controller
     	if (!$gestor){
     		$this->get('session')->setFlash('info', 'No se puede crear txt.');
     		return $this->redirect($this->generateUrl('factura_cliente_list'));
-    	}    	 
+    	}  
+               
     	    	 
     	$num_registros = 0;
     
@@ -1609,7 +1608,7 @@ class FacturaController extends Controller
     		
     		$num_registros += 1;
 
-    		fwrite($gestor, "".$value['factura'].",".$empresa->getHabilitacion().",".$value['tipoId'].",".$value['id'].",".$value['autorizacion'].",".$value['codAdmin'].",1,".$value['nombre'].",".$value['formaFarmaceutica'].",".$value['concentracion'].",".$value['uniMedida'].",".$value['cantidad'].",".$value['vrUnitario'].",".$value['valorTotal']."\r\n");
+    		fwrite($gestor, "".$value['factura'].",".$empresa->getHabilitacion().",".$value['tipoId'].",".$value['id'].",".$value['autorizacion'].",".$value['codAdmin'].",1,".$value['nombre'].",".$value['formaFarmaceutica'].",".$value['concentracion'].",".$value['uniMedida'].",".$value['cantidad'].",".$value['vrUnitario'].",".$value['vrFacturado']."\r\n");
 
     	}
     
@@ -1671,6 +1670,49 @@ class FacturaController extends Controller
     	$subfijo = $periodo[1].$periodo[0];
     
     	$gestor = fopen($dir."AT".$subfijo.".txt", "w+");
+        
+        $dql= " SELECT
+			    	p.identificacion AS id,
+			    	p.tipoId,
+    				f.id AS factura,
+			    	f.fecha,
+			    	f.autorizacion,
+			    	c.cups,
+    				c.id AS cargo,
+                                c.nombre,
+			    	fc.vrUnitario,
+                                fc.valorTotal,
+    				fc.cantidad,
+    				c.tipoProc
+		    	FROM
+		    		FacturacionBundle:FacturaCargo fc
+		    	JOIN
+		    		fc.factura f
+    			JOIN
+		    		f.paciente p    			
+		    	JOIN
+		    		fc.cargo c
+		    	WHERE
+			    	f.fecha > :inicio AND
+			    	f.fecha <= :fin AND
+			    	f.estado = :estado AND
+			    	f.cliente = :cliente AND
+			    	c.rips = :rips
+		    	ORDER BY
+		    		f.fecha ASC";
+        
+        $query = $em->createQuery($dql);
+    
+    	$query->setParameter('inicio', $f_inicio.' 00:00:00');
+    	$query->setParameter('fin', $f_fin.' 23:59:00');
+    	$query->setParameter('cliente', $cliente->getId());
+    	$query->setParameter('estado', 'C');
+    	$query->setParameter('rips', 'AT');
+        
+        $entity1 = $query->getArrayResult();
+    
+    	$periodo = explode("-", $f_fin);
+    	$subfijo = $periodo[1].$periodo[0];
     
     	if (!$gestor){
     		$this->get('session')->setFlash('info', 'No se puede crear txt.');
@@ -1683,6 +1725,12 @@ class FacturaController extends Controller
     
     		$num_registros += 1;
     		fwrite($gestor, "".$value['factura'].",".$empresa->getHabilitacion().",".$value['tipoId'].",".$value['id'].",".$value['autorizacion'].",1,".$value['cums'].",".$value['nombre'].",".$value['cantidad'].",".$value['vrUnitario'].",".$value['valorTotal']."\r\n");
+    	}
+        
+        foreach ($entity1 as $value){
+    
+    		$num_registros += 1;
+    		fwrite($gestor, "".$value['factura'].",".$empresa->getHabilitacion().",".$value['tipoId'].",".$value['id'].",".$value['autorizacion'].",1,".$value['cups'].",".$value['nombre'].",".$value['cantidad'].",".$value['vrUnitario'].",".$value['valorTotal']."\r\n");
     	}
     
     	return $num_registros;

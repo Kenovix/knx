@@ -28,6 +28,34 @@ empresa_update:
     pattern:  /empresa/{empresa}/update
     defaults: { _controller: ParametrizarBundle:Empresa:update }
     
+#************** IPs ***************#
+
+ips_list:
+    pattern:  /ips/list
+    defaults: { _controller: ParametrizarBundle:Ips:list }
+    
+ips_new:
+    pattern:  /ips/new
+    defaults: { _controller: ParametrizarBundle:Ips:new }
+    
+ips_save:
+    pattern:  /ips/save
+    defaults: { _controller: ParametrizarBundle:Ips:save }
+
+ips_show:
+    pattern:  /ips/{ips}/show
+    defaults: { _controller: ParametrizarBundle:Ips:show }
+
+ips_edit:
+    pattern:  /ips/{ips}/edit
+    defaults: { _controller: ParametrizarBundle:Ips:edit }
+    
+ips_update:
+    pattern:  /ips/{ips}/update
+    defaults: { _controller: ParametrizarBundle:Ips:update }    
+    
+    
+    
 #************** Almacen ***************#
 
 almacen_new:
