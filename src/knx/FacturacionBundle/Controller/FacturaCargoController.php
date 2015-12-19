@@ -326,9 +326,10 @@ class FacturaCargoController extends Controller
     	
     	if(trim($tipos) == 'P'){
     		$tipo = " AND f.pyp != 'NULL' ";
-    	}else{
-    		$tipo = " AND f.pyp = 'NULL' ";
+    	}elseif(trim($tipos) == 'B'){
+    		$tipo = " AND f.pyp IS NULL ";
     	}
+        
     		 
     	$dql= " SELECT
 			    	f.id,
@@ -514,9 +515,10 @@ class FacturaCargoController extends Controller
     	
     	if(trim($tipos) == 'P'){
     		$tipo = " AND f.pyp != 'NULL' ";
-    	}else{
-    		$tipo = " AND f.pyp = 'NULL' ";
+    	}elseif(trim($tipos) == 'B'){
+    		$tipo = " AND f.pyp IS NULL ";
     	}
+        
     	
     	$dql= " SELECT
 			    	f.id,
@@ -1078,9 +1080,10 @@ class FacturaCargoController extends Controller
     	
     	if(trim($tipos) == 'P'){
     		$tipo = " AND f.pyp != 'NULL' ";
-    	}else{
-    		$tipo = " AND f.pyp = 'NULL' ";
+    	}elseif(trim($tipos) == 'B'){
+    		$tipo = " AND f.pyp IS NULL ";
     	}
+        
 
     	$dql= " SELECT
                 	SUM(fc.vrFacturado) AS facturado,
@@ -1096,7 +1099,7 @@ class FacturaCargoController extends Controller
     			JOIN
     				f.cliente c
     			WHERE
-					c.id = :cliente
+                                c.id = :cliente
 			    	AND f.fecha > :inicio
 			    	AND f.fecha <= :fin".
 			    	$tipo
@@ -1159,6 +1162,10 @@ class FacturaCargoController extends Controller
         	$entity->setObservacion('Actividades de Promoción y Prevención');
         }
         
+        if(trim($tipos) == 'B'){
+        	$entity->setObservacion('Actividades de Recuperacion de la salud');
+        }
+        
         $form   = $this->createForm(new FacturacionType(), $entity);
 
         if(!$final)
@@ -1178,9 +1185,9 @@ class FacturaCargoController extends Controller
                             'cliente' =>$obj_cliente,
                             'f_inicio' =>$f_inicio,
                             'f_fin'    => $f_fin,
-            				'tipo'    => $tipos,
+            		    'tipo'    => $tipos,
                             'final' => $final,
-            				'final_imv' => $final_imv,
+            		    'final_imv' => $final_imv,
                             'form'   => $form->createView()
                 ));
     }

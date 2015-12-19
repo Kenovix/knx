@@ -1201,12 +1201,14 @@ class FacturaController extends Controller
     	 
     	$em = $this->getDoctrine()->getEntityManager();
     	
+    
+    	 
     	if(trim($tipo) == 'P'){
     		$tipo = " f.pyp != 'NULL' AND ";
-    	}else{
-    		$tipo = " f.pyp = 'NULL' AND  ";
+    	}elseif(trim($tipo) == 'F'){
+    		$tipo = " f.pyp IS NULL AND  ";
     	}
-    	 
+        
     	$dql= " SELECT
     				DISTINCT
     				p.identificacion AS id,
@@ -1285,8 +1287,8 @@ class FacturaController extends Controller
     	
     	if(trim($tipo) == 'P'){
     		$tipo = " f.pyp != 'NULL' AND ";
-    	}else{
-    		$tipo = " f.pyp = 'NULL' AND  ";
+    	}elseif(trim($tipo) == 'F'){
+    		$tipo = " f.pyp IS NULL AND  ";
     	}
     	
     	$empresa = $em->getRepository('ParametrizarBundle:Empresa')->find(1);
@@ -1447,8 +1449,8 @@ class FacturaController extends Controller
     	
     	if(trim($tipo) == 'P'){
     		$tipo = " f.pyp != 'NULL' AND ";
-    	}else{
-    		$tipo = " f.pyp = 'NULL' AND  ";
+    	}elseif(trim($tipo) == 'F'){
+    		$tipo = " f.pyp IS NULL AND  ";
     	}
     
     	$dql= " SELECT
@@ -1567,8 +1569,8 @@ class FacturaController extends Controller
     	
     	if(trim($tipo) == 'P'){
     		$tipo = " f.pyp != 'NULL' AND ";
-    	}else{
-    		$tipo = " f.pyp = 'NULL' AND  ";
+    	}elseif(trim($tipo) == 'F'){
+    		$tipo = " f.pyp IS NULL AND  ";
     	}
     
     	$dql= " SELECT
@@ -1605,8 +1607,9 @@ class FacturaController extends Controller
 			    	f.fecha > :inicio AND
 			    	f.fecha <= :fin AND
 			    	f.estado = :estado AND
-			    	f.cliente = :cliente AND
-    				f.tipo = 'M' AND
+			    	f.cliente = :cliente AND".
+                                $tipo
+    				."f.tipo = 'M' AND
     				i.tipoImv IN ('M', 'MP')
 		    	ORDER BY
 		    		f.fecha ASC";
@@ -1654,8 +1657,8 @@ class FacturaController extends Controller
     	
     	if(trim($tipo) == 'P'){
     		$tipo = " f.pyp != 'NULL' AND ";
-    	}else{
-    		$tipo = " f.pyp = 'NULL' AND  ";
+    	}elseif(trim($tipo) == 'F'){
+    		$tipo = " f.pyp IS NULL AND  ";
     	}
     
     	$dql= " SELECT
@@ -1732,8 +1735,9 @@ class FacturaController extends Controller
 			    	f.fecha > :inicio AND
 			    	f.fecha <= :fin AND
 			    	f.estado = :estado AND
-			    	f.cliente = :cliente AND
-			    	c.rips = :rips
+			    	f.cliente = :cliente AND".
+			    	$tipo
+			    	."c.rips = :rips
 		    	ORDER BY
 		    		f.fecha ASC";
         
@@ -1782,8 +1786,8 @@ class FacturaController extends Controller
     	
     	if(trim($tipo) == 'P'){
     		$tipo = " f.pyp != 'NULL' AND ";
-    	}else{
-    		$tipo = " f.pyp = 'NULL' AND  ";
+    	}elseif(trim($tipo) == 'F'){
+    		$tipo = " f.pyp IS NULL AND  ";
     	}
     
     	$dql= " SELECT
@@ -1890,10 +1894,10 @@ class FacturaController extends Controller
     	 
     	$empresa = $em->getRepository('ParametrizarBundle:Empresa')->find(1);
     	
-    	if(trim($tipo) == 'P'){
+        if(trim($tipo) == 'P'){
     		$tipo = " f.pyp != 'NULL' AND ";
-    	}else{
-    		$tipo = " f.pyp = 'NULL' AND  ";
+    	}elseif(trim($tipo) == 'F'){
+    		$tipo = " f.pyp IS NULL AND  ";
     	}
     
     	$dql= " SELECT
